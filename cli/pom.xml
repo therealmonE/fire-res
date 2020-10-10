@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>fire-res</artifactId>
+        <groupId>io.github.therealmone</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>fire-res-cli</artifactId>
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/com.beust/jcommander -->
+        <dependency>
+            <groupId>com.beust</groupId>
+            <artifactId>jcommander</artifactId>
+            <version>1.78</version>
+        </dependency>
+        <dependency>
+            <groupId>com.typesafe</groupId>
+            <artifactId>config</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.therealmone</groupId>
+            <artifactId>fire-res-core</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>fire-res-cli</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <mainClass>io.github.therealmone.fireres.cli.Application</mainClass>
+                                </manifest>
+                            </archive>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                            <finalName>fire-res-cli</finalName>
+                            <appendAssemblyId>false</appendAssemblyId>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
