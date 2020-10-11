@@ -12,5 +12,6 @@ import lombok.NoArgsConstructor;
 public class GenerationProperties {
 
     private Integer t0;
+    private Integer time;
 
 }
