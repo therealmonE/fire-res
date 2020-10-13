@@ -2,6 +2,7 @@ package io.github.therealmone.fireres.core.factory;
 
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.generator.FurnaceTempGenerator;
+import io.github.therealmone.fireres.core.generator.MinAllowedTempGenerator;
 import io.github.therealmone.fireres.core.generator.StandardTempGenerator;
 import io.github.therealmone.fireres.core.model.StandardTemperature;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,12 @@ public class NumberSequenceGeneratorFactory {
     public FurnaceTempGenerator furnaceTempGenerator(StandardTemperature standardTemp) {
         return new FurnaceTempGenerator(
                 generationProperties.getT0(),
+                standardTemp);
+    }
+
+    public MinAllowedTempGenerator minAllowedTempGenerator(StandardTemperature standardTemp) {
+        return new MinAllowedTempGenerator(
+                generationProperties.getMinAllowedTempCoefficients(),
                 standardTemp);
     }
 
