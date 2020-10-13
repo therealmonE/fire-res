@@ -3,8 +3,8 @@ package io.github.therealmone.fireres.core.generator;
 
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.factory.NumberSequenceGeneratorFactory;
-import io.github.therealmone.fireres.core.model.Coefficient;
-import io.github.therealmone.fireres.core.model.Coefficients;
+import io.github.therealmone.fireres.core.config.Coefficient;
+import io.github.therealmone.fireres.core.config.Coefficients;
 import lombok.val;
 import org.junit.Test;
 

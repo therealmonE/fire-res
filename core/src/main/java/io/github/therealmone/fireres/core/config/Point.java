@@ -9,12 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class GenerationProperties {
+public class Point {
 
-    private Integer t0;
     private Integer time;
-    private Coefficients minAllowedTempCoefficients;
-    private Coefficients maxAllowedTempCoefficients;
-    private InterpolationPoints interpolationPoints;
+    private Integer temperature;
 
 }
