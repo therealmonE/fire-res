@@ -1,11 +1,11 @@
 package io.github.therealmone.fireres.core.generator;
 
-import java.util.List;
+import io.github.therealmone.fireres.core.model.MaxAllowedTemperature;
 
-public class MaxAllowedTempGenerator implements NumberSequenceGenerator {
+public class MaxAllowedTempGenerator implements NumberSequenceGenerator<MaxAllowedTemperature> {
 
     @Override
-    public List<Integer> generate() {
+    public MaxAllowedTemperature generate() {
         return null;
     }
 

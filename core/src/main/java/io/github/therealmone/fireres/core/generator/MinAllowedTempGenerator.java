@@ -1,12 +1,11 @@
 package io.github.therealmone.fireres.core.generator;
 
+import io.github.therealmone.fireres.core.model.MinAllowedTemperature;
 
-import java.util.List;
-
-public class MinAllowedTempGenerator implements NumberSequenceGenerator {
+public class MinAllowedTempGenerator implements NumberSequenceGenerator<MinAllowedTemperature> {
 
     @Override
-    public List<Integer> generate() {
+    public MinAllowedTemperature generate() {
         return null;
     }
 

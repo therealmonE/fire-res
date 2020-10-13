@@ -1,9 +1,9 @@
 package io.github.therealmone.fireres.core.generator;
 
-import java.util.List;
+import io.github.therealmone.fireres.core.model.NumberSequence;
 
-public interface NumberSequenceGenerator {
+public interface NumberSequenceGenerator<T extends NumberSequence> {
 
-    List<Integer> generate();
+    NumberSequence generate();
 
 }

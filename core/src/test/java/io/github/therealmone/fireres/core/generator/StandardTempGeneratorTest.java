@@ -31,7 +31,7 @@ public class StandardTempGeneratorTest {
                 935, 937, 940, 942, 944, 946, 948
         );
 
-        assertEquals(expectedNumbers, generator.generate());
+        assertEquals(expectedNumbers, generator.generate().getValue());
     }
 
     @Test
@@ -44,7 +44,7 @@ public class StandardTempGeneratorTest {
 
         val expectedNumbers = List.of(100);
 
-        assertEquals(expectedNumbers, generator.generate());
+        assertEquals(expectedNumbers, generator.generate().getValue());
     }
 
 }

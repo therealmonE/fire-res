@@ -35,7 +35,7 @@ public class FurnaceTempGeneratorTest {
         val standardTemp = generatorFactory.standardTempGenerator().generate();
         val furnaceTemp = generatorFactory.furnaceTempGenerator(standardTemp).generate();
 
-        assertEquals(expectedValues, furnaceTemp);
+        assertEquals(expectedValues, furnaceTemp.getValue());
     }
 
 }

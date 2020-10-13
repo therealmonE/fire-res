@@ -1,11 +1,11 @@
 package io.github.therealmone.fireres.core.generator;
 
-import java.util.List;
+import io.github.therealmone.fireres.core.model.ThermocoupleTemperature;
 
-public class ThermocoupleGenerator implements NumberSequenceGenerator {
+public class ThermocoupleGenerator implements NumberSequenceGenerator<ThermocoupleTemperature> {
 
     @Override
-    public List<Integer> generate() {
+    public ThermocoupleTemperature generate() {
         return null;
     }
 
