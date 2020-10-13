@@ -5,7 +5,6 @@ import io.github.therealmone.fireres.core.factory.NumberSequenceGeneratorFactory
 import lombok.val;
 import org.junit.Test;
 
-import javax.validation.ValidationException;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -46,15 +45,6 @@ public class StandardTempGeneratorTest {
         val expectedNumbers = List.of(100);
 
         assertEquals(expectedNumbers, generator.generate());
-    }
-
-    @Test(expected = ValidationException.class)
-    public void invalidParametersTest() {
-        new NumberSequenceGeneratorFactory(GenerationProperties.builder()
-                .t0(-100)
-                .time(-200)
-                .build())
-                .standardTempGenerator();
     }
 
 }

@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
-import javax.validation.constraints.Min;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -13,10 +12,7 @@ import java.util.stream.IntStream;
 @Slf4j
 public class StandardTempGenerator implements NumberSequenceGenerator {
 
-    @Min(value = 0, message = "T0 must be greater than 0")
     private final Integer t0;
-
-    @Min(value = 0, message = "Time must be greater than 0")
     private final Integer time;
 
     @Override

@@ -1,13 +1,10 @@
 package io.github.therealmone.fireres.core.generator;
 
-
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.factory.NumberSequenceGeneratorFactory;
 import lombok.val;
 import org.junit.Test;
 
-import javax.validation.ValidationException;
-import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -39,15 +36,6 @@ public class FurnaceTempGeneratorTest {
         val furnaceTemp = generatorFactory.furnaceTempGenerator(standardTemp).generate();
 
         assertEquals(expectedValues, furnaceTemp);
-    }
-
-    @Test(expected = ValidationException.class)
-    public void invalidParametersTest() {
-        new NumberSequenceGeneratorFactory(GenerationProperties.builder()
-                .t0(21)
-                .time(70)
-                .build())
-                .furnaceTempGenerator(Collections.emptyList());
     }
 
 }
