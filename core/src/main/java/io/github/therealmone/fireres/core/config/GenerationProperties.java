@@ -15,5 +15,6 @@ public class GenerationProperties {
     private Integer t0;
     private Integer time;
     private Coefficients minAllowedTempCoefficients;
+    private Coefficients maxAllowedTempCoefficients;
 
 }
