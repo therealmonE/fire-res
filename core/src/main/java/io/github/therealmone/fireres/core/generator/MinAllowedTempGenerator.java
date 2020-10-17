@@ -20,7 +20,7 @@ public class MinAllowedTempGenerator implements NumberSequenceGenerator<MinAllow
     @Override
     public MinAllowedTemperature generate() {
         log.info("Generating minimum allowed temperature with coefficients: {}, standard temperature: {}",
-                coefficients, standardTemp);
+                coefficients.getCoefficients(), standardTemp.getValue());
 
         val minAllowedTemp = IntStream.range(0, standardTemp.getValue().size())
                 .map(t -> (int) Math.round(standardTemp.getValue().get(t) * coefficients.getCoefficient(t).getValue()))

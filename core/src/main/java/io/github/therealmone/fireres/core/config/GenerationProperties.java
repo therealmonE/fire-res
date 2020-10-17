@@ -16,5 +16,9 @@ public class GenerationProperties {
     private Coefficients minAllowedTempCoefficients;
     private Coefficients maxAllowedTempCoefficients;
     private InterpolationPoints interpolationPoints;
+    private InterpolationMethod interpolationMethod;
+
+    private Boolean enrichWithRandomPoints;
+    private Double newPointChance;
 
 }

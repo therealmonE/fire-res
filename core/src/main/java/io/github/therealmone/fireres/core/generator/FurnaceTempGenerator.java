@@ -17,7 +17,8 @@ public class FurnaceTempGenerator implements NumberSequenceGenerator<FurnaceTemp
 
     @Override
     public FurnaceTemperature generate() {
-        log.info("Generating furnace temperature with t0: {}, standard temperature: {}", t0, standardTemp);
+        log.info("Generating furnace temperature with t0: {}, standard temperature: {}", t0, standardTemp.getValue());
+
         val furnaceTemp = standardTemp.getValue().stream()
                 .map(i -> t0 + i)
                 .collect(Collectors.toList());

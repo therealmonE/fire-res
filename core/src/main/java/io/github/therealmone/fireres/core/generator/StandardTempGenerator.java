@@ -18,12 +18,14 @@ public class StandardTempGenerator implements NumberSequenceGenerator<StandardTe
     @Override
     public StandardTemperature generate() {
         log.info("Generating standard temperature with  t0: {}, time: {}", t0, time);
+
         val standardTemp = IntStream.range(0, time + 1)
                 .map(i -> (int) Math.round(345 * Math.log10(8 * i + 1)))
                 .boxed()
                 .collect(Collectors.toList());
 
         standardTemp.set(0, t0);
+
         log.info("Generated standard temperature: {}", standardTemp);
         return new StandardTemperature(standardTemp);
     }

@@ -20,7 +20,7 @@ public class MaxAllowedTempGenerator implements NumberSequenceGenerator<MaxAllow
     @Override
     public MaxAllowedTemperature generate() {
         log.info("Generating maximum allowed temperature with coefficients: {}, standard temperature: {}",
-                coefficients, standardTemp);
+                coefficients.getCoefficients(), standardTemp.getValue());
 
         val maxAllowedTemp = IntStream.range(0, standardTemp.getValue().size())
                 .map(t -> (int) Math.round(standardTemp.getValue().get(t) * coefficients.getCoefficient(t).getValue()))

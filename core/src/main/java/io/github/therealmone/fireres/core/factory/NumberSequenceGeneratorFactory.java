@@ -43,8 +43,12 @@ public class NumberSequenceGeneratorFactory {
 
     public ThermocoupleMeanGenerator thermocoupleMeanGenerator() {
         return new ThermocoupleMeanGenerator(
+                generationProperties.getT0(),
                 generationProperties.getTime(),
-                generationProperties.getInterpolationPoints());
+                generationProperties.getInterpolationPoints(),
+                generationProperties.getInterpolationMethod(),
+                generationProperties.getEnrichWithRandomPoints(),
+                generationProperties.getNewPointChance());
     }
 
 }
