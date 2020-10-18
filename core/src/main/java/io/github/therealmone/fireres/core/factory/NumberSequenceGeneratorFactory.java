@@ -48,8 +48,7 @@ public class NumberSequenceGeneratorFactory {
                 generationProperties.getInterpolation().getInterpolationPoints(),
                 generationProperties.getInterpolation().getInterpolationMethod(),
                 generationProperties.getRandomPoints().getEnrichWithRandomPoints(),
-                generationProperties.getRandomPoints().getNewPointChance(),
-                generationProperties.getRandomPoints().getMinDelta());
+                generationProperties.getRandomPoints().getNewPointChance());
     }
 
 }

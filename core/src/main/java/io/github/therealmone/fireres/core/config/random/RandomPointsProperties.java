@@ -13,6 +13,5 @@ public class RandomPointsProperties {
 
     private Boolean enrichWithRandomPoints;
     private Double newPointChance;
-    private Integer minDelta;
 
 }
