@@ -4,6 +4,6 @@ import io.github.therealmone.fireres.core.model.NumberSequence;
 
 public interface NumberSequenceGenerator<T extends NumberSequence> {
 
-    NumberSequence generate();
+    T generate();
 
 }

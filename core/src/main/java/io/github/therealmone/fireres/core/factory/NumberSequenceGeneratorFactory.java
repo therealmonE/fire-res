@@ -1,12 +1,20 @@
 package io.github.therealmone.fireres.core.factory;
 
 import io.github.therealmone.fireres.core.config.GenerationProperties;
-import io.github.therealmone.fireres.core.generator.FurnaceTempGenerator;
-import io.github.therealmone.fireres.core.generator.MaxAllowedTempGenerator;
-import io.github.therealmone.fireres.core.generator.MinAllowedTempGenerator;
-import io.github.therealmone.fireres.core.generator.StandardTempGenerator;
-import io.github.therealmone.fireres.core.generator.ThermocoupleMeanGenerator;
+import io.github.therealmone.fireres.core.generator.MultipleNumberSequencesGenerator;
+import io.github.therealmone.fireres.core.generator.NumberSequenceGenerator;
+import io.github.therealmone.fireres.core.generator.impl.FurnaceTempGenerator;
+import io.github.therealmone.fireres.core.generator.impl.MaxAllowedTempGenerator;
+import io.github.therealmone.fireres.core.generator.impl.MinAllowedTempGenerator;
+import io.github.therealmone.fireres.core.generator.impl.StandardTempGenerator;
+import io.github.therealmone.fireres.core.generator.impl.ThermocoupleMeanGenerator;
+import io.github.therealmone.fireres.core.generator.impl.ThermocouplesTempGenerator;
+import io.github.therealmone.fireres.core.model.FurnaceTemperature;
+import io.github.therealmone.fireres.core.model.MaxAllowedTemperature;
+import io.github.therealmone.fireres.core.model.MinAllowedTemperature;
 import io.github.therealmone.fireres.core.model.StandardTemperature;
+import io.github.therealmone.fireres.core.model.ThermocoupleMeanTemperature;
+import io.github.therealmone.fireres.core.model.ThermocoupleTemperature;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,31 +25,31 @@ public class NumberSequenceGeneratorFactory {
 
     private final GenerationProperties generationProperties;
 
-    public StandardTempGenerator standardTempGenerator() {
+    public NumberSequenceGenerator<StandardTemperature> standardTempGenerator() {
         return new StandardTempGenerator(
                 generationProperties.getTemperature().getEnvironmentTemperature(),
                 generationProperties.getTime());
     }
 
-    public FurnaceTempGenerator furnaceTempGenerator(StandardTemperature standardTemp) {
+    public NumberSequenceGenerator<FurnaceTemperature> furnaceTempGenerator(StandardTemperature standardTemp) {
         return new FurnaceTempGenerator(
                 generationProperties.getTemperature().getEnvironmentTemperature(),
                 standardTemp);
     }
 
-    public MinAllowedTempGenerator minAllowedTempGenerator(StandardTemperature standardTemp) {
+    public NumberSequenceGenerator<MinAllowedTemperature> minAllowedTempGenerator(StandardTemperature standardTemp) {
         return new MinAllowedTempGenerator(
                 generationProperties.getTemperature().getMinAllowedTempCoefficients(),
                 standardTemp);
     }
 
-    public MaxAllowedTempGenerator maxAllowedTempGenerator(StandardTemperature standardTemp) {
+    public NumberSequenceGenerator<MaxAllowedTemperature> maxAllowedTempGenerator(StandardTemperature standardTemp) {
         return new MaxAllowedTempGenerator(
                 generationProperties.getTemperature().getMaxAllowedTempCoefficients(),
                 standardTemp);
     }
 
-    public ThermocoupleMeanGenerator thermocoupleMeanGenerator() {
+    public NumberSequenceGenerator<ThermocoupleMeanTemperature> thermocoupleMeanGenerator() {
         return new ThermocoupleMeanGenerator(
                 generationProperties.getTemperature().getEnvironmentTemperature(),
                 generationProperties.getTime(),
@@ -49,6 +57,17 @@ public class NumberSequenceGeneratorFactory {
                 generationProperties.getInterpolation().getInterpolationMethod(),
                 generationProperties.getRandomPoints().getEnrichWithRandomPoints(),
                 generationProperties.getRandomPoints().getNewPointChance());
+    }
+
+    public MultipleNumberSequencesGenerator<ThermocoupleTemperature> thermocouplesTempGenerator(MinAllowedTemperature minAllowedTemperature,
+                                                                                                MaxAllowedTemperature maxAllowedTemperature,
+                                                                                                ThermocoupleMeanTemperature thermocoupleMeanTemperature) {
+        return new ThermocouplesTempGenerator(
+                generationProperties.getTime(),
+                thermocoupleMeanTemperature,
+                minAllowedTemperature,
+                maxAllowedTemperature,
+                generationProperties.getThermocoupleCount());
     }
 
 }

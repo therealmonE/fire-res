@@ -1,5 +1,6 @@
-package io.github.therealmone.fireres.core.generator;
+package io.github.therealmone.fireres.core.generator.impl;
 
+import io.github.therealmone.fireres.core.generator.NumberSequenceGenerator;
 import io.github.therealmone.fireres.core.model.StandardTemperature;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

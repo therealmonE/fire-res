@@ -20,5 +20,6 @@ public class GenerationProperties {
     private InterpolationProperties interpolation;
     private RandomPointsProperties randomPoints;
 
+    private Integer thermocoupleCount;
 
 }

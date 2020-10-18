@@ -1,8 +1,9 @@
-package io.github.therealmone.fireres.core.generator;
+package io.github.therealmone.fireres.core.generator.impl;
 
 import io.github.therealmone.fireres.core.config.interpolation.InterpolationMethod;
 import io.github.therealmone.fireres.core.config.interpolation.InterpolationPoints;
 import io.github.therealmone.fireres.core.config.interpolation.Point;
+import io.github.therealmone.fireres.core.generator.NumberSequenceGenerator;
 import io.github.therealmone.fireres.core.model.ThermocoupleMeanTemperature;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

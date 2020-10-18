@@ -1,5 +1,4 @@
-package io.github.therealmone.fireres.core.generator;
-
+package io.github.therealmone.fireres.core.generator.impl;
 
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.config.temperature.TemperatureProperties;

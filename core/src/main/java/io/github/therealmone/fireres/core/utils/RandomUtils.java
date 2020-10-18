@@ -13,6 +13,10 @@ public class RandomUtils {
 
     private static final Random RANDOM = new Random();
 
+    public static Integer generateValueInInterval(Integer lowerBound, Integer upperBound) {
+        return RANDOM.nextInt(upperBound - lowerBound) + lowerBound;
+    }
+
     public static List<Point> generateInnerPoints(List<Point> points, Double newPointChance) {
         val generatedPoints = new ArrayList<Point>();
 

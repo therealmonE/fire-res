@@ -1,6 +1,7 @@
-package io.github.therealmone.fireres.core.generator;
+package io.github.therealmone.fireres.core.generator.impl;
 
 import io.github.therealmone.fireres.core.config.temperature.Coefficients;
+import io.github.therealmone.fireres.core.generator.NumberSequenceGenerator;
 import io.github.therealmone.fireres.core.model.MinAllowedTemperature;
 import io.github.therealmone.fireres.core.model.StandardTemperature;
 import lombok.RequiredArgsConstructor;
