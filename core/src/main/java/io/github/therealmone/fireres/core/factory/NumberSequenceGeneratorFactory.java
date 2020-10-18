@@ -19,36 +19,37 @@ public class NumberSequenceGeneratorFactory {
 
     public StandardTempGenerator standardTempGenerator() {
         return new StandardTempGenerator(
-                generationProperties.getT0(),
+                generationProperties.getTemperature().getEnvironmentTemperature(),
                 generationProperties.getTime());
     }
 
     public FurnaceTempGenerator furnaceTempGenerator(StandardTemperature standardTemp) {
         return new FurnaceTempGenerator(
-                generationProperties.getT0(),
+                generationProperties.getTemperature().getEnvironmentTemperature(),
                 standardTemp);
     }
 
     public MinAllowedTempGenerator minAllowedTempGenerator(StandardTemperature standardTemp) {
         return new MinAllowedTempGenerator(
-                generationProperties.getMinAllowedTempCoefficients(),
+                generationProperties.getTemperature().getMinAllowedTempCoefficients(),
                 standardTemp);
     }
 
     public MaxAllowedTempGenerator maxAllowedTempGenerator(StandardTemperature standardTemp) {
         return new MaxAllowedTempGenerator(
-                generationProperties.getMaxAllowedTempCoefficients(),
+                generationProperties.getTemperature().getMaxAllowedTempCoefficients(),
                 standardTemp);
     }
 
     public ThermocoupleMeanGenerator thermocoupleMeanGenerator() {
         return new ThermocoupleMeanGenerator(
-                generationProperties.getT0(),
+                generationProperties.getTemperature().getEnvironmentTemperature(),
                 generationProperties.getTime(),
-                generationProperties.getInterpolationPoints(),
-                generationProperties.getInterpolationMethod(),
-                generationProperties.getEnrichWithRandomPoints(),
-                generationProperties.getNewPointChance());
+                generationProperties.getInterpolation().getInterpolationPoints(),
+                generationProperties.getInterpolation().getInterpolationMethod(),
+                generationProperties.getRandomPoints().getEnrichWithRandomPoints(),
+                generationProperties.getRandomPoints().getNewPointChance(),
+                generationProperties.getRandomPoints().getMinDelta());
     }
 
 }

@@ -1,4 +1,4 @@
-package io.github.therealmone.fireres.core.config;
+package io.github.therealmone.fireres.core.config.interpolation;
 
 import lombok.Getter;
 import org.apache.commons.math3.analysis.interpolation.AkimaSplineInterpolator;

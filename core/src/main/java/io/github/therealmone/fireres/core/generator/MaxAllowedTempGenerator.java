@@ -1,6 +1,6 @@
 package io.github.therealmone.fireres.core.generator;
 
-import io.github.therealmone.fireres.core.config.Coefficients;
+import io.github.therealmone.fireres.core.config.temperature.Coefficients;
 import io.github.therealmone.fireres.core.model.MaxAllowedTemperature;
 import io.github.therealmone.fireres.core.model.StandardTemperature;
 import lombok.RequiredArgsConstructor;

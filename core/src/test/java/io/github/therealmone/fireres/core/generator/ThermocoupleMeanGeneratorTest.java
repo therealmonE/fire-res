@@ -1,13 +1,17 @@
 package io.github.therealmone.fireres.core.generator;
 
 import io.github.therealmone.fireres.core.config.GenerationProperties;
-import io.github.therealmone.fireres.core.config.InterpolationMethod;
-import io.github.therealmone.fireres.core.config.InterpolationPoints;
-import io.github.therealmone.fireres.core.config.Point;
+import io.github.therealmone.fireres.core.config.interpolation.InterpolationMethod;
+import io.github.therealmone.fireres.core.config.interpolation.InterpolationPoints;
+import io.github.therealmone.fireres.core.config.interpolation.InterpolationProperties;
+import io.github.therealmone.fireres.core.config.interpolation.Point;
+import io.github.therealmone.fireres.core.config.random.RandomPointsProperties;
+import io.github.therealmone.fireres.core.config.temperature.TemperatureProperties;
 import io.github.therealmone.fireres.core.factory.NumberSequenceGeneratorFactory;
 import lombok.val;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -15,23 +19,31 @@ import static org.junit.Assert.assertTrue;
 
 public class ThermocoupleMeanGeneratorTest {
 
-    private static final InterpolationPoints INTERPOLATION_POINTS = new InterpolationPoints(List.of(
-            new Point(0, 21),
-            new Point(1, 306),
-            new Point(18, 707),
-            new Point(21, 772),
-            new Point(26, 812),
-            new Point(48, 861),
-            new Point(49, 892),
-            new Point(70, 943)
-    ));
+    private static final InterpolationPoints INTERPOLATION_POINTS = new InterpolationPoints(new ArrayList<>() {{
+            add(new Point(0, 21));
+            add(new Point(1, 306));
+            add(new Point(18, 707));
+            add(new Point(21, 772));
+            add(new Point(26, 812));
+            add(new Point(48, 861));
+            add(new Point(49, 892));
+            add(new Point(70, 943));
+    }});
 
     @Test
     public void linearInterpolationMethod() {
         val factory = new NumberSequenceGeneratorFactory(GenerationProperties.builder()
+                .temperature(TemperatureProperties.builder()
+                        .environmentTemperature(21)
+                        .build())
                 .time(71)
-                .interpolationPoints(INTERPOLATION_POINTS)
-                .interpolationMethod(InterpolationMethod.LINEAR)
+                .randomPoints(RandomPointsProperties.builder()
+                        .enrichWithRandomPoints(false)
+                        .build())
+                .interpolation(InterpolationProperties.builder()
+                        .interpolationPoints(INTERPOLATION_POINTS)
+                        .interpolationMethod(InterpolationMethod.LINEAR)
+                        .build())
                 .build());
 
         val thermocoupleMeanTemp = factory.thermocoupleMeanGenerator().generate().getValue();

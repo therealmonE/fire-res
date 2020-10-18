@@ -1,6 +1,6 @@
 package io.github.therealmone.fireres.core.utils;
 
-import io.github.therealmone.fireres.core.config.Point;
+import io.github.therealmone.fireres.core.config.interpolation.Point;
 import lombok.val;
 
 import java.util.List;
@@ -8,9 +8,7 @@ import java.util.Random;
 
 public class InterpolationUtils {
 
-    public static void enrichWithRandomPoints(List<Point> points, Integer time, Double newPointChance) {
-        //todo
-    }
+    private static final Random RANDOM = new Random();
 
     public static void addZeroPointIfNeeded(List<Point> points, Integer t0) {
         val zeroPoint = points.stream()
@@ -18,14 +16,13 @@ public class InterpolationUtils {
                 .findFirst();
 
         if(zeroPoint.isEmpty()) {
-            val random = new Random();
-            val delta = random.nextInt(2) - 1;
+            val delta = RANDOM.nextInt(2) - 1;
             val newPoint = new Point(0, t0 + delta);
 
             if (points.isEmpty()) {
                 points.add(newPoint);
             } else {
-                points.set(0, newPoint);
+                points.add(0, newPoint);
             }
         }
     }

@@ -1,4 +1,4 @@
-package io.github.therealmone.fireres.core.config;
+package io.github.therealmone.fireres.core.config.temperature;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

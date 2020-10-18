@@ -1,7 +1,7 @@
 package io.github.therealmone.fireres.core.generator;
 
-import io.github.therealmone.fireres.core.config.InterpolationMethod;
-import io.github.therealmone.fireres.core.config.InterpolationPoints;
+import io.github.therealmone.fireres.core.config.interpolation.InterpolationMethod;
+import io.github.therealmone.fireres.core.config.interpolation.InterpolationPoints;
 import io.github.therealmone.fireres.core.model.ThermocoupleMeanTemperature;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static io.github.therealmone.fireres.core.utils.InterpolationUtils.addZeroPointIfNeeded;
-import static io.github.therealmone.fireres.core.utils.InterpolationUtils.enrichWithRandomPoints;
 import static io.github.therealmone.fireres.core.utils.InterpolationUtils.getTemperatureArray;
 import static io.github.therealmone.fireres.core.utils.InterpolationUtils.getTimeArray;
 
@@ -22,10 +21,13 @@ public class ThermocoupleMeanGenerator implements NumberSequenceGenerator<Thermo
 
     private final Integer t0;
     private final Integer time;
+
     private final InterpolationPoints interpolationPoints;
     private final InterpolationMethod interpolationMethod;
+
     private final Boolean enrichWithRandomPoints;
     private final Double newPointChance;
+    private final Integer minDelta;
 
     @Override
     public ThermocoupleMeanTemperature generate() {
@@ -36,7 +38,7 @@ public class ThermocoupleMeanGenerator implements NumberSequenceGenerator<Thermo
         addZeroPointIfNeeded(points, t0);
 
         if (enrichWithRandomPoints) {
-            enrichWithRandomPoints(points, time, newPointChance);
+            //todo
         }
 
         val function = interpolationMethod.getInterpolator().interpolate(

@@ -1,6 +1,7 @@
 package io.github.therealmone.fireres.core.generator;
 
 import io.github.therealmone.fireres.core.config.GenerationProperties;
+import io.github.therealmone.fireres.core.config.temperature.TemperatureProperties;
 import io.github.therealmone.fireres.core.factory.NumberSequenceGeneratorFactory;
 import lombok.val;
 import org.junit.Test;
@@ -14,7 +15,9 @@ public class FurnaceTempGeneratorTest {
     @Test
     public void generateTest() {
         val generatorFactory = new NumberSequenceGeneratorFactory(GenerationProperties.builder()
-                .t0(21)
+                .temperature(TemperatureProperties.builder()
+                        .environmentTemperature(21)
+                        .build())
                 .time(70)
                 .build());
 
