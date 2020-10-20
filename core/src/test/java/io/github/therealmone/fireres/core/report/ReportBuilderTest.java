@@ -1,30 +1,22 @@
-package io.github.therealmone.fireres.core.generator.impl;
+package io.github.therealmone.fireres.core.report;
 
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.config.interpolation.InterpolationMethod;
 import io.github.therealmone.fireres.core.config.interpolation.InterpolationPoints;
 import io.github.therealmone.fireres.core.config.interpolation.InterpolationProperties;
-import io.github.therealmone.fireres.core.config.sample.SampleProperties;
-import io.github.therealmone.fireres.core.model.Point;
 import io.github.therealmone.fireres.core.config.random.RandomPointsProperties;
+import io.github.therealmone.fireres.core.config.sample.SampleProperties;
 import io.github.therealmone.fireres.core.config.temperature.Coefficient;
 import io.github.therealmone.fireres.core.config.temperature.Coefficients;
 import io.github.therealmone.fireres.core.config.temperature.TemperatureProperties;
-import io.github.therealmone.fireres.core.factory.PointSequenceGeneratorFactory;
+import io.github.therealmone.fireres.core.model.Point;
 import lombok.val;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static io.github.therealmone.fireres.core.TestUtils.assertFunctionConstantlyGrowing;
-import static io.github.therealmone.fireres.core.TestUtils.assertMeanTemperatureInInterval;
-import static io.github.therealmone.fireres.core.TestUtils.assertThermocouplesTemperaturesEqualsMean;
-
-public class ThermocouplesTempGeneratorTest {
-
-    private static final Integer CYCLES = 10;
+public class ReportBuilderTest {
 
     private static final InterpolationPoints INTERPOLATION_POINTS = new InterpolationPoints(new ArrayList<>() {{
         add(new Point(0, 21));
@@ -41,16 +33,9 @@ public class ThermocouplesTempGeneratorTest {
     }});
 
     @Test
-    @Ignore //todo : fix
-    public void generateMultipleTimes() {
-        for (int i = 0; i < CYCLES; i++) {
-            generate();
-        }
-    }
-
-    @Test
-    public void generate() {
-        val factory = new PointSequenceGeneratorFactory(GenerationProperties.builder()
+    public void build() {
+        val properties = GenerationProperties.builder()
+                .time(71)
                 .temperature(TemperatureProperties.builder()
                         .environmentTemperature(21)
                         .minAllowedTempCoefficients(new Coefficients(List.of(
@@ -64,7 +49,6 @@ public class ThermocouplesTempGeneratorTest {
                                 new Coefficient(31, 71, 1.05)
                         )))
                         .build())
-                .time(71)
                 .samples(List.of(SampleProperties.builder()
                         .randomPoints(RandomPointsProperties.builder()
                                 .enrichWithRandomPoints(true)
@@ -76,23 +60,11 @@ public class ThermocouplesTempGeneratorTest {
                                 .build())
                         .thermocoupleCount(6)
                         .build()))
-                .build());
+                .build();
 
-        val standardTemp = factory.standardTempGenerator().generate();
-        val minTemp = factory.minAllowedTempGenerator(standardTemp).generate();
-        val maxTemp = factory.maxAllowedTempGenerator(standardTemp).generate();
+        val report = ReportBuilder.build(properties);
 
-        val meanTemp = factory.thermocoupleMeanGenerator(0).generate();
-
-        assertMeanTemperatureInInterval(meanTemp.getValue(), minTemp.getValue(), maxTemp.getValue());
-        assertFunctionConstantlyGrowing(meanTemp.getValue());
-
-        val thermocouplesTemp = factory
-                .thermocouplesTempGenerator(minTemp, maxTemp, meanTemp, 0)
-                .generate();
-
-        assertThermocouplesTemperaturesEqualsMean(thermocouplesTemp, meanTemp);
-        thermocouplesTemp.forEach(t -> assertFunctionConstantlyGrowing(t.getValue()));
+        //todo asserts
     }
 
 }

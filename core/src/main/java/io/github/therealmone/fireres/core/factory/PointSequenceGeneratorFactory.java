@@ -17,6 +17,7 @@ import io.github.therealmone.fireres.core.model.ThermocoupleMeanTemperature;
 import io.github.therealmone.fireres.core.model.ThermocoupleTemperature;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 
 
 @RequiredArgsConstructor
@@ -49,25 +50,30 @@ public class PointSequenceGeneratorFactory {
                 standardTemp);
     }
 
-    public PointSequenceGenerator<ThermocoupleMeanTemperature> thermocoupleMeanGenerator() {
+    public PointSequenceGenerator<ThermocoupleMeanTemperature> thermocoupleMeanGenerator(Integer sampleNumber) {
+        val sample = generationProperties.getSamples().get(sampleNumber);
+
         return new ThermocoupleMeanGenerator(
                 generationProperties.getTemperature().getEnvironmentTemperature(),
                 generationProperties.getTime(),
-                generationProperties.getInterpolation().getInterpolationPoints(),
-                generationProperties.getInterpolation().getInterpolationMethod(),
-                generationProperties.getRandomPoints().getEnrichWithRandomPoints(),
-                generationProperties.getRandomPoints().getNewPointChance());
+                sample.getInterpolation().getInterpolationPoints(),
+                sample.getInterpolation().getInterpolationMethod(),
+                sample.getRandomPoints().getEnrichWithRandomPoints(),
+                sample.getRandomPoints().getNewPointChance());
     }
 
     public MultiplePointSequencesGenerator<ThermocoupleTemperature> thermocouplesTempGenerator(MinAllowedTemperature minAllowedTemperature,
                                                                                                MaxAllowedTemperature maxAllowedTemperature,
-                                                                                               ThermocoupleMeanTemperature thermocoupleMeanTemperature) {
+                                                                                               ThermocoupleMeanTemperature thermocoupleMeanTemperature,
+                                                                                               Integer sampleNumber) {
+        val sample = generationProperties.getSamples().get(sampleNumber);
+
         return new ThermocouplesTempGenerator(
                 generationProperties.getTime(),
                 thermocoupleMeanTemperature,
                 minAllowedTemperature,
                 maxAllowedTemperature,
-                generationProperties.getThermocoupleCount());
+                sample.getThermocoupleCount());
     }
 
 }

@@ -4,6 +4,7 @@ import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.config.interpolation.InterpolationMethod;
 import io.github.therealmone.fireres.core.config.interpolation.InterpolationPoints;
 import io.github.therealmone.fireres.core.config.interpolation.InterpolationProperties;
+import io.github.therealmone.fireres.core.config.sample.SampleProperties;
 import io.github.therealmone.fireres.core.model.Point;
 import io.github.therealmone.fireres.core.config.random.RandomPointsProperties;
 import io.github.therealmone.fireres.core.config.temperature.TemperatureProperties;
@@ -20,14 +21,14 @@ import static org.junit.Assert.assertEquals;
 public class ThermocoupleMeanGeneratorTest {
 
     private static final InterpolationPoints INTERPOLATION_POINTS = new InterpolationPoints(new ArrayList<>() {{
-            add(new Point(0, 21));
-            add(new Point(1, 306));
-            add(new Point(18, 749));
-            add(new Point(21, 789));
-            add(new Point(26, 822));
-            add(new Point(48, 898));
-            add(new Point(49, 901));
-            add(new Point(70, 943));
+        add(new Point(0, 21));
+        add(new Point(1, 306));
+        add(new Point(18, 749));
+        add(new Point(21, 789));
+        add(new Point(26, 822));
+        add(new Point(48, 898));
+        add(new Point(49, 901));
+        add(new Point(70, 943));
     }});
 
     @Test
@@ -37,17 +38,18 @@ public class ThermocoupleMeanGeneratorTest {
                         .environmentTemperature(21)
                         .build())
                 .time(71)
-                .randomPoints(RandomPointsProperties.builder()
-                        .enrichWithRandomPoints(false)
-                        .build())
-                .interpolation(InterpolationProperties.builder()
-                        .interpolationPoints(INTERPOLATION_POINTS)
-                        .interpolationMethod(InterpolationMethod.LINEAR)
-                        .build())
+                .samples(List.of(SampleProperties.builder()
+                        .randomPoints(RandomPointsProperties.builder()
+                                .enrichWithRandomPoints(false)
+                                .build())
+                        .interpolation(InterpolationProperties.builder()
+                                .interpolationPoints(INTERPOLATION_POINTS)
+                                .interpolationMethod(InterpolationMethod.LINEAR)
+                                .build())
+                        .build()))
                 .build());
 
-        val thermocoupleMeanTemp = factory.thermocoupleMeanGenerator().generate().getValue();
-        thermocoupleMeanTemp.forEach(System.out::println);
+        val thermocoupleMeanTemp = factory.thermocoupleMeanGenerator(0).generate().getValue();
 
         assertInterpolationPoints(thermocoupleMeanTemp);
         assertFunctionConstantlyGrowing(thermocoupleMeanTemp);
@@ -60,18 +62,19 @@ public class ThermocoupleMeanGeneratorTest {
                         .environmentTemperature(21)
                         .build())
                 .time(71)
-                .randomPoints(RandomPointsProperties.builder()
-                        .enrichWithRandomPoints(true)
-                        .newPointChance(1.0)
-                        .build())
-                .interpolation(InterpolationProperties.builder()
-                        .interpolationPoints(INTERPOLATION_POINTS)
-                        .interpolationMethod(InterpolationMethod.LINEAR)
-                        .build())
+                .samples(List.of(SampleProperties.builder()
+                        .randomPoints(RandomPointsProperties.builder()
+                                .enrichWithRandomPoints(true)
+                                .newPointChance(1.0)
+                                .build())
+                        .interpolation(InterpolationProperties.builder()
+                                .interpolationPoints(INTERPOLATION_POINTS)
+                                .interpolationMethod(InterpolationMethod.LINEAR)
+                                .build())
+                        .build()))
                 .build());
 
-        val thermocoupleMeanTemp = factory.thermocoupleMeanGenerator().generate().getValue();
-        thermocoupleMeanTemp.forEach(System.out::println);
+        val thermocoupleMeanTemp = factory.thermocoupleMeanGenerator(0).generate().getValue();
 
         assertInterpolationPoints(thermocoupleMeanTemp);
         assertFunctionConstantlyGrowing(thermocoupleMeanTemp);
@@ -84,18 +87,19 @@ public class ThermocoupleMeanGeneratorTest {
                         .environmentTemperature(21)
                         .build())
                 .time(71)
-                .randomPoints(RandomPointsProperties.builder()
-                        .enrichWithRandomPoints(true)
-                        .newPointChance(0.1)
-                        .build())
-                .interpolation(InterpolationProperties.builder()
-                        .interpolationPoints(INTERPOLATION_POINTS)
-                        .interpolationMethod(InterpolationMethod.LINEAR)
-                        .build())
+                .samples(List.of(SampleProperties.builder()
+                        .randomPoints(RandomPointsProperties.builder()
+                                .enrichWithRandomPoints(true)
+                                .newPointChance(0.1)
+                                .build())
+                        .interpolation(InterpolationProperties.builder()
+                                .interpolationPoints(INTERPOLATION_POINTS)
+                                .interpolationMethod(InterpolationMethod.LINEAR)
+                                .build())
+                        .build()))
                 .build());
 
-        val thermocoupleMeanTemp = factory.thermocoupleMeanGenerator().generate().getValue();
-        thermocoupleMeanTemp.forEach(System.out::println);
+        val thermocoupleMeanTemp = factory.thermocoupleMeanGenerator(0).generate().getValue();
 
         assertInterpolationPoints(thermocoupleMeanTemp);
         assertFunctionConstantlyGrowing(thermocoupleMeanTemp);
