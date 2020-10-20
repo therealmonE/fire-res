@@ -25,7 +25,7 @@ public class MaxAllowedTempGeneratorTest {
                                 new Coefficient(31, 70, 1.05)
                         )))
                         .build())
-                .time(70)
+                .time(71)
                 .build());
 
         val expectedNumbers = List.of(

@@ -2,7 +2,6 @@ package io.github.therealmone.fireres.core;
 
 import io.github.therealmone.fireres.core.model.ThermocoupleMeanTemperature;
 import io.github.therealmone.fireres.core.model.ThermocoupleTemperature;
-import io.github.therealmone.fireres.core.utils.MathUtils;
 import lombok.val;
 
 import java.util.List;
@@ -38,6 +37,22 @@ public class TestUtils {
             val thermocoupleTemperatureValue = thermocoupleTemperature.getValue();
             assertEquals(meanTemp.size(), thermocoupleTemperatureValue.size());
         });
+    }
+
+    public static void assertMeanTemperatureInInterval(List<Integer> meanTemperature, List<Integer> minAllowedTemp,
+                                                       List<Integer> maxAllowedTemp) {
+
+        assertEquals(minAllowedTemp.size(), meanTemperature.size());
+        assertEquals(maxAllowedTemp.size(), meanTemperature.size());
+
+        for (int i = 0; i < meanTemperature.size(); i++) {
+            val mean = meanTemperature.get(i);
+            val min = minAllowedTemp.get(i);
+            val max = maxAllowedTemp.get(i);
+
+            assertTrue( "Mean: " + mean + ", min: " + min, mean >= min);
+            assertTrue("Mean: " + mean + ", max: " + max, mean <= max);
+        }
     }
 
 }

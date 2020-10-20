@@ -18,7 +18,7 @@ public class StandardTempGeneratorTest {
                 .temperature(TemperatureProperties.builder()
                         .environmentTemperature(21)
                         .build())
-                .time(70)
+                .time(71)
                 .build())
                 .standardTempGenerator();
 

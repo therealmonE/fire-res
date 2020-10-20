@@ -25,7 +25,7 @@ public class MinAllowedTempGeneratorTest {
                                 new Coefficient(31, 70, 0.95)
                         )))
                         .build())
-                .time(70)
+                .time(71)
                 .build());
 
         val expectedNumbers = List.of(

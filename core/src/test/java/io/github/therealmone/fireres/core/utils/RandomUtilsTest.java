@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static io.github.therealmone.fireres.core.TestUtils.assertFunctionConstantlyGrowing;
+import static org.junit.Assert.assertTrue;
 
 public class RandomUtilsTest {
 
@@ -55,6 +56,26 @@ public class RandomUtilsTest {
             assertFunctionConstantlyGrowing(generatedPoints.stream()
                     .map(Point::getTemperature)
                     .collect(Collectors.toList()));
+        }
+    }
+
+    @Test
+    public void generateValueInInterval() {
+        for (int i = 0; i < CYCLES; i++) {
+            int generated = RandomUtils.generateValueInInterval(-100, 100);
+
+            assertTrue(generated >= -100);
+            assertTrue(generated <= 100);
+        }
+    }
+
+    @Test
+    public void generateValueInNegativeInterval() {
+        for (int i = 0; i < CYCLES; i++) {
+            int generated = RandomUtils.generateValueInInterval(-200, 0);
+
+            assertTrue(generated >= -200);
+            assertTrue(generated <= 0);
         }
     }
 

@@ -14,6 +14,10 @@ public class RandomUtils {
     private static final Random RANDOM = new Random();
 
     public static Integer generateValueInInterval(Integer lowerBound, Integer upperBound) {
+        if (lowerBound.equals(upperBound)) {
+            return lowerBound;
+        }
+
         return RANDOM.nextInt(upperBound - lowerBound) + lowerBound;
     }
 

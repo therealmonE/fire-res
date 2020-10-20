@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static io.github.therealmone.fireres.core.TestUtils.assertFunctionConstantlyGrowing;
+import static io.github.therealmone.fireres.core.TestUtils.assertMeanTemperatureInInterval;
 import static io.github.therealmone.fireres.core.TestUtils.assertThermocouplesTemperaturesEqualsMean;
 
 public class ThermocouplesTempGeneratorTest {
@@ -24,6 +25,9 @@ public class ThermocouplesTempGeneratorTest {
     private static final InterpolationPoints INTERPOLATION_POINTS = new InterpolationPoints(new ArrayList<>() {{
         add(new Point(0, 21));
         add(new Point(1, 306));
+        add(new Point(2, 392));
+        add(new Point(3, 480));
+        add(new Point(8, 615));
         add(new Point(18, 749));
         add(new Point(21, 789));
         add(new Point(26, 822));
@@ -60,10 +64,15 @@ public class ThermocouplesTempGeneratorTest {
                 .thermocoupleCount(6)
                 .build());
 
-        val meanTemp = factory.thermocoupleMeanGenerator().generate();
         val standardTemp = factory.standardTempGenerator().generate();
         val minTemp = factory.minAllowedTempGenerator(standardTemp).generate();
         val maxTemp = factory.maxAllowedTempGenerator(standardTemp).generate();
+
+        val meanTemp = factory.thermocoupleMeanGenerator().generate();
+
+        assertMeanTemperatureInInterval(meanTemp.getValue(), minTemp.getValue(), maxTemp.getValue());
+        assertFunctionConstantlyGrowing(meanTemp.getValue());
+
         val thermocouplesTemp = factory.thermocouplesTempGenerator(minTemp, maxTemp, meanTemp).generate();
 
         assertThermocouplesTemperaturesEqualsMean(thermocouplesTemp, meanTemp);

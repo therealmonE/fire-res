@@ -18,7 +18,7 @@ public class FurnaceTempGeneratorTest {
                 .temperature(TemperatureProperties.builder()
                         .environmentTemperature(21)
                         .build())
-                .time(70)
+                .time(71)
                 .build());
 
         val expectedValues = List.of(
