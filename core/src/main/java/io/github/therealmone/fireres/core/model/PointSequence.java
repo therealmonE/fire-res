@@ -2,8 +2,8 @@ package io.github.therealmone.fireres.core.model;
 
 import java.util.List;
 
-public interface NumberSequence {
+public interface PointSequence {
 
-    List<Integer> getValue();
+    List<Point> getValue();
 
 }

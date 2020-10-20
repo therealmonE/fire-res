@@ -1,4 +1,4 @@
-package io.github.therealmone.fireres.core.config.interpolation;
+package io.github.therealmone.fireres.core.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

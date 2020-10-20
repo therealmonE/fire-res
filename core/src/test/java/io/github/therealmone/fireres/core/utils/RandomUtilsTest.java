@@ -1,11 +1,10 @@
 package io.github.therealmone.fireres.core.utils;
 
-import io.github.therealmone.fireres.core.config.interpolation.Point;
+import io.github.therealmone.fireres.core.model.Point;
 import lombok.val;
 import org.junit.Test;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static io.github.therealmone.fireres.core.TestUtils.assertFunctionConstantlyGrowing;
 import static org.junit.Assert.assertTrue;
@@ -22,9 +21,7 @@ public class RandomUtilsTest {
                     new Point(20, 700),
                     1.0);
 
-            assertFunctionConstantlyGrowing(generatedPoints.stream()
-                    .map(Point::getTemperature)
-                    .collect(Collectors.toList()));
+            assertFunctionConstantlyGrowing(generatedPoints);
         }
     }
 
@@ -36,9 +33,7 @@ public class RandomUtilsTest {
                     new Point(20, 700),
                     0.1);
 
-            assertFunctionConstantlyGrowing(generatedPoints.stream()
-                    .map(Point::getTemperature)
-                    .collect(Collectors.toList()));
+            assertFunctionConstantlyGrowing(generatedPoints);
         }
     }
 
@@ -53,9 +48,7 @@ public class RandomUtilsTest {
                             new Point(8, 900)),
                     1.0);
 
-            assertFunctionConstantlyGrowing(generatedPoints.stream()
-                    .map(Point::getTemperature)
-                    .collect(Collectors.toList()));
+            assertFunctionConstantlyGrowing(generatedPoints);
         }
     }
 

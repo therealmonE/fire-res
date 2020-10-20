@@ -1,9 +1,9 @@
 package io.github.therealmone.fireres.core.generator.impl;
 
-import io.github.therealmone.fireres.core.generator.MultipleNumberSequencesGenerator;
-import io.github.therealmone.fireres.core.model.FurnaceTemperature;
+import io.github.therealmone.fireres.core.generator.MultiplePointSequencesGenerator;
 import io.github.therealmone.fireres.core.model.MaxAllowedTemperature;
 import io.github.therealmone.fireres.core.model.MinAllowedTemperature;
+import io.github.therealmone.fireres.core.model.Point;
 import io.github.therealmone.fireres.core.model.ThermocoupleMeanTemperature;
 import io.github.therealmone.fireres.core.model.ThermocoupleTemperature;
 import lombok.RequiredArgsConstructor;
@@ -15,12 +15,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static io.github.therealmone.fireres.core.utils.MathUtils.calculateMeanValue;
+import static io.github.therealmone.fireres.core.utils.MathUtils.calculateIntsMeanValue;
 import static io.github.therealmone.fireres.core.utils.RandomUtils.generateValueInInterval;
 
 @RequiredArgsConstructor
 @Slf4j
-public class ThermocouplesTempGenerator implements MultipleNumberSequencesGenerator<ThermocoupleTemperature> {
+public class ThermocouplesTempGenerator implements MultiplePointSequencesGenerator<ThermocoupleTemperature> {
 
     private final Integer time;
     private final ThermocoupleMeanTemperature thermocoupleMeanTemperature;
@@ -38,16 +38,16 @@ public class ThermocouplesTempGenerator implements MultipleNumberSequencesGenera
             }
         }};
 
-        for (int i = 0; i < time; i++) {
-            val meanTemp = thermocoupleMeanTemperature.getValue().get(i);
+        for (int t = 0; t < time; t++) {
+            val meanTemp = thermocoupleMeanTemperature.getValue().get(t).getTemperature();
             val generatedTemperatures = generateTemperatures(
-                    getLowerBounds(i, thermocouplesTemp),
-                    getUpperBounds(i),
+                    getLowerBounds(t, thermocouplesTemp),
+                    getUpperBounds(t),
                     meanTemp
             );
 
-            for (int j = 0; j < thermocoupleCount; j++) {
-                thermocouplesTemp.get(j).getValue().add(i, generatedTemperatures.get(j));
+            for (int i = 0; i < thermocoupleCount; i++) {
+                thermocouplesTemp.get(i).getValue().add(t, new Point(t, generatedTemperatures.get(i)));
             }
         }
 
@@ -55,21 +55,21 @@ public class ThermocouplesTempGenerator implements MultipleNumberSequencesGenera
     }
 
     private List<Integer> getLowerBounds(Integer time, List<ThermocoupleTemperature> temperatures) {
-        val minAllowed = minAllowedTemperature.getValue().get(time);
+        val minAllowed = minAllowedTemperature.getValue().get(time).getTemperature();
 
         return IntStream.range(0, thermocoupleCount)
                 .mapToObj(i -> {
                     if (temperatures.get(i).getValue().isEmpty()) {
                         return minAllowed;
                     } else {
-                        return temperatures.get(i).getValue().get(time - 1) + 1;
+                        return temperatures.get(i).getValue().get(time - 1).getTemperature() + 1;
                     }
                 })
                 .collect(Collectors.toList());
     }
 
     private List<Integer> getUpperBounds(Integer iteration) {
-        val maxAllowed = maxAllowedTemperature.getValue().get(iteration);
+        val maxAllowed = maxAllowedTemperature.getSmoothedValue().get(iteration).getTemperature();
 
         return IntStream.range(0, thermocoupleCount)
                 .mapToObj(i -> maxAllowed)
@@ -82,7 +82,7 @@ public class ThermocouplesTempGenerator implements MultipleNumberSequencesGenera
                     add(generateValueInInterval(lowerBounds.get(j), upperBounds.get(j))));
         }};
 
-        val difference = meanTemp - calculateMeanValue(temperatures);
+        val difference = meanTemp - calculateIntsMeanValue(temperatures);
 
         if (difference != 0) {
             adjustTemperatures(temperatures, difference, lowerBounds, upperBounds);

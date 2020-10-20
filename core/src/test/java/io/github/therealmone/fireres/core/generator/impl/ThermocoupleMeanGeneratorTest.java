@@ -4,10 +4,10 @@ import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.config.interpolation.InterpolationMethod;
 import io.github.therealmone.fireres.core.config.interpolation.InterpolationPoints;
 import io.github.therealmone.fireres.core.config.interpolation.InterpolationProperties;
-import io.github.therealmone.fireres.core.config.interpolation.Point;
+import io.github.therealmone.fireres.core.model.Point;
 import io.github.therealmone.fireres.core.config.random.RandomPointsProperties;
 import io.github.therealmone.fireres.core.config.temperature.TemperatureProperties;
-import io.github.therealmone.fireres.core.factory.NumberSequenceGeneratorFactory;
+import io.github.therealmone.fireres.core.factory.PointSequenceGeneratorFactory;
 import lombok.val;
 import org.junit.Test;
 
@@ -32,7 +32,7 @@ public class ThermocoupleMeanGeneratorTest {
 
     @Test
     public void linearInterpolationMethod() {
-        val factory = new NumberSequenceGeneratorFactory(GenerationProperties.builder()
+        val factory = new PointSequenceGeneratorFactory(GenerationProperties.builder()
                 .temperature(TemperatureProperties.builder()
                         .environmentTemperature(21)
                         .build())
@@ -55,7 +55,7 @@ public class ThermocoupleMeanGeneratorTest {
 
     @Test
     public void linearInterpolationMethodWithRandomPoints() {
-        val factory = new NumberSequenceGeneratorFactory(GenerationProperties.builder()
+        val factory = new PointSequenceGeneratorFactory(GenerationProperties.builder()
                 .temperature(TemperatureProperties.builder()
                         .environmentTemperature(21)
                         .build())
@@ -79,7 +79,7 @@ public class ThermocoupleMeanGeneratorTest {
 
     @Test
     public void linearInterpolationMethodWithRandomPointsAndLowNewPointChance() {
-        val factory = new NumberSequenceGeneratorFactory(GenerationProperties.builder()
+        val factory = new PointSequenceGeneratorFactory(GenerationProperties.builder()
                 .temperature(TemperatureProperties.builder()
                         .environmentTemperature(21)
                         .build())
@@ -101,9 +101,11 @@ public class ThermocoupleMeanGeneratorTest {
         assertFunctionConstantlyGrowing(thermocoupleMeanTemp);
     }
 
-    private void assertInterpolationPoints(List<Integer> function) {
+    private void assertInterpolationPoints(List<Point> function) {
         for (Point point : INTERPOLATION_POINTS.getPoints()) {
-            assertEquals(point.getTemperature(), function.get(point.getTime()));
+            assertEquals(point, function.stream()
+                    .filter(p -> p.getTime().equals(point.getTime())).findFirst()
+                    .orElseThrow());
         }
     }
 

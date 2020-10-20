@@ -1,5 +1,6 @@
 package io.github.therealmone.fireres.core.config.interpolation;
 
+import io.github.therealmone.fireres.core.model.Point;
 import lombok.Getter;
 
 import java.util.Comparator;

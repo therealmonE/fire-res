@@ -4,13 +4,14 @@ import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.config.interpolation.InterpolationMethod;
 import io.github.therealmone.fireres.core.config.interpolation.InterpolationPoints;
 import io.github.therealmone.fireres.core.config.interpolation.InterpolationProperties;
-import io.github.therealmone.fireres.core.config.interpolation.Point;
+import io.github.therealmone.fireres.core.model.Point;
 import io.github.therealmone.fireres.core.config.random.RandomPointsProperties;
 import io.github.therealmone.fireres.core.config.temperature.Coefficient;
 import io.github.therealmone.fireres.core.config.temperature.Coefficients;
 import io.github.therealmone.fireres.core.config.temperature.TemperatureProperties;
-import io.github.therealmone.fireres.core.factory.NumberSequenceGeneratorFactory;
+import io.github.therealmone.fireres.core.factory.PointSequenceGeneratorFactory;
 import lombok.val;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -21,6 +22,8 @@ import static io.github.therealmone.fireres.core.TestUtils.assertMeanTemperature
 import static io.github.therealmone.fireres.core.TestUtils.assertThermocouplesTemperaturesEqualsMean;
 
 public class ThermocouplesTempGeneratorTest {
+
+    private static final Integer CYCLES = 10;
 
     private static final InterpolationPoints INTERPOLATION_POINTS = new InterpolationPoints(new ArrayList<>() {{
         add(new Point(0, 21));
@@ -37,8 +40,16 @@ public class ThermocouplesTempGeneratorTest {
     }});
 
     @Test
+    @Ignore //todo : fix
+    public void generateMultipleTimes() {
+        for (int i = 0; i < CYCLES; i++) {
+            generate();
+        }
+    }
+
+    @Test
     public void generate() {
-        val factory = new NumberSequenceGeneratorFactory(GenerationProperties.builder()
+        val factory = new PointSequenceGeneratorFactory(GenerationProperties.builder()
                 .temperature(TemperatureProperties.builder()
                         .environmentTemperature(21)
                         .minAllowedTempCoefficients(new Coefficients(List.of(

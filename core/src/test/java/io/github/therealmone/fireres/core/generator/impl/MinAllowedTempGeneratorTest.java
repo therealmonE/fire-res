@@ -2,7 +2,7 @@ package io.github.therealmone.fireres.core.generator.impl;
 
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.config.temperature.TemperatureProperties;
-import io.github.therealmone.fireres.core.factory.NumberSequenceGeneratorFactory;
+import io.github.therealmone.fireres.core.factory.PointSequenceGeneratorFactory;
 import io.github.therealmone.fireres.core.config.temperature.Coefficient;
 import io.github.therealmone.fireres.core.config.temperature.Coefficients;
 import lombok.val;
@@ -10,13 +10,14 @@ import org.junit.Test;
 
 import java.util.List;
 
+import static io.github.therealmone.fireres.core.TestUtils.toPointList;
 import static org.junit.Assert.assertEquals;
 
 public class MinAllowedTempGeneratorTest {
 
     @Test
     public void generate() {
-        val factory = new NumberSequenceGeneratorFactory(GenerationProperties.builder()
+        val factory = new PointSequenceGeneratorFactory(GenerationProperties.builder()
                 .temperature(TemperatureProperties.builder()
                         .environmentTemperature(21)
                         .minAllowedTempCoefficients(new Coefficients(List.of(
@@ -28,7 +29,7 @@ public class MinAllowedTempGeneratorTest {
                 .time(71)
                 .build());
 
-        val expectedNumbers = List.of(
+        val expectedNumbers = toPointList(List.of(
                 18, 280, 361, 410, 445,
                 473, 496, 515, 531, 547,
                 559, 606, 617, 627, 637,
@@ -44,7 +45,7 @@ public class MinAllowedTempGeneratorTest {
                 879, 882, 884, 886, 888,
                 890, 893, 895, 897, 899,
                 901
-        );
+        ));
 
         val standardTemp = factory.standardTempGenerator().generate();
         val minAllowedTemp = factory.minAllowedTempGenerator(standardTemp).generate();

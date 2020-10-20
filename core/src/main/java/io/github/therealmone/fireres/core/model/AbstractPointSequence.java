@@ -7,8 +7,8 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Getter
-public abstract class AbstractNumberSequence implements NumberSequence {
+public abstract class AbstractPointSequence implements PointSequence {
 
-    private final List<Integer> value;
+    private final List<Point> value;
 
 }

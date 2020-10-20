@@ -2,8 +2,8 @@ package io.github.therealmone.fireres.core.generator.impl;
 
 import io.github.therealmone.fireres.core.config.interpolation.InterpolationMethod;
 import io.github.therealmone.fireres.core.config.interpolation.InterpolationPoints;
-import io.github.therealmone.fireres.core.config.interpolation.Point;
-import io.github.therealmone.fireres.core.generator.NumberSequenceGenerator;
+import io.github.therealmone.fireres.core.model.Point;
+import io.github.therealmone.fireres.core.generator.PointSequenceGenerator;
 import io.github.therealmone.fireres.core.model.ThermocoupleMeanTemperature;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +22,7 @@ import static io.github.therealmone.fireres.core.utils.RandomUtils.generateInner
 
 @RequiredArgsConstructor
 @Slf4j
-public class ThermocoupleMeanGenerator implements NumberSequenceGenerator<ThermocoupleMeanTemperature> {
+public class ThermocoupleMeanGenerator implements PointSequenceGenerator<ThermocoupleMeanTemperature> {
 
     private final Integer t0;
     private final Integer time;
@@ -50,8 +50,8 @@ public class ThermocoupleMeanGenerator implements NumberSequenceGenerator<Thermo
                 getTemperatureArray(points));
 
         val thermocoupleMeanTemp = IntStream.range(0, time)
-                .map(i -> (int) Math.round(function.value(i)))
-                .boxed()
+                .mapToObj(t -> new Point(t,
+                        (int) Math.round(function.value(t))))
                 .collect(Collectors.toList());
 
         log.info("Generated thermocouple mean temperature: {}", thermocoupleMeanTemp);

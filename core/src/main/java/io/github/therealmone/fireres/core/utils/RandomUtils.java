@@ -1,6 +1,6 @@
 package io.github.therealmone.fireres.core.utils;
 
-import io.github.therealmone.fireres.core.config.interpolation.Point;
+import io.github.therealmone.fireres.core.model.Point;
 import lombok.val;
 
 import java.util.ArrayList;

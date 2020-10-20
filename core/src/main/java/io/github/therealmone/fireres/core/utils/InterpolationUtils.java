@@ -1,10 +1,14 @@
 package io.github.therealmone.fireres.core.utils;
 
-import io.github.therealmone.fireres.core.config.interpolation.Point;
+import io.github.therealmone.fireres.core.model.Point;
 import lombok.val;
+import org.apache.commons.math3.analysis.interpolation.LinearInterpolator;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class InterpolationUtils {
 
@@ -45,6 +49,42 @@ public class InterpolationUtils {
         }
 
         return y;
+    }
+
+    public static List<Point> smoothFunction(List<Point> function) {
+        val smoothedFunctions = new ArrayList<>(function);
+
+        removePeaks(smoothedFunctions);
+
+        val interpolator = new LinearInterpolator();
+        val interpolation = interpolator.interpolate(
+                getTimeArray(smoothedFunctions),
+                getTemperatureArray(smoothedFunctions));
+
+        return IntStream.range(0, function.size())
+                .mapToObj(x -> new Point(x, (int) Math.round(interpolation.value(x))))
+                .collect(Collectors.toList());
+    }
+
+    private static void removePeaks(List<Point> function) {
+        val pointsToRemove = new ArrayList<Point>();
+
+        for (int i = 0; i < function.size() - 1; i++) {
+            val point = function.get(i);
+            val nextPoint = function.get(i + 1);
+
+            if (point.getTemperature() >= nextPoint.getTemperature()) {
+                for (int j = i; j >= 0; j--) {
+                    if (function.get(j).getTemperature() >= nextPoint.getTemperature() - (i - j)) {
+                        pointsToRemove.add(function.get(j));
+                    } else {
+                        break;
+                    }
+                }
+            }
+        }
+
+        pointsToRemove.forEach(function::remove);
     }
 
 }

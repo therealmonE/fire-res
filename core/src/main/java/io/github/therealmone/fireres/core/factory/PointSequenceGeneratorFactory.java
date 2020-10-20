@@ -1,8 +1,8 @@
 package io.github.therealmone.fireres.core.factory;
 
 import io.github.therealmone.fireres.core.config.GenerationProperties;
-import io.github.therealmone.fireres.core.generator.MultipleNumberSequencesGenerator;
-import io.github.therealmone.fireres.core.generator.NumberSequenceGenerator;
+import io.github.therealmone.fireres.core.generator.MultiplePointSequencesGenerator;
+import io.github.therealmone.fireres.core.generator.PointSequenceGenerator;
 import io.github.therealmone.fireres.core.generator.impl.FurnaceTempGenerator;
 import io.github.therealmone.fireres.core.generator.impl.MaxAllowedTempGenerator;
 import io.github.therealmone.fireres.core.generator.impl.MinAllowedTempGenerator;
@@ -21,35 +21,35 @@ import lombok.extern.slf4j.Slf4j;
 
 @RequiredArgsConstructor
 @Slf4j
-public class NumberSequenceGeneratorFactory {
+public class PointSequenceGeneratorFactory {
 
     private final GenerationProperties generationProperties;
 
-    public NumberSequenceGenerator<StandardTemperature> standardTempGenerator() {
+    public PointSequenceGenerator<StandardTemperature> standardTempGenerator() {
         return new StandardTempGenerator(
                 generationProperties.getTemperature().getEnvironmentTemperature(),
                 generationProperties.getTime());
     }
 
-    public NumberSequenceGenerator<FurnaceTemperature> furnaceTempGenerator(StandardTemperature standardTemp) {
+    public PointSequenceGenerator<FurnaceTemperature> furnaceTempGenerator(StandardTemperature standardTemp) {
         return new FurnaceTempGenerator(
                 generationProperties.getTemperature().getEnvironmentTemperature(),
                 standardTemp);
     }
 
-    public NumberSequenceGenerator<MinAllowedTemperature> minAllowedTempGenerator(StandardTemperature standardTemp) {
+    public PointSequenceGenerator<MinAllowedTemperature> minAllowedTempGenerator(StandardTemperature standardTemp) {
         return new MinAllowedTempGenerator(
                 generationProperties.getTemperature().getMinAllowedTempCoefficients(),
                 standardTemp);
     }
 
-    public NumberSequenceGenerator<MaxAllowedTemperature> maxAllowedTempGenerator(StandardTemperature standardTemp) {
+    public PointSequenceGenerator<MaxAllowedTemperature> maxAllowedTempGenerator(StandardTemperature standardTemp) {
         return new MaxAllowedTempGenerator(
                 generationProperties.getTemperature().getMaxAllowedTempCoefficients(),
                 standardTemp);
     }
 
-    public NumberSequenceGenerator<ThermocoupleMeanTemperature> thermocoupleMeanGenerator() {
+    public PointSequenceGenerator<ThermocoupleMeanTemperature> thermocoupleMeanGenerator() {
         return new ThermocoupleMeanGenerator(
                 generationProperties.getTemperature().getEnvironmentTemperature(),
                 generationProperties.getTime(),
@@ -59,9 +59,9 @@ public class NumberSequenceGeneratorFactory {
                 generationProperties.getRandomPoints().getNewPointChance());
     }
 
-    public MultipleNumberSequencesGenerator<ThermocoupleTemperature> thermocouplesTempGenerator(MinAllowedTemperature minAllowedTemperature,
-                                                                                                MaxAllowedTemperature maxAllowedTemperature,
-                                                                                                ThermocoupleMeanTemperature thermocoupleMeanTemperature) {
+    public MultiplePointSequencesGenerator<ThermocoupleTemperature> thermocouplesTempGenerator(MinAllowedTemperature minAllowedTemperature,
+                                                                                               MaxAllowedTemperature maxAllowedTemperature,
+                                                                                               ThermocoupleMeanTemperature thermocoupleMeanTemperature) {
         return new ThermocouplesTempGenerator(
                 generationProperties.getTime(),
                 thermocoupleMeanTemperature,
