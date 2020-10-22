@@ -32,7 +32,9 @@ public class TestUtils {
         assertSizesEquals(thermocouplesTemp, meanTempValue);
         IntStream.range(0, meanTempValue.size()).forEach(i -> assertEquals(
                 meanTempValue.get(i).getTemperature(),
-                calculatePointsMeanValue(thermocouplesTemp.stream().map(t -> t.getValue().get(i)).collect(Collectors.toList()))));
+                calculatePointsMeanValue(thermocouplesTemp.stream()
+                        .map(t -> t.getValue().get(i))
+                        .collect(Collectors.toList()))));
     }
 
     private static void assertSizesEquals(List<ThermocoupleTemperature> thermocouplesTemp, List<Point> meanTemp) {
@@ -40,6 +42,12 @@ public class TestUtils {
             val thermocoupleTemperatureValue = thermocoupleTemperature.getValue();
             assertEquals(meanTemp.size(), thermocoupleTemperatureValue.size());
         });
+    }
+
+    public static void assertSizesEquals(int size, List<Point>... functions) {
+        for (List<Point> function : functions) {
+            assertEquals(size, function.size());
+        }
     }
 
     public static void assertMeanTemperatureInInterval(List<Point> meanTemperature, List<Point> minAllowedTemp,
@@ -71,8 +79,13 @@ public class TestUtils {
                     .findFirst()
                     .orElseThrow();
 
-            assertTrue(lowerPoint.getTemperature() <= upperPoint.getTemperature());
+            assertTrue("Lower: " + lowerPoint + " Upper: " + upperPoint,
+                    lowerPoint.getTemperature() <= upperPoint.getTemperature());
         });
+    }
+
+    public static void assertFunctionNotLower(List<Point> upperFunction, List<Point> lowerFunction) {
+        assertFunctionNotHigher(lowerFunction, upperFunction);
     }
 
 }

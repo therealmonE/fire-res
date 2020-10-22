@@ -30,7 +30,7 @@ public class ThermocouplesTempGenerator implements MultiplePointSequencesGenerat
 
     @Override
     public List<ThermocoupleTemperature> generate() {
-        log.info("Generating thermocouples temperatures with mean temperature: {}", thermocoupleMeanTemperature);
+        log.info("Generating thermocouples temperatures with mean temperature: {}", thermocoupleMeanTemperature.getValue());
 
         val thermocouplesTemp = new ArrayList<ThermocoupleTemperature>() {{
             for (int i = 0; i < thermocoupleCount; i++) {
@@ -62,7 +62,8 @@ public class ThermocouplesTempGenerator implements MultiplePointSequencesGenerat
                     if (temperatures.get(i).getValue().isEmpty()) {
                         return minAllowed;
                     } else {
-                        return temperatures.get(i).getValue().get(time - 1).getTemperature() + 1;
+                        val prevTemperature = temperatures.get(i).getValue().get(time - 1).getTemperature();
+                        return Math.max(minAllowed, prevTemperature + 1);
                     }
                 })
                 .collect(Collectors.toList());
@@ -82,68 +83,66 @@ public class ThermocouplesTempGenerator implements MultiplePointSequencesGenerat
                     add(generateValueInInterval(lowerBounds.get(j), upperBounds.get(j))));
         }};
 
-        val difference = meanTemp - calculateIntsMeanValue(temperatures);
-
-        if (difference != 0) {
-            adjustTemperatures(temperatures, difference, lowerBounds, upperBounds);
+        if (getDifference(meanTemp, temperatures) != 0) {
+            adjustTemperatures(temperatures, meanTemp, lowerBounds, upperBounds);
         }
 
         return temperatures;
     }
 
-    private void adjustTemperatures(List<Integer> temperatures, Integer difference,
+    private void adjustTemperatures(List<Integer> temperatures, Integer meanTemp,
                                     List<Integer> lowerBounds, List<Integer> upperBounds) {
 
-        var remainingDifference = difference * thermocoupleCount;
+        while (getDifference(meanTemp, temperatures) != 0) {
+            val difference = getDifference(meanTemp, temperatures);
 
-        while (remainingDifference != 0) {
-            log.info("Adjusting temperatures: {}, remainingDifference: {}", temperatures, remainingDifference);
             for (int i = 0; i < thermocoupleCount; i++) {
                 val temperature = temperatures.get(i);
                 val generatedAdjust = generateAdjust(
                         lowerBounds.get(i),
                         upperBounds.get(i),
-                        remainingDifference,
+                        difference,
                         temperature);
 
                 temperatures.set(i, temperature + generatedAdjust);
-                remainingDifference -= generatedAdjust;
 
-                if (remainingDifference == 0) {
+                if (getDifference(meanTemp, temperatures) == 0) {
                     break;
                 }
             }
         }
     }
 
-    private Integer generateAdjust(Integer lowerBound, Integer upperBound,
-                                   Integer remainingDifference, Integer temperature) {
+    private Integer getDifference(Integer meanTemp, List<Integer> temperatures) {
+        return meanTemp - calculateIntsMeanValue(temperatures);
+    }
 
-        if (remainingDifference < 0) {
-            return generateAdjustToLowerBound(lowerBound, remainingDifference, temperature);
+    private Integer generateAdjust(Integer lowerBound, Integer upperBound,
+                                   Integer differenceToAdjust, Integer temperature) {
+
+        if (differenceToAdjust < 0) {
+            return generateAdjustToLowerBound(lowerBound, differenceToAdjust, temperature);
         } else {
-            return generateAdjustToUpperBound(upperBound, remainingDifference, temperature);
+            return generateAdjustToUpperBound(upperBound, differenceToAdjust, temperature);
         }
     }
 
-    private Integer generateAdjustToUpperBound(Integer upperBound, Integer remainingDifference, Integer temperature) {
+    private Integer generateAdjustToUpperBound(Integer upperBound, Integer differenceToAdjust, Integer temperature) {
         if (temperature.equals(upperBound)) {
             return 0;
         }
 
-        val differenceToAdjust = remainingDifference / thermocoupleCount;
-        val allowedAdjust = Math.min(upperBound - temperature, differenceToAdjust != 0 ? differenceToAdjust : 1);
+        val allowedAdjust = Math.min(upperBound - temperature, differenceToAdjust);
 
         return generateValueInInterval(1, allowedAdjust);
     }
 
-    private Integer generateAdjustToLowerBound(Integer lowerBound, Integer remainingDifference, Integer temperature) {
+    private Integer generateAdjustToLowerBound(Integer lowerBound, Integer differenceToAdjust, Integer temperature) {
         if (temperature.equals(lowerBound)) {
             return 0;
         }
 
-        val differenceToAdjust = remainingDifference / thermocoupleCount;
-        val allowedAdjust = Math.max(lowerBound - temperature, differenceToAdjust != 0 ? differenceToAdjust : -1);
+        val allowedAdjust = Math.max(lowerBound - temperature, differenceToAdjust);
 
         return generateValueInInterval(allowedAdjust, -1);
 
