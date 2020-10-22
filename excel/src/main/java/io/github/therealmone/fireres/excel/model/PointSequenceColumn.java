@@ -1,0 +1,18 @@
+package io.github.therealmone.fireres.excel.model;
+
+import io.github.therealmone.fireres.core.model.Point;
+import io.github.therealmone.fireres.core.model.PointSequence;
+
+import java.util.Comparator;
+import java.util.stream.Collectors;
+
+public abstract class PointSequenceColumn extends Column {
+
+    public PointSequenceColumn(String header, PointSequence points) {
+        super(header, points.getValue().stream()
+                .sorted(Comparator.comparing(Point::getTime))
+                .map(Point::getTemperature)
+                .collect(Collectors.toList()));
+    }
+
+}
