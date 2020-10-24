@@ -22,7 +22,7 @@ public class ExcelReportMapper {
         val time = report.getTime();
         val envTemp = report.getEnvironmentTemperature();
 
-        excelReport.setMaxRows(time);
+        excelReport.setTime(time);
 
         excelReport.getColumns().add(new TimeColumn(time));
         excelReport.getColumns().add(new EnvTempColumn(time, envTemp));
@@ -40,10 +40,10 @@ public class ExcelReportMapper {
 
             for (int t = 0; t < thermocoupleTemperatures.size(); t++) {
                 val thermocoupleTemperature = thermocoupleTemperatures.get(t);
-                excelReport.getColumns().add(new ThermocoupleTemperatureColumn(t, thermocoupleTemperature));
+                excelReport.getColumns().add(new ThermocoupleTemperatureColumn(t + 1, thermocoupleTemperature));
             }
 
-            excelReport.getColumns().add(new ThermocouplesMeanTemperatureColumn(s, sample.getThermocoupleMeanTemperature()));
+            excelReport.getColumns().add(new ThermocouplesMeanTemperatureColumn(s + 1, sample.getThermocoupleMeanTemperature()));
         }
 
         return excelReport;

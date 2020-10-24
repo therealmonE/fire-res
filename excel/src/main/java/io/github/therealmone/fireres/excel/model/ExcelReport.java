@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 public class ExcelReport {
 
-    private Integer maxRows;
+    private Integer time;
     private List<Column> columns = new ArrayList<>();
 
 }
