@@ -2,7 +2,7 @@ package io.github.therealmone.fireres.excel.model;
 
 import io.github.therealmone.fireres.core.model.ThermocoupleMeanTemperature;
 import io.github.therealmone.fireres.excel.chart.ChartColumn;
-import io.github.therealmone.fireres.excel.chart.lines.DefaultDataLineProperties;
+import io.github.therealmone.fireres.excel.style.chart.DefaultDataLineProperties;
 import org.apache.poi.xddf.usermodel.XDDFLineProperties;
 
 public class ThermocouplesMeanTemperatureColumn extends PointSequenceColumn implements ChartColumn {
@@ -13,7 +13,7 @@ public class ThermocouplesMeanTemperatureColumn extends PointSequenceColumn impl
     private final Integer index;
 
     public ThermocouplesMeanTemperatureColumn(Integer index, ThermocoupleMeanTemperature thermocoupleMeanTemperature) {
-        super(HEADER + index, thermocoupleMeanTemperature);
+        super(HEADER + index, true, thermocoupleMeanTemperature);
         this.index = index;
     }
 

@@ -2,7 +2,7 @@ package io.github.therealmone.fireres.excel.model;
 
 import io.github.therealmone.fireres.core.model.MaxAllowedTemperature;
 import io.github.therealmone.fireres.excel.chart.ChartColumn;
-import io.github.therealmone.fireres.excel.chart.lines.DefaultDataLineProperties;
+import io.github.therealmone.fireres.excel.style.chart.DefaultDataLineProperties;
 import org.apache.poi.xddf.usermodel.XDDFLineProperties;
 
 public class MaxAllowedTemperatureColumn extends PointSequenceColumn implements ChartColumn {
@@ -11,7 +11,7 @@ public class MaxAllowedTemperatureColumn extends PointSequenceColumn implements 
     private static final String CHART_TITLE = "Максимальный допуск температуры";
 
     public MaxAllowedTemperatureColumn(MaxAllowedTemperature minAllowedTemperature) {
-        super(HEADER, minAllowedTemperature);
+        super(HEADER, false, minAllowedTemperature);
     }
 
     @Override

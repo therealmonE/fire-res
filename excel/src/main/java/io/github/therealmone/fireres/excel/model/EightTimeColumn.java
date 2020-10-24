@@ -8,7 +8,7 @@ public class EightTimeColumn extends Column {
     private static final String HEADER = "8t + 1";
 
     public EightTimeColumn(Integer time) {
-        super(HEADER, IntStream.range(0, time)
+        super(HEADER, false, IntStream.range(0, time)
                 .mapToObj(t -> 8 * t + 1)
                 .collect(Collectors.toList()));
     }

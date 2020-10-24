@@ -1,4 +1,4 @@
-package io.github.therealmone.fireres.excel.chart.lines;
+package io.github.therealmone.fireres.excel.style.chart;
 
 import lombok.val;
 import org.apache.poi.xddf.usermodel.PresetColor;
@@ -6,11 +6,11 @@ import org.apache.poi.xddf.usermodel.XDDFColorPreset;
 import org.apache.poi.xddf.usermodel.XDDFLineProperties;
 import org.apache.poi.xddf.usermodel.XDDFSolidFillProperties;
 
-public class AxisLineProperties extends XDDFLineProperties {
+public class AxisGridLineProperties extends XDDFLineProperties {
 
-    public AxisLineProperties() {
+    public AxisGridLineProperties() {
         val fillProperties = new XDDFSolidFillProperties();
-        fillProperties.setColor(new XDDFColorPreset(PresetColor.BLACK));
+        fillProperties.setColor(new XDDFColorPreset(PresetColor.LIGHT_GRAY));
 
         setWidth(1.0);
         setFillProperties(fillProperties);

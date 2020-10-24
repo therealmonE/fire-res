@@ -1,4 +1,4 @@
-package io.github.therealmone.fireres.excel.chart.lines;
+package io.github.therealmone.fireres.excel.style.chart;
 
 import lombok.val;
 import org.apache.poi.xddf.usermodel.PresetColor;

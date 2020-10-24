@@ -7,6 +7,6 @@ public class ThermocoupleTemperatureColumn extends PointSequenceColumn {
     private static final String HEADER = "ТП";
 
     public ThermocoupleTemperatureColumn(Integer index, ThermocoupleTemperature thermocoupleTemperature) {
-        super(HEADER + index, thermocoupleTemperature);
+        super(HEADER + index, false, thermocoupleTemperature);
     }
 }

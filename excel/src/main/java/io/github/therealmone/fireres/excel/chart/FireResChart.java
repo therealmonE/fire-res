@@ -1,7 +1,7 @@
 package io.github.therealmone.fireres.excel.chart;
 
-import io.github.therealmone.fireres.excel.chart.lines.AxisGridLineProperties;
-import io.github.therealmone.fireres.excel.chart.lines.AxisLineProperties;
+import io.github.therealmone.fireres.excel.style.chart.AxisGridLineProperties;
+import io.github.therealmone.fireres.excel.style.chart.AxisLineProperties;
 import io.github.therealmone.fireres.excel.model.Column;
 import io.github.therealmone.fireres.excel.model.TimeColumn;
 import lombok.val;

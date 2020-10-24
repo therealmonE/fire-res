@@ -8,7 +8,7 @@ public class TimeColumn extends Column {
     private static final String HEADER = "Время, мин";
 
     public TimeColumn(Integer time) {
-        super(HEADER, IntStream.range(0, time)
+        super(HEADER, false, IntStream.range(0, time)
                 .boxed()
                 .collect(Collectors.toList()));
     }

@@ -8,7 +8,7 @@ public class EnvTempColumn extends Column {
     private static final String HEADER = "Т0";
 
     public EnvTempColumn(Integer time, Integer envTemp) {
-        super(HEADER, IntStream.range(0, time)
+        super(HEADER, false, IntStream.range(0, time)
                 .mapToObj(t -> envTemp)
                 .collect(Collectors.toList()));
     }

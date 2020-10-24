@@ -8,8 +8,8 @@ import java.util.stream.Collectors;
 
 public abstract class PointSequenceColumn extends Column {
 
-    public PointSequenceColumn(String header, PointSequence points) {
-        super(header, points.getValue().stream()
+    public PointSequenceColumn(String header, boolean bordered, PointSequence points) {
+        super(header, bordered, points.getValue().stream()
                 .sorted(Comparator.comparing(Point::getTime))
                 .map(Point::getTemperature)
                 .collect(Collectors.toList()));

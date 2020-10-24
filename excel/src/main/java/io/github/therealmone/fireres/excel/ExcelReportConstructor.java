@@ -5,6 +5,8 @@ import io.github.therealmone.fireres.core.report.Report;
 import io.github.therealmone.fireres.core.report.ReportBuilder;
 import io.github.therealmone.fireres.excel.mapper.ExcelReportMapper;
 import io.github.therealmone.fireres.excel.model.Column;
+import io.github.therealmone.fireres.excel.style.data.DataCellStyles;
+import io.github.therealmone.fireres.excel.style.data.HeaderCellStyles;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +26,8 @@ import static io.github.therealmone.fireres.excel.chart.FireResChart.generateCha
 @RequiredArgsConstructor
 @Slf4j
 public class ExcelReportConstructor implements ReportConstructor {
+
+    public static final String TIMES_NEW_ROMAN = "Times New Roman";
 
     private final GenerationProperties generationProperties;
 
@@ -46,14 +50,14 @@ public class ExcelReportConstructor implements ReportConstructor {
         val time = excelReport.getTime();
         val columns = excelReport.getColumns();
 
-        generateHeaders(sheet, columns);
-        generateData(sheet, time, columns);
+        generateHeaders(sheet, columns, new HeaderCellStyles(workbook));
+        generateData(sheet, time, columns, new DataCellStyles(workbook));
         generateChart(sheet, time, columns);
 
         return workbook;
     }
 
-    private void generateData(XSSFSheet sheet, Integer maxRows, List<Column> columns) {
+    private void generateData(XSSFSheet sheet, Integer maxRows, List<Column> columns, DataCellStyles cellStyles) {
         IntStream.range(0, maxRows).forEach(time -> {
             val row = sheet.createRow(time + 1);
 
@@ -62,16 +66,24 @@ public class ExcelReportConstructor implements ReportConstructor {
                 val cell = row.createCell(i);
 
                 cell.setCellValue(column.getValues().get(time));
+                cell.setCellStyle(column.isHighlighted()
+                        ? cellStyles.getHighlightedCellStyle()
+                        : cellStyles.getCommonCellStyle());
             });
         });
     }
 
-    private void generateHeaders(XSSFSheet sheet, List<Column> columns) {
+    private void generateHeaders(XSSFSheet sheet, List<Column> columns, HeaderCellStyles cellStyles) {
         val headerRow = sheet.createRow(0);
+        headerRow.setHeightInPoints(40);
+
         for (int i = 0; i < columns.size(); i++) {
             val headerCell = headerRow.createCell(i);
+
             headerCell.setCellValue(columns.get(i).getHeader());
+            headerCell.setCellStyle(i == columns.size() - 1
+                    ? cellStyles.getLastCellStyle()
+                    : cellStyles.getCommonCellStyle());
         }
     }
-
 }

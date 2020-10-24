@@ -2,7 +2,7 @@ package io.github.therealmone.fireres.excel.model;
 
 import io.github.therealmone.fireres.core.model.StandardTemperature;
 import io.github.therealmone.fireres.excel.chart.ChartColumn;
-import io.github.therealmone.fireres.excel.chart.lines.StandardTemperatureLineProperties;
+import io.github.therealmone.fireres.excel.style.chart.StandardTemperatureLineProperties;
 import org.apache.poi.xddf.usermodel.XDDFLineProperties;
 
 public class StandardTemperatureColumn extends PointSequenceColumn implements ChartColumn {
@@ -11,7 +11,7 @@ public class StandardTemperatureColumn extends PointSequenceColumn implements Ch
     private static final String CHART_TITLE = "Стандартный режим пожара";
 
     public StandardTemperatureColumn(StandardTemperature standardTemperature) {
-        super(HEADER, standardTemperature);
+        super(HEADER, true, standardTemperature);
     }
 
     @Override
