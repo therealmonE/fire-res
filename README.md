@@ -266,4 +266,6 @@ samples: [
  ```
  
  По данной конфигурации генерируется следующий график:
- ![graph-example](https://github.com/therealmonE/fire-res/tree/main/docs/images/chart-example.png)
+ 
+ <p align="center">
+  <img src="./docs/images/chart-example.png" width="80%"></p>
