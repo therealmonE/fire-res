@@ -26,7 +26,7 @@ public class ThermocouplesTempGeneratorTest {
 
     private static final Integer CYCLES = 10;
 
-    private static final InterpolationPoints INTERPOLATION_POINTS = new InterpolationPoints(new ArrayList<>() {{
+    private static final List<Point> INTERPOLATION_POINTS = new ArrayList<>() {{
         add(new Point(0, 21));
         add(new Point(1, 306));
         add(new Point(2, 392));
@@ -38,7 +38,7 @@ public class ThermocouplesTempGeneratorTest {
         add(new Point(48, 898));
         add(new Point(49, 901));
         add(new Point(70, 943));
-    }});
+    }};
 
     @Test
     @Ignore //todo : fix
@@ -53,16 +53,16 @@ public class ThermocouplesTempGeneratorTest {
         val factory = new PointSequenceGeneratorFactory(GenerationProperties.builder()
                 .temperature(TemperatureProperties.builder()
                         .environmentTemperature(21)
-                        .minAllowedTempCoefficients(new Coefficients(List.of(
+                        .minAllowedTempCoefficients(List.of(
                                 new Coefficient(0, 10, 0.85),
                                 new Coefficient(11, 30, 0.9),
                                 new Coefficient(31, 71, 0.95)
-                        )))
-                        .maxAllowedTempCoefficients(new Coefficients(List.of(
+                        ))
+                        .maxAllowedTempCoefficients(List.of(
                                 new Coefficient(0, 10, 1.15),
                                 new Coefficient(11, 30, 1.1),
                                 new Coefficient(31, 71, 1.05)
-                        )))
+                        ))
                         .build())
                 .time(71)
                 .samples(List.of(SampleProperties.builder()

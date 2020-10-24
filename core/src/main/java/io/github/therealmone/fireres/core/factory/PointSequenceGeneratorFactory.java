@@ -1,6 +1,8 @@
 package io.github.therealmone.fireres.core.factory;
 
 import io.github.therealmone.fireres.core.config.GenerationProperties;
+import io.github.therealmone.fireres.core.config.interpolation.InterpolationPoints;
+import io.github.therealmone.fireres.core.config.temperature.Coefficients;
 import io.github.therealmone.fireres.core.generator.MultiplePointSequencesGenerator;
 import io.github.therealmone.fireres.core.generator.PointSequenceGenerator;
 import io.github.therealmone.fireres.core.generator.impl.FurnaceTempGenerator;
@@ -40,13 +42,13 @@ public class PointSequenceGeneratorFactory {
 
     public PointSequenceGenerator<MinAllowedTemperature> minAllowedTempGenerator(StandardTemperature standardTemp) {
         return new MinAllowedTempGenerator(
-                generationProperties.getTemperature().getMinAllowedTempCoefficients(),
+                new Coefficients(generationProperties.getTemperature().getMinAllowedTempCoefficients()),
                 standardTemp);
     }
 
     public PointSequenceGenerator<MaxAllowedTemperature> maxAllowedTempGenerator(StandardTemperature standardTemp) {
         return new MaxAllowedTempGenerator(
-                generationProperties.getTemperature().getMaxAllowedTempCoefficients(),
+                new Coefficients(generationProperties.getTemperature().getMaxAllowedTempCoefficients()),
                 standardTemp);
     }
 
@@ -56,7 +58,7 @@ public class PointSequenceGeneratorFactory {
         return new ThermocoupleMeanGenerator(
                 generationProperties.getTemperature().getEnvironmentTemperature(),
                 generationProperties.getTime(),
-                sample.getInterpolation().getInterpolationPoints(),
+                new InterpolationPoints(sample.getInterpolation().getInterpolationPoints()),
                 sample.getInterpolation().getInterpolationMethod(),
                 sample.getRandomPoints().getEnrichWithRandomPoints(),
                 sample.getRandomPoints().getNewPointChance());

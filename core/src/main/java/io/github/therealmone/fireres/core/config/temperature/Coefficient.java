@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Coefficient {
 
-    private Integer fromTime;
-    private Integer toTime;
+    private Integer from;
+    private Integer to;
     private Double value;
 
 }

@@ -4,19 +4,19 @@ import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.report.Report;
 import io.github.therealmone.fireres.core.report.ReportBuilder;
 import io.github.therealmone.fireres.excel.mapper.ExcelReportMapper;
-import io.github.therealmone.fireres.excel.model.Column;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.List;
 import java.util.stream.IntStream;
 
 @RequiredArgsConstructor
+@Slf4j
 public class ExcelReportConstructor implements ReportConstructor {
 
     private final GenerationProperties generationProperties;
@@ -24,6 +24,7 @@ public class ExcelReportConstructor implements ReportConstructor {
     @Override
     @SneakyThrows
     public void construct(File outputFile) {
+        log.info("Writing excel report to: {}", outputFile.getAbsolutePath());
         val report = ReportBuilder.build(generationProperties);
         val excel = generateExcel(report);
 

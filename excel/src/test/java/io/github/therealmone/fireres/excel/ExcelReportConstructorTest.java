@@ -2,12 +2,10 @@ package io.github.therealmone.fireres.excel;
 
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.config.interpolation.InterpolationMethod;
-import io.github.therealmone.fireres.core.config.interpolation.InterpolationPoints;
 import io.github.therealmone.fireres.core.config.interpolation.InterpolationProperties;
 import io.github.therealmone.fireres.core.config.random.RandomPointsProperties;
 import io.github.therealmone.fireres.core.config.sample.SampleProperties;
 import io.github.therealmone.fireres.core.config.temperature.Coefficient;
-import io.github.therealmone.fireres.core.config.temperature.Coefficients;
 import io.github.therealmone.fireres.core.config.temperature.TemperatureProperties;
 import io.github.therealmone.fireres.core.model.Point;
 import lombok.val;
@@ -20,7 +18,7 @@ import java.util.List;
 
 public class ExcelReportConstructorTest {
 
-    private static final InterpolationPoints INTERPOLATION_POINTS = new InterpolationPoints(new ArrayList<>() {{
+    private static final List<Point> INTERPOLATION_POINTS = new ArrayList<>() {{
         add(new Point(0, 21));
         add(new Point(1, 306));
         add(new Point(2, 392));
@@ -32,7 +30,7 @@ public class ExcelReportConstructorTest {
         add(new Point(48, 898));
         add(new Point(49, 901));
         add(new Point(70, 943));
-    }});
+    }};
 
     @Test
     @Ignore("manual test")
@@ -41,16 +39,16 @@ public class ExcelReportConstructorTest {
         val props = GenerationProperties.builder()
                 .temperature(TemperatureProperties.builder()
                         .environmentTemperature(21)
-                        .minAllowedTempCoefficients(new Coefficients(List.of(
+                        .minAllowedTempCoefficients(List.of(
                                 new Coefficient(0, 10, 0.85),
                                 new Coefficient(11, 30, 0.9),
                                 new Coefficient(31, 71, 0.95)
-                        )))
-                        .maxAllowedTempCoefficients(new Coefficients(List.of(
+                        ))
+                        .maxAllowedTempCoefficients(List.of(
                                 new Coefficient(0, 10, 1.15),
                                 new Coefficient(11, 30, 1.1),
                                 new Coefficient(31, 71, 1.05)
-                        )))
+                        ))
                         .build())
                 .time(71)
                 .samples(List.of(SampleProperties.builder()

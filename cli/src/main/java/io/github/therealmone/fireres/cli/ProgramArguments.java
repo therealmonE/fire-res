@@ -15,4 +15,7 @@ public class ProgramArguments {
     @Parameter(names = {"-c", "--config"}, description = "Config path")
     private String config;
 
+    @Parameter(names = {"-o", "--output"}, description = "Output file")
+    private String outputFile;
+
 }

@@ -17,7 +17,7 @@ public class Coefficients {
 
      public Coefficient getCoefficient(Integer time) {
          return coefficients.stream()
-                 .filter(c -> c.getFromTime() <= time && c.getToTime() >= time)
+                 .filter(c -> c.getFrom() <= time && c.getTo() >= time)
                  .findFirst()
                  .orElseThrow();
      }

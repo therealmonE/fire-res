@@ -4,6 +4,7 @@ import com.beust.jcommander.JCommander;
 import com.typesafe.config.ConfigBeanFactory;
 import com.typesafe.config.ConfigFactory;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
+import io.github.therealmone.fireres.excel.ExcelReportConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
@@ -15,6 +16,10 @@ public class Application {
     public static void main(String[] args) {
         val programArguments = loadProgramArguments(args);
         val generationProperties = loadGenerationProperties(programArguments.getConfig());
+        val outputFile = new File(programArguments.getOutputFile());
+
+        val excelReportConstructor = new ExcelReportConstructor(generationProperties);
+        excelReportConstructor.construct(outputFile);
     }
 
     private static GenerationProperties loadGenerationProperties(String configPath) {

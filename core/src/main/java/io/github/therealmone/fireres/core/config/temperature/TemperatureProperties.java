@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -12,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class TemperatureProperties {
 
     private Integer environmentTemperature;
-    private Coefficients minAllowedTempCoefficients;
-    private Coefficients maxAllowedTempCoefficients;
+    private List<Coefficient> minAllowedTempCoefficients;
+    private List<Coefficient> maxAllowedTempCoefficients;
 
 }

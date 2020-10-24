@@ -20,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 
 public class ThermocoupleMeanGeneratorTest {
 
-    private static final InterpolationPoints INTERPOLATION_POINTS = new InterpolationPoints(new ArrayList<>() {{
+    private static final List<Point> INTERPOLATION_POINTS = new ArrayList<>() {{
         add(new Point(0, 21));
         add(new Point(1, 306));
         add(new Point(18, 749));
@@ -29,7 +29,7 @@ public class ThermocoupleMeanGeneratorTest {
         add(new Point(48, 898));
         add(new Point(49, 901));
         add(new Point(70, 943));
-    }});
+    }};
 
     @Test
     public void linearInterpolationMethod() {
@@ -106,7 +106,7 @@ public class ThermocoupleMeanGeneratorTest {
     }
 
     private void assertInterpolationPoints(List<Point> function) {
-        for (Point point : INTERPOLATION_POINTS.getPoints()) {
+        for (Point point : INTERPOLATION_POINTS) {
             assertEquals(point, function.stream()
                     .filter(p -> p.getTime().equals(point.getTime())).findFirst()
                     .orElseThrow());

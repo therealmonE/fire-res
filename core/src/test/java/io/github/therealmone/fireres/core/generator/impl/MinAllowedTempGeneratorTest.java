@@ -4,7 +4,6 @@ import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.config.temperature.TemperatureProperties;
 import io.github.therealmone.fireres.core.factory.PointSequenceGeneratorFactory;
 import io.github.therealmone.fireres.core.config.temperature.Coefficient;
-import io.github.therealmone.fireres.core.config.temperature.Coefficients;
 import lombok.val;
 import org.junit.Test;
 
@@ -20,11 +19,11 @@ public class MinAllowedTempGeneratorTest {
         val factory = new PointSequenceGeneratorFactory(GenerationProperties.builder()
                 .temperature(TemperatureProperties.builder()
                         .environmentTemperature(21)
-                        .minAllowedTempCoefficients(new Coefficients(List.of(
+                        .minAllowedTempCoefficients(List.of(
                                 new Coefficient(0, 10, 0.85),
                                 new Coefficient(11, 30, 0.9),
                                 new Coefficient(31, 70, 0.95)
-                        )))
+                        ))
                         .build())
                 .time(71)
                 .build());
