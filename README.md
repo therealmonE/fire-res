@@ -81,7 +81,7 @@ Fire-resistance report generator
   maxAllowedTempCoefficients: [
     {from: 0, to: 10, value: 1.15}
     {from: 11, to: 30, value: 1.1}
-    {from: 31, to: 71, value: 1.05}
+    {from: 31, to: 360, value: 1.05}
   ]
  }
  ```
@@ -99,7 +99,7 @@ Fire-resistance report generator
   minAllowedTempCoefficients: [
     {from: 0, to: 10, value: 0.85}
     {from: 11, to: 30, value: 0.9}
-    {from: 31, to: 71, value: 0.95}
+    {from: 31, to: 360, value: 0.95}
   ]
  }
  ```
@@ -229,12 +229,12 @@ temperature: {
   maxAllowedTempCoefficients: [
     {from: 0, to: 10, value: 1.15}
     {from: 11, to: 30, value: 1.1}
-    {from: 31, to: 71, value: 1.05}
+    {from: 31, to: 360, value: 1.05}
   ]
   minAllowedTempCoefficients: [
     {from: 0, to: 10, value: 0.85}
     {from: 11, to: 30, value: 0.9}
-    {from: 31, to: 71, value: 0.95}
+    {from: 31, to: 360, value: 0.95}
   ]
 }
 

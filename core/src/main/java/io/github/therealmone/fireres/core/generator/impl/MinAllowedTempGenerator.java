@@ -12,6 +12,8 @@ import lombok.val;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static io.github.therealmone.fireres.core.utils.InterpolationUtils.smoothMinFunction;
+
 @RequiredArgsConstructor
 @Slf4j
 public class MinAllowedTempGenerator implements PointSequenceGenerator<MinAllowedTemperature> {
@@ -30,7 +32,10 @@ public class MinAllowedTempGenerator implements PointSequenceGenerator<MinAllowe
                 .collect(Collectors.toList());
 
         log.info("Generated minimum allowed temperature: {}", minAllowedTemp);
-        return new MinAllowedTemperature(minAllowedTemp);
+        return MinAllowedTemperature.builder()
+                .value(minAllowedTemp)
+                .smoothedValue(smoothMinFunction(minAllowedTemp))
+                .build();
     }
 
 }

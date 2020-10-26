@@ -9,6 +9,7 @@ import java.util.List;
 
 import static io.github.therealmone.fireres.core.TestUtils.assertFunctionConstantlyGrowing;
 import static io.github.therealmone.fireres.core.TestUtils.assertFunctionNotHigher;
+import static io.github.therealmone.fireres.core.TestUtils.assertFunctionNotLower;
 import static io.github.therealmone.fireres.core.TestUtils.toPointList;
 import static org.junit.Assert.assertEquals;
 
@@ -39,7 +40,7 @@ public class InterpolationUtilsTest {
     }
 
     @Test
-    public void smoothFunction() {
+    public void smoothMaxFunction() {
         val function = toPointList(List.of(
                 24, 379, 488, 555, 602, 640,
                 671, 697, 719, 739, 757, 740,
@@ -54,11 +55,37 @@ public class InterpolationUtilsTest {
                 972, 974, 977, 979, 982, 984,
                 987, 989, 991, 994, 996));
 
-        val smoothedFunction = InterpolationUtils.smoothFunction(function);
+        val smoothedFunction = InterpolationUtils.smoothMaxFunction(function);
 
         assertFunctionConstantlyGrowing(smoothedFunction);
         assertEquals(function.size(), smoothedFunction.size());
         assertFunctionNotHigher(smoothedFunction, function);
+    }
+
+    @Test
+    public void smoothMinFunction() {
+        val function = toPointList(List.of(
+                18, 280, 361, 410, 445,
+                473, 496, 515, 531, 547,
+                559, 550, 551, 552, 637,
+                647, 655, 663, 671, 679,
+                685, 692, 698, 704, 710,
+                716, 720, 725, 731, 735,
+                740, 786, 789, 794, 798,
+                803, 800, 801, 802, 818,
+                822, 825, 828, 832, 835,
+                838, 842, 845, 847, 850,
+                853, 856, 859, 862, 865,
+                866, 869, 872, 874, 877,
+                879, 882, 884, 886, 888,
+                890, 893, 895, 897, 899,
+                901));
+
+        val smoothedFunction = InterpolationUtils.smoothMinFunction(function);
+
+        assertFunctionConstantlyGrowing(smoothedFunction);
+        assertEquals(function.size(), smoothedFunction.size());
+        assertFunctionNotLower(smoothedFunction, function);
     }
 
 }

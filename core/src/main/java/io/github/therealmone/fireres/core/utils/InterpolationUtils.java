@@ -51,11 +51,23 @@ public class InterpolationUtils {
         return y;
     }
 
-    public static List<Point> smoothFunction(List<Point> function) {
+    public static List<Point> smoothMinFunction(List<Point> function) {
+        val smoothedFunctions = new ArrayList<>(function);
+
+        removePits(smoothedFunctions);
+
+        return interpolate(function, smoothedFunctions);
+    }
+
+    public static List<Point> smoothMaxFunction(List<Point> function) {
         val smoothedFunctions = new ArrayList<>(function);
 
         removePeaks(smoothedFunctions);
 
+        return interpolate(function, smoothedFunctions);
+    }
+
+    private static List<Point> interpolate(List<Point> function, ArrayList<Point> smoothedFunctions) {
         val interpolator = new LinearInterpolator();
         val interpolation = interpolator.interpolate(
                 getTimeArray(smoothedFunctions),
@@ -80,6 +92,28 @@ public class InterpolationUtils {
                     } else {
                         break;
                     }
+                }
+            }
+        }
+
+        pointsToRemove.forEach(function::remove);
+    }
+
+    private static void removePits(List<Point> function) {
+        val pointsToRemove = new ArrayList<Point>();
+
+        for (int i = 0; i < function.size() - 1; i++) {
+            val point = function.get(i);
+
+            var nextPoint = function.get(i + 1);
+
+            while (nextPoint.getTemperature() <= point.getTemperature()) {
+                pointsToRemove.add(nextPoint);
+
+                if (nextPoint.getTime().equals(function.size() - 1)) {
+                    break;
+                } else {
+                    nextPoint = function.get(nextPoint.getTime() + 1);
                 }
             }
         }

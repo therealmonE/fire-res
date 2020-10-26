@@ -2,17 +2,14 @@ package io.github.therealmone.fireres.core.generator.impl;
 
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.config.interpolation.InterpolationMethod;
-import io.github.therealmone.fireres.core.config.interpolation.InterpolationPoints;
 import io.github.therealmone.fireres.core.config.interpolation.InterpolationProperties;
 import io.github.therealmone.fireres.core.config.sample.SampleProperties;
 import io.github.therealmone.fireres.core.model.Point;
 import io.github.therealmone.fireres.core.config.random.RandomPointsProperties;
 import io.github.therealmone.fireres.core.config.temperature.Coefficient;
-import io.github.therealmone.fireres.core.config.temperature.Coefficients;
 import io.github.therealmone.fireres.core.config.temperature.TemperatureProperties;
 import io.github.therealmone.fireres.core.factory.PointSequenceGeneratorFactory;
 import lombok.val;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -24,7 +21,7 @@ import static io.github.therealmone.fireres.core.TestUtils.assertThermocouplesTe
 
 public class ThermocouplesTempGeneratorTest {
 
-    private static final Integer CYCLES = 10;
+    private static final Integer CYCLES = 1000;
 
     private static final List<Point> INTERPOLATION_POINTS = new ArrayList<>() {{
         add(new Point(0, 21));
@@ -41,7 +38,6 @@ public class ThermocouplesTempGeneratorTest {
     }};
 
     @Test
-    @Ignore //todo : fix
     public void generateMultipleTimes() {
         for (int i = 0; i < CYCLES; i++) {
             generate();

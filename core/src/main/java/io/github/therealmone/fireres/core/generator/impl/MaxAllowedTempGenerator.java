@@ -12,7 +12,7 @@ import lombok.val;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static io.github.therealmone.fireres.core.utils.InterpolationUtils.smoothFunction;
+import static io.github.therealmone.fireres.core.utils.InterpolationUtils.smoothMaxFunction;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -34,7 +34,7 @@ public class MaxAllowedTempGenerator implements PointSequenceGenerator<MaxAllowe
         log.info("Generated maximum allowed temperature: {}", maxAllowedTemp);
         return MaxAllowedTemperature.builder()
                 .value(maxAllowedTemp)
-                .smoothedValue(smoothFunction(maxAllowedTemp))
+                .smoothedValue(smoothMaxFunction(maxAllowedTemp))
                 .build();
     }
 

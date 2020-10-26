@@ -9,6 +9,8 @@ import org.junit.Test;
 
 import java.util.List;
 
+import static io.github.therealmone.fireres.core.TestUtils.assertFunctionConstantlyGrowing;
+import static io.github.therealmone.fireres.core.TestUtils.assertFunctionNotLower;
 import static io.github.therealmone.fireres.core.TestUtils.toPointList;
 import static org.junit.Assert.assertEquals;
 
@@ -28,7 +30,7 @@ public class MinAllowedTempGeneratorTest {
                 .time(71)
                 .build());
 
-        val expectedNumbers = toPointList(List.of(
+        val expectedFunction = toPointList(List.of(
                 18, 280, 361, 410, 445,
                 473, 496, 515, 531, 547,
                 559, 606, 617, 627, 637,
@@ -49,7 +51,13 @@ public class MinAllowedTempGeneratorTest {
         val standardTemp = factory.standardTempGenerator().generate();
         val minAllowedTemp = factory.minAllowedTempGenerator(standardTemp).generate();
 
-        assertEquals(expectedNumbers, minAllowedTemp.getValue());
+        assertEquals(expectedFunction, minAllowedTemp.getValue());
+
+        val smoothedFunction = minAllowedTemp.getSmoothedValue();
+
+        assertFunctionConstantlyGrowing(smoothedFunction);
+        assertEquals(expectedFunction.size(), smoothedFunction.size());
+        assertFunctionNotLower(smoothedFunction, expectedFunction);
     }
 
 }
