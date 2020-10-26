@@ -48,7 +48,7 @@ public class RandomUtils {
     }
 
     private static int generateTemperature(Integer lowerBound, Integer increment, Integer i) {
-        return RANDOM.nextInt(increment - 1) + (lowerBound + increment * (i - 1)) + 1;
+        return RANDOM.nextInt(increment) + (lowerBound + increment * (i - 1)) + 1;
     }
 
     private static boolean rollPoint(Double newPointChance) {

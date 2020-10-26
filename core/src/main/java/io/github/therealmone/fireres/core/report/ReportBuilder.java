@@ -3,6 +3,7 @@ package io.github.therealmone.fireres.core.report;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.factory.PointSequenceGeneratorFactory;
 import io.github.therealmone.fireres.core.model.Sample;
+import io.github.therealmone.fireres.core.validation.Validator;
 import lombok.val;
 
 import java.util.List;
@@ -12,6 +13,8 @@ import java.util.stream.IntStream;
 public class ReportBuilder {
 
     public static Report build(GenerationProperties properties) {
+        Validator.validateGenerationProperties(properties);
+
         val factory = new PointSequenceGeneratorFactory(properties);
 
         val standardTemp = factory.standardTempGenerator().generate();
