@@ -21,7 +21,7 @@ import static io.github.therealmone.fireres.core.TestUtils.assertThermocouplesTe
 
 public class ThermocouplesTempGeneratorTest {
 
-    private static final Integer CYCLES = 1000;
+    private static final Integer CYCLES = 100;
 
     private static final List<Point> INTERPOLATION_POINTS = new ArrayList<>() {{
         add(new Point(0, 21));
