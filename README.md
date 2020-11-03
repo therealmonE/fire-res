@@ -31,7 +31,7 @@ Fire-resistance report generator
 ## Установка и запуск
 
  1. Скачайте и установите [jre-11](https://www.oracle.com/java/technologies/javase/jdk11-archive-downloads.html)
- 1. Скачайте и распакуйте [архив](https://github.com/therealmonE/fire-res/releases/tag/v0.0.1-prerelease)
+ 1. Скачайте и распакуйте [архив](https://github.com/therealmonE/fire-res/releases/tag/v0.0.1-release)
  2. Установите параметры генерации в файле `generation.conf` (см. [Конфигурация](#конфигурация))
  3. Запустите скрипт `run.bat` (Для пользователей Windows) или `run.sh` (Для пользователей Linux / MacOs)
  4. В папке появится excel файл `report.xlsx`
