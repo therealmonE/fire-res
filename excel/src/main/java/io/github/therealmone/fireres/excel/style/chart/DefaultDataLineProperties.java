@@ -13,7 +13,7 @@ public class DefaultDataLineProperties extends XDDFLineProperties {
     public DefaultDataLineProperties() {
         val fillProperties = new XDDFSolidFillProperties();
         val availableColors = PresetColor.values();
-        val color = new XDDFColorPreset(availableColors[generateValueInInterval(0, availableColors.length)]);
+        val color = new XDDFColorPreset(availableColors[generateValueInInterval(0, availableColors.length - 1)]);
 
         fillProperties.setColor(color);
 

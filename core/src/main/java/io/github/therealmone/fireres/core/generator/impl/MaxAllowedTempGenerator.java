@@ -1,6 +1,6 @@
 package io.github.therealmone.fireres.core.generator.impl;
 
-import io.github.therealmone.fireres.core.config.temperature.Coefficients;
+import io.github.therealmone.fireres.core.config.Coefficients;
 import io.github.therealmone.fireres.core.generator.PointSequenceGenerator;
 import io.github.therealmone.fireres.core.model.MaxAllowedTemperature;
 import io.github.therealmone.fireres.core.model.Point;
@@ -18,20 +18,21 @@ import static io.github.therealmone.fireres.core.utils.InterpolationUtils.smooth
 @Slf4j
 public class MaxAllowedTempGenerator implements PointSequenceGenerator<MaxAllowedTemperature> {
 
+    private final Integer time;
     private final Coefficients coefficients;
     private final StandardTemperature standardTemp;
 
     @Override
     public MaxAllowedTemperature generate() {
-        log.info("Generating maximum allowed temperature with coefficients: {}, standard temperature: {}",
+        log.trace("Generating maximum allowed temperature with coefficients: {}, standard temperature: {}",
                 coefficients.getCoefficients(), standardTemp.getValue());
 
-        val maxAllowedTemp = IntStream.range(0, standardTemp.getValue().size())
+        val maxAllowedTemp = IntStream.range(0, time)
                 .mapToObj(t -> new Point(t,
-                        (int) Math.round(standardTemp.getValue().get(t).getTemperature() * coefficients.getCoefficient(t).getValue())))
+                        (int) Math.round(standardTemp.getTemperature(t) * coefficients.getCoefficient(t))))
                 .collect(Collectors.toList());
 
-        log.info("Generated maximum allowed temperature: {}", maxAllowedTemp);
+        log.trace("Generated maximum allowed temperature: {}", maxAllowedTemp);
         return MaxAllowedTemperature.builder()
                 .value(maxAllowedTemp)
                 .smoothedValue(smoothMaxFunction(maxAllowedTemp))

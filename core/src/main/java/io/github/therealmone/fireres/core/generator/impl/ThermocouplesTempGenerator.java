@@ -1,5 +1,6 @@
 package io.github.therealmone.fireres.core.generator.impl;
 
+import io.github.therealmone.fireres.core.exception.InvalidMeanTemperatureException;
 import io.github.therealmone.fireres.core.exception.ThermocouplesTemperatureGenerationException;
 import io.github.therealmone.fireres.core.generator.MultiplePointSequencesGenerator;
 import io.github.therealmone.fireres.core.model.MaxAllowedTemperature;
@@ -23,7 +24,10 @@ import static io.github.therealmone.fireres.core.utils.RandomUtils.generateValue
 @Slf4j
 public class ThermocouplesTempGenerator implements MultiplePointSequencesGenerator<ThermocoupleTemperature> {
 
+    private static final Integer ATTEMPTS = 100;
+
     private final Integer time;
+    private final Integer t0;
     private final ThermocoupleMeanTemperature thermocoupleMeanTemperature;
     private final MinAllowedTemperature minAllowedTemperature;
     private final MaxAllowedTemperature maxAllowedTemperature;
@@ -31,25 +35,29 @@ public class ThermocouplesTempGenerator implements MultiplePointSequencesGenerat
 
     @Override
     public List<ThermocoupleTemperature> generate() {
-        log.info("Generating thermocouples temperatures with mean temperature: {}", thermocoupleMeanTemperature.getValue());
+        log.trace("Generating thermocouples temperatures with mean temperature: {}", thermocoupleMeanTemperature.getValue());
 
-        while (true) {
+        for (int i = 0; i < ATTEMPTS; i++) {
             try {
                 return tryToGenerate();
             } catch (ThermocouplesTemperatureGenerationException e) {
                 log.error("Failed to generate thermocouples temperatures, retrying...");
             }
         }
+
+        throw new InvalidMeanTemperatureException();
     }
 
     private ArrayList<ThermocoupleTemperature> tryToGenerate() {
         val thermocouplesTemp = initThermocouplesTemp();
 
         for (int t = time - 1; t >= 0; t--) {
-            val meanTemp = thermocoupleMeanTemperature.getValue().get(t).getTemperature();
+            val meanTemp = thermocoupleMeanTemperature.getTemperature(t);
+            val delta = (int) Math.round(t0 / (double) (t + 1));
+
             val generatedTemperatures = generateTemperatures(
-                    getLowerBounds(t),
-                    getUpperBounds(t, thermocouplesTemp),
+                    getLowerBounds(t, delta, meanTemp),
+                    getUpperBounds(t, thermocouplesTemp, delta, meanTemp),
                     meanTemp
             );
 
@@ -73,24 +81,27 @@ public class ThermocouplesTempGenerator implements MultiplePointSequencesGenerat
         }};
     }
 
-    private List<Integer> getLowerBounds(Integer time) {
-        val minAllowed = minAllowedTemperature.getSmoothedValue().get(time).getTemperature();
+    private List<Integer> getLowerBounds(Integer time, Integer delta, Integer meanTemp) {
+        val minAllowed = minAllowedTemperature.getSmoothedTemperature(time);
 
         return IntStream.range(0, thermocoupleCount)
-                .mapToObj(i -> minAllowed)
+                .mapToObj(i -> Math.max(minAllowed, meanTemp - delta))
                 .collect(Collectors.toList());
     }
 
-    private List<Integer> getUpperBounds(Integer iteration, List<ThermocoupleTemperature> temperatures) {
-        val maxAllowed = maxAllowedTemperature.getValue().get(iteration).getTemperature();
+    private List<Integer> getUpperBounds(Integer iteration,
+                                         List<ThermocoupleTemperature> temperatures,
+                                         Integer delta, Integer meanTemp) {
+
+        val maxAllowed = maxAllowedTemperature.getSmoothedTemperature(iteration);
 
         return IntStream.range(0, thermocoupleCount)
                 .mapToObj(i -> {
                     if (iteration.equals(time - 1)) {
                         return maxAllowed;
                     } else {
-                        val nextTemperature = temperatures.get(i).getValue().get(iteration + 1).getTemperature();
-                        return Math.min(maxAllowed, nextTemperature - 1);
+                        val nextTemperature = temperatures.get(i).getTemperature(iteration + 1);
+                        return Math.min(Math.min(maxAllowed, meanTemp + delta), nextTemperature);
                     }
                 })
                 .collect(Collectors.toList());
@@ -98,8 +109,8 @@ public class ThermocouplesTempGenerator implements MultiplePointSequencesGenerat
 
     private List<Integer> generateTemperatures(List<Integer> lowerBounds, List<Integer> upperBounds, Integer meanTemp) {
         val temperatures = new ArrayList<Integer>() {{
-            IntStream.range(0, thermocoupleCount).forEach(j ->
-                    add(generateValueInInterval(lowerBounds.get(j), upperBounds.get(j))));
+            IntStream.range(0, thermocoupleCount).forEach(i ->
+                    add(generateValueInInterval(lowerBounds.get(i), upperBounds.get(i))));
         }};
 
         if (getDifference(meanTemp, temperatures) != 0) {
@@ -113,40 +124,43 @@ public class ThermocouplesTempGenerator implements MultiplePointSequencesGenerat
                                     List<Integer> lowerBounds, List<Integer> upperBounds) {
 
         while (getDifference(meanTemp, temperatures) != 0) {
-            if (temperaturesHitBound(temperatures, lowerBounds) || temperaturesHitBound(temperatures, upperBounds)) {
-                throw new ThermocouplesTemperatureGenerationException();
-            }
-
             val difference = getDifference(meanTemp, temperatures);
 
-            for (int i = 0; i < thermocoupleCount; i++) {
-                val temperature = temperatures.get(i);
-                val generatedAdjust = generateAdjust(
-                        lowerBounds.get(i),
-                        upperBounds.get(i),
-                        difference,
-                        temperature);
+            val temperatureIndexToAdjust = resolveTemperatureIndexToAdjust(
+                    temperatures, meanTemp, difference, lowerBounds, upperBounds);
 
-                temperatures.set(i, temperature + generatedAdjust);
+            val temperature = temperatures.get(temperatureIndexToAdjust);
+            val generatedAdjust = generateAdjust(
+                    lowerBounds.get(temperatureIndexToAdjust),
+                    upperBounds.get(temperatureIndexToAdjust),
+                    difference,
+                    temperature);
 
-                if (getDifference(meanTemp, temperatures) == 0) {
-                    break;
-                }
-            }
+            temperatures.set(temperatureIndexToAdjust, temperature + generatedAdjust);
         }
     }
 
-    private boolean temperaturesHitBound(List<Integer> temperatures, List<Integer> bounds) {
-        for (int i = 0; i < temperatures.size(); i++) {
-            val temperature = temperatures.get(i);
-            val bound = bounds.get(i);
+    private Integer resolveTemperatureIndexToAdjust(List<Integer> temperatures, Integer meanTemp, Integer difference,
+                                                    List<Integer> upperBounds, List<Integer> lowerBounds) {
 
-            if (!temperature.equals(bound)) {
-                return false;
-            }
-        }
+        return IntStream.range(0, thermocoupleCount)
+                .filter(i -> {
+                    val temperature = temperatures.get(i);
 
-        return true;
+                    if (difference > 0) {
+                        return !temperature.equals(lowerBounds.get(i));
+                    } else {
+                        return !temperature.equals(upperBounds.get(i));
+                    }
+                })
+                .boxed()
+                .max((i1, i2) -> {
+                    val delta1 = Math.abs(temperatures.get(i1) - meanTemp);
+                    val delta2 = Math.abs(temperatures.get(i2) - meanTemp);
+
+                    return Integer.compare(delta2, delta1);
+                })
+                .orElseThrow(ThermocouplesTemperatureGenerationException::new);
     }
 
     private Integer getDifference(Integer meanTemp, List<Integer> temperatures) {

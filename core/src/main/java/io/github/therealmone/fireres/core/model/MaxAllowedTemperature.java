@@ -6,13 +6,9 @@ import lombok.Getter;
 import java.util.List;
 
 @Getter
-public class MaxAllowedTemperature extends AbstractPointSequence {
-
-    private final List<Point> smoothedValue;
-
+public class MaxAllowedTemperature extends SmoothedPointSequence {
     @Builder
     public MaxAllowedTemperature(List<Point> value, List<Point> smoothedValue) {
-        super(value);
-        this.smoothedValue = smoothedValue;
+        super(value, smoothedValue);
     }
 }

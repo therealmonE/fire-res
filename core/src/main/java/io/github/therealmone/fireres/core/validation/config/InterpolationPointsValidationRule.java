@@ -15,7 +15,7 @@ public class InterpolationPointsValidationRule extends AbstractValidationRule<Ge
 
         for (int i = 0; i < samples.size(); i++) {
             val sample = samples.get(i);
-            val interpolationPoints = sample.getInterpolation().getInterpolationPoints();
+            val interpolationPoints = sample.getInterpolationPoints();
 
             if (!constantlyGrowing(interpolationPoints)) {
                 return invalid("Interpolation points not constantly growing in sample " + (i + 1));

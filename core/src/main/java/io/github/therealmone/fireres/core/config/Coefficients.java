@@ -1,4 +1,4 @@
-package io.github.therealmone.fireres.core.config.temperature;
+package io.github.therealmone.fireres.core.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,11 +15,12 @@ public class Coefficients {
 
      private List<Coefficient> coefficients;
 
-     public Coefficient getCoefficient(Integer time) {
+     public Double getCoefficient(Integer time) {
          return coefficients.stream()
                  .filter(c -> c.getFrom() <= time && c.getTo() >= time)
                  .findFirst()
-                 .orElseThrow();
+                 .orElseThrow()
+                 .getValue();
      }
 
 }

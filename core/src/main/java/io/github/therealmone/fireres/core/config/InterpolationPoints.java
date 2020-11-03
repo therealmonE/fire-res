@@ -1,4 +1,4 @@
-package io.github.therealmone.fireres.core.config.interpolation;
+package io.github.therealmone.fireres.core.config;
 
 import io.github.therealmone.fireres.core.model.Point;
 import lombok.Getter;

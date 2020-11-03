@@ -19,7 +19,7 @@ public class StandardTempGenerator implements PointSequenceGenerator<StandardTem
 
     @Override
     public StandardTemperature generate() {
-        log.info("Generating standard temperature with  t0: {}, time: {}", t0, time);
+        log.trace("Generating standard temperature with  t0: {}, time: {}", t0, time);
 
         val standardTemp = IntStream.range(1, time)
                 .mapToObj(t -> new Point(t,
@@ -28,7 +28,7 @@ public class StandardTempGenerator implements PointSequenceGenerator<StandardTem
 
         standardTemp.add(0, new Point(0, t0));
 
-        log.info("Generated standard temperature: {}", standardTemp);
+        log.trace("Generated standard temperature: {}", standardTemp);
         return new StandardTemperature(standardTemp);
     }
 

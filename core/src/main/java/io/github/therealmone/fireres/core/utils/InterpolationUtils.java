@@ -1,8 +1,11 @@
 package io.github.therealmone.fireres.core.utils;
 
+import io.github.therealmone.fireres.core.model.MaxAllowedTemperature;
+import io.github.therealmone.fireres.core.model.MinAllowedTemperature;
 import io.github.therealmone.fireres.core.model.Point;
 import lombok.val;
 import org.apache.commons.math3.analysis.interpolation.LinearInterpolator;
+import org.apache.commons.math3.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,16 +13,18 @@ import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static io.github.therealmone.fireres.core.utils.RandomUtils.generateValueInInterval;
+
 public class InterpolationUtils {
 
     private static final Random RANDOM = new Random();
 
-    public static void addZeroPointIfNeeded(List<Point> points, Integer t0) {
-        val zeroPoint = points.stream()
+    public static void addFirstPointIfNeeded(List<Point> points, Integer t0) {
+        val firstPoint = points.stream()
                 .filter(point -> point.getTime().equals(0))
                 .findFirst();
 
-        if(zeroPoint.isEmpty()) {
+        if(firstPoint.isEmpty()) {
             val delta = RANDOM.nextInt(2) - 1;
             val newPoint = new Point(0, t0 + delta);
 
@@ -28,6 +33,24 @@ public class InterpolationUtils {
             } else {
                 points.add(0, newPoint);
             }
+        }
+    }
+
+    public static void addLastPointIfNeeded(List<Point> points, Integer time,
+                                            MaxAllowedTemperature maxAllowedTemperature,
+                                            MinAllowedTemperature minAllowedTemperature) {
+
+        val lastPoint = points.stream()
+                .filter(point -> point.getTime().equals(time - 1))
+                .findFirst();
+
+        if(lastPoint.isEmpty()) {
+            val min = minAllowedTemperature.getSmoothedTemperature(time - 1);
+            val max = maxAllowedTemperature.getSmoothedTemperature(time - 1);
+
+            val newPoint = new Point(time - 1, generateValueInInterval(min, max));
+
+            points.add(points.size(), newPoint);
         }
     }
 
@@ -56,7 +79,7 @@ public class InterpolationUtils {
 
         removePits(smoothedFunctions);
 
-        return interpolate(function, smoothedFunctions);
+        return interpolate(smoothedFunctions);
     }
 
     public static List<Point> smoothMaxFunction(List<Point> function) {
@@ -64,16 +87,20 @@ public class InterpolationUtils {
 
         removePeaks(smoothedFunctions);
 
-        return interpolate(function, smoothedFunctions);
+        return interpolate(smoothedFunctions);
     }
 
-    private static List<Point> interpolate(List<Point> function, ArrayList<Point> smoothedFunctions) {
+    public static List<Point> interpolateInterval(Pair<Point, Point> interval) {
+        return interpolate(List.of(interval.getFirst(), interval.getSecond()));
+    }
+
+    public static List<Point> interpolate(List<Point> function) {
         val interpolator = new LinearInterpolator();
         val interpolation = interpolator.interpolate(
-                getTimeArray(smoothedFunctions),
-                getTemperatureArray(smoothedFunctions));
+                getTimeArray(function),
+                getTemperatureArray(function));
 
-        return IntStream.range(0, function.size())
+        return IntStream.range(function.get(0).getTime(), function.get(function.size() - 1).getTime() + 1)
                 .mapToObj(x -> new Point(x, (int) Math.round(interpolation.value(x))))
                 .collect(Collectors.toList());
     }
@@ -85,7 +112,7 @@ public class InterpolationUtils {
             val point = function.get(i);
             val nextPoint = function.get(i + 1);
 
-            if (point.getTemperature() >= nextPoint.getTemperature()) {
+            if (point.getTemperature() > nextPoint.getTemperature()) {
                 for (int j = i; j >= 0; j--) {
                     if (function.get(j).getTemperature() >= nextPoint.getTemperature() - (i - j)) {
                         pointsToRemove.add(function.get(j));
@@ -107,7 +134,7 @@ public class InterpolationUtils {
 
             var nextPoint = function.get(i + 1);
 
-            while (nextPoint.getTemperature() <= point.getTemperature()) {
+            while (nextPoint.getTemperature() < point.getTemperature()) {
                 pointsToRemove.add(nextPoint);
 
                 if (nextPoint.getTime().equals(function.size() - 1)) {

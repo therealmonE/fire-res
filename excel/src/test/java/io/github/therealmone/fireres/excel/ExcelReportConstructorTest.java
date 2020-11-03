@@ -1,12 +1,10 @@
 package io.github.therealmone.fireres.excel;
 
 import io.github.therealmone.fireres.core.config.GenerationProperties;
-import io.github.therealmone.fireres.core.config.interpolation.InterpolationMethod;
-import io.github.therealmone.fireres.core.config.interpolation.InterpolationProperties;
-import io.github.therealmone.fireres.core.config.random.RandomPointsProperties;
-import io.github.therealmone.fireres.core.config.sample.SampleProperties;
-import io.github.therealmone.fireres.core.config.temperature.Coefficient;
-import io.github.therealmone.fireres.core.config.temperature.TemperatureProperties;
+import io.github.therealmone.fireres.core.config.RandomPointsProperties;
+import io.github.therealmone.fireres.core.config.SampleProperties;
+import io.github.therealmone.fireres.core.config.Coefficient;
+import io.github.therealmone.fireres.core.config.TemperatureProperties;
 import io.github.therealmone.fireres.core.model.Point;
 import lombok.val;
 import org.junit.Ignore;
@@ -56,10 +54,7 @@ public class ExcelReportConstructorTest {
                                 .enrichWithRandomPoints(true)
                                 .newPointChance(1.0)
                                 .build())
-                        .interpolation(InterpolationProperties.builder()
-                                .interpolationPoints(INTERPOLATION_POINTS)
-                                .interpolationMethod(InterpolationMethod.LINEAR)
-                                .build())
+                        .interpolationPoints(INTERPOLATION_POINTS)
                         .thermocoupleCount(6)
                         .build()))
                 .build();

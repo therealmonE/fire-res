@@ -1,8 +1,8 @@
 package io.github.therealmone.fireres.core.factory;
 
 import io.github.therealmone.fireres.core.config.GenerationProperties;
-import io.github.therealmone.fireres.core.config.interpolation.InterpolationPoints;
-import io.github.therealmone.fireres.core.config.temperature.Coefficients;
+import io.github.therealmone.fireres.core.config.InterpolationPoints;
+import io.github.therealmone.fireres.core.config.Coefficients;
 import io.github.therealmone.fireres.core.generator.MultiplePointSequencesGenerator;
 import io.github.therealmone.fireres.core.generator.PointSequenceGenerator;
 import io.github.therealmone.fireres.core.generator.impl.FurnaceTempGenerator;
@@ -36,30 +36,36 @@ public class PointSequenceGeneratorFactory {
 
     public PointSequenceGenerator<FurnaceTemperature> furnaceTempGenerator(StandardTemperature standardTemp) {
         return new FurnaceTempGenerator(
+                generationProperties.getTime(),
                 generationProperties.getTemperature().getEnvironmentTemperature(),
                 standardTemp);
     }
 
     public PointSequenceGenerator<MinAllowedTemperature> minAllowedTempGenerator(StandardTemperature standardTemp) {
         return new MinAllowedTempGenerator(
+                generationProperties.getTime(),
                 new Coefficients(generationProperties.getTemperature().getMinAllowedTempCoefficients()),
                 standardTemp);
     }
 
     public PointSequenceGenerator<MaxAllowedTemperature> maxAllowedTempGenerator(StandardTemperature standardTemp) {
         return new MaxAllowedTempGenerator(
+                generationProperties.getTime(),
                 new Coefficients(generationProperties.getTemperature().getMaxAllowedTempCoefficients()),
                 standardTemp);
     }
 
-    public PointSequenceGenerator<ThermocoupleMeanTemperature> thermocoupleMeanGenerator(Integer sampleNumber) {
+    public PointSequenceGenerator<ThermocoupleMeanTemperature> thermocoupleMeanGenerator(Integer sampleNumber,
+                                                                                         MinAllowedTemperature minAllowedTemperature,
+                                                                                         MaxAllowedTemperature maxAllowedTemperature) {
         val sample = generationProperties.getSamples().get(sampleNumber);
 
         return new ThermocoupleMeanGenerator(
                 generationProperties.getTemperature().getEnvironmentTemperature(),
                 generationProperties.getTime(),
-                new InterpolationPoints(sample.getInterpolation().getInterpolationPoints()),
-                sample.getInterpolation().getInterpolationMethod(),
+                minAllowedTemperature,
+                maxAllowedTemperature,
+                new InterpolationPoints(sample.getInterpolationPoints()),
                 sample.getRandomPoints().getEnrichWithRandomPoints(),
                 sample.getRandomPoints().getNewPointChance());
     }
@@ -72,6 +78,7 @@ public class PointSequenceGeneratorFactory {
 
         return new ThermocouplesTempGenerator(
                 generationProperties.getTime(),
+                generationProperties.getTemperature().getEnvironmentTemperature(),
                 thermocoupleMeanTemperature,
                 minAllowedTemperature,
                 maxAllowedTemperature,

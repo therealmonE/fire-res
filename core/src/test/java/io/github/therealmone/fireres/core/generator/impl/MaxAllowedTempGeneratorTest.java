@@ -1,9 +1,6 @@
 package io.github.therealmone.fireres.core.generator.impl;
 
-import io.github.therealmone.fireres.core.config.GenerationProperties;
-import io.github.therealmone.fireres.core.config.temperature.TemperatureProperties;
 import io.github.therealmone.fireres.core.factory.PointSequenceGeneratorFactory;
-import io.github.therealmone.fireres.core.config.temperature.Coefficient;
 import lombok.val;
 import org.junit.Test;
 
@@ -11,6 +8,7 @@ import java.util.List;
 
 import static io.github.therealmone.fireres.core.TestUtils.assertFunctionConstantlyGrowing;
 import static io.github.therealmone.fireres.core.TestUtils.assertFunctionNotHigher;
+import static io.github.therealmone.fireres.core.TestUtils.defaultGenerationProperties;
 import static io.github.therealmone.fireres.core.TestUtils.toPointList;
 import static org.junit.Assert.assertEquals;
 
@@ -18,17 +16,7 @@ public class MaxAllowedTempGeneratorTest {
 
     @Test
     public void generate() {
-        val factory = new PointSequenceGeneratorFactory(GenerationProperties.builder()
-                .temperature(TemperatureProperties.builder()
-                        .environmentTemperature(21)
-                        .maxAllowedTempCoefficients(List.of(
-                                new Coefficient(0, 10, 1.15),
-                                new Coefficient(11, 30, 1.1),
-                                new Coefficient(31, 70, 1.05)
-                        ))
-                        .build())
-                .time(71)
-                .build());
+        val factory = new PointSequenceGeneratorFactory(defaultGenerationProperties());
 
         val expectedFunction = toPointList(List.of(
                 24, 378, 489, 554, 603,

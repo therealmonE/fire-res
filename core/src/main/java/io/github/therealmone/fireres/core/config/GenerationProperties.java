@@ -1,7 +1,5 @@
 package io.github.therealmone.fireres.core.config;
 
-import io.github.therealmone.fireres.core.config.sample.SampleProperties;
-import io.github.therealmone.fireres.core.config.temperature.TemperatureProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -11,4 +11,11 @@ public abstract class AbstractPointSequence implements PointSequence {
 
     private final List<Point> value;
 
+    public Integer getTemperature(Integer time) {
+        return value.stream()
+                .filter(point -> point.getTime().equals(time))
+                .findAny()
+                .orElseThrow()
+                .getTemperature();
+    }
 }

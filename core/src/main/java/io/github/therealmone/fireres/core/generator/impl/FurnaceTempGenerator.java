@@ -15,19 +15,20 @@ import java.util.stream.IntStream;
 @Slf4j
 public class FurnaceTempGenerator implements PointSequenceGenerator<FurnaceTemperature> {
 
+    private final Integer time;
     private final Integer t0;
     private final StandardTemperature standardTemp;
 
     @Override
     public FurnaceTemperature generate() {
-        log.info("Generating furnace temperature with t0: {}, standard temperature: {}", t0, standardTemp.getValue());
+        log.trace("Generating furnace temperature with t0: {}, standard temperature: {}", t0, standardTemp.getValue());
 
-        val furnaceTemp = IntStream.range(0, standardTemp.getValue().size())
+        val furnaceTemp = IntStream.range(0, time)
                 .mapToObj(t -> new Point(t,
-                        t0 + standardTemp.getValue().get(t).getTemperature()))
+                        t0 + standardTemp.getTemperature(t)))
                 .collect(Collectors.toList());
 
-        log.info("Generated furnace temperature: {}", furnaceTemp);
+        log.trace("Generated furnace temperature: {}", furnaceTemp);
         return new FurnaceTemperature(furnaceTemp);
     }
 

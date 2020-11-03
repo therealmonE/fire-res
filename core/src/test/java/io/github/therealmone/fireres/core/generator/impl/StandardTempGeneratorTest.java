@@ -1,13 +1,14 @@
 package io.github.therealmone.fireres.core.generator.impl;
 
 import io.github.therealmone.fireres.core.config.GenerationProperties;
-import io.github.therealmone.fireres.core.config.temperature.TemperatureProperties;
+import io.github.therealmone.fireres.core.config.TemperatureProperties;
 import io.github.therealmone.fireres.core.factory.PointSequenceGeneratorFactory;
 import lombok.val;
 import org.junit.Test;
 
 import java.util.List;
 
+import static io.github.therealmone.fireres.core.TestUtils.defaultGenerationProperties;
 import static io.github.therealmone.fireres.core.TestUtils.toPointList;
 import static org.junit.Assert.assertEquals;
 
@@ -15,12 +16,7 @@ public class StandardTempGeneratorTest {
 
     @Test
     public void generateTest() {
-        val generator = new PointSequenceGeneratorFactory(GenerationProperties.builder()
-                .temperature(TemperatureProperties.builder()
-                        .environmentTemperature(21)
-                        .build())
-                .time(71)
-                .build())
+        val generator = new PointSequenceGeneratorFactory(defaultGenerationProperties())
                 .standardTempGenerator();
 
         val expectedNumbers = toPointList(List.of(

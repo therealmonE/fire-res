@@ -18,7 +18,7 @@ public class InterpolationUtilsTest {
     @Test
     public void addZeroPoint() {
         val points = new ArrayList<Point>();
-        InterpolationUtils.addZeroPointIfNeeded(points, 2);
+        InterpolationUtils.addFirstPointIfNeeded(points, 2);
 
         assertEquals(0, points.get(0).getTime(), 0);
         assertEquals(2, points.get(0).getTemperature(), 1);
@@ -32,7 +32,7 @@ public class InterpolationUtilsTest {
                 add(new Point(3, 3));
         }};
 
-        InterpolationUtils.addZeroPointIfNeeded(points, 0);
+        InterpolationUtils.addFirstPointIfNeeded(points, 0);
 
         assertEquals(4, points.size());
         assertEquals(0, points.get(0).getTime(), 0);

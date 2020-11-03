@@ -1,4 +1,4 @@
-package io.github.therealmone.fireres.core.config.random;
+package io.github.therealmone.fireres.core.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

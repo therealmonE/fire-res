@@ -1,4 +1,4 @@
-package io.github.therealmone.fireres.core.config.interpolation;
+package io.github.therealmone.fireres.core.config;
 
 import io.github.therealmone.fireres.core.model.Point;
 import lombok.AllArgsConstructor;
@@ -12,9 +12,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class InterpolationProperties {
+public class SampleProperties {
 
     private List<Point> interpolationPoints;
-    private InterpolationMethod interpolationMethod;
+    private RandomPointsProperties randomPoints;
+    private Integer thermocoupleCount;
 
 }
