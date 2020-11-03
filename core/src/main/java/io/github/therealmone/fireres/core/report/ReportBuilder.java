@@ -21,6 +21,7 @@ public class ReportBuilder {
     private static final Integer ATTEMPTS = 100;
 
     public static Report build(GenerationProperties properties) {
+        log.info("Building report");
         Validator.validateGenerationProperties(properties);
 
         val factory = new PointSequenceGeneratorFactory(properties);
@@ -44,6 +45,7 @@ public class ReportBuilder {
                 })
                 .collect(Collectors.toList());
 
+        log.info("Report was built successfully");
         return Report.builder()
                 .time(properties.getTime())
                 .environmentTemperature(properties.getTemperature().getEnvironmentTemperature())
