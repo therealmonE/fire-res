@@ -7,14 +7,18 @@ import io.github.therealmone.fireres.core.config.Coefficient;
 import io.github.therealmone.fireres.core.config.TemperatureProperties;
 import io.github.therealmone.fireres.core.model.Point;
 import lombok.val;
-import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
-import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ExcelReportConstructorTest {
+
+    @Rule
+    public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
     private static final List<Point> INTERPOLATION_POINTS = new ArrayList<>() {{
         add(new Point(0, 21));
@@ -31,9 +35,9 @@ public class ExcelReportConstructorTest {
     }};
 
     @Test
-    @Ignore("manual test")
-    public void construct() {
-        val file = new File("test.xls");
+    public void construct() throws IOException {
+        val file = temporaryFolder.newFile("test.xls");
+
         val props = GenerationProperties.builder()
                 .temperature(TemperatureProperties.builder()
                         .environmentTemperature(21)
