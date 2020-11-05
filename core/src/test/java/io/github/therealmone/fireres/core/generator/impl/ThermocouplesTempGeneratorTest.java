@@ -11,15 +11,6 @@ import static io.github.therealmone.fireres.core.TestUtils.defaultGenerationProp
 
 public class ThermocouplesTempGeneratorTest {
 
-    private static final Integer CYCLES = 1000;
-
-    @Test
-    public void generateMultipleTimes() {
-        for (int i = 0; i < CYCLES; i++) {
-            generate();
-        }
-    }
-
     @Test
     public void generate() {
         val factory = new PointSequenceFactory(defaultGenerationProperties());

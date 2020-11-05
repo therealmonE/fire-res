@@ -14,6 +14,15 @@ import static org.junit.Assert.assertEquals;
 
 public class ReportBuilderTest {
 
+    private static final Integer CYCLES = 1000;
+
+    @Test
+    public void buildMultipleTimes() {
+        for (int i = 0; i < CYCLES; i++) {
+            build();
+        }
+    }
+
     @Test
     public void build() {
         val report = ReportBuilder.build(defaultGenerationProperties());
