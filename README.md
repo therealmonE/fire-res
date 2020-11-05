@@ -1,4 +1,8 @@
 # FIRE-RES
+
+[![Build Status](https://travis-ci.com/therealmonE/fire-res.svg?branch=main)](https://travis-ci.com/therealmonE/fire-res)
+[![codecov](https://codecov.io/gh/therealmonE/fire-res/branch/main/graph/badge.svg?token=X7VBP1BGV0)](https://codecov.io/gh/therealmonE/fire-res)
+
 Fire-resistance report generator
 
 Данный проект предназначен для генерации отчетов о тестировании строительных конструкций

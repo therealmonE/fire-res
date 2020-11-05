@@ -1,6 +1,6 @@
 package io.github.therealmone.fireres.core.generator.impl;
 
-import io.github.therealmone.fireres.core.factory.PointSequenceGeneratorFactory;
+import io.github.therealmone.fireres.core.factory.PointSequenceFactory;
 import lombok.val;
 import org.junit.Test;
 
@@ -22,20 +22,19 @@ public class ThermocouplesTempGeneratorTest {
 
     @Test
     public void generate() {
-        val factory = new PointSequenceGeneratorFactory(defaultGenerationProperties());
+        val factory = new PointSequenceFactory(defaultGenerationProperties());
 
-        val standardTemp = factory.standardTempGenerator().generate();
-        val minTemp = factory.minAllowedTempGenerator(standardTemp).generate();
-        val maxTemp = factory.maxAllowedTempGenerator(standardTemp).generate();
+        val standardTemp = factory.standardTemperature();
+        val minTemp = factory.minAllowedTemperature(standardTemp);
+        val maxTemp = factory.maxAllowedTemperature(standardTemp);
 
-        val meanTemp = factory.thermocoupleMeanGenerator(0, minTemp, maxTemp).generate();
+        val meanTemp = factory.thermocoupleMeanTemperature(0, minTemp, maxTemp);
 
         assertMeanTemperatureInInterval(meanTemp.getValue(), minTemp.getValue(), maxTemp.getValue());
         assertFunctionConstantlyGrowing(meanTemp.getValue());
 
-        val thermocouplesTemp = factory
-                .thermocouplesTempGenerator(minTemp, maxTemp, meanTemp, 0)
-                .generate();
+        val thermocouplesTemp = factory.thermocouplesTemperatures(
+                minTemp, maxTemp, meanTemp, 0);
 
         assertThermocouplesTemperaturesEqualsMean(thermocouplesTemp, meanTemp);
         thermocouplesTemp.forEach(t -> assertFunctionConstantlyGrowing(t.getValue()));

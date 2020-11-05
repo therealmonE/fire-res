@@ -3,7 +3,7 @@ package io.github.therealmone.fireres.core.report;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.exception.ImpossibleGenerationException;
 import io.github.therealmone.fireres.core.exception.InvalidMeanTemperatureException;
-import io.github.therealmone.fireres.core.factory.PointSequenceGeneratorFactory;
+import io.github.therealmone.fireres.core.factory.PointSequenceFactory;
 import io.github.therealmone.fireres.core.model.MaxAllowedTemperature;
 import io.github.therealmone.fireres.core.model.MinAllowedTemperature;
 import io.github.therealmone.fireres.core.model.Sample;
@@ -24,12 +24,12 @@ public class ReportBuilder {
         log.info("Building report");
         Validator.validateGenerationProperties(properties);
 
-        val factory = new PointSequenceGeneratorFactory(properties);
+        val factory = new PointSequenceFactory(properties);
 
-        val standardTemp = factory.standardTempGenerator().generate();
-        val maxAllowedTemp = factory.maxAllowedTempGenerator(standardTemp).generate();
-        val minAllowedTemp = factory.minAllowedTempGenerator(standardTemp).generate();
-        val furnaceTemp = factory.furnaceTempGenerator(standardTemp).generate();
+        val standardTemp = factory.standardTemperature();
+        val maxAllowedTemp = factory.maxAllowedTemperature(standardTemp);
+        val minAllowedTemp = factory.minAllowedTemperature(standardTemp);
+        val furnaceTemp = factory.furnaceTemperature(standardTemp);
 
         List<Sample> samples = IntStream.range(0, properties.getSamples().size())
                 .mapToObj(i -> {
@@ -57,20 +57,18 @@ public class ReportBuilder {
                 .build();
     }
 
-    private static Sample tryToGenerateSample(PointSequenceGeneratorFactory factory,
+    private static Sample tryToGenerateSample(PointSequenceFactory factory,
                                               MaxAllowedTemperature maxAllowedTemp,
                                               MinAllowedTemperature minAllowedTemp,
                                               Integer sampleNumber) {
 
-        val meanTemp = factory
-                .thermocoupleMeanGenerator(sampleNumber, minAllowedTemp, maxAllowedTemp)
-                .generate();
+        val meanTemp = factory.thermocoupleMeanTemperature(
+                sampleNumber, minAllowedTemp, maxAllowedTemp);
 
         return Sample.builder()
                 .thermocoupleMeanTemperature(meanTemp)
-                .thermocoupleTemperatures(factory.
-                        thermocouplesTempGenerator(minAllowedTemp, maxAllowedTemp, meanTemp, sampleNumber)
-                        .generate())
+                .thermocoupleTemperatures(factory.thermocouplesTemperatures(
+                        minAllowedTemp, maxAllowedTemp, meanTemp, sampleNumber))
                 .build();
     }
 

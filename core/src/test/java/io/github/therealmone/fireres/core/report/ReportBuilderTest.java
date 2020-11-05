@@ -1,6 +1,5 @@
 package io.github.therealmone.fireres.core.report;
 
-import io.github.therealmone.fireres.core.config.GenerationProperties;
 import lombok.val;
 import org.junit.Test;
 

@@ -1,6 +1,6 @@
 package io.github.therealmone.fireres.core.generator.impl;
 
-import io.github.therealmone.fireres.core.factory.PointSequenceGeneratorFactory;
+import io.github.therealmone.fireres.core.factory.PointSequenceFactory;
 import lombok.val;
 import org.junit.Test;
 
@@ -16,12 +16,12 @@ public class ThermocoupleMeanGeneratorTest {
 
         props.getSamples().get(0).getRandomPoints().setEnrichWithRandomPoints(false);
 
-        val factory = new PointSequenceGeneratorFactory(props);
+        val factory = new PointSequenceFactory(props);
 
-        val standardTemp = factory.standardTempGenerator().generate();
-        val minTemp = factory.minAllowedTempGenerator(standardTemp).generate();
-        val maxTemp = factory.maxAllowedTempGenerator(standardTemp).generate();
-        val thermocoupleMeanTemp = factory.thermocoupleMeanGenerator(0, minTemp, maxTemp).generate().getValue();
+        val standardTemp = factory.standardTemperature();
+        val minTemp = factory.minAllowedTemperature(standardTemp);
+        val maxTemp = factory.maxAllowedTemperature(standardTemp);
+        val thermocoupleMeanTemp = factory.thermocoupleMeanTemperature(0, minTemp, maxTemp).getValue();
 
         assertInterpolationPoints(thermocoupleMeanTemp);
         assertFunctionConstantlyGrowing(thermocoupleMeanTemp);
@@ -29,12 +29,12 @@ public class ThermocoupleMeanGeneratorTest {
 
     @Test
     public void generateWithRandomPoints() {
-        val factory = new PointSequenceGeneratorFactory(defaultGenerationProperties());
+        val factory = new PointSequenceFactory(defaultGenerationProperties());
 
-        val standardTemp = factory.standardTempGenerator().generate();
-        val minTemp = factory.minAllowedTempGenerator(standardTemp).generate();
-        val maxTemp = factory.maxAllowedTempGenerator(standardTemp).generate();
-        val thermocoupleMeanTemp = factory.thermocoupleMeanGenerator(0, minTemp, maxTemp).generate().getValue();
+        val standardTemp = factory.standardTemperature();
+        val minTemp = factory.minAllowedTemperature(standardTemp);
+        val maxTemp = factory.maxAllowedTemperature(standardTemp);
+        val thermocoupleMeanTemp = factory.thermocoupleMeanTemperature(0, minTemp, maxTemp).getValue();
 
         assertInterpolationPoints(thermocoupleMeanTemp);
         assertFunctionConstantlyGrowing(thermocoupleMeanTemp);
@@ -46,12 +46,12 @@ public class ThermocoupleMeanGeneratorTest {
 
         props.getSamples().get(0).getRandomPoints().setNewPointChance(0.1);
 
-        val factory = new PointSequenceGeneratorFactory(props);
+        val factory = new PointSequenceFactory(props);
 
-        val standardTemp = factory.standardTempGenerator().generate();
-        val minTemp = factory.minAllowedTempGenerator(standardTemp).generate();
-        val maxTemp = factory.maxAllowedTempGenerator(standardTemp).generate();
-        val thermocoupleMeanTemp = factory.thermocoupleMeanGenerator(0, minTemp, maxTemp).generate().getValue();
+        val standardTemp = factory.standardTemperature();
+        val minTemp = factory.minAllowedTemperature(standardTemp);
+        val maxTemp = factory.maxAllowedTemperature(standardTemp);
+        val thermocoupleMeanTemp = factory.thermocoupleMeanTemperature(0, minTemp, maxTemp).getValue();
 
         assertInterpolationPoints(thermocoupleMeanTemp);
         assertFunctionConstantlyGrowing(thermocoupleMeanTemp);

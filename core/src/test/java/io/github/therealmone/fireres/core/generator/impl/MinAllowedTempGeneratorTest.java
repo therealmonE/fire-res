@@ -1,6 +1,6 @@
 package io.github.therealmone.fireres.core.generator.impl;
 
-import io.github.therealmone.fireres.core.factory.PointSequenceGeneratorFactory;
+import io.github.therealmone.fireres.core.factory.PointSequenceFactory;
 import lombok.val;
 import org.junit.Test;
 
@@ -16,7 +16,7 @@ public class MinAllowedTempGeneratorTest {
 
     @Test
     public void generate() {
-        val factory = new PointSequenceGeneratorFactory(defaultGenerationProperties());
+        val factory = new PointSequenceFactory(defaultGenerationProperties());
 
         val expectedFunction = toPointList(List.of(
                 18, 280, 361, 410, 445,
@@ -36,8 +36,8 @@ public class MinAllowedTempGeneratorTest {
                 901
         ));
 
-        val standardTemp = factory.standardTempGenerator().generate();
-        val minAllowedTemp = factory.minAllowedTempGenerator(standardTemp).generate();
+        val standardTemp = factory.standardTemperature();
+        val minAllowedTemp = factory.minAllowedTemperature(standardTemp);
 
         assertEquals(expectedFunction, minAllowedTemp.getValue());
 
