@@ -11,6 +11,6 @@ public abstract class Column {
 
     private final String header;
     private final boolean highlighted;
-    private final List<Integer> values;
+    private final List<Number> values;
 
 }

@@ -1,6 +1,6 @@
 package io.github.therealmone.fireres.core.utils;
 
-import io.github.therealmone.fireres.core.model.Point;
+import io.github.therealmone.fireres.core.model.point.TemperaturePoint;
 import lombok.val;
 import org.junit.Test;
 
@@ -17,26 +17,26 @@ public class InterpolationUtilsTest {
 
     @Test
     public void addZeroPoint() {
-        val points = new ArrayList<Point>();
+        val points = new ArrayList<TemperaturePoint>();
         InterpolationUtils.addFirstPointIfNeeded(points, 2);
 
         assertEquals(0, points.get(0).getTime(), 0);
-        assertEquals(2, points.get(0).getTemperature(), 1);
+        assertEquals(2, points.get(0).getValue(), 1);
     }
 
     @Test
     public void addZeroPointInNonEmptyList() {
-        val points = new ArrayList<Point>() {{
-                add(new Point(1, 1));
-                add(new Point(2, 2));
-                add(new Point(3, 3));
+        val points = new ArrayList<TemperaturePoint>() {{
+                add(new TemperaturePoint(1, 1));
+                add(new TemperaturePoint(2, 2));
+                add(new TemperaturePoint(3, 3));
         }};
 
         InterpolationUtils.addFirstPointIfNeeded(points, 0);
 
         assertEquals(4, points.size());
         assertEquals(0, points.get(0).getTime(), 0);
-        assertEquals(0, points.get(0).getTemperature(), 1);
+        assertEquals(0, points.get(0).getValue(), 1);
     }
 
     @Test
