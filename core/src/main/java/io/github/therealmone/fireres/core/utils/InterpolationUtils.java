@@ -1,8 +1,7 @@
 package io.github.therealmone.fireres.core.utils;
 
-import io.github.therealmone.fireres.core.model.firemode.MaxAllowedTemperature;
-import io.github.therealmone.fireres.core.model.firemode.MinAllowedTemperature;
-import io.github.therealmone.fireres.core.model.point.TemperaturePoint;
+import io.github.therealmone.fireres.core.model.point.IntegerPoint;
+import io.github.therealmone.fireres.core.model.sequence.IntegerPointSequence;
 import lombok.val;
 import org.apache.commons.math3.analysis.interpolation.LinearInterpolator;
 import org.apache.commons.math3.util.Pair;
@@ -19,14 +18,14 @@ public class InterpolationUtils {
 
     private static final Random RANDOM = new Random();
 
-    public static void addFirstPointIfNeeded(List<TemperaturePoint> points, Integer t0) {
+    public static void addFirstPointIfNeeded(List<IntegerPoint> points, Integer t0) {
         val firstPoint = points.stream()
                 .filter(point -> point.getTime().equals(0))
                 .findFirst();
 
         if(firstPoint.isEmpty()) {
             val delta = RANDOM.nextInt(2) - 1;
-            val newPoint = new TemperaturePoint(0, t0 + delta);
+            val newPoint = new IntegerPoint(0, t0 + delta);
 
             if (points.isEmpty()) {
                 points.add(newPoint);
@@ -36,25 +35,25 @@ public class InterpolationUtils {
         }
     }
 
-    public static void addLastPointIfNeeded(List<TemperaturePoint> points, Integer time,
-                                            MaxAllowedTemperature maxAllowedTemperature,
-                                            MinAllowedTemperature minAllowedTemperature) {
+    public static void addLastPointIfNeeded(List<IntegerPoint> points, Integer time,
+                                            IntegerPointSequence lowerBound,
+                                            IntegerPointSequence upperBound) {
 
         val lastPoint = points.stream()
                 .filter(point -> point.getTime().equals(time - 1))
                 .findFirst();
 
         if(lastPoint.isEmpty()) {
-            val min = minAllowedTemperature.getSmoothedTemperature(time - 1);
-            val max = maxAllowedTemperature.getSmoothedTemperature(time - 1);
+            val min = lowerBound.getPoint(time - 1).getValue();
+            val max = upperBound.getPoint(time - 1).getValue();
 
-            val newPoint = new TemperaturePoint(time - 1, generateValueInInterval(min, max));
+            val newPoint = new IntegerPoint(time - 1, generateValueInInterval(min, max));
 
             points.add(points.size(), newPoint);
         }
     }
 
-    public static double[] getTimeArray(List<TemperaturePoint> points) {
+    public static double[] getTimeArray(List<IntegerPoint> points) {
         val x = new double[points.size()];
         for (int i = 0; i < points.size(); i++) {
             val point = points.get(i);
@@ -64,7 +63,7 @@ public class InterpolationUtils {
         return x;
     }
 
-    public static double[] getTemperatureArray(List<TemperaturePoint> points) {
+    public static double[] getValueArray(List<IntegerPoint> points) {
         val y = new double[points.size()];
         for (int i = 0; i < points.size(); i++) {
             val point = points.get(i);
@@ -74,7 +73,7 @@ public class InterpolationUtils {
         return y;
     }
 
-    public static List<TemperaturePoint> smoothMinFunction(List<TemperaturePoint> function) {
+    public static List<IntegerPoint> smoothMinFunction(List<IntegerPoint> function) {
         val smoothedFunctions = new ArrayList<>(function);
 
         removePits(smoothedFunctions);
@@ -82,7 +81,7 @@ public class InterpolationUtils {
         return interpolate(smoothedFunctions);
     }
 
-    public static List<TemperaturePoint> smoothMaxFunction(List<TemperaturePoint> function) {
+    public static List<IntegerPoint> smoothMaxFunction(List<IntegerPoint> function) {
         val smoothedFunctions = new ArrayList<>(function);
 
         removePeaks(smoothedFunctions);
@@ -90,23 +89,23 @@ public class InterpolationUtils {
         return interpolate(smoothedFunctions);
     }
 
-    public static List<TemperaturePoint> interpolateInterval(Pair<TemperaturePoint, TemperaturePoint> interval) {
+    public static List<IntegerPoint> interpolateInterval(Pair<IntegerPoint, IntegerPoint> interval) {
         return interpolate(List.of(interval.getFirst(), interval.getSecond()));
     }
 
-    public static List<TemperaturePoint> interpolate(List<TemperaturePoint> function) {
+    public static List<IntegerPoint> interpolate(List<IntegerPoint> function) {
         val interpolator = new LinearInterpolator();
         val interpolation = interpolator.interpolate(
                 getTimeArray(function),
-                getTemperatureArray(function));
+                getValueArray(function));
 
         return IntStream.range(function.get(0).getTime(), function.get(function.size() - 1).getTime() + 1)
-                .mapToObj(x -> new TemperaturePoint(x, (int) Math.round(interpolation.value(x))))
+                .mapToObj(x -> new IntegerPoint(x, (int) Math.round(interpolation.value(x))))
                 .collect(Collectors.toList());
     }
 
-    private static void removePeaks(List<TemperaturePoint> function) {
-        val pointsToRemove = new ArrayList<TemperaturePoint>();
+    private static void removePeaks(List<IntegerPoint> function) {
+        val pointsToRemove = new ArrayList<IntegerPoint>();
 
         for (int i = 0; i < function.size() - 1; i++) {
             val point = function.get(i);
@@ -126,8 +125,8 @@ public class InterpolationUtils {
         pointsToRemove.forEach(function::remove);
     }
 
-    private static void removePits(List<TemperaturePoint> function) {
-        val pointsToRemove = new ArrayList<TemperaturePoint>();
+    private static void removePits(List<IntegerPoint> function) {
+        val pointsToRemove = new ArrayList<IntegerPoint>();
 
         for (int i = 0; i < function.size() - 1; i++) {
             val point = function.get(i);

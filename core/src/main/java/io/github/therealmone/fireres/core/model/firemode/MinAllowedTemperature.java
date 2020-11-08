@@ -1,16 +1,16 @@
 package io.github.therealmone.fireres.core.model.firemode;
 
-import io.github.therealmone.fireres.core.model.point.TemperaturePoint;
-import io.github.therealmone.fireres.core.model.sequence.SmoothedTemperaturePointSequence;
+import io.github.therealmone.fireres.core.model.point.IntegerPoint;
+import io.github.therealmone.fireres.core.model.sequence.SmoothedIntegerPointSequence;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.util.List;
 
 @Getter
-public class MinAllowedTemperature extends SmoothedTemperaturePointSequence {
+public class MinAllowedTemperature extends SmoothedIntegerPointSequence {
     @Builder
-    public MinAllowedTemperature(List<TemperaturePoint> value, List<TemperaturePoint> smoothedValue) {
+    public MinAllowedTemperature(List<IntegerPoint> value, List<IntegerPoint> smoothedValue) {
         super(value, smoothedValue);
     }
 }

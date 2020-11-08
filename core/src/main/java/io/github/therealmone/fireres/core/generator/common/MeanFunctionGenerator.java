@@ -1,11 +1,8 @@
-package io.github.therealmone.fireres.core.generator.impl;
+package io.github.therealmone.fireres.core.generator.common;
 
-import io.github.therealmone.fireres.core.config.InterpolationPoints;
-import io.github.therealmone.fireres.core.model.firemode.MaxAllowedTemperature;
-import io.github.therealmone.fireres.core.model.firemode.MinAllowedTemperature;
-import io.github.therealmone.fireres.core.model.point.TemperaturePoint;
+import io.github.therealmone.fireres.core.model.point.IntegerPoint;
 import io.github.therealmone.fireres.core.generator.PointSequenceGenerator;
-import io.github.therealmone.fireres.core.model.firemode.ThermocoupleMeanTemperature;
+import io.github.therealmone.fireres.core.model.sequence.IntegerPointSequence;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -28,24 +25,21 @@ import static java.util.Collections.emptyList;
 
 @RequiredArgsConstructor
 @Slf4j
-public class ThermocoupleMeanGenerator implements PointSequenceGenerator<ThermocoupleMeanTemperature> {
+public class MeanFunctionGenerator implements PointSequenceGenerator<IntegerPointSequence> {
 
     private final Integer t0;
     private final Integer time;
 
-    private final MinAllowedTemperature minAllowedTemperature;
-    private final MaxAllowedTemperature maxAllowedTemperature;
+    private final IntegerPointSequence upperBound;
+    private final IntegerPointSequence lowerBound;
+    private final IntegerPointSequence interpolationPoints;
 
-    private final InterpolationPoints interpolationPoints;
     private final Boolean enrichWithRandomPoints;
     private final Double newPointChance;
 
     @Override
-    public ThermocoupleMeanTemperature generate() {
-        log.trace("Generating thermocouple mean temperature with interpolation points: {}",
-                interpolationPoints.getPoints());
-
-        val points = new ArrayList<>(interpolationPoints.getPoints());
+    public IntegerPointSequence generate() {
+        val points = new ArrayList<>(interpolationPoints.getValue());
         adjustInterpolationPoints(points);
 
         if (enrichWithRandomPoints) {
@@ -54,34 +48,33 @@ public class ThermocoupleMeanGenerator implements PointSequenceGenerator<Thermoc
 
         val thermocoupleMeanTemp = interpolate(points);
 
-        log.trace("Generated thermocouple mean temperature: {}", thermocoupleMeanTemp);
-        return new ThermocoupleMeanTemperature(thermocoupleMeanTemp);
+        return new IntegerPointSequence(thermocoupleMeanTemp);
     }
 
-    private void adjustInterpolationPoints(List<TemperaturePoint> interpolationPoints) {
+    private void adjustInterpolationPoints(List<IntegerPoint> interpolationPoints) {
         addFirstPointIfNeeded(interpolationPoints, t0);
-        addLastPointIfNeeded(interpolationPoints, time, maxAllowedTemperature, minAllowedTemperature);
+        addLastPointIfNeeded(interpolationPoints, time, lowerBound, upperBound);
 
         val adjustingPoints = asIntervals(interpolationPoints).stream()
                 .flatMap(interval -> raiseInterval(interval, 1.0, this::intervalOutOfBounds).stream())
                 .collect(Collectors.toList());
 
         interpolationPoints.addAll(adjustingPoints);
-        interpolationPoints.sort(Comparator.comparing(TemperaturePoint::getTime));
+        interpolationPoints.sort(Comparator.comparing(IntegerPoint::getTime));
     }
 
-    private void generateInnerPoints(List<TemperaturePoint> interpolationPoints) {
+    private void generateInnerPoints(List<IntegerPoint> interpolationPoints) {
         val adjustingPoints = asIntervals(interpolationPoints).stream()
                 .flatMap(interval ->
                         raiseInterval(interval, newPointChance, i -> true).stream())
                 .collect(Collectors.toList());
 
         interpolationPoints.addAll(adjustingPoints);
-        interpolationPoints.sort(Comparator.comparing(TemperaturePoint::getTime));
+        interpolationPoints.sort(Comparator.comparing(IntegerPoint::getTime));
     }
 
-    private List<TemperaturePoint> raiseInterval(Pair<TemperaturePoint, TemperaturePoint> interval, Double newPointChance,
-                                                 Predicate<Pair<TemperaturePoint, TemperaturePoint>> conditionForRaising) {
+    private List<IntegerPoint> raiseInterval(Pair<IntegerPoint, IntegerPoint> interval, Double newPointChance,
+                                                 Predicate<Pair<IntegerPoint, IntegerPoint>> conditionForRaising) {
 
         if (interval.getFirst().getTime().equals(interval.getSecond().getTime() - 1)
                 || !conditionForRaising.test(interval)) {
@@ -90,7 +83,7 @@ public class ThermocoupleMeanGenerator implements PointSequenceGenerator<Thermoc
 
         val middlePoint = generateMiddlePoint(interval, newPointChance);
 
-        val raisedInterval = new ArrayList<TemperaturePoint>();
+        val raisedInterval = new ArrayList<IntegerPoint>();
 
         raisedInterval.add(middlePoint);
         raisedInterval.addAll(
@@ -98,12 +91,12 @@ public class ThermocoupleMeanGenerator implements PointSequenceGenerator<Thermoc
         raisedInterval.addAll(
                 raiseInterval(new Pair<>(middlePoint, interval.getSecond()), newPointChance, conditionForRaising));
 
-        raisedInterval.sort(Comparator.comparing(TemperaturePoint::getTime));
+        raisedInterval.sort(Comparator.comparing(IntegerPoint::getTime));
 
         return raisedInterval;
     }
 
-    private TemperaturePoint generateMiddlePoint(Pair<TemperaturePoint, TemperaturePoint> interval, Double newPointChance) {
+    private IntegerPoint generateMiddlePoint(Pair<IntegerPoint, IntegerPoint> interval, Double newPointChance) {
         val middleTime = (interval.getFirst().getTime() + interval.getSecond().getTime()) / 2;
         val interpolatedInterval = interpolateInterval(interval);
 
@@ -115,39 +108,39 @@ public class ThermocoupleMeanGenerator implements PointSequenceGenerator<Thermoc
 
         if (rollDice(newPointChance)) {
             val lowerBound = Math.max(
-                    minAllowedTemperature.getSmoothedTemperature(middleTime),
+                    this.lowerBound.getPoint(middleTime).getValue(),
                     interval.getFirst().getValue());
 
             val upperBound = Math.min(
-                    maxAllowedTemperature.getSmoothedTemperature(middleTime),
+                    this.upperBound.getPoint(middleTime).getValue(),
                     interval.getSecond().getValue());
 
-            return new TemperaturePoint(middleTime, generateValueInInterval(lowerBound, upperBound));
+            return new IntegerPoint(middleTime, generateValueInInterval(lowerBound, upperBound));
         } else {
-            val min = minAllowedTemperature.getSmoothedTemperature(middleTime);
-            val max = maxAllowedTemperature.getSmoothedTemperature(middleTime);
+            val min = upperBound.getPoint(middleTime).getValue();
+            val max = lowerBound.getPoint(middleTime).getValue();
 
             if (middleTemperature < min) {
-                return new TemperaturePoint(middleTime, min);
+                return new IntegerPoint(middleTime, min);
             } else if (middleTemperature > max) {
-                return new TemperaturePoint(middleTime, max);
+                return new IntegerPoint(middleTime, max);
             } else {
-                return new TemperaturePoint(middleTime, middleTemperature);
+                return new IntegerPoint(middleTime, middleTemperature);
             }
         }
     }
 
-    private boolean outOfBounds(TemperaturePoint point) {
+    private boolean outOfBounds(IntegerPoint point) {
         val time = point.getTime();
 
-        return point.getValue() < minAllowedTemperature.getSmoothedTemperature(time)
-                || point.getValue() > maxAllowedTemperature.getSmoothedTemperature(time);
+        return point.getValue() < upperBound.getPoint(time).getValue()
+                || point.getValue() > lowerBound.getPoint(time).getValue();
     }
 
-    private boolean intervalOutOfBounds(Pair<TemperaturePoint, TemperaturePoint> interval) {
+    private boolean intervalOutOfBounds(Pair<IntegerPoint, IntegerPoint> interval) {
         val interpolatedInterval = interpolateInterval(interval);
 
-        for (TemperaturePoint point : interpolatedInterval) {
+        for (IntegerPoint point : interpolatedInterval) {
             if (outOfBounds(point)) {
                 return true;
             }

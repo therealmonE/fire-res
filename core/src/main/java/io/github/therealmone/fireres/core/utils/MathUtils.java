@@ -1,15 +1,15 @@
 package io.github.therealmone.fireres.core.utils;
 
-import io.github.therealmone.fireres.core.model.point.TemperaturePoint;
+import io.github.therealmone.fireres.core.model.point.IntegerPoint;
 import lombok.val;
 
 import java.util.List;
 
 public class MathUtils {
 
-    public static Integer calculatePointsMeanValue(List<TemperaturePoint> function) {
+    public static Integer calculatePointsMeanValue(List<IntegerPoint> function) {
         val sum = function.stream()
-                .map(TemperaturePoint::getValue)
+                .map(IntegerPoint::getValue)
                 .reduce(0, Integer::sum);
 
         return (int) Math.round(sum / (double) function.size());
