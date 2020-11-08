@@ -5,9 +5,9 @@ import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.config.RandomPointsProperties;
 import io.github.therealmone.fireres.core.config.SampleProperties;
 import io.github.therealmone.fireres.core.config.TemperatureProperties;
-import io.github.therealmone.fireres.core.model.point.TemperaturePoint;
 import io.github.therealmone.fireres.core.model.firemode.ThermocoupleMeanTemperature;
 import io.github.therealmone.fireres.core.model.firemode.ThermocoupleTemperature;
+import io.github.therealmone.fireres.core.model.point.IntegerPoint;
 import lombok.val;
 
 import java.util.ArrayList;
@@ -21,18 +21,18 @@ import static org.junit.Assert.assertTrue;
 
 public class TestUtils {
 
-    public static final ArrayList<TemperaturePoint> INTERPOLATION_POINTS = new ArrayList<>() {{
-        add(new TemperaturePoint(0, 21));
-        add(new TemperaturePoint(1, 306));
-        add(new TemperaturePoint(18, 749));
-        add(new TemperaturePoint(21, 789));
-        add(new TemperaturePoint(26, 822));
-        add(new TemperaturePoint(48, 898));
-        add(new TemperaturePoint(49, 901));
-        add(new TemperaturePoint(70, 943));
+    public static final ArrayList<IntegerPoint> INTERPOLATION_POINTS = new ArrayList<>() {{
+        add(new IntegerPoint(0, 21));
+        add(new IntegerPoint(1, 306));
+        add(new IntegerPoint(18, 749));
+        add(new IntegerPoint(21, 789));
+        add(new IntegerPoint(26, 822));
+        add(new IntegerPoint(48, 898));
+        add(new IntegerPoint(49, 901));
+        add(new IntegerPoint(70, 943));
     }};
 
-    public static void assertFunctionConstantlyGrowing(List<TemperaturePoint> function) {
+    public static void assertFunctionConstantlyGrowing(List<IntegerPoint> function) {
         for (int i = 1; i < function.size(); i++) {
             val point = function.get(i);
             val prevPoint = function.get(i - 1);
@@ -54,21 +54,21 @@ public class TestUtils {
                         .collect(Collectors.toList()))));
     }
 
-    private static void assertSizesEquals(List<ThermocoupleTemperature> thermocouplesTemp, List<TemperaturePoint> meanTemp) {
+    private static void assertSizesEquals(List<ThermocoupleTemperature> thermocouplesTemp, List<IntegerPoint> meanTemp) {
         thermocouplesTemp.forEach(thermocoupleTemperature -> {
             val thermocoupleTemperatureValue = thermocoupleTemperature.getValue();
             assertEquals(meanTemp.size(), thermocoupleTemperatureValue.size());
         });
     }
 
-    public static void assertSizesEquals(int size, List<TemperaturePoint>... functions) {
-        for (List<TemperaturePoint> function : functions) {
+    public static void assertSizesEquals(int size, List<IntegerPoint>... functions) {
+        for (List<IntegerPoint> function : functions) {
             assertEquals(size, function.size());
         }
     }
 
-    public static void assertMeanTemperatureInInterval(List<TemperaturePoint> meanTemperature, List<TemperaturePoint> minAllowedTemp,
-                                                       List<TemperaturePoint> maxAllowedTemp) {
+    public static void assertMeanTemperatureInInterval(List<IntegerPoint> meanTemperature, List<IntegerPoint> minAllowedTemp,
+                                                       List<IntegerPoint> maxAllowedTemp) {
 
         assertEquals(minAllowedTemp.size(), meanTemperature.size());
         assertEquals(maxAllowedTemp.size(), meanTemperature.size());
@@ -83,13 +83,13 @@ public class TestUtils {
         }
     }
 
-    public static List<TemperaturePoint> toPointList(List<Integer> list) {
+    public static List<IntegerPoint> toPointList(List<Integer> list) {
         return IntStream.range(0, list.size())
-                .mapToObj(i -> new TemperaturePoint(i, list.get(i)))
+                .mapToObj(i -> new IntegerPoint(i, list.get(i)))
                 .collect(Collectors.toList());
     }
 
-    public static void assertFunctionNotHigher(List<TemperaturePoint> lowerFunction, List<TemperaturePoint> upperFunction) {
+    public static void assertFunctionNotHigher(List<IntegerPoint> lowerFunction, List<IntegerPoint> upperFunction) {
         lowerFunction.forEach(lowerPoint -> {
             val upperPoint = upperFunction.stream()
                     .filter(point -> point.getTime().equals(lowerPoint.getTime()))
@@ -101,7 +101,7 @@ public class TestUtils {
         });
     }
 
-    public static void assertFunctionNotLower(List<TemperaturePoint> upperFunction, List<TemperaturePoint> lowerFunction) {
+    public static void assertFunctionNotLower(List<IntegerPoint> upperFunction, List<IntegerPoint> lowerFunction) {
         assertFunctionNotHigher(lowerFunction, upperFunction);
     }
 
@@ -132,8 +132,8 @@ public class TestUtils {
                 .build();
     }
 
-    public static void assertInterpolationPoints(List<TemperaturePoint> function) {
-        for (TemperaturePoint point : INTERPOLATION_POINTS) {
+    public static void assertInterpolationPoints(List<IntegerPoint> function) {
+        for (IntegerPoint point : INTERPOLATION_POINTS) {
             assertEquals(point, function.stream()
                     .filter(p -> p.getTime().equals(point.getTime())).findFirst()
                     .orElseThrow());

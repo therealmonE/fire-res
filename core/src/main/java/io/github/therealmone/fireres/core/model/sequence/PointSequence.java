@@ -1,19 +1,29 @@
 package io.github.therealmone.fireres.core.model.sequence;
 
-import io.github.therealmone.fireres.core.model.point.IntegerPoint;
 import io.github.therealmone.fireres.core.model.point.Point;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public interface PointSequence<T extends Point<?>> {
+@Data
+@RequiredArgsConstructor
+public abstract class PointSequence<T extends Point<?>> {
 
-    List<T> getValue();
+    private final List<T> value;
 
-    default List<IntegerPoint> getNormalizedValue(Integer shift) {
-        return getValue().stream()
+    public IntegerPointSequence normalize(Integer shift) {
+        return new IntegerPointSequence(getValue().stream()
                 .map(p -> p.normalize(shift))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()));
+    }
+
+    public T getPoint(Integer time) {
+        return getValue().stream()
+                .filter(point -> point.getTime().equals(time))
+                .findAny()
+                .orElseThrow();
     }
 
 }

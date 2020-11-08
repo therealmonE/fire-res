@@ -2,7 +2,7 @@ package io.github.therealmone.fireres.core.report;
 
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.exception.ImpossibleGenerationException;
-import io.github.therealmone.fireres.core.exception.InvalidMeanTemperatureException;
+import io.github.therealmone.fireres.core.exception.InvalidMeanFunctionException;
 import io.github.therealmone.fireres.core.factory.PointSequenceFactory;
 import io.github.therealmone.fireres.core.model.firemode.MaxAllowedTemperature;
 import io.github.therealmone.fireres.core.model.firemode.MinAllowedTemperature;
@@ -36,7 +36,7 @@ public class ReportBuilder {
                     for (int j = 0; j < ATTEMPTS; j++) {
                         try {
                             return tryToGenerateSample(factory, maxAllowedTemp, minAllowedTemp, i);
-                        } catch (InvalidMeanTemperatureException e) {
+                        } catch (InvalidMeanFunctionException e) {
                             log.error("Invalid mean temperature, trying to generate new one...");
                         }
                     }
