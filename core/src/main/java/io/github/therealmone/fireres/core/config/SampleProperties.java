@@ -1,6 +1,6 @@
 package io.github.therealmone.fireres.core.config;
 
-import io.github.therealmone.fireres.core.model.Point;
+import io.github.therealmone.fireres.core.model.point.TemperaturePoint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 public class SampleProperties {
 
-    private List<Point> interpolationPoints;
+    private List<TemperaturePoint> interpolationPoints;
     private RandomPointsProperties randomPoints;
     private Integer thermocoupleCount;
 

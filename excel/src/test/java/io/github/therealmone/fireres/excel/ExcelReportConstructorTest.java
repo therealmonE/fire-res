@@ -5,7 +5,7 @@ import io.github.therealmone.fireres.core.config.RandomPointsProperties;
 import io.github.therealmone.fireres.core.config.SampleProperties;
 import io.github.therealmone.fireres.core.config.Coefficient;
 import io.github.therealmone.fireres.core.config.TemperatureProperties;
-import io.github.therealmone.fireres.core.model.Point;
+import io.github.therealmone.fireres.core.model.point.TemperaturePoint;
 import lombok.val;
 import org.junit.Rule;
 import org.junit.Test;
@@ -20,18 +20,18 @@ public class ExcelReportConstructorTest {
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
-    private static final List<Point> INTERPOLATION_POINTS = new ArrayList<>() {{
-        add(new Point(0, 21));
-        add(new Point(1, 306));
-        add(new Point(2, 392));
-        add(new Point(3, 480));
-        add(new Point(8, 615));
-        add(new Point(18, 749));
-        add(new Point(21, 789));
-        add(new Point(26, 822));
-        add(new Point(48, 898));
-        add(new Point(49, 901));
-        add(new Point(70, 943));
+    private static final List<TemperaturePoint> INTERPOLATION_POINTS = new ArrayList<>() {{
+        add(new TemperaturePoint(0, 21));
+        add(new TemperaturePoint(1, 306));
+        add(new TemperaturePoint(2, 392));
+        add(new TemperaturePoint(3, 480));
+        add(new TemperaturePoint(8, 615));
+        add(new TemperaturePoint(18, 749));
+        add(new TemperaturePoint(21, 789));
+        add(new TemperaturePoint(26, 822));
+        add(new TemperaturePoint(48, 898));
+        add(new TemperaturePoint(49, 901));
+        add(new TemperaturePoint(70, 943));
     }};
 
     @Test

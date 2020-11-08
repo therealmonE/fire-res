@@ -1,6 +1,6 @@
 package io.github.therealmone.fireres.core.utils;
 
-import io.github.therealmone.fireres.core.model.Point;
+import io.github.therealmone.fireres.core.model.point.TemperaturePoint;
 import org.apache.commons.math3.util.Pair;
 
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.stream.IntStream;
 
 public class FunctionUtils {
 
-    public static List<Pair<Point, Point>> asIntervals(List<Point> function) {
+    public static List<Pair<TemperaturePoint, TemperaturePoint>> asIntervals(List<TemperaturePoint> function) {
         if (function.size() <= 1) {
             throw new IllegalArgumentException();
         }

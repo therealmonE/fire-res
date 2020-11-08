@@ -1,6 +1,6 @@
 package io.github.therealmone.fireres.excel.model;
 
-import io.github.therealmone.fireres.core.model.ThermocoupleTemperature;
+import io.github.therealmone.fireres.core.model.firemode.ThermocoupleTemperature;
 
 public class ThermocoupleTemperatureColumn extends PointSequenceColumn {
 

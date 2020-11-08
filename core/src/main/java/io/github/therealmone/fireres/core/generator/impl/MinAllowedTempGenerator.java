@@ -2,9 +2,9 @@ package io.github.therealmone.fireres.core.generator.impl;
 
 import io.github.therealmone.fireres.core.config.Coefficients;
 import io.github.therealmone.fireres.core.generator.PointSequenceGenerator;
-import io.github.therealmone.fireres.core.model.MinAllowedTemperature;
-import io.github.therealmone.fireres.core.model.Point;
-import io.github.therealmone.fireres.core.model.StandardTemperature;
+import io.github.therealmone.fireres.core.model.firemode.MinAllowedTemperature;
+import io.github.therealmone.fireres.core.model.point.TemperaturePoint;
+import io.github.therealmone.fireres.core.model.firemode.StandardTemperature;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -28,7 +28,7 @@ public class MinAllowedTempGenerator implements PointSequenceGenerator<MinAllowe
                 coefficients.getCoefficients(), standardTemp.getValue());
 
         val minAllowedTemp = IntStream.range(0, time)
-                .mapToObj(t -> new Point(t,
+                .mapToObj(t -> new TemperaturePoint(t,
                         (int) Math.round(standardTemp.getTemperature(t) * coefficients.getCoefficient(t))))
                 .collect(Collectors.toList());
 

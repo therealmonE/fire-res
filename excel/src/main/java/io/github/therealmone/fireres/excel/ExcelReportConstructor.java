@@ -65,7 +65,7 @@ public class ExcelReportConstructor implements ReportConstructor {
                 val column = columns.get(i);
                 val cell = row.createCell(i);
 
-                cell.setCellValue(column.getValues().get(time));
+                cell.setCellValue(column.getValues().get(time).doubleValue());
                 cell.setCellStyle(column.isHighlighted()
                         ? cellStyles.getHighlightedCellStyle()
                         : cellStyles.getCommonCellStyle());

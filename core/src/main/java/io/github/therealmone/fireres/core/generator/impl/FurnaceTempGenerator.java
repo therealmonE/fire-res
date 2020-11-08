@@ -1,9 +1,9 @@
 package io.github.therealmone.fireres.core.generator.impl;
 
 import io.github.therealmone.fireres.core.generator.PointSequenceGenerator;
-import io.github.therealmone.fireres.core.model.FurnaceTemperature;
-import io.github.therealmone.fireres.core.model.Point;
-import io.github.therealmone.fireres.core.model.StandardTemperature;
+import io.github.therealmone.fireres.core.model.firemode.FurnaceTemperature;
+import io.github.therealmone.fireres.core.model.point.TemperaturePoint;
+import io.github.therealmone.fireres.core.model.firemode.StandardTemperature;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -24,7 +24,7 @@ public class FurnaceTempGenerator implements PointSequenceGenerator<FurnaceTempe
         log.trace("Generating furnace temperature with t0: {}, standard temperature: {}", t0, standardTemp.getValue());
 
         val furnaceTemp = IntStream.range(0, time)
-                .mapToObj(t -> new Point(t,
+                .mapToObj(t -> new TemperaturePoint(t,
                         t0 + standardTemp.getTemperature(t)))
                 .collect(Collectors.toList());
 

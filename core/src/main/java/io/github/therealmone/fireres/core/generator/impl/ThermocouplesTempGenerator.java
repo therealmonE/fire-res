@@ -3,11 +3,11 @@ package io.github.therealmone.fireres.core.generator.impl;
 import io.github.therealmone.fireres.core.exception.InvalidMeanTemperatureException;
 import io.github.therealmone.fireres.core.exception.ThermocouplesTemperatureGenerationException;
 import io.github.therealmone.fireres.core.generator.MultiplePointSequencesGenerator;
-import io.github.therealmone.fireres.core.model.MaxAllowedTemperature;
-import io.github.therealmone.fireres.core.model.MinAllowedTemperature;
-import io.github.therealmone.fireres.core.model.Point;
-import io.github.therealmone.fireres.core.model.ThermocoupleMeanTemperature;
-import io.github.therealmone.fireres.core.model.ThermocoupleTemperature;
+import io.github.therealmone.fireres.core.model.firemode.MaxAllowedTemperature;
+import io.github.therealmone.fireres.core.model.firemode.MinAllowedTemperature;
+import io.github.therealmone.fireres.core.model.point.TemperaturePoint;
+import io.github.therealmone.fireres.core.model.firemode.ThermocoupleMeanTemperature;
+import io.github.therealmone.fireres.core.model.firemode.ThermocoupleTemperature;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -62,7 +62,7 @@ public class ThermocouplesTempGenerator implements MultiplePointSequencesGenerat
             );
 
             for (int i = 0; i < thermocoupleCount; i++) {
-                thermocouplesTemp.get(i).getValue().set(t, new Point(t, generatedTemperatures.get(i)));
+                thermocouplesTemp.get(i).getValue().set(t, new TemperaturePoint(t, generatedTemperatures.get(i)));
             }
         }
 
@@ -73,7 +73,7 @@ public class ThermocouplesTempGenerator implements MultiplePointSequencesGenerat
         return new ArrayList<>() {{
             for (int i = 0; i < thermocoupleCount; i++) {
                 val value = IntStream.range(0, time)
-                        .mapToObj(t -> new Point(t, 0))
+                        .mapToObj(t -> new TemperaturePoint(t, 0))
                         .collect(Collectors.toList());
 
                 add(new ThermocoupleTemperature(value));

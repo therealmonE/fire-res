@@ -1,10 +1,10 @@
 package io.github.therealmone.fireres.core.report;
 
-import io.github.therealmone.fireres.core.model.FurnaceTemperature;
-import io.github.therealmone.fireres.core.model.MaxAllowedTemperature;
-import io.github.therealmone.fireres.core.model.MinAllowedTemperature;
+import io.github.therealmone.fireres.core.model.firemode.FurnaceTemperature;
+import io.github.therealmone.fireres.core.model.firemode.MaxAllowedTemperature;
+import io.github.therealmone.fireres.core.model.firemode.MinAllowedTemperature;
 import io.github.therealmone.fireres.core.model.Sample;
-import io.github.therealmone.fireres.core.model.StandardTemperature;
+import io.github.therealmone.fireres.core.model.firemode.StandardTemperature;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
