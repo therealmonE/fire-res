@@ -129,6 +129,7 @@ public class TestUtils {
                         .interpolationPoints(INTERPOLATION_POINTS)
                         .thermocoupleCount(6)
                         .build()))
+                .delta(2.0)
                 .build();
     }
 

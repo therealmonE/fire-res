@@ -2,10 +2,7 @@ package io.github.therealmone.fireres.core.factory;
 
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.config.Coefficients;
-import io.github.therealmone.fireres.core.generator.impl.FurnaceTempGenerator;
-import io.github.therealmone.fireres.core.generator.impl.MaxAllowedTempGenerator;
-import io.github.therealmone.fireres.core.generator.impl.MinAllowedTempGenerator;
-import io.github.therealmone.fireres.core.generator.impl.StandardTempGenerator;
+import io.github.therealmone.fireres.core.generator.impl.*;
 import io.github.therealmone.fireres.core.generator.common.MeanFunctionGenerator;
 import io.github.therealmone.fireres.core.generator.common.MeanChildFunctionsGenerator;
 import io.github.therealmone.fireres.core.model.firemode.FurnaceTemperature;
@@ -14,6 +11,7 @@ import io.github.therealmone.fireres.core.model.firemode.MinAllowedTemperature;
 import io.github.therealmone.fireres.core.model.firemode.StandardTemperature;
 import io.github.therealmone.fireres.core.model.firemode.ThermocoupleMeanTemperature;
 import io.github.therealmone.fireres.core.model.firemode.ThermocoupleTemperature;
+import io.github.therealmone.fireres.core.model.pressure.SamplePressure;
 import io.github.therealmone.fireres.core.model.sequence.IntegerPointSequence;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -99,4 +97,11 @@ public class PointSequenceFactory {
                 .collect(Collectors.toList());
     }
 
+    public SamplePressure excessPressure(){
+
+        return new ExcessPressureGenerator(
+                generationProperties.getTime(),
+                generationProperties.getDelta()
+        ).generate();
+    }
 }
