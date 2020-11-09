@@ -3,7 +3,6 @@ package io.github.therealmone.fireres.core;
 import io.github.therealmone.fireres.core.config.*;
 import io.github.therealmone.fireres.core.model.firemode.ThermocoupleMeanTemperature;
 import io.github.therealmone.fireres.core.model.firemode.ThermocoupleTemperature;
-import io.github.therealmone.fireres.core.model.point.DoublePoint;
 import io.github.therealmone.fireres.core.model.point.IntegerPoint;
 import io.github.therealmone.fireres.core.model.point.Point;
 import lombok.val;
@@ -52,7 +51,9 @@ public class TestUtils {
                         .collect(Collectors.toList()))));
     }
 
-    private static void assertSizesEquals(List<ThermocoupleTemperature> thermocouplesTemp, List<IntegerPoint> meanTemp) {
+    private static void assertSizesEquals(List<ThermocoupleTemperature> thermocouplesTemp,
+                                          List<IntegerPoint> meanTemp) {
+
         thermocouplesTemp.forEach(thermocoupleTemperature -> {
             val thermocoupleTemperatureValue = thermocoupleTemperature.getValue();
             assertEquals(meanTemp.size(), thermocoupleTemperatureValue.size());
@@ -65,7 +66,8 @@ public class TestUtils {
         }
     }
 
-    public static void assertMeanTemperatureInInterval(List<IntegerPoint> meanTemperature, List<IntegerPoint> minAllowedTemp,
+    public static void assertMeanTemperatureInInterval(List<IntegerPoint> meanTemperature,
+                                                       List<IntegerPoint> minAllowedTemp,
                                                        List<IntegerPoint> maxAllowedTemp) {
 
         assertEquals(minAllowedTemp.size(), meanTemperature.size());
@@ -87,7 +89,9 @@ public class TestUtils {
                 .collect(Collectors.toList());
     }
 
-    public static void assertFunctionNotHigher(List<IntegerPoint> lowerFunction, List<IntegerPoint> upperFunction) {
+    public static void assertFunctionNotHigher(List<? extends Point<?>> lowerFunction,
+                                               List<? extends Point<?>> upperFunction) {
+
         lowerFunction.forEach(lowerPoint -> {
             val upperPoint = upperFunction.stream()
                     .filter(point -> point.getTime().equals(lowerPoint.getTime()))
@@ -95,28 +99,14 @@ public class TestUtils {
                     .orElseThrow();
 
             assertTrue("Lower: " + lowerPoint + " Upper: " + upperPoint,
-                    lowerPoint.getValue() <= upperPoint.getValue());
+                    lowerPoint.getValue().doubleValue() <= upperPoint.getValue().doubleValue());
         });
     }
 
-    public static void assertFunctionNotHigherDouble(List<DoublePoint> lowerFunction, List<DoublePoint> upperFunction) {
-        lowerFunction.forEach(lowerPoint -> {
-            val upperPoint = upperFunction.stream()
-                    .filter(point -> point.getTime().equals(lowerPoint.getTime()))
-                    .findFirst()
-                    .orElseThrow();
+    public static void assertFunctionNotLower(List<? extends Point<?>> upperFunction,
+                                              List<? extends Point<?>> lowerFunction) {
 
-            assertTrue("Lower: " + lowerPoint + " Upper: " + upperPoint,
-                    lowerPoint.getValue() <= upperPoint.getValue());
-        });
-    }
-
-    public static void assertFunctionNotLower(List<IntegerPoint> upperFunction, List<IntegerPoint> lowerFunction) {
         assertFunctionNotHigher(lowerFunction, upperFunction);
-    }
-
-    public static void assertFunctionNotLowerDouble(List<DoublePoint> upperFunction, List<DoublePoint> lowerFunction) {
-        assertFunctionNotHigherDouble(lowerFunction, upperFunction);
     }
 
     public static GenerationProperties defaultGenerationProperties() {

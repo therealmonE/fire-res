@@ -9,20 +9,25 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static io.github.therealmone.fireres.core.TestUtils.*;
-import static io.github.therealmone.fireres.core.utils.RandomUtils.generateValueInInterval;
-import static org.junit.Assert.assertTrue;
 
 public class ExcessPressureGeneratorTest {
 
     @Test
     public void generateTest() {
-        val generatorFactory = new PointSequenceFactory(defaultGenerationProperties());
-        val excessPressureGeneratorTest = generatorFactory.excessPressure();
-        System.out.println(excessPressureGeneratorTest);
+        val props = defaultGenerationProperties();
+        val factory = new PointSequenceFactory(props);
 
-//        assertFunctionNotHigherDouble(IntStream.range(0, time)
-//                .mapToObj(PointSequenceFactory.generationProperties.getTime())
-//                .collect(Collectors.toList());
-//        assertFunctionNotLowerDouble();
+        val pressure = factory.excessPressure();
+
+        val upperBound = IntStream.range(0, props.getTime())
+                .mapToObj(t -> new DoublePoint(t, props.getPressure().getDelta()))
+                .collect(Collectors.toList());
+
+        val lowerBound = IntStream.range(0, props.getTime())
+                .mapToObj(t -> new DoublePoint(t, -props.getPressure().getDelta()))
+                .collect(Collectors.toList());
+
+        assertFunctionNotHigher(pressure.getValue(), upperBound);
+        assertFunctionNotLower(pressure.getValue(), lowerBound);
     }
 }

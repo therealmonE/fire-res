@@ -16,11 +16,15 @@ public class RandomUtils {
         return RANDOM.nextInt(upperBound + 1 - lowerBound) + lowerBound;
     }
 
-    public static boolean rollDice(Double chance) {
-        return RANDOM.nextDouble() <= chance;
+    public static Double generateValueInInterval(Double lowerBound, Double upperBound) {
+        if (lowerBound.equals(upperBound)) {
+            return lowerBound;
+        }
+
+        return RANDOM.nextDouble() * (upperBound - lowerBound) + lowerBound;
     }
 
-    public static Double generateValueInInterval(Double min, Double max) {
-        return (min + (Math.random() * (max - min)));
+    public static boolean rollDice(Double chance) {
+        return RANDOM.nextDouble() <= chance;
     }
 }
