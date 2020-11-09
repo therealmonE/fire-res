@@ -16,5 +16,6 @@ public class GenerationProperties {
     private Integer time;
     private TemperatureProperties temperature;
     private List<SampleProperties> samples;
+    private PressureProperties pressure;
 
 }
