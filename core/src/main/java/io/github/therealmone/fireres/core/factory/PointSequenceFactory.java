@@ -101,7 +101,7 @@ public class PointSequenceFactory {
 
         return new ExcessPressureGenerator(
                 generationProperties.getTime(),
-                generationProperties.getDelta()
+                generationProperties.getPressure().getDelta()
         ).generate();
     }
 }

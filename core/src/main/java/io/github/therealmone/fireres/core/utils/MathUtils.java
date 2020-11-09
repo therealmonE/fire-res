@@ -21,10 +21,4 @@ public class MathUtils {
 
         return (int) Math.round(sum / (double) function.size());
     }
-
-    public static Double randomDoublePoint(Double min, Double max, int afterPoint) {
-        double shift = Math.pow(10, afterPoint);
-        return ((min * shift
-                + ((int) (Math.random() * (max - min) * shift))) / shift);
-    }
 }

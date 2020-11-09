@@ -1,13 +1,11 @@
 package io.github.therealmone.fireres.core;
 
-import io.github.therealmone.fireres.core.config.Coefficient;
-import io.github.therealmone.fireres.core.config.GenerationProperties;
-import io.github.therealmone.fireres.core.config.RandomPointsProperties;
-import io.github.therealmone.fireres.core.config.SampleProperties;
-import io.github.therealmone.fireres.core.config.TemperatureProperties;
+import io.github.therealmone.fireres.core.config.*;
 import io.github.therealmone.fireres.core.model.firemode.ThermocoupleMeanTemperature;
 import io.github.therealmone.fireres.core.model.firemode.ThermocoupleTemperature;
+import io.github.therealmone.fireres.core.model.point.DoublePoint;
 import io.github.therealmone.fireres.core.model.point.IntegerPoint;
+import io.github.therealmone.fireres.core.model.point.Point;
 import lombok.val;
 
 import java.util.ArrayList;
@@ -101,8 +99,24 @@ public class TestUtils {
         });
     }
 
+    public static void assertFunctionNotHigherDouble(List<DoublePoint> lowerFunction, List<DoublePoint> upperFunction) {
+        lowerFunction.forEach(lowerPoint -> {
+            val upperPoint = upperFunction.stream()
+                    .filter(point -> point.getTime().equals(lowerPoint.getTime()))
+                    .findFirst()
+                    .orElseThrow();
+
+            assertTrue("Lower: " + lowerPoint + " Upper: " + upperPoint,
+                    lowerPoint.getValue() <= upperPoint.getValue());
+        });
+    }
+
     public static void assertFunctionNotLower(List<IntegerPoint> upperFunction, List<IntegerPoint> lowerFunction) {
         assertFunctionNotHigher(lowerFunction, upperFunction);
+    }
+
+    public static void assertFunctionNotLowerDouble(List<DoublePoint> upperFunction, List<DoublePoint> lowerFunction) {
+        assertFunctionNotHigherDouble(lowerFunction, upperFunction);
     }
 
     public static GenerationProperties defaultGenerationProperties() {
@@ -129,7 +143,9 @@ public class TestUtils {
                         .interpolationPoints(INTERPOLATION_POINTS)
                         .thermocoupleCount(6)
                         .build()))
-                .delta(2.0)
+                .pressure(PressureProperties.builder()
+                        .delta(2.0)
+                        .build())
                 .build();
     }
 

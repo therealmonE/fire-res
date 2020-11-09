@@ -20,4 +20,7 @@ public class RandomUtils {
         return RANDOM.nextDouble() <= chance;
     }
 
+    public static Double generateValueInInterval(Double min, Double max) {
+        return (min + (Math.random() * (max - min)));
+    }
 }
