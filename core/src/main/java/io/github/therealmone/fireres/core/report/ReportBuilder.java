@@ -3,11 +3,10 @@ package io.github.therealmone.fireres.core.report;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.exception.ImpossibleGenerationException;
 import io.github.therealmone.fireres.core.exception.InvalidMeanFunctionException;
-import io.github.therealmone.fireres.core.factory.PointSequenceFactory;
+import io.github.therealmone.fireres.core.factory.FireModeFactory;
 import io.github.therealmone.fireres.core.model.firemode.MaxAllowedTemperature;
 import io.github.therealmone.fireres.core.model.firemode.MinAllowedTemperature;
 import io.github.therealmone.fireres.core.model.Sample;
-import io.github.therealmone.fireres.core.validation.Validator;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
@@ -22,9 +21,8 @@ public class ReportBuilder {
 
     public static Report build(GenerationProperties properties) {
         log.info("Building report");
-        Validator.validateGenerationProperties(properties);
 
-        val factory = new PointSequenceFactory(properties);
+        val factory = new FireModeFactory(properties);
 
         val standardTemp = factory.standardTemperature();
         val maxAllowedTemp = factory.maxAllowedTemperature(standardTemp);
@@ -47,8 +45,8 @@ public class ReportBuilder {
 
         log.info("Report was built successfully");
         return Report.builder()
-                .time(properties.getTime())
-                .environmentTemperature(properties.getTemperature().getEnvironmentTemperature())
+                .time(properties.getGeneral().getTime())
+                .environmentTemperature(properties.getGeneral().getEnvironmentTemperature())
                 .furnaceTemperature(furnaceTemp)
                 .minAllowedTemperature(minAllowedTemp)
                 .maxAllowedTemperature(maxAllowedTemp)
@@ -57,7 +55,7 @@ public class ReportBuilder {
                 .build();
     }
 
-    private static Sample tryToGenerateSample(PointSequenceFactory factory,
+    private static Sample tryToGenerateSample(FireModeFactory factory,
                                               MaxAllowedTemperature maxAllowedTemp,
                                               MinAllowedTemperature minAllowedTemp,
                                               Integer sampleNumber) {

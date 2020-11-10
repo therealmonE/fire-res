@@ -13,9 +13,7 @@ import java.util.List;
 @Builder
 public class GenerationProperties {
 
-    private Integer time;
-    private TemperatureProperties temperature;
+    private GeneralProperties general;
     private List<SampleProperties> samples;
-    private PressureProperties pressure;
 
 }

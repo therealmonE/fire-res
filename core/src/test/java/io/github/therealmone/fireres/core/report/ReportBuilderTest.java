@@ -80,7 +80,7 @@ public class ReportBuilderTest {
     public void buildWithoutInterpolationPoints() {
         val props = defaultGenerationProperties();
 
-        props.getSamples().get(0).setInterpolationPoints(emptyList());
+        props.getSamples().get(0).getFireMode().setInterpolationPoints(emptyList());
 
         val report = ReportBuilder.build(props);
 

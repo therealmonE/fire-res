@@ -1,10 +1,10 @@
 package io.github.therealmone.fireres.excel;
 
+import io.github.therealmone.fireres.core.config.GeneralProperties;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.config.RandomPointsProperties;
 import io.github.therealmone.fireres.core.config.SampleProperties;
-import io.github.therealmone.fireres.core.config.Coefficient;
-import io.github.therealmone.fireres.core.config.TemperatureProperties;
+import io.github.therealmone.fireres.core.config.firemode.FireModeProperties;
 import io.github.therealmone.fireres.core.model.point.IntegerPoint;
 import lombok.val;
 import org.junit.Rule;
@@ -39,27 +39,19 @@ public class ExcelReportConstructorTest {
         val file = temporaryFolder.newFile("test.xls");
 
         val props = GenerationProperties.builder()
-                .temperature(TemperatureProperties.builder()
+                .general(GeneralProperties.builder()
                         .environmentTemperature(21)
-                        .minAllowedTempCoefficients(List.of(
-                                new Coefficient(0, 10, 0.85),
-                                new Coefficient(11, 30, 0.9),
-                                new Coefficient(31, 71, 0.95)
-                        ))
-                        .maxAllowedTempCoefficients(List.of(
-                                new Coefficient(0, 10, 1.15),
-                                new Coefficient(11, 30, 1.1),
-                                new Coefficient(31, 71, 1.05)
-                        ))
+                        .time(71)
                         .build())
-                .time(71)
                 .samples(List.of(SampleProperties.builder()
-                        .randomPoints(RandomPointsProperties.builder()
-                                .enrichWithRandomPoints(true)
-                                .newPointChance(1.0)
+                        .fireMode(FireModeProperties.builder()
+                                .randomPoints(RandomPointsProperties.builder()
+                                        .enrichWithRandomPoints(true)
+                                        .newPointChance(1.0)
+                                        .build())
+                                .interpolationPoints(INTERPOLATION_POINTS)
+                                .thermocoupleCount(6)
                                 .build())
-                        .interpolationPoints(INTERPOLATION_POINTS)
-                        .thermocoupleCount(6)
                         .build()))
                 .build();
 
