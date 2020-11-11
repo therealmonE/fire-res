@@ -1,11 +1,12 @@
 package io.github.therealmone.fireres.excel;
 
-import io.github.therealmone.fireres.core.config.GeneralProperties;
-import io.github.therealmone.fireres.core.config.GenerationProperties;
-import io.github.therealmone.fireres.core.config.RandomPointsProperties;
-import io.github.therealmone.fireres.core.config.SampleProperties;
-import io.github.therealmone.fireres.core.config.firemode.FireModeProperties;
-import io.github.therealmone.fireres.core.model.point.IntegerPoint;
+import io.github.therealmone.fireres.core.common.config.GeneralProperties;
+import io.github.therealmone.fireres.core.common.config.GenerationProperties;
+import io.github.therealmone.fireres.core.common.config.RandomPointsProperties;
+import io.github.therealmone.fireres.core.common.config.SampleProperties;
+import io.github.therealmone.fireres.core.firemode.config.FireModeProperties;
+import io.github.therealmone.fireres.core.common.model.IntegerPoint;
+import io.github.therealmone.fireres.core.pressure.config.ExcessPressureProperties;
 import lombok.val;
 import org.junit.Rule;
 import org.junit.Test;
@@ -42,6 +43,10 @@ public class ExcelReportConstructorTest {
                 .general(GeneralProperties.builder()
                         .environmentTemperature(21)
                         .time(71)
+                        .excessPressure(ExcessPressureProperties.builder()
+                                .basePressure(10.0)
+                                .delta(2.0)
+                                .build())
                         .build())
                 .samples(List.of(SampleProperties.builder()
                         .fireMode(FireModeProperties.builder()

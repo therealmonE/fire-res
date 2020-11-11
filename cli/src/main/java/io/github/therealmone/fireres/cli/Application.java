@@ -3,7 +3,7 @@ package io.github.therealmone.fireres.cli;
 import com.beust.jcommander.JCommander;
 import com.typesafe.config.ConfigBeanFactory;
 import com.typesafe.config.ConfigFactory;
-import io.github.therealmone.fireres.core.config.GenerationProperties;
+import io.github.therealmone.fireres.core.common.config.GenerationProperties;
 import io.github.therealmone.fireres.excel.ExcelReportConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;

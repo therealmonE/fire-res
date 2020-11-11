@@ -1,12 +1,12 @@
 package io.github.therealmone.fireres.core;
 
-import io.github.therealmone.fireres.core.config.*;
-import io.github.therealmone.fireres.core.config.firemode.FireModeProperties;
-import io.github.therealmone.fireres.core.config.pressure.ExcessPressureProperties;
-import io.github.therealmone.fireres.core.model.firemode.ThermocoupleMeanTemperature;
-import io.github.therealmone.fireres.core.model.firemode.ThermocoupleTemperature;
-import io.github.therealmone.fireres.core.model.point.IntegerPoint;
-import io.github.therealmone.fireres.core.model.point.Point;
+import io.github.therealmone.fireres.core.common.config.*;
+import io.github.therealmone.fireres.core.firemode.config.FireModeProperties;
+import io.github.therealmone.fireres.core.pressure.config.ExcessPressureProperties;
+import io.github.therealmone.fireres.core.firemode.model.ThermocoupleMeanTemperature;
+import io.github.therealmone.fireres.core.firemode.model.ThermocoupleTemperature;
+import io.github.therealmone.fireres.core.common.model.IntegerPoint;
+import io.github.therealmone.fireres.core.common.model.Point;
 import lombok.val;
 
 import java.util.ArrayList;
@@ -30,6 +30,11 @@ public class TestUtils {
         add(new IntegerPoint(49, 901));
         add(new IntegerPoint(70, 943));
     }};
+
+    public static void assertFunctionIsConstant(Number expectedValue, List<? extends Point<?>> function) {
+        function.forEach(p ->
+                assertEquals(expectedValue.doubleValue(), p.getValue().doubleValue(), 0));
+    }
 
     public static void assertFunctionConstantlyGrowing(List<IntegerPoint> function) {
         for (int i = 1; i < function.size(); i++) {

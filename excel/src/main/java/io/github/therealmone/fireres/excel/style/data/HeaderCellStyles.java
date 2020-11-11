@@ -24,6 +24,7 @@ public class HeaderCellStyles {
 
     private CellStyle createCommonCellStyle(Workbook workbook) {
         val style = workbook.createCellStyle();
+        style.setBorderTop(BorderStyle.MEDIUM);
         style.setBorderBottom(BorderStyle.MEDIUM);
         style.setAlignment(HorizontalAlignment.CENTER);
         style.setVerticalAlignment(VerticalAlignment.CENTER);
