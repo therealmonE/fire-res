@@ -1,6 +1,6 @@
 package io.github.therealmone.fireres.excel;
 
-import io.github.therealmone.fireres.core.config.GenerationProperties;
+import io.github.therealmone.fireres.core.common.config.GenerationProperties;
 import io.github.therealmone.fireres.core.report.Report;
 import io.github.therealmone.fireres.core.report.ReportBuilder;
 import io.github.therealmone.fireres.excel.mapper.ExcelReportMapper;

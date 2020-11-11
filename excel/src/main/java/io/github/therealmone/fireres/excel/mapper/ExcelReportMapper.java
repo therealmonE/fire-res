@@ -26,13 +26,13 @@ public class ExcelReportMapper {
 
         excelReport.getColumns().add(new TimeColumn(time));
         excelReport.getColumns().add(new EnvTempColumn(time, envTemp));
-        excelReport.getColumns().add(new FurnaceTemperatureColumn(report.getFurnaceTemperature()));
-        excelReport.getColumns().add(new MinAllowedTemperatureColumn(report.getMinAllowedTemperature()));
-        excelReport.getColumns().add(new MaxAllowedTemperatureColumn(report.getMaxAllowedTemperature()));
+        excelReport.getColumns().add(new FurnaceTemperatureColumn(report.getFireMode().getFurnaceTemperature()));
+        excelReport.getColumns().add(new MinAllowedTemperatureColumn(report.getFireMode().getMinAllowedTemperature()));
+        excelReport.getColumns().add(new MaxAllowedTemperatureColumn(report.getFireMode().getMaxAllowedTemperature()));
         excelReport.getColumns().add(new EightTimeColumn(time));
-        excelReport.getColumns().add(new StandardTemperatureColumn(report.getStandardTemperature()));
+        excelReport.getColumns().add(new StandardTemperatureColumn(report.getFireMode().getStandardTemperature()));
 
-        val samples = report.getSamples();
+        val samples = report.getFireMode().getSamples();
 
         for (int s = 0; s < samples.size(); s++) {
             val sample = samples.get(s);

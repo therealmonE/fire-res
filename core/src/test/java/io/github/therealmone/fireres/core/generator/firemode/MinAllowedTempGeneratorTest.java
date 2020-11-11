@@ -1,6 +1,6 @@
 package io.github.therealmone.fireres.core.generator.firemode;
 
-import io.github.therealmone.fireres.core.factory.FireModeFactory;
+import io.github.therealmone.fireres.core.firemode.FireModeFactory;
 import lombok.val;
 import org.junit.Test;
 

@@ -1,8 +1,8 @@
 package io.github.therealmone.fireres.core.generator.firemode;
 
-import io.github.therealmone.fireres.core.config.GeneralProperties;
-import io.github.therealmone.fireres.core.config.GenerationProperties;
-import io.github.therealmone.fireres.core.factory.FireModeFactory;
+import io.github.therealmone.fireres.core.common.config.GeneralProperties;
+import io.github.therealmone.fireres.core.common.config.GenerationProperties;
+import io.github.therealmone.fireres.core.firemode.FireModeFactory;
 import lombok.val;
 import org.junit.Test;
 

@@ -1,16 +1,16 @@
 package io.github.therealmone.fireres.core.report;
 
-import io.github.therealmone.fireres.core.config.GenerationProperties;
+import io.github.therealmone.fireres.core.common.config.GenerationProperties;
 import io.github.therealmone.fireres.core.exception.ImpossibleGenerationException;
 import io.github.therealmone.fireres.core.exception.InvalidMeanFunctionException;
-import io.github.therealmone.fireres.core.factory.FireModeFactory;
-import io.github.therealmone.fireres.core.model.firemode.MaxAllowedTemperature;
-import io.github.therealmone.fireres.core.model.firemode.MinAllowedTemperature;
-import io.github.therealmone.fireres.core.model.Sample;
+import io.github.therealmone.fireres.core.firemode.FireModeFactory;
+import io.github.therealmone.fireres.core.firemode.model.FireMode;
+import io.github.therealmone.fireres.core.firemode.model.FireModeSample;
+import io.github.therealmone.fireres.core.firemode.model.MaxAllowedTemperature;
+import io.github.therealmone.fireres.core.firemode.model.MinAllowedTemperature;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
-import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -29,7 +29,7 @@ public class ReportBuilder {
         val minAllowedTemp = factory.minAllowedTemperature(standardTemp);
         val furnaceTemp = factory.furnaceTemperature(standardTemp);
 
-        List<Sample> samples = IntStream.range(0, properties.getSamples().size())
+        val samples = IntStream.range(0, properties.getSamples().size())
                 .mapToObj(i -> {
                     for (int j = 0; j < ATTEMPTS; j++) {
                         try {
@@ -47,15 +47,17 @@ public class ReportBuilder {
         return Report.builder()
                 .time(properties.getGeneral().getTime())
                 .environmentTemperature(properties.getGeneral().getEnvironmentTemperature())
-                .furnaceTemperature(furnaceTemp)
-                .minAllowedTemperature(minAllowedTemp)
-                .maxAllowedTemperature(maxAllowedTemp)
-                .standardTemperature(standardTemp)
-                .samples(samples)
+                .fireMode(FireMode.builder()
+                        .furnaceTemperature(furnaceTemp)
+                        .minAllowedTemperature(minAllowedTemp)
+                        .maxAllowedTemperature(maxAllowedTemp)
+                        .standardTemperature(standardTemp)
+                        .samples(samples)
+                        .build())
                 .build();
     }
 
-    private static Sample tryToGenerateSample(FireModeFactory factory,
+    private static FireModeSample tryToGenerateSample(FireModeFactory factory,
                                               MaxAllowedTemperature maxAllowedTemp,
                                               MinAllowedTemperature minAllowedTemp,
                                               Integer sampleNumber) {
@@ -63,7 +65,7 @@ public class ReportBuilder {
         val meanTemp = factory.thermocoupleMeanTemperature(
                 sampleNumber, minAllowedTemp, maxAllowedTemp);
 
-        return Sample.builder()
+        return FireModeSample.builder()
                 .thermocoupleMeanTemperature(meanTemp)
                 .thermocoupleTemperatures(factory.thermocouplesTemperatures(
                         minAllowedTemp, maxAllowedTemp, meanTemp, sampleNumber))

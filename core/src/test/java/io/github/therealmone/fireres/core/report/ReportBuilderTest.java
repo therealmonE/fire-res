@@ -29,11 +29,11 @@ public class ReportBuilderTest {
 
         val time = (int) report.getTime();
         val environmentTemp = (int) report.getEnvironmentTemperature();
-        val furnaceTemp = report.getFurnaceTemperature().getValue();
-        val minAllowedTemp = report.getMinAllowedTemperature().getValue();
-        val maxAllowedTemp = report.getMaxAllowedTemperature().getValue();
-        val maxAllowedSmoothedTemp = report.getMaxAllowedTemperature().getSmoothedValue();
-        val standardTemp = report.getStandardTemperature().getValue();
+        val furnaceTemp = report.getFireMode().getFurnaceTemperature().getValue();
+        val minAllowedTemp = report.getFireMode().getMinAllowedTemperature().getValue();
+        val maxAllowedTemp = report.getFireMode().getMaxAllowedTemperature().getValue();
+        val maxAllowedSmoothedTemp = report.getFireMode().getMaxAllowedTemperature().getSmoothedValue();
+        val standardTemp = report.getFireMode().getStandardTemperature().getValue();
 
         assertEquals(71, time);
         assertEquals(21, environmentTemp);
@@ -50,7 +50,7 @@ public class ReportBuilderTest {
         assertFunctionNotHigher(standardTemp, maxAllowedTemp);
         assertFunctionNotHigher(standardTemp, maxAllowedSmoothedTemp);
 
-        report.getSamples().forEach(sample -> {
+        report.getFireMode().getSamples().forEach(sample -> {
             val meanTemp = sample.getThermocoupleMeanTemperature();
 
             assertFunctionConstantlyGrowing(meanTemp.getValue());
@@ -86,11 +86,11 @@ public class ReportBuilderTest {
 
         val time = (int) report.getTime();
         val environmentTemp = (int) report.getEnvironmentTemperature();
-        val furnaceTemp = report.getFurnaceTemperature().getValue();
-        val minAllowedTemp = report.getMinAllowedTemperature().getValue();
-        val maxAllowedTemp = report.getMaxAllowedTemperature().getValue();
-        val maxAllowedSmoothedTemp = report.getMaxAllowedTemperature().getSmoothedValue();
-        val standardTemp = report.getStandardTemperature().getValue();
+        val furnaceTemp = report.getFireMode().getFurnaceTemperature().getValue();
+        val minAllowedTemp = report.getFireMode().getMinAllowedTemperature().getValue();
+        val maxAllowedTemp = report.getFireMode().getMaxAllowedTemperature().getValue();
+        val maxAllowedSmoothedTemp = report.getFireMode().getMaxAllowedTemperature().getSmoothedValue();
+        val standardTemp = report.getFireMode().getStandardTemperature().getValue();
 
         assertEquals(71, time);
         assertEquals(21, environmentTemp);
@@ -107,7 +107,7 @@ public class ReportBuilderTest {
         assertFunctionNotHigher(standardTemp, maxAllowedTemp);
         assertFunctionNotHigher(standardTemp, maxAllowedSmoothedTemp);
 
-        report.getSamples().forEach(sample -> {
+        report.getFireMode().getSamples().forEach(sample -> {
             val meanTemp = sample.getThermocoupleMeanTemperature();
 
             assertFunctionConstantlyGrowing(meanTemp.getValue());

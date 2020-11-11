@@ -1,6 +1,6 @@
 package io.github.therealmone.fireres.excel.model;
 
-import io.github.therealmone.fireres.core.model.firemode.StandardTemperature;
+import io.github.therealmone.fireres.core.firemode.model.StandardTemperature;
 import io.github.therealmone.fireres.excel.chart.ChartColumn;
 import io.github.therealmone.fireres.excel.style.chart.StandardTemperatureLineProperties;
 import org.apache.poi.xddf.usermodel.XDDFLineProperties;

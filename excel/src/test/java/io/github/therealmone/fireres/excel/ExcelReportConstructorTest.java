@@ -1,11 +1,11 @@
 package io.github.therealmone.fireres.excel;
 
-import io.github.therealmone.fireres.core.config.GeneralProperties;
-import io.github.therealmone.fireres.core.config.GenerationProperties;
-import io.github.therealmone.fireres.core.config.RandomPointsProperties;
-import io.github.therealmone.fireres.core.config.SampleProperties;
-import io.github.therealmone.fireres.core.config.firemode.FireModeProperties;
-import io.github.therealmone.fireres.core.model.point.IntegerPoint;
+import io.github.therealmone.fireres.core.common.config.GeneralProperties;
+import io.github.therealmone.fireres.core.common.config.GenerationProperties;
+import io.github.therealmone.fireres.core.common.config.RandomPointsProperties;
+import io.github.therealmone.fireres.core.common.config.SampleProperties;
+import io.github.therealmone.fireres.core.firemode.config.FireModeProperties;
+import io.github.therealmone.fireres.core.common.model.IntegerPoint;
 import lombok.val;
 import org.junit.Rule;
 import org.junit.Test;

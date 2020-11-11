@@ -1,7 +1,7 @@
 package io.github.therealmone.fireres.core.generator.firemode;
 
-import io.github.therealmone.fireres.core.factory.ExcessPressureFactory;
-import io.github.therealmone.fireres.core.model.point.DoublePoint;
+import io.github.therealmone.fireres.core.pressure.ExcessPressureFactory;
+import io.github.therealmone.fireres.core.common.model.DoublePoint;
 import lombok.val;
 import org.junit.Test;
 

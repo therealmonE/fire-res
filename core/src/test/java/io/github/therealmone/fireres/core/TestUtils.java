@@ -1,12 +1,12 @@
 package io.github.therealmone.fireres.core;
 
-import io.github.therealmone.fireres.core.config.*;
-import io.github.therealmone.fireres.core.config.firemode.FireModeProperties;
-import io.github.therealmone.fireres.core.config.pressure.ExcessPressureProperties;
-import io.github.therealmone.fireres.core.model.firemode.ThermocoupleMeanTemperature;
-import io.github.therealmone.fireres.core.model.firemode.ThermocoupleTemperature;
-import io.github.therealmone.fireres.core.model.point.IntegerPoint;
-import io.github.therealmone.fireres.core.model.point.Point;
+import io.github.therealmone.fireres.core.common.config.*;
+import io.github.therealmone.fireres.core.firemode.config.FireModeProperties;
+import io.github.therealmone.fireres.core.pressure.config.ExcessPressureProperties;
+import io.github.therealmone.fireres.core.firemode.model.ThermocoupleMeanTemperature;
+import io.github.therealmone.fireres.core.firemode.model.ThermocoupleTemperature;
+import io.github.therealmone.fireres.core.common.model.IntegerPoint;
+import io.github.therealmone.fireres.core.common.model.Point;
 import lombok.val;
 
 import java.util.ArrayList;
