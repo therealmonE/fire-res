@@ -1,6 +1,6 @@
 package io.github.therealmone.fireres.excel.mapper;
 
-import io.github.therealmone.fireres.core.report.Report;
+import io.github.therealmone.fireres.core.common.report.FullReport;
 import io.github.therealmone.fireres.excel.model.EightTimeColumn;
 import io.github.therealmone.fireres.excel.model.EnvTempColumn;
 import io.github.therealmone.fireres.excel.model.ExcelReport;
@@ -16,7 +16,7 @@ import lombok.val;
 
 public class ExcelReportMapper {
 
-    public static ExcelReport mapToExcelReport(Report report) {
+    public static ExcelReport mapToExcelReport(FullReport report) {
         val excelReport = new ExcelReport();
 
         val time = report.getTime();

@@ -21,7 +21,6 @@ import lombok.val;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 @RequiredArgsConstructor
 @Slf4j
 public class FireModeFactory {

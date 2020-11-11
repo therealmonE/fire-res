@@ -1,4 +1,4 @@
-package io.github.therealmone.fireres.core.report;
+package io.github.therealmone.fireres.core.common.report;
 
 import lombok.val;
 import org.junit.Test;
@@ -12,7 +12,7 @@ import static io.github.therealmone.fireres.core.TestUtils.defaultGenerationProp
 import static java.util.Collections.emptyList;
 import static org.junit.Assert.assertEquals;
 
-public class ReportBuilderTest {
+public class FullReportBuilderTest {
 
     private static final Integer CYCLES = 1000;
 
@@ -25,7 +25,7 @@ public class ReportBuilderTest {
 
     @Test
     public void build() {
-        val report = ReportBuilder.build(defaultGenerationProperties());
+        val report = new FullReportBuilder().build(defaultGenerationProperties());
 
         val time = (int) report.getTime();
         val environmentTemp = (int) report.getEnvironmentTemperature();
@@ -82,7 +82,7 @@ public class ReportBuilderTest {
 
         props.getSamples().get(0).getFireMode().setInterpolationPoints(emptyList());
 
-        val report = ReportBuilder.build(props);
+        val report = new FullReportBuilder().build(props);
 
         val time = (int) report.getTime();
         val environmentTemp = (int) report.getEnvironmentTemperature();

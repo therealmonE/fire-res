@@ -31,6 +31,11 @@ public class TestUtils {
         add(new IntegerPoint(70, 943));
     }};
 
+    public static void assertFunctionIsConstant(Number expectedValue, List<? extends Point<?>> function) {
+        function.forEach(p ->
+                assertEquals(expectedValue.doubleValue(), p.getValue().doubleValue(), 0));
+    }
+
     public static void assertFunctionConstantlyGrowing(List<IntegerPoint> function) {
         for (int i = 1; i < function.size(); i++) {
             val point = function.get(i);

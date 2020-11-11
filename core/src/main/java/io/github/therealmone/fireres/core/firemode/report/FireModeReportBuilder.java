@@ -1,10 +1,10 @@
-package io.github.therealmone.fireres.core.report;
+package io.github.therealmone.fireres.core.firemode.report;
 
 import io.github.therealmone.fireres.core.common.config.GenerationProperties;
+import io.github.therealmone.fireres.core.common.report.ReportBuilder;
 import io.github.therealmone.fireres.core.exception.ImpossibleGenerationException;
 import io.github.therealmone.fireres.core.exception.InvalidMeanFunctionException;
 import io.github.therealmone.fireres.core.firemode.FireModeFactory;
-import io.github.therealmone.fireres.core.firemode.model.FireMode;
 import io.github.therealmone.fireres.core.firemode.model.FireModeSample;
 import io.github.therealmone.fireres.core.firemode.model.MaxAllowedTemperature;
 import io.github.therealmone.fireres.core.firemode.model.MinAllowedTemperature;
@@ -15,13 +15,13 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Slf4j
-public class ReportBuilder {
+public class FireModeReportBuilder implements ReportBuilder<FireModeReport> {
 
     private static final Integer ATTEMPTS = 100;
 
-    public static Report build(GenerationProperties properties) {
-        log.info("Building report");
-
+    @Override
+    public FireModeReport build(GenerationProperties properties) {
+        log.info("Building fire mode report");
         val factory = new FireModeFactory(properties);
 
         val standardTemp = factory.standardTemperature();
@@ -35,7 +35,7 @@ public class ReportBuilder {
                         try {
                             return tryToGenerateSample(factory, maxAllowedTemp, minAllowedTemp, i);
                         } catch (InvalidMeanFunctionException e) {
-                            log.error("Invalid mean temperature, trying to generate new one...");
+                            log.error("Invalid fire mode mean temperature, trying to generate new one...");
                         }
                     }
 
@@ -43,24 +43,20 @@ public class ReportBuilder {
                 })
                 .collect(Collectors.toList());
 
-        log.info("Report was built successfully");
-        return Report.builder()
-                .time(properties.getGeneral().getTime())
-                .environmentTemperature(properties.getGeneral().getEnvironmentTemperature())
-                .fireMode(FireMode.builder()
-                        .furnaceTemperature(furnaceTemp)
-                        .minAllowedTemperature(minAllowedTemp)
-                        .maxAllowedTemperature(maxAllowedTemp)
-                        .standardTemperature(standardTemp)
-                        .samples(samples)
-                        .build())
+        log.info("Fire mode report was built successfully");
+        return FireModeReport.builder()
+                .furnaceTemperature(furnaceTemp)
+                .minAllowedTemperature(minAllowedTemp)
+                .maxAllowedTemperature(maxAllowedTemp)
+                .standardTemperature(standardTemp)
+                .samples(samples)
                 .build();
     }
 
     private static FireModeSample tryToGenerateSample(FireModeFactory factory,
-                                              MaxAllowedTemperature maxAllowedTemp,
-                                              MinAllowedTemperature minAllowedTemp,
-                                              Integer sampleNumber) {
+                                                      MaxAllowedTemperature maxAllowedTemp,
+                                                      MinAllowedTemperature minAllowedTemp,
+                                                      Integer sampleNumber) {
 
         val meanTemp = factory.thermocoupleMeanTemperature(
                 sampleNumber, minAllowedTemp, maxAllowedTemp);

@@ -1,8 +1,8 @@
 package io.github.therealmone.fireres.excel;
 
 import io.github.therealmone.fireres.core.common.config.GenerationProperties;
-import io.github.therealmone.fireres.core.report.Report;
-import io.github.therealmone.fireres.core.report.ReportBuilder;
+import io.github.therealmone.fireres.core.common.report.FullReport;
+import io.github.therealmone.fireres.core.common.report.FullReportBuilder;
 import io.github.therealmone.fireres.excel.mapper.ExcelReportMapper;
 import io.github.therealmone.fireres.excel.model.Column;
 import io.github.therealmone.fireres.excel.style.data.DataCellStyles;
@@ -22,7 +22,6 @@ import java.util.stream.IntStream;
 
 import static io.github.therealmone.fireres.excel.chart.FireResChart.generateChart;
 
-
 @RequiredArgsConstructor
 @Slf4j
 public class ExcelReportConstructor implements ReportConstructor {
@@ -35,7 +34,7 @@ public class ExcelReportConstructor implements ReportConstructor {
     @SneakyThrows
     public void construct(File outputFile) {
         log.info("Writing excel report to: {}", outputFile.getAbsolutePath());
-        val report = ReportBuilder.build(generationProperties);
+        val report = new FullReportBuilder().build(generationProperties);
 
         try (val excel = generateExcel(report);
              val outputStream = new FileOutputStream(outputFile)) {
@@ -43,7 +42,7 @@ public class ExcelReportConstructor implements ReportConstructor {
         }
     }
 
-    private Workbook generateExcel(Report report) {
+    private Workbook generateExcel(FullReport report) {
         val workbook = new XSSFWorkbook();
         val sheet = workbook.createSheet();
         val excelReport = ExcelReportMapper.mapToExcelReport(report);

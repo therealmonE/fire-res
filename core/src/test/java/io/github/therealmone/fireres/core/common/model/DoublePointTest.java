@@ -1,6 +1,5 @@
-package io.github.therealmone.fireres.core.model.point;
+package io.github.therealmone.fireres.core.common.model;
 
-import io.github.therealmone.fireres.core.common.model.DoublePoint;
 import lombok.val;
 import org.junit.Test;
 
