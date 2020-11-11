@@ -1,16 +1,12 @@
 package io.github.therealmone.fireres.core.config;
 
-import com.typesafe.config.Optional;
-import io.github.therealmone.fireres.core.model.point.IntegerPoint;
-import io.github.therealmone.fireres.core.model.point.Point;
+import io.github.therealmone.fireres.core.config.firemode.FireModeProperties;
+import io.github.therealmone.fireres.core.config.heatflow.HeatFlowProperties;
+import io.github.therealmone.fireres.core.config.unheated.UnheatedSurfaceProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -18,21 +14,8 @@ import java.util.List;
 @Builder
 public class SampleProperties {
 
-    @Optional
-    @Builder.Default
-    private List<IntegerPoint> interpolationPoints = Collections.emptyList();
+    private FireModeProperties fireMode;
+    private UnheatedSurfaceProperties unheatedSurface;
+    private HeatFlowProperties heatFlow;
 
-    @Optional
-    @Builder.Default
-    private RandomPointsProperties randomPoints = RandomPointsProperties.builder()
-            .enrichWithRandomPoints(true)
-            .newPointChance(0.5)
-            .build();
-
-    private Integer thermocoupleCount;
-
-    public void setInterpolationPoints(List<IntegerPoint> interpolationPoints) {
-        interpolationPoints.sort(Comparator.comparing(Point::getTime));
-        this.interpolationPoints = interpolationPoints;
-    }
 }

@@ -1,6 +1,8 @@
 package io.github.therealmone.fireres.core;
 
 import io.github.therealmone.fireres.core.config.*;
+import io.github.therealmone.fireres.core.config.firemode.FireModeProperties;
+import io.github.therealmone.fireres.core.config.pressure.ExcessPressureProperties;
 import io.github.therealmone.fireres.core.model.firemode.ThermocoupleMeanTemperature;
 import io.github.therealmone.fireres.core.model.firemode.ThermocoupleTemperature;
 import io.github.therealmone.fireres.core.model.point.IntegerPoint;
@@ -111,31 +113,23 @@ public class TestUtils {
 
     public static GenerationProperties defaultGenerationProperties() {
         return GenerationProperties.builder()
-                .temperature(TemperatureProperties.builder()
+                .general(GeneralProperties.builder()
                         .environmentTemperature(21)
-                        .minAllowedTempCoefficients(List.of(
-                                new Coefficient(0, 10, 0.85),
-                                new Coefficient(11, 30, 0.9),
-                                new Coefficient(31, 70, 0.95)
-                        ))
-                        .maxAllowedTempCoefficients(List.of(
-                                new Coefficient(0, 10, 1.15),
-                                new Coefficient(11, 30, 1.1),
-                                new Coefficient(31, 70, 1.05)
-                        ))
-                        .build())
-                .time(71)
-                .samples(List.of(SampleProperties.builder()
-                        .randomPoints(RandomPointsProperties.builder()
-                                .enrichWithRandomPoints(true)
-                                .newPointChance(0.7)
+                        .time(71)
+                        .excessPressure(ExcessPressureProperties.builder()
+                                .delta(2.0)
                                 .build())
-                        .interpolationPoints(INTERPOLATION_POINTS)
-                        .thermocoupleCount(6)
-                        .build()))
-                .pressure(PressureProperties.builder()
-                        .delta(2.0)
                         .build())
+                .samples(List.of(SampleProperties.builder()
+                        .fireMode(FireModeProperties.builder()
+                                .randomPoints(RandomPointsProperties.builder()
+                                        .enrichWithRandomPoints(true)
+                                        .newPointChance(0.7)
+                                        .build())
+                                .interpolationPoints(INTERPOLATION_POINTS)
+                                .thermocoupleCount(6)
+                                .build())
+                        .build()))
                 .build();
     }
 
