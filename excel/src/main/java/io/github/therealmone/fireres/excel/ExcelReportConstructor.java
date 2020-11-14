@@ -3,6 +3,7 @@ package io.github.therealmone.fireres.excel;
 import io.github.therealmone.fireres.core.common.config.GenerationProperties;
 import io.github.therealmone.fireres.core.common.report.FullReport;
 import io.github.therealmone.fireres.core.common.report.FullReportBuilder;
+import io.github.therealmone.fireres.excel.sheet.ExcessPressureSheet;
 import io.github.therealmone.fireres.excel.sheet.FireModeSheet;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -43,6 +44,14 @@ public class ExcelReportConstructor implements ReportConstructor {
                 report.getEnvironmentTemperature());
 
         fireModeSheet.create(workbook);
+
+        val excessPressureSheet = new ExcessPressureSheet(
+                report.getExcessPressure(),
+                report.getTime(),
+                generationProperties.getGeneral().getExcessPressure().getBasePressure()
+                );
+
+        excessPressureSheet.create(workbook);
 
         return workbook;
     }

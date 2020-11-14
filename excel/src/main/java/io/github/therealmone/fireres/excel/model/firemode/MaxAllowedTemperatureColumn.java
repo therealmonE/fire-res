@@ -11,8 +11,8 @@ public class MaxAllowedTemperatureColumn extends PointSequenceColumn implements 
     private static final String HEADER = "Тмакс";
     private static final String CHART_TITLE = "Максимальный допуск температуры";
 
-    public MaxAllowedTemperatureColumn(MaxAllowedTemperature minAllowedTemperature) {
-        super(HEADER, false, minAllowedTemperature);
+    public MaxAllowedTemperatureColumn(MaxAllowedTemperature maxAllowedTemperature) {
+        super(HEADER, false, maxAllowedTemperature);
     }
 
     @Override
