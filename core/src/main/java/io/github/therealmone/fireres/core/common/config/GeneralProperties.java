@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class GeneralProperties {
 
+    private String fileName;
     private Integer time;
     private Integer environmentTemperature;
     private ExcessPressureProperties excessPressure;
