@@ -1,8 +1,7 @@
 package io.github.therealmone.fireres.core.unheated.config;
 
-import com.typesafe.config.Optional;
+import io.github.therealmone.fireres.core.common.config.Interpolated;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -14,10 +13,8 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public class UnheatedSurfaceThirdGroup extends UnheatedSurfaceGroup {
+public class UnheatedSurfaceGroupProperties extends Interpolated {
 
-    @Optional
-    @Builder.Default
-    private Integer bound = 300;
+    private Integer thermocoupleCount;
 
 }

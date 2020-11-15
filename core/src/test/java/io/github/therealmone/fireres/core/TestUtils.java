@@ -1,12 +1,16 @@
 package io.github.therealmone.fireres.core;
 
 import io.github.therealmone.fireres.core.common.config.*;
+import io.github.therealmone.fireres.core.common.model.IntegerPointSequence;
 import io.github.therealmone.fireres.core.firemode.config.FireModeProperties;
 import io.github.therealmone.fireres.core.pressure.config.ExcessPressureProperties;
 import io.github.therealmone.fireres.core.firemode.model.ThermocoupleMeanTemperature;
 import io.github.therealmone.fireres.core.firemode.model.ThermocoupleTemperature;
 import io.github.therealmone.fireres.core.common.model.IntegerPoint;
 import io.github.therealmone.fireres.core.common.model.Point;
+import io.github.therealmone.fireres.core.unheated.config.UnheatedSurfaceGroupProperties;
+import io.github.therealmone.fireres.core.unheated.config.UnheatedSurfaceProperties;
+import io.github.therealmone.fireres.core.unheated.config.UnheatedSurfaceThirdGroupProperties;
 import lombok.val;
 
 import java.util.ArrayList;
@@ -46,8 +50,8 @@ public class TestUtils {
         }
     }
 
-    public static void assertThermocouplesTemperaturesEqualsMean(List<ThermocoupleTemperature> thermocouplesTemp,
-                                                                 ThermocoupleMeanTemperature meanTemp) {
+    public static void assertThermocouplesTemperaturesEqualsMean(List<? extends IntegerPointSequence> thermocouplesTemp,
+                                                                 IntegerPointSequence meanTemp) {
         val meanTempValue = meanTemp.getValue();
 
         assertSizesEquals(thermocouplesTemp, meanTempValue);
@@ -58,7 +62,7 @@ public class TestUtils {
                         .collect(Collectors.toList()))));
     }
 
-    private static void assertSizesEquals(List<ThermocoupleTemperature> thermocouplesTemp,
+    private static void assertSizesEquals(List<? extends IntegerPointSequence> thermocouplesTemp,
                                           List<IntegerPoint> meanTemp) {
 
         thermocouplesTemp.forEach(thermocoupleTemperature -> {
@@ -133,6 +137,18 @@ public class TestUtils {
                                         .build())
                                 .interpolationPoints(INTERPOLATION_POINTS)
                                 .thermocoupleCount(6)
+                                .build())
+                        .unheatedSurface(UnheatedSurfaceProperties.builder()
+                                .firstGroup(UnheatedSurfaceGroupProperties.builder()
+                                        .thermocoupleCount(5)
+                                        .build())
+                                .secondGroup(UnheatedSurfaceGroupProperties.builder()
+                                        .thermocoupleCount(6)
+                                        .build())
+                                .thirdGroup(UnheatedSurfaceThirdGroupProperties.builder()
+                                        .bound(300)
+                                        .thermocoupleCount(6)
+                                        .build())
                                 .build())
                         .build()))
                 .build();

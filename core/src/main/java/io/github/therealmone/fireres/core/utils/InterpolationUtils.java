@@ -2,15 +2,18 @@ package io.github.therealmone.fireres.core.utils;
 
 import io.github.therealmone.fireres.core.common.model.IntegerPoint;
 import io.github.therealmone.fireres.core.common.model.IntegerPointSequence;
+import io.github.therealmone.fireres.core.common.model.Point;
 import lombok.val;
 import org.apache.commons.math3.analysis.interpolation.LinearInterpolator;
 import org.apache.commons.math3.util.Pair;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static io.github.therealmone.fireres.core.utils.RandomUtils.generateValueInInterval;
 
@@ -44,7 +47,12 @@ public class InterpolationUtils {
                 .findFirst();
 
         if(lastPoint.isEmpty()) {
-            val min = lowerBound.getPoint(time - 1).getValue();
+            val closestPoint = points.stream()
+                    .filter(p -> p.getTime() < time)
+                    .max(Comparator.comparing(Point::getTime))
+                    .orElseThrow();
+
+            val min = Math.max(closestPoint.getValue(), lowerBound.getPoint(time - 1).getValue());
             val max = upperBound.getPoint(time - 1).getValue();
 
             val newPoint = new IntegerPoint(time - 1, generateValueInInterval(min, max));
