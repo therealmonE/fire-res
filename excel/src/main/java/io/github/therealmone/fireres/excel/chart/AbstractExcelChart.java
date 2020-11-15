@@ -30,7 +30,7 @@ import java.util.stream.IntStream;
 import static org.apache.poi.xddf.usermodel.chart.XDDFDataSourcesFactory.fromNumericCellRange;
 
 @RequiredArgsConstructor
-public class AbstractExcelChart implements ExcelChart {
+public abstract class AbstractExcelChart implements ExcelChart {
 
     private final Integer time;
     private final List<Column> columns;
@@ -64,7 +64,7 @@ public class AbstractExcelChart implements ExcelChart {
     private XDDFValueAxis createValueAxis(XSSFChart chart) {
         val valueAxis = chart.createValueAxis(AxisPosition.LEFT);
         valueAxis.setCrosses(AxisCrosses.AUTO_ZERO);
-        valueAxis.setTitle("Температура, оС");
+        valueAxis.setTitle(getValueAxisTitle());
         valueAxis.setVisible(true);
 
         val shape = valueAxis.getOrAddShapeProperties();
@@ -109,8 +109,9 @@ public class AbstractExcelChart implements ExcelChart {
         for (val column : collectChartColumns(columns)) {
             val dataSource = dataSource(sheet, column.getFirst(), position);
             val series = (XDDFLineChartData.Series) data.addSeries(timeSource, dataSource);
+
             series.setMarkerStyle(MarkerStyle.NONE);
-            series.setSmooth(true);
+            series.setSmooth(isSmoothed());
             series.setLineProperties(column.getSecond().getLineProperties());
             series.setTitle(column.getSecond().getChartLegendTitle(), null);
         }
@@ -134,5 +135,9 @@ public class AbstractExcelChart implements ExcelChart {
         return fromNumericCellRange(sheet,
                 new CellRangeAddress(position + 1, position + time, column, column));
     }
+
+    protected abstract String getValueAxisTitle();
+
+    protected abstract boolean isSmoothed();
 
 }
