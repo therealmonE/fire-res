@@ -18,19 +18,20 @@ public class ExcessPressureExelReport implements ExcelReport {
 
     @Getter
     private final List<Column> data;
+    private final Double basePressure;
 
     public ExcessPressureExelReport(Integer time, ExcessPressureReport report, Double basePressure) {
         this.time = time;
         this.data = createData(report, time, basePressure);
+        this.basePressure = basePressure;
     }
 
     protected List<Column> createData(ExcessPressureReport excessPressureReport, Integer time, Double basePressure) {
         val columns = new ArrayList<Column>();
 
         columns.add(new TimeColumn(time));
-        columns.add(new PmaxColumn(excessPressureReport.getMaxAllowedPressure()));
-        columns.add(new PminColumn(excessPressureReport.getMinAllowedPressure()));
-
+        columns.add(new MaxAllowedPressureColumn(excessPressureReport.getMaxAllowedPressure()));
+        columns.add(new MinAllowedPressureColumn(excessPressureReport.getMinAllowedPressure()));
 
         val samples = excessPressureReport.getSamples();
 
@@ -50,6 +51,6 @@ public class ExcessPressureExelReport implements ExcelReport {
 
     @Override
     public ExcelChart getChart() {
-        return new ExcessPressureChart(time, getData());
+        return new ExcessPressureChart(time, getData(), basePressure);
     }
 }

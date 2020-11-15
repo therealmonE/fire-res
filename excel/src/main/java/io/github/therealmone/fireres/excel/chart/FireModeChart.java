@@ -13,4 +13,13 @@ public class FireModeChart extends AbstractExcelChart {
         super(time, columns, HEIGHT, WIDTH);
     }
 
+    @Override
+    protected String getValueAxisTitle() {
+        return "Температура, оС";
+    }
+
+    @Override
+    protected boolean isSmoothed() {
+        return true;
+    }
 }

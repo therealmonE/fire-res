@@ -9,16 +9,18 @@ import org.apache.poi.xddf.usermodel.XDDFLineProperties;
 public class DeltaColumn extends PointSequenceColumn implements ChartColumn {
 
     private static final String HEADER = "Δ";
-    private static final String CHART_TITLE = "Избыточное давление - Образец";
+    private static final String CHART_TITLE = "Избыточное давление - Образец № ";
+
+    private final Integer index;
 
     public DeltaColumn(Integer index, SamplePressure samplePressure) {
         super(HEADER + index, false, samplePressure);
+        this.index = index;
     }
-
 
     @Override
     public String getChartLegendTitle() {
-        return CHART_TITLE;
+        return CHART_TITLE + index;
     }
 
     @Override

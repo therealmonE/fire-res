@@ -6,13 +6,12 @@ import io.github.therealmone.fireres.excel.model.PointSequenceColumn;
 import io.github.therealmone.fireres.excel.style.chart.DefaultDataLineProperties;
 import org.apache.poi.xddf.usermodel.XDDFLineProperties;
 
-
-public class PmaxColumn extends PointSequenceColumn implements ChartColumn {
+public class MaxAllowedPressureColumn extends PointSequenceColumn implements ChartColumn {
 
     private static final String HEADER = "Pмакс";
     private static final String CHART_TITLE = "Максимальный допуск избыточного давления";
 
-    public PmaxColumn(MaxAllowedPressure maxAllowedPressure) {
+    public MaxAllowedPressureColumn(MaxAllowedPressure maxAllowedPressure) {
         super(HEADER, false, maxAllowedPressure);
     }
 
