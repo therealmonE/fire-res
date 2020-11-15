@@ -14,7 +14,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public class UnheatedSurfaceThirdGroupProperties extends UnheatedSurfaceGroupProperties {
+public class UnheatedSurfaceSecondaryGroupProperties extends UnheatedSurfaceGroupProperties {
 
     @Optional
     @Builder.Default

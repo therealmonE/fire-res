@@ -18,13 +18,10 @@ public class UnheatedSurfaceReportBuilder implements ReportBuilder<UnheatedSurfa
         log.info("Building unheated surface report");
         val factory = new UnheatedSurfaceFactory(properties);
 
-        val meanBound = factory.meanBound();
-        val thermocoupleBound = factory.thermocoupleBound();
-
         val samples = IntStream.range(0, properties.getSamples().size())
                 .mapToObj(sample -> UnheatedSurfaceSample.builder()
-                        .firstGroup(factory.firstThermocoupleGroup(sample, meanBound, thermocoupleBound))
-                        .secondGroup(factory.secondThermocoupleGroup(sample, meanBound, thermocoupleBound))
+                        .firstGroup(factory.firstThermocoupleGroup(sample))
+                        .secondGroup(factory.secondThermocoupleGroup(sample))
                         .thirdGroup(factory.thirdThermocoupleGroup(sample))
                         .build())
                 .collect(Collectors.toList());

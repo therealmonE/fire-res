@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class UnheatedSurfaceProperties {
 
     private UnheatedSurfaceGroupProperties firstGroup;
-    private UnheatedSurfaceGroupProperties secondGroup;
-    private UnheatedSurfaceThirdGroupProperties thirdGroup;
+    private UnheatedSurfaceSecondaryGroupProperties secondGroup;
+    private UnheatedSurfaceSecondaryGroupProperties thirdGroup;
 
 }

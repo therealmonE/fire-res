@@ -1,10 +1,12 @@
 package io.github.therealmone.fireres.core.unheated;
 
 import io.github.therealmone.fireres.core.common.config.GenerationProperties;
+import io.github.therealmone.fireres.core.common.config.SampleProperties;
 import io.github.therealmone.fireres.core.common.generator.MeanChildFunctionsGenerator;
 import io.github.therealmone.fireres.core.common.generator.MeanFunctionGenerator;
 import io.github.therealmone.fireres.core.common.model.IntegerPointSequence;
 import io.github.therealmone.fireres.core.unheated.config.UnheatedSurfaceGroupProperties;
+import io.github.therealmone.fireres.core.unheated.config.UnheatedSurfaceSecondaryGroupProperties;
 import io.github.therealmone.fireres.core.unheated.generator.UnheatedSurfaceMeanBoundGenerator;
 import io.github.therealmone.fireres.core.unheated.generator.UnheatedSurfaceThermocoupleBoundGenerator;
 import io.github.therealmone.fireres.core.unheated.model.UnheatedSurfaceGroup;
@@ -16,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.val;
 
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static io.github.therealmone.fireres.core.utils.FunctionUtils.constantFunction;
@@ -39,9 +42,9 @@ public class UnheatedSurfaceFactory {
         ).generate();
     }
 
-    public UnheatedSurfaceGroup firstThermocoupleGroup(Integer sampleNumber,
-                                                       UnheatedSurfaceMeanBound meanBound,
-                                                       UnheatedSurfaceThermocoupleBound thermocoupleBound) {
+    public UnheatedSurfaceGroup firstThermocoupleGroup(Integer sampleNumber) {
+        val meanBound = meanBound();
+        val thermocoupleBound = thermocoupleBound();
 
         val sample = generationProperties.getSamples().get(sampleNumber);
         val group = sample.getUnheatedSurface().getFirstGroup();
@@ -59,29 +62,19 @@ public class UnheatedSurfaceFactory {
     }
 
 
-    public UnheatedSurfaceGroup secondThermocoupleGroup(Integer sampleNumber,
-                                                        UnheatedSurfaceMeanBound meanBound,
-                                                        UnheatedSurfaceThermocoupleBound thermocoupleBound) {
-
-        val sample = generationProperties.getSamples().get(sampleNumber);
-        val group = sample.getUnheatedSurface().getSecondGroup();
-
-        val meanTemperature = meanTemperature(group, meanBound);
-        val thermocoupleTemperatures = thermocoupleTemperatures(
-                group.getThermocoupleCount(), meanTemperature, thermocoupleBound);
-
-        return UnheatedSurfaceGroup.builder()
-                .meanBound(meanBound)
-                .meanTemperature(meanTemperature)
-                .thermocoupleBound(thermocoupleBound)
-                .thermocoupleTemperatures(thermocoupleTemperatures)
-                .build();
+    public UnheatedSurfaceGroup secondThermocoupleGroup(Integer sampleNumber) {
+        return secondaryGroup(sampleNumber, sample -> sample.getUnheatedSurface().getSecondGroup());
     }
 
     public UnheatedSurfaceGroup thirdThermocoupleGroup(Integer sampleNumber) {
+        return secondaryGroup(sampleNumber, sample -> sample.getUnheatedSurface().getThirdGroup());
+    }
+
+    private UnheatedSurfaceGroup secondaryGroup(Integer sampleNumber,
+                                                Function<SampleProperties, UnheatedSurfaceSecondaryGroupProperties> mapper) {
 
         val sample = generationProperties.getSamples().get(sampleNumber);
-        val group = sample.getUnheatedSurface().getThirdGroup();
+        val group = mapper.apply(sample);
         val thermocoupleBound = constantFunction(
                 generationProperties.getGeneral().getTime(),
                 group.getBound());

@@ -1,5 +1,6 @@
 package io.github.therealmone.fireres.core.unheated;
 
+import io.github.therealmone.fireres.core.TestGenerationProperties;
 import lombok.val;
 import org.junit.Test;
 
@@ -8,14 +9,13 @@ import static io.github.therealmone.fireres.core.TestUtils.assertFunctionIsConst
 import static io.github.therealmone.fireres.core.TestUtils.assertFunctionNotHigher;
 import static io.github.therealmone.fireres.core.TestUtils.assertFunctionNotLower;
 import static io.github.therealmone.fireres.core.TestUtils.assertThermocouplesTemperaturesEqualsMean;
-import static io.github.therealmone.fireres.core.TestUtils.defaultGenerationProperties;
 import static io.github.therealmone.fireres.core.utils.FunctionUtils.*;
 
 public class UnheatedSurfaceFactoryTest {
 
     @Test
     public void generateMeanBound() {
-        val props = defaultGenerationProperties();
+        val props = new TestGenerationProperties();
         val factory = new UnheatedSurfaceFactory(props);
 
         val meanBound = factory.meanBound();
@@ -27,7 +27,7 @@ public class UnheatedSurfaceFactoryTest {
 
     @Test
     public void generateThermocoupleBound() {
-        val props = defaultGenerationProperties();
+        val props = new TestGenerationProperties();
         val factory = new UnheatedSurfaceFactory(props);
 
         val thermocoupleBound = factory.thermocoupleBound();
@@ -39,13 +39,13 @@ public class UnheatedSurfaceFactoryTest {
 
     @Test
     public void generateFirstGroup() {
-        val props = defaultGenerationProperties();
+        val props = new TestGenerationProperties();
         val factory = new UnheatedSurfaceFactory(props);
 
         val thermocoupleBound = factory.thermocoupleBound();
         val meanBound = factory.meanBound();
 
-        val firstGroup = factory.firstThermocoupleGroup(0, meanBound, thermocoupleBound);
+        val firstGroup = factory.firstThermocoupleGroup(0);
 
         val meanTemperature = firstGroup.getMeanTemperature();
 
@@ -70,18 +70,19 @@ public class UnheatedSurfaceFactoryTest {
 
     @Test
     public void generateSecondGroup() {
-        val props = defaultGenerationProperties();
+        val props = new TestGenerationProperties();
         val factory = new UnheatedSurfaceFactory(props);
 
-        val thermocoupleBound = factory.thermocoupleBound();
-        val meanBound = factory.meanBound();
-
-        val secondGroup = factory.secondThermocoupleGroup(0, meanBound, thermocoupleBound);
+        val secondGroup = factory.secondThermocoupleGroup(0);
 
         val meanTemperature = secondGroup.getMeanTemperature();
+        val thermocoupleBound = secondGroup.getThermocoupleBound();
 
+        assertFunctionIsConstant(
+                props.getSamples().get(0).getUnheatedSurface().getThirdGroup().getBound(),
+                thermocoupleBound.getValue());
         assertFunctionConstantlyGrowing(meanTemperature.getValue());
-        assertFunctionNotHigher(meanTemperature.getValue(), meanBound.getValue());
+        assertFunctionNotHigher(meanTemperature.getValue(), thermocoupleBound.getValue());
         assertFunctionNotLower(
                 meanTemperature.getValue(),
                 constantFunction(props.getGeneral().getTime(), 0).getValue());
@@ -101,7 +102,7 @@ public class UnheatedSurfaceFactoryTest {
 
     @Test
     public void generateThirdGroup() {
-        val props = defaultGenerationProperties();
+        val props = new TestGenerationProperties();
         val factory = new UnheatedSurfaceFactory(props);
 
 
@@ -120,7 +121,6 @@ public class UnheatedSurfaceFactoryTest {
                 constantFunction(props.getGeneral().getTime(), 0).getValue());
 
         val thermocouples = thirdGroup.getThermocoupleTemperatures();
-
 
         assertThermocouplesTemperaturesEqualsMean(thermocouples, meanTemperature);
 

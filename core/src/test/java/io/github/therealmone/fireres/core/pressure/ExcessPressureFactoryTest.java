@@ -1,5 +1,6 @@
 package io.github.therealmone.fireres.core.pressure;
 
+import io.github.therealmone.fireres.core.TestGenerationProperties;
 import io.github.therealmone.fireres.core.common.model.DoublePoint;
 import lombok.val;
 import org.junit.Test;
@@ -13,7 +14,7 @@ public class ExcessPressureFactoryTest {
 
     @Test
     public void generateMinAllowedPressure() {
-        val props = defaultGenerationProperties();
+        val props = new TestGenerationProperties();
         val factory = new ExcessPressureFactory(props);
 
         val minAllowedPressure = factory.minAllowedPressure();
@@ -25,7 +26,7 @@ public class ExcessPressureFactoryTest {
 
     @Test
     public void generateMaxAllowedPressure() {
-        val props = defaultGenerationProperties();
+        val props = new TestGenerationProperties();
         val factory = new ExcessPressureFactory(props);
 
         val maxAllowedPressure = factory.maxAllowedPressure();
@@ -37,7 +38,7 @@ public class ExcessPressureFactoryTest {
 
     @Test
     public void generatePressure() {
-        val props = defaultGenerationProperties();
+        val props = new TestGenerationProperties();
         val factory = new ExcessPressureFactory(props);
 
         val minAllowedPressure = factory.minAllowedPressure();

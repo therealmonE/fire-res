@@ -1,5 +1,6 @@
 package io.github.therealmone.fireres.core.firemode;
 
+import io.github.therealmone.fireres.core.TestGenerationProperties;
 import io.github.therealmone.fireres.core.common.config.GeneralProperties;
 import io.github.therealmone.fireres.core.common.config.GenerationProperties;
 import lombok.val;
@@ -13,7 +14,6 @@ import static io.github.therealmone.fireres.core.TestUtils.assertFunctionNotLowe
 import static io.github.therealmone.fireres.core.TestUtils.assertInterpolationPoints;
 import static io.github.therealmone.fireres.core.TestUtils.assertMeanTemperatureInInterval;
 import static io.github.therealmone.fireres.core.TestUtils.assertThermocouplesTemperaturesEqualsMean;
-import static io.github.therealmone.fireres.core.TestUtils.defaultGenerationProperties;
 import static io.github.therealmone.fireres.core.TestUtils.toPointList;
 import static org.junit.Assert.assertEquals;
 
@@ -21,7 +21,7 @@ public class FireModeFactoryTest {
 
     @Test
     public void generateFurnaceTemperature() {
-        val generatorFactory = new FireModeFactory(defaultGenerationProperties());
+        val generatorFactory = new FireModeFactory(new TestGenerationProperties());
 
         val expectedValues = toPointList(List.of(
                 42, 350, 446, 503, 545, 577, 604,
@@ -45,7 +45,7 @@ public class FireModeFactoryTest {
 
     @Test
     public void generateMaxAllowedTemperature() {
-        val factory = new FireModeFactory(defaultGenerationProperties());
+        val factory = new FireModeFactory(new TestGenerationProperties());
 
         val expectedFunction = toPointList(List.of(
                 24, 378, 489, 554, 603,
@@ -79,7 +79,7 @@ public class FireModeFactoryTest {
 
     @Test
     public void generateMinAllowedTemperature() {
-        val factory = new FireModeFactory(defaultGenerationProperties());
+        val factory = new FireModeFactory(new TestGenerationProperties());
 
         val expectedFunction = toPointList(List.of(
                 18, 280, 361, 410, 445,
@@ -113,7 +113,7 @@ public class FireModeFactoryTest {
 
     @Test
     public void generateStandardTemperature() {
-        val generator = new FireModeFactory(defaultGenerationProperties())
+        val generator = new FireModeFactory(new TestGenerationProperties())
                 .standardTemperature();
 
         val expectedNumbers = toPointList(List.of(
@@ -148,7 +148,7 @@ public class FireModeFactoryTest {
 
     @Test
     public void generateMeanTemperatureWithoutRandomPoints() {
-        val props = defaultGenerationProperties();
+        val props = new TestGenerationProperties();
 
         props.getSamples().get(0).getFireMode().getRandomPoints().setEnrichWithRandomPoints(false);
 
@@ -165,7 +165,7 @@ public class FireModeFactoryTest {
 
     @Test
     public void generateMeanTemperatureWithRandomPoints() {
-        val factory = new FireModeFactory(defaultGenerationProperties());
+        val factory = new FireModeFactory(new TestGenerationProperties());
 
         val standardTemp = factory.standardTemperature();
         val minTemp = factory.minAllowedTemperature(standardTemp);
@@ -178,7 +178,7 @@ public class FireModeFactoryTest {
 
     @Test
     public void generateMeanTemperatureWithRandomPointsAndLowNewPointChance() {
-        val props = defaultGenerationProperties();
+        val props = new TestGenerationProperties();
 
         props.getSamples().get(0).getFireMode().getRandomPoints().setNewPointChance(0.1);
 
@@ -195,7 +195,7 @@ public class FireModeFactoryTest {
 
     @Test
     public void generateThermocouplesTemperatures() {
-        val factory = new FireModeFactory(defaultGenerationProperties());
+        val factory = new FireModeFactory(new TestGenerationProperties());
 
         val standardTemp = factory.standardTemperature();
         val minTemp = factory.minAllowedTemperature(standardTemp);
