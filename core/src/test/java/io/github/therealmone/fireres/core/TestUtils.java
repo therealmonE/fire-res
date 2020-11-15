@@ -1,12 +1,10 @@
 package io.github.therealmone.fireres.core;
 
-import io.github.therealmone.fireres.core.common.config.*;
-import io.github.therealmone.fireres.core.firemode.config.FireModeProperties;
-import io.github.therealmone.fireres.core.pressure.config.ExcessPressureProperties;
-import io.github.therealmone.fireres.core.firemode.model.ThermocoupleMeanTemperature;
-import io.github.therealmone.fireres.core.firemode.model.ThermocoupleTemperature;
+import io.github.therealmone.fireres.core.common.model.IntegerPointSequence;
+import io.github.therealmone.fireres.core.common.report.FullReport;
 import io.github.therealmone.fireres.core.common.model.IntegerPoint;
 import io.github.therealmone.fireres.core.common.model.Point;
+import io.github.therealmone.fireres.core.unheated.model.UnheatedSurfaceGroup;
 import lombok.val;
 
 import java.util.ArrayList;
@@ -14,13 +12,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static io.github.therealmone.fireres.core.utils.FunctionUtils.constantFunction;
 import static io.github.therealmone.fireres.core.utils.MathUtils.calculatePointsMeanValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class TestUtils {
 
-    public static final ArrayList<IntegerPoint> INTERPOLATION_POINTS = new ArrayList<>() {{
+    public static final ArrayList<IntegerPoint> FIREMODE_INTERPOLATION_POINTS = new ArrayList<>() {{
         add(new IntegerPoint(0, 21));
         add(new IntegerPoint(1, 306));
         add(new IntegerPoint(18, 749));
@@ -46,8 +45,8 @@ public class TestUtils {
         }
     }
 
-    public static void assertThermocouplesTemperaturesEqualsMean(List<ThermocoupleTemperature> thermocouplesTemp,
-                                                                 ThermocoupleMeanTemperature meanTemp) {
+    public static void assertThermocouplesTemperaturesEqualsMean(List<? extends IntegerPointSequence> thermocouplesTemp,
+                                                                 IntegerPointSequence meanTemp) {
         val meanTempValue = meanTemp.getValue();
 
         assertSizesEquals(thermocouplesTemp, meanTempValue);
@@ -58,7 +57,7 @@ public class TestUtils {
                         .collect(Collectors.toList()))));
     }
 
-    private static void assertSizesEquals(List<ThermocoupleTemperature> thermocouplesTemp,
+    private static void assertSizesEquals(List<? extends IntegerPointSequence> thermocouplesTemp,
                                           List<IntegerPoint> meanTemp) {
 
         thermocouplesTemp.forEach(thermocoupleTemperature -> {
@@ -67,8 +66,8 @@ public class TestUtils {
         });
     }
 
-    public static void assertSizesEquals(int size, List<IntegerPoint>... functions) {
-        for (List<IntegerPoint> function : functions) {
+    public static void assertSizesEquals(int size, List<? extends Point<?>>... functions) {
+        for (List<? extends Point<?>> function : functions) {
             assertEquals(size, function.size());
         }
     }
@@ -116,34 +115,118 @@ public class TestUtils {
         assertFunctionNotHigher(lowerFunction, upperFunction);
     }
 
-    public static GenerationProperties defaultGenerationProperties() {
-        return GenerationProperties.builder()
-                .general(GeneralProperties.builder()
-                        .environmentTemperature(21)
-                        .time(71)
-                        .excessPressure(ExcessPressureProperties.builder()
-                                .delta(2.0)
-                                .build())
-                        .build())
-                .samples(List.of(SampleProperties.builder()
-                        .fireMode(FireModeProperties.builder()
-                                .randomPoints(RandomPointsProperties.builder()
-                                        .enrichWithRandomPoints(true)
-                                        .newPointChance(0.7)
-                                        .build())
-                                .interpolationPoints(INTERPOLATION_POINTS)
-                                .thermocoupleCount(6)
-                                .build())
-                        .build()))
-                .build();
-    }
-
     public static void assertInterpolationPoints(List<IntegerPoint> function) {
-        for (IntegerPoint point : INTERPOLATION_POINTS) {
+        for (IntegerPoint point : FIREMODE_INTERPOLATION_POINTS) {
             assertEquals(point, function.stream()
                     .filter(p -> p.getTime().equals(point.getTime())).findFirst()
                     .orElseThrow());
         }
     }
 
+    public static void assertFireMode(FullReport report) {
+        val time = (int) report.getTime();
+        val environmentTemp = (int) report.getEnvironmentTemperature();
+        val furnaceTemp = report.getFireMode().getFurnaceTemperature().getValue();
+        val minAllowedTemp = report.getFireMode().getMinAllowedTemperature().getValue();
+        val maxAllowedTemp = report.getFireMode().getMaxAllowedTemperature().getValue();
+        val maxAllowedSmoothedTemp = report.getFireMode().getMaxAllowedTemperature().getSmoothedValue();
+        val standardTemp = report.getFireMode().getStandardTemperature().getValue();
+
+        assertEquals(71, time);
+        assertEquals(21, environmentTemp);
+
+        //noinspection unchecked
+        assertSizesEquals(time, furnaceTemp, minAllowedTemp, maxAllowedTemp, maxAllowedSmoothedTemp, standardTemp);
+
+        assertFunctionConstantlyGrowing(minAllowedTemp);
+        assertFunctionConstantlyGrowing(maxAllowedSmoothedTemp);
+        assertFunctionNotHigher(minAllowedTemp, maxAllowedTemp);
+        assertFunctionNotHigher(minAllowedTemp, maxAllowedSmoothedTemp);
+
+        assertFunctionNotLower(standardTemp, minAllowedTemp);
+        assertFunctionNotHigher(standardTemp, maxAllowedTemp);
+        assertFunctionNotHigher(standardTemp, maxAllowedSmoothedTemp);
+
+        report.getFireMode().getSamples().forEach(sample -> {
+            val meanTemp = sample.getThermocoupleMeanTemperature();
+
+            assertFunctionConstantlyGrowing(meanTemp.getValue());
+            assertFunctionNotLower(meanTemp.getValue(), minAllowedTemp);
+            assertFunctionNotHigher(meanTemp.getValue(), maxAllowedTemp);
+            assertFunctionNotHigher(meanTemp.getValue(), maxAllowedSmoothedTemp);
+
+            val thermocouplesTemps = sample.getThermocoupleTemperatures();
+
+            assertEquals(6, thermocouplesTemps.size());
+            assertThermocouplesTemperaturesEqualsMean(thermocouplesTemps, meanTemp);
+
+            thermocouplesTemps.forEach(thermocouplesTemp -> {
+
+                assertEquals(time, thermocouplesTemp.getValue().size());
+
+                assertFunctionConstantlyGrowing(thermocouplesTemp.getValue());
+                assertFunctionNotLower(thermocouplesTemp.getValue(), minAllowedTemp);
+                assertFunctionNotHigher(thermocouplesTemp.getValue(), maxAllowedTemp);
+                assertFunctionNotHigher(thermocouplesTemp.getValue(), maxAllowedSmoothedTemp);
+
+            });
+        });
+    }
+
+    public static void assertExcessPressure(FullReport report) {
+        val time = (int) report.getTime();
+
+        val min = report.getExcessPressure().getMinAllowedPressure();
+        val max = report.getExcessPressure().getMaxAllowedPressure();
+
+        assertFunctionIsConstant(-2, min.getValue());
+        assertFunctionIsConstant(2, max.getValue());
+
+        assertSizesEquals(time, min.getValue(), max.getValue());
+
+        report.getExcessPressure().getSamples().forEach(sample -> {
+            val pressure = sample.getPressure();
+
+            assertFunctionNotHigher(pressure.getValue(), max.getValue());
+            assertFunctionNotLower(pressure.getValue(), min.getValue());
+        });
+    }
+
+    public static void assertUnheatedSurface(FullReport report) {
+        val time = (int) report.getTime();
+
+        report.getUnheatedSurface().getSamples().forEach(sample -> {
+            assertUnheatedSurfaceGroup(sample.getFirstGroup(), time);
+            assertUnheatedSurfaceGroup(sample.getSecondGroup(), time);
+            assertUnheatedSurfaceGroup(sample.getThirdGroup(), time);
+        });
+    }
+
+    private static void assertUnheatedSurfaceGroup(UnheatedSurfaceGroup group, Integer time) {
+        val meanBound = group.getMeanBound();
+        val thermocoupleBound = group.getThermocoupleBound();
+        val meanTemp = group.getMeanTemperature();
+
+        assertFunctionConstantlyGrowing(meanTemp.getValue());
+        assertFunctionNotLower(meanTemp.getValue(), constantFunction(0, time).getValue());
+
+        if (meanBound != null) {
+            assertFunctionNotHigher(meanTemp.getValue(), meanBound.getValue());
+        } else {
+            assertFunctionNotHigher(meanTemp.getValue(), thermocoupleBound.getValue());
+        }
+
+        val thermocouplesTemps = group.getThermocoupleTemperatures();
+
+        assertThermocouplesTemperaturesEqualsMean(thermocouplesTemps, meanTemp);
+
+        thermocouplesTemps.forEach(thermocouplesTemp -> {
+
+            assertEquals((int) time, thermocouplesTemp.getValue().size());
+
+            assertFunctionConstantlyGrowing(thermocouplesTemp.getValue());
+            assertFunctionNotLower(thermocouplesTemp.getValue(), constantFunction(0, time).getValue());
+            assertFunctionNotHigher(thermocouplesTemp.getValue(), thermocoupleBound.getValue());
+        });
+    }
 }
