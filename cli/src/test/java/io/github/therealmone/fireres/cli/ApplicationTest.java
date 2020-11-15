@@ -5,20 +5,16 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-import java.io.IOException;
-
 public class ApplicationTest  {
 
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
-
     @Test
-    public void defaultConfigValuesTest() throws IOException {
+    public void defaultConfigValuesTest() {
         //noinspection ConstantConditions
         val config = this.getClass().getClassLoader().getResource("minimum.conf").getPath();
-        val output = temporaryFolder.newFile("output.xlsx");
 
-        Application.main(new String[] {"-c", config, "-o", output.getAbsolutePath()});
+        Application.main(new String[] {"-c", config, "-p", temporaryFolder.getRoot().getAbsolutePath()});
     }
 }

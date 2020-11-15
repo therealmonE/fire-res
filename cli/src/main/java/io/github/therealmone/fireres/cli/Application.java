@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 import java.io.File;
+import java.nio.file.Path;
 
 @Slf4j
 public class Application {
@@ -16,9 +17,14 @@ public class Application {
     public static void main(String[] args) {
         val programArguments = loadProgramArguments(args);
         val generationProperties = loadGenerationProperties(programArguments.getConfig());
-        val outputFile = new File(programArguments.getOutputFile());
+
+        val outputFile = Path.of(
+                programArguments.getPath(),
+                generationProperties.getGeneral().getFileName() + ".xlsx"
+        ).toFile();
 
         val excelReportConstructor = new ExcelReportConstructor(generationProperties);
+
         excelReportConstructor.construct(outputFile);
     }
 
