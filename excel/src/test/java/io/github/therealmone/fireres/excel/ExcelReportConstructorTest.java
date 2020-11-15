@@ -7,6 +7,9 @@ import io.github.therealmone.fireres.core.common.config.SampleProperties;
 import io.github.therealmone.fireres.core.firemode.config.FireModeProperties;
 import io.github.therealmone.fireres.core.common.model.IntegerPoint;
 import io.github.therealmone.fireres.core.pressure.config.ExcessPressureProperties;
+import io.github.therealmone.fireres.core.unheated.config.UnheatedSurfaceGroupProperties;
+import io.github.therealmone.fireres.core.unheated.config.UnheatedSurfaceProperties;
+import io.github.therealmone.fireres.core.unheated.config.UnheatedSurfaceSecondaryGroupProperties;
 import lombok.val;
 import org.junit.Rule;
 import org.junit.Test;
@@ -56,6 +59,19 @@ public class ExcelReportConstructorTest {
                                         .build())
                                 .interpolationPoints(INTERPOLATION_POINTS)
                                 .thermocoupleCount(6)
+                                .build())
+                        .unheatedSurface(UnheatedSurfaceProperties.builder()
+                                .firstGroup(UnheatedSurfaceGroupProperties.builder()
+                                        .thermocoupleCount(5)
+                                        .build())
+                                .secondGroup(UnheatedSurfaceSecondaryGroupProperties.builder()
+                                        .thermocoupleCount(5)
+                                        .bound(300)
+                                        .build())
+                                .thirdGroup(UnheatedSurfaceSecondaryGroupProperties.builder()
+                                        .thermocoupleCount(5)
+                                        .bound(300)
+                                        .build())
                                 .build())
                         .build()))
                 .build();
