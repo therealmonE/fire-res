@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ExcessPressureSheet extends AbstractExcelSheet<ExcessPressureReport> {
 
-    private static final String SHEET_NAME = "График избыточного давления";
+    private static final String SHEET_NAME = "Избыточное давление";
     private final Double basePressure;
 
     public ExcessPressureSheet(ExcessPressureReport report, Integer time, Double basePressure) {
