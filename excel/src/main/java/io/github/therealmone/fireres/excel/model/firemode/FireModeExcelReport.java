@@ -5,6 +5,7 @@ import io.github.therealmone.fireres.excel.chart.ExcelChart;
 import io.github.therealmone.fireres.excel.chart.FireModeChart;
 import io.github.therealmone.fireres.excel.model.Column;
 import io.github.therealmone.fireres.excel.model.ExcelReport;
+import io.github.therealmone.fireres.excel.model.TimeColumn;
 import lombok.Getter;
 import lombok.val;
 

@@ -3,9 +3,9 @@ package io.github.therealmone.fireres.excel;
 import io.github.therealmone.fireres.core.common.config.GenerationProperties;
 import io.github.therealmone.fireres.core.common.report.FullReport;
 import io.github.therealmone.fireres.core.common.report.FullReportBuilder;
-import io.github.therealmone.fireres.excel.sheet.ExcelSheet;
 import io.github.therealmone.fireres.excel.sheet.ExcessPressureSheet;
 import io.github.therealmone.fireres.excel.sheet.FireModeSheet;
+import io.github.therealmone.fireres.excel.sheet.UnheatedSurfaceSheet;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -39,26 +39,38 @@ public class ExcelReportConstructor implements ReportConstructor {
     private Workbook generateExcel(FullReport report) {
         val workbook = new XSSFWorkbook();
 
+        createFireModeSheet(workbook, report);
+        createExcessPressureSheet(workbook, report);
+        createUnheatedSurfaceSheets(workbook, report);
+
+        return workbook;
+    }
+
+    private void createFireModeSheet(XSSFWorkbook workbook, FullReport report) {
         val fireModeSheet = new FireModeSheet(
                 report.getFireMode(),
                 report.getTime(),
                 report.getEnvironmentTemperature());
 
+        fireModeSheet.create(workbook);
+    }
+
+    private void createExcessPressureSheet(XSSFWorkbook workbook, FullReport report) {
         val excessPressureSheet = new ExcessPressureSheet(
                 report.getExcessPressure(),
                 report.getTime(),
                 generationProperties.getGeneral().getExcessPressure().getBasePressure());
 
-        createSheets(workbook,
-                fireModeSheet,
-                excessPressureSheet);
-
-        return workbook;
+        excessPressureSheet.create(workbook);
     }
 
-    private void createSheets(XSSFWorkbook workbook, ExcelSheet... sheets) {
-        for (ExcelSheet sheet : sheets) {
-            sheet.create(workbook);
+    private void createUnheatedSurfaceSheets(XSSFWorkbook workbook, FullReport report) {
+        val samples = report.getUnheatedSurface().getSamples();
+
+        for (int i = 0; i < samples.size(); i++) {
+            val unheatedSurfaceSheet = new UnheatedSurfaceSheet(report.getTime(), report.getUnheatedSurface(), i);
+
+            unheatedSurfaceSheet.create(workbook);
         }
     }
 }

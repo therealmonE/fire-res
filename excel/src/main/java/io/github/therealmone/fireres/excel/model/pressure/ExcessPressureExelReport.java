@@ -5,7 +5,7 @@ import io.github.therealmone.fireres.excel.chart.ExcelChart;
 import io.github.therealmone.fireres.excel.chart.ExcessPressureChart;
 import io.github.therealmone.fireres.excel.model.Column;
 import io.github.therealmone.fireres.excel.model.ExcelReport;
-import io.github.therealmone.fireres.excel.model.firemode.TimeColumn;
+import io.github.therealmone.fireres.excel.model.TimeColumn;
 import lombok.Getter;
 import lombok.val;
 
