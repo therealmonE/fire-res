@@ -1,17 +1,22 @@
 package io.github.therealmone.fireres.core.common.report;
 
-import io.github.therealmone.fireres.core.TestGenerationProperties;
+import com.google.inject.Inject;
+import io.github.therealmone.fireres.core.GuiceRunner;
 import lombok.val;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import static io.github.therealmone.fireres.core.TestUtils.assertExcessPressure;
 import static io.github.therealmone.fireres.core.TestUtils.assertFireMode;
 import static io.github.therealmone.fireres.core.TestUtils.assertUnheatedSurface;
-import static java.util.Collections.emptyList;
 
-public class FullReportBuilderTest {
+@RunWith(GuiceRunner.class)
+public class FullReportProviderTest {
 
     private static final Integer CYCLES = 1000;
+
+    @Inject
+    private FullReportProvider fullReportProvider;
 
     @Test
     public void buildMultipleTimes() {
@@ -22,20 +27,7 @@ public class FullReportBuilderTest {
 
     @Test
     public void build() {
-        val report = new FullReportBuilder().build(new TestGenerationProperties());
-
-        assertFireMode(report);
-        assertExcessPressure(report);
-        assertUnheatedSurface(report);
-    }
-
-    @Test
-    public void buildWithoutInterpolationPoints() {
-        val props = new TestGenerationProperties();
-
-        props.getSamples().get(0).getFireMode().setInterpolationPoints(emptyList());
-
-        val report = new FullReportBuilder().build(props);
+        val report = fullReportProvider.get();
 
         assertFireMode(report);
         assertExcessPressure(report);

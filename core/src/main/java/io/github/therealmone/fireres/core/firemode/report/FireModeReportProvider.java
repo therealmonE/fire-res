@@ -1,7 +1,8 @@
 package io.github.therealmone.fireres.core.firemode.report;
 
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 import io.github.therealmone.fireres.core.common.config.GenerationProperties;
-import io.github.therealmone.fireres.core.common.report.ReportBuilder;
 import io.github.therealmone.fireres.core.exception.ImpossibleGenerationException;
 import io.github.therealmone.fireres.core.exception.InvalidMeanFunctionException;
 import io.github.therealmone.fireres.core.firemode.FireModeFactory;
@@ -15,12 +16,15 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Slf4j
-public class FireModeReportBuilder implements ReportBuilder<FireModeReport> {
+public class FireModeReportProvider implements Provider<FireModeReport> {
 
     private static final Integer ATTEMPTS = 100;
 
+    @Inject
+    private GenerationProperties properties;
+
     @Override
-    public FireModeReport build(GenerationProperties properties) {
+    public FireModeReport get() {
         log.info("Building fire mode report");
         val factory = new FireModeFactory(properties);
 

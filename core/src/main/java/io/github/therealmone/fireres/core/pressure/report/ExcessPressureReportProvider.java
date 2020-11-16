@@ -1,7 +1,8 @@
 package io.github.therealmone.fireres.core.pressure.report;
 
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 import io.github.therealmone.fireres.core.common.config.GenerationProperties;
-import io.github.therealmone.fireres.core.common.report.ReportBuilder;
 import io.github.therealmone.fireres.core.pressure.ExcessPressureFactory;
 import io.github.therealmone.fireres.core.pressure.model.ExcessPressureSample;
 import lombok.extern.slf4j.Slf4j;
@@ -10,10 +11,13 @@ import lombok.val;
 import java.util.stream.Collectors;
 
 @Slf4j
-public class ExcessPressureReportBuilder implements ReportBuilder<ExcessPressureReport> {
+public class ExcessPressureReportProvider implements Provider<ExcessPressureReport> {
+
+    @Inject
+    private GenerationProperties properties;
 
     @Override
-    public ExcessPressureReport build(GenerationProperties properties) {
+    public ExcessPressureReport get() {
         log.info("Building excess pressure report");
         val factory = new ExcessPressureFactory(properties);
 

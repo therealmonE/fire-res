@@ -1,7 +1,8 @@
 package io.github.therealmone.fireres.core.unheated.report;
 
+import com.google.inject.Inject;
+import com.google.inject.Provider;
 import io.github.therealmone.fireres.core.common.config.GenerationProperties;
-import io.github.therealmone.fireres.core.common.report.ReportBuilder;
 import io.github.therealmone.fireres.core.unheated.UnheatedSurfaceFactory;
 import io.github.therealmone.fireres.core.unheated.model.UnheatedSurfaceSample;
 import lombok.extern.slf4j.Slf4j;
@@ -11,10 +12,17 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Slf4j
-public class UnheatedSurfaceReportBuilder implements ReportBuilder<UnheatedSurfaceReport> {
+public class UnheatedSurfaceReportProvider implements Provider<UnheatedSurfaceReport> {
+
+    private final GenerationProperties properties;
+
+    @Inject
+    public UnheatedSurfaceReportProvider(GenerationProperties properties) {
+        this.properties = properties;
+    }
 
     @Override
-    public UnheatedSurfaceReport build(GenerationProperties properties) {
+    public UnheatedSurfaceReport get() {
         log.info("Building unheated surface report");
         val factory = new UnheatedSurfaceFactory(properties);
 

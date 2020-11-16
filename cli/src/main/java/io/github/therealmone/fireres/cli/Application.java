@@ -1,53 +1,31 @@
 package io.github.therealmone.fireres.cli;
 
-import com.beust.jcommander.JCommander;
-import com.typesafe.config.ConfigBeanFactory;
-import com.typesafe.config.ConfigFactory;
+import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.common.config.GenerationProperties;
-import io.github.therealmone.fireres.excel.ExcelReportConstructor;
+import io.github.therealmone.fireres.excel.ReportConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
-import java.io.File;
 import java.nio.file.Path;
 
 @Slf4j
 public class Application {
 
-    public static void main(String[] args) {
-        val programArguments = loadProgramArguments(args);
-        val generationProperties = loadGenerationProperties(programArguments.getConfig());
+    @Inject
+    private ProgramArguments programArguments;
 
+    @Inject
+    private GenerationProperties generationProperties;
+
+    @Inject
+    private ReportConstructor reportConstructor;
+
+    public void run() {
         val outputFile = Path.of(
                 programArguments.getPath(),
                 generationProperties.getGeneral().getFileName() + ".xlsx"
         ).toFile();
 
-        val excelReportConstructor = new ExcelReportConstructor(generationProperties);
-
-        excelReportConstructor.construct(outputFile);
+        reportConstructor.construct(outputFile);
     }
-
-    private static GenerationProperties loadGenerationProperties(String configPath) {
-        log.info("Loading generation properties from file: {}", configPath);
-        val config = ConfigFactory.parseFile(new File(configPath));
-        val generationProperties = ConfigBeanFactory.create(config, GenerationProperties.class);
-
-        log.info("Generation properties: {}", generationProperties);
-        return generationProperties;
-    }
-
-    private static ProgramArguments loadProgramArguments(String[] args) {
-        log.info("Loading program arguments");
-        val programArguments = new ProgramArguments();
-
-        JCommander.newBuilder()
-                .addObject(programArguments)
-                .build()
-                .parse(args);
-
-        log.info("Program arguments: {}", programArguments);
-        return programArguments;
-    }
-
 }
