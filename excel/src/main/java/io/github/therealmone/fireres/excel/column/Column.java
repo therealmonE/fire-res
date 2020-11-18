@@ -1,4 +1,4 @@
-package io.github.therealmone.fireres.excel.model;
+package io.github.therealmone.fireres.excel.column;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
-package io.github.therealmone.fireres.excel.model.firemode;
+package io.github.therealmone.fireres.excel.column.firemode;
 
-import io.github.therealmone.fireres.excel.model.Column;
+import io.github.therealmone.fireres.excel.column.Column;
 
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;

@@ -17,4 +17,12 @@ public class ApplicationTest  {
 
         Main.main(new String[] {"-c", config, "-p", temporaryFolder.getRoot().getAbsolutePath()});
     }
+
+    @Test
+    public void fullConfigTest() {
+        //noinspection ConstantConditions
+        val config = this.getClass().getClassLoader().getResource("maximum.conf").getPath();
+
+        Main.main(new String[] {"-c", config, "-p", temporaryFolder.getRoot().getAbsolutePath()});
+    }
 }

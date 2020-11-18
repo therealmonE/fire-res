@@ -3,6 +3,7 @@ package io.github.therealmone.fireres.excel;
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.excel.annotation.ExcessPressure;
 import io.github.therealmone.fireres.excel.annotation.FireMode;
+import io.github.therealmone.fireres.excel.annotation.UnheatedSurface;
 import io.github.therealmone.fireres.excel.sheet.ExcelSheet;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.List;
 
 @Slf4j
 public class ExcelReportConstructor implements ReportConstructor {
@@ -20,11 +22,15 @@ public class ExcelReportConstructor implements ReportConstructor {
 
     @Inject
     @FireMode
-    private ExcelSheet fireModeSheet;
+    private List<ExcelSheet> fireModeSheets;
 
     @Inject
     @ExcessPressure
-    private ExcelSheet excessPressureSheet;
+    private List<ExcelSheet> excessPressureSheets;
+
+    @Inject
+    @UnheatedSurface
+    private List<ExcelSheet> unheatedSurfaceSheets;
 
     @Override
     @SneakyThrows
@@ -40,8 +46,9 @@ public class ExcelReportConstructor implements ReportConstructor {
     private Workbook generateExcel() {
         val workbook = new XSSFWorkbook();
 
-        fireModeSheet.create(workbook);
-        excessPressureSheet.create(workbook);
+        fireModeSheets.forEach(sheet -> sheet.create(workbook));
+        excessPressureSheets.forEach(sheet -> sheet.create(workbook));
+        unheatedSurfaceSheets.forEach(sheet -> sheet.create(workbook));
 
         return workbook;
     }

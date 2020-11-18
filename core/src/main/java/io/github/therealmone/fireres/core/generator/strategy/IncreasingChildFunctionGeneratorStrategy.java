@@ -20,14 +20,15 @@ public class IncreasingChildFunctionGeneratorStrategy implements ChildFunctionGe
                                             List<IntegerPointSequence> functions, Integer meanTemperature) {
 
         val minAllowed = lowerBound.getPoint(time).getValue();
+        val meanWithDelta = meanTemperature - resolveDelta(t0, time);
 
         return functions.stream()
                 .map(function -> {
                     if (!function.getValue().isEmpty()) {
                         val prevValue = function.getPoint(time - 1).getValue();
-                        return Math.max(Math.max(minAllowed, meanTemperature - resolveDelta(t0, time)), prevValue);
+                        return Math.max(Math.max(minAllowed, meanWithDelta), prevValue);
                     } else {
-                        return minAllowed;
+                        return Math.max(minAllowed, meanWithDelta);
                     }
                 })
                 .collect(Collectors.toList());
@@ -45,7 +46,7 @@ public class IncreasingChildFunctionGeneratorStrategy implements ChildFunctionGe
     }
 
     public int resolveDelta(Integer t0, Integer time) {
-        return (int) Math.round(Math.pow(t0, time * 0.03));
+        return (int) Math.round(Math.pow(t0, time * 0.015));
     }
 
 }

@@ -4,14 +4,12 @@ import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.annotation.BasePressure;
 import io.github.therealmone.fireres.core.annotation.Time;
 import io.github.therealmone.fireres.excel.chart.ExcessPressureChart;
-import io.github.therealmone.fireres.excel.model.Column;
-import io.github.therealmone.fireres.excel.model.ExcelReport;
-import io.github.therealmone.fireres.excel.model.ExcelReports;
-import io.github.therealmone.fireres.excel.model.firemode.TimeColumn;
-import io.github.therealmone.fireres.excel.model.pressure.DeltaColumn;
-import io.github.therealmone.fireres.excel.model.pressure.MaxAllowedPressureColumn;
-import io.github.therealmone.fireres.excel.model.pressure.MinAllowedPressureColumn;
-import io.github.therealmone.fireres.excel.model.pressure.PressureColumn;
+import io.github.therealmone.fireres.excel.column.Column;
+import io.github.therealmone.fireres.excel.column.TimeColumn;
+import io.github.therealmone.fireres.excel.column.excess.pressure.DeltaColumn;
+import io.github.therealmone.fireres.excel.column.excess.pressure.MaxAllowedPressureColumn;
+import io.github.therealmone.fireres.excel.column.excess.pressure.MinAllowedPressureColumn;
+import io.github.therealmone.fireres.excel.column.excess.pressure.PressureColumn;
 import io.github.therealmone.fireres.excess.pressure.report.ExcessPressureReport;
 import lombok.val;
 
@@ -32,13 +30,13 @@ public class ExcessPressureExcelReportsProvider implements ExcelReportsProvider 
     private Double basePressure;
 
     @Override
-    public ExcelReports get() {
+    public List<ExcelReport> get() {
         val data = createData();
 
-        return new ExcelReports(List.of(ExcelReport.builder()
+        return List.of(ExcelReport.builder()
                 .data(data)
                 .chart(new ExcessPressureChart(time, data, basePressure))
-                .build()));
+                .build());
     }
 
     private List<Column> createData() {

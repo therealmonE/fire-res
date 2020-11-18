@@ -1,6 +1,6 @@
 package io.github.therealmone.fireres.excel.chart;
 
-import io.github.therealmone.fireres.excel.model.Column;
+import io.github.therealmone.fireres.excel.column.Column;
 
 import java.util.List;
 

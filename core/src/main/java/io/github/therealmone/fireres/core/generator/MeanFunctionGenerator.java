@@ -37,12 +37,12 @@ public class MeanFunctionGenerator implements PointSequenceGenerator<IntegerPoin
 
     @Override
     public IntegerPointSequence generate() {
-        val points = new ArrayList<>(interpolation.getInterpolationPoints());
-        adjustInterpolationPoints(points);
+        val points = interpolation.getInterpolationPoints().stream()
+                .map(p -> new IntegerPoint(p.getTime(), p.getValue()))
+                .collect(Collectors.toCollection(ArrayList::new));
 
-        if (interpolation.getRandomPoints().getEnrichWithRandomPoints()) {
-            generateInnerPoints(points);
-        }
+        adjustInterpolationPoints(points);
+        generateInnerPoints(points);
 
         val thermocoupleMeanTemp = interpolate(points);
 
@@ -64,7 +64,7 @@ public class MeanFunctionGenerator implements PointSequenceGenerator<IntegerPoin
     private void generateInnerPoints(List<IntegerPoint> interpolationPoints) {
         val adjustingPoints = asIntervals(interpolationPoints).stream()
                 .flatMap(interval ->
-                        raiseInterval(interval, interpolation.getRandomPoints().getNewPointChance(), i -> true).stream())
+                        raiseInterval(interval, interpolation.getNewPointChance(), i -> true).stream())
                 .collect(Collectors.toList());
 
         interpolationPoints.addAll(adjustingPoints);

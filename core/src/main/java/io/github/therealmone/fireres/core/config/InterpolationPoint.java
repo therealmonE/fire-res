@@ -1,18 +1,17 @@
-package io.github.therealmone.fireres.excel.model;
+package io.github.therealmone.fireres.core.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ExcelReports {
+public class InterpolationPoint {
 
-    private List<ExcelReport> reports;
+    private Integer time;
+    private Integer value;
 
 }

@@ -1,7 +1,6 @@
 package io.github.therealmone.fireres.core.config;
 
 import com.typesafe.config.Optional;
-import io.github.therealmone.fireres.core.model.IntegerPoint;
 import io.github.therealmone.fireres.core.model.Point;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,17 +20,14 @@ public class Interpolation {
 
     @Optional
     @Builder.Default
-    private List<IntegerPoint> interpolationPoints = Collections.emptyList();
+    private List<InterpolationPoint> interpolationPoints = Collections.emptyList();
 
     @Optional
     @Builder.Default
-    private RandomPointsProperties randomPoints = RandomPointsProperties.builder()
-            .enrichWithRandomPoints(true)
-            .newPointChance(0.5)
-            .build();
+    private Double newPointChance = 0.5;
 
-    public void setInterpolationPoints(List<IntegerPoint> interpolationPoints) {
-        interpolationPoints.sort(Comparator.comparing(Point::getTime));
+    public void setInterpolationPoints(List<InterpolationPoint> interpolationPoints) {
+        interpolationPoints.sort(Comparator.comparing(InterpolationPoint::getTime));
         this.interpolationPoints = interpolationPoints;
     }
 

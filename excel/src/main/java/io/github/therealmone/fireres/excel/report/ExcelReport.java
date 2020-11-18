@@ -1,6 +1,7 @@
-package io.github.therealmone.fireres.excel.model;
+package io.github.therealmone.fireres.excel.report;
 
 import io.github.therealmone.fireres.excel.chart.ExcelChart;
+import io.github.therealmone.fireres.excel.column.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

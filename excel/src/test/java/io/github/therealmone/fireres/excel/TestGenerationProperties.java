@@ -2,29 +2,28 @@ package io.github.therealmone.fireres.excel;
 
 import io.github.therealmone.fireres.core.config.GeneralProperties;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
-import io.github.therealmone.fireres.core.config.RandomPointsProperties;
+import io.github.therealmone.fireres.core.config.InterpolationPoint;
 import io.github.therealmone.fireres.core.config.SampleProperties;
 import io.github.therealmone.fireres.core.config.excess.pressure.ExcessPressureProperties;
 import io.github.therealmone.fireres.core.config.firemode.FireModeProperties;
 import io.github.therealmone.fireres.core.config.unheated.surface.UnheatedSurfaceGroupProperties;
 import io.github.therealmone.fireres.core.config.unheated.surface.UnheatedSurfaceProperties;
 import io.github.therealmone.fireres.core.config.unheated.surface.UnheatedSurfaceSecondaryGroupProperties;
-import io.github.therealmone.fireres.core.model.IntegerPoint;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class TestGenerationProperties extends GenerationProperties {
 
-    public static final ArrayList<IntegerPoint> FIREMODE_INTERPOLATION_POINTS = new ArrayList<>() {{
-        add(new IntegerPoint(0, 21));
-        add(new IntegerPoint(1, 306));
-        add(new IntegerPoint(18, 749));
-        add(new IntegerPoint(21, 789));
-        add(new IntegerPoint(26, 822));
-        add(new IntegerPoint(48, 898));
-        add(new IntegerPoint(49, 901));
-        add(new IntegerPoint(70, 943));
+    public static final List<InterpolationPoint> FIREMODE_INTERPOLATION_POINTS = new ArrayList<>() {{
+        add(new InterpolationPoint(0, 21));
+        add(new InterpolationPoint(1, 306));
+        add(new InterpolationPoint(18, 749));
+        add(new InterpolationPoint(21, 789));
+        add(new InterpolationPoint(26, 822));
+        add(new InterpolationPoint(48, 898));
+        add(new InterpolationPoint(49, 901));
+        add(new InterpolationPoint(70, 943));
     }};
 
     public TestGenerationProperties() {
@@ -40,10 +39,7 @@ public class TestGenerationProperties extends GenerationProperties {
 
         setSamples(List.of(SampleProperties.builder()
                 .fireMode(FireModeProperties.builder()
-                        .randomPoints(RandomPointsProperties.builder()
-                                .enrichWithRandomPoints(true)
-                                .newPointChance(0.7)
-                                .build())
+                        .newPointChance(0.7)
                         .interpolationPoints(FIREMODE_INTERPOLATION_POINTS)
                         .thermocoupleCount(6)
                         .build())

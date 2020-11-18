@@ -1,4 +1,4 @@
-package io.github.therealmone.fireres.excel.model;
+package io.github.therealmone.fireres.excel.column;
 
 import io.github.therealmone.fireres.core.model.Point;
 import io.github.therealmone.fireres.core.model.PointSequence;

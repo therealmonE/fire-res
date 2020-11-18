@@ -33,14 +33,15 @@ public class DecreasingChildFunctionGeneratorStrategy implements ChildFunctionGe
                                             List<IntegerPointSequence> functions, Integer meanTemperature) {
 
         val maxAllowed = upperBound.getPoint(time).getValue();
+        val meanWithDelta = meanTemperature + resolveDelta(t0, time);
 
         return functions.stream()
                 .map(function -> {
                     if (!function.getValue().isEmpty()) {
                         val nextValue = function.getPoint(time + 1).getValue();
-                        return Math.min(Math.min(maxAllowed, meanTemperature + resolveDelta(t0, time)), nextValue);
+                        return Math.min(Math.min(maxAllowed, meanWithDelta), nextValue);
                     } else {
-                        return maxAllowed;
+                        return Math.min(maxAllowed, meanWithDelta);
                     }
                 })
                 .collect(Collectors.toList());
