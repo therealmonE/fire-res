@@ -1,13 +1,11 @@
 package io.github.therealmone.fireres.excel.sheet;
 
 import com.google.inject.Inject;
-import io.github.therealmone.fireres.core.annotation.BasePressure;
 import io.github.therealmone.fireres.core.annotation.Time;
-import io.github.therealmone.fireres.excess.pressure.report.ExcessPressureReport;
+import io.github.therealmone.fireres.excel.annotation.ExcessPressure;
 import io.github.therealmone.fireres.excel.model.ExcelReport;
-import io.github.therealmone.fireres.excel.model.pressure.ExcessPressureExelReport;
+import io.github.therealmone.fireres.excel.model.ExcelReports;
 
-import java.util.Collections;
 import java.util.List;
 
 public class ExcessPressureSheet extends AbstractExcelSheet {
@@ -15,22 +13,25 @@ public class ExcessPressureSheet extends AbstractExcelSheet {
     private static final String SHEET_NAME = "Избыточное давление";
 
     @Inject
-    @BasePressure
-    private Double basePressure;
-
-    @Inject
     @Time
     private Integer time;
 
     @Inject
-    private ExcessPressureReport report;
+    @ExcessPressure
+    private ExcelReports reports;
 
-    public ExcessPressureSheet() {
-        super(SHEET_NAME);
+    @Override
+    protected Integer getTime() {
+        return this.time;
     }
 
     @Override
-    protected List<ExcelReport> createExcelReports() {
-        return Collections.singletonList(new ExcessPressureExelReport(time, report, basePressure));
+    protected List<ExcelReport> getReports() {
+        return this.reports.getReports();
+    }
+
+    @Override
+    protected String getSheetName() {
+        return SHEET_NAME;
     }
 }

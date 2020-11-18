@@ -13,8 +13,10 @@ public class GuiceRunner extends BlockJUnit4ClassRunner {
 
     public GuiceRunner(Class<?> testClass) throws InitializationError {
         super(testClass);
-        val module = new UnheatedSurfaceModule(new TestGenerationProperties());
-        this.injector = Guice.createInjector(module);
+
+        this.injector = Guice.createInjector(
+                new UnheatedSurfaceModule(),
+                new CoreModule(new TestGenerationProperties()));
     }
 
     @Override

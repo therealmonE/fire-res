@@ -1,8 +1,9 @@
 package io.github.therealmone.fireres.excel;
 
 import com.google.inject.Inject;
-import io.github.therealmone.fireres.excel.sheet.ExcessPressureSheet;
-import io.github.therealmone.fireres.excel.sheet.FireModeSheet;
+import io.github.therealmone.fireres.excel.annotation.ExcessPressure;
+import io.github.therealmone.fireres.excel.annotation.FireMode;
+import io.github.therealmone.fireres.excel.sheet.ExcelSheet;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -18,10 +19,12 @@ public class ExcelReportConstructor implements ReportConstructor {
     public static final String TIMES_NEW_ROMAN = "Times New Roman";
 
     @Inject
-    private FireModeSheet fireModeSheet;
+    @FireMode
+    private ExcelSheet fireModeSheet;
 
     @Inject
-    private ExcessPressureSheet excessPressureSheet;
+    @ExcessPressure
+    private ExcelSheet excessPressureSheet;
 
     @Override
     @SneakyThrows

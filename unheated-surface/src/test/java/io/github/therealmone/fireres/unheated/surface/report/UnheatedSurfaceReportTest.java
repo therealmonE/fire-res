@@ -191,11 +191,4 @@ public class UnheatedSurfaceReportTest {
         }
     }
 
-    @Test
-    public void provideReportTest() {
-        val report = reportProvider.get();
-
-        assertUnheatedSurfaceReportIsValid(report);
-    }
-
 }

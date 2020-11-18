@@ -1,6 +1,5 @@
 package io.github.therealmone.fireres.excel.model;
 
-import io.github.therealmone.fireres.excel.chart.ExcelChart;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,10 +11,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ExcelReport {
+public class ExcelReports {
 
-    private List<Column> data;
-
-    private ExcelChart chart;
+    private List<ExcelReport> reports;
 
 }

@@ -1,7 +1,5 @@
 package io.github.therealmone.fireres.excel.sheet;
 
-import com.google.inject.Inject;
-import io.github.therealmone.fireres.core.annotation.Time;
 import io.github.therealmone.fireres.excel.model.Column;
 import io.github.therealmone.fireres.excel.model.ExcelReport;
 import io.github.therealmone.fireres.excel.style.data.DataCellStyles;
@@ -19,21 +17,14 @@ public abstract class AbstractExcelSheet implements ExcelSheet {
 
     private static final Integer REPORT_INTERVAL = 3;
 
-    @Inject
-    @Time
-    protected Integer time;
-
-    protected final String sheetName;
-
     @Override
     public void create(XSSFWorkbook workbook) {
-        val sheet = workbook.createSheet(sheetName);
-        val excelReports = createExcelReports();
+        val sheet = workbook.createSheet(getSheetName());
 
-        for (int i = 0; i < excelReports.size(); i++) {
-            val excelReport = excelReports.get(i);
+        for (int i = 0; i < getReports().size(); i++) {
+            val excelReport = getReports().get(i);
             val columns = excelReport.getData();
-            val position = i * (time + REPORT_INTERVAL + 1);
+            val position = i * (getTime() + REPORT_INTERVAL + 1);
 
             generateHeaders(sheet, columns, new HeaderCellStyles(workbook), position);
             generateData(sheet, columns, new DataCellStyles(workbook), position);
@@ -60,7 +51,7 @@ public abstract class AbstractExcelSheet implements ExcelSheet {
     protected void generateData(XSSFSheet sheet, List<Column> columns,
                                 DataCellStyles cellStyles, Integer position) {
 
-        IntStream.range(0, time).forEach(t -> {
+        IntStream.range(0, getTime()).forEach(t -> {
             val row = sheet.createRow(position + t + 1);
 
             IntStream.range(0, columns.size()).forEach(i -> {
@@ -80,6 +71,10 @@ public abstract class AbstractExcelSheet implements ExcelSheet {
         chart.plot(sheet, position);
     }
 
-    protected abstract List<ExcelReport> createExcelReports();
+    protected abstract Integer getTime();
+
+    protected abstract List<ExcelReport> getReports();
+
+    protected abstract String getSheetName();
 
 }

@@ -1,5 +1,12 @@
-package io.github.therealmone.fireres.excel.model.firemode;
+package io.github.therealmone.fireres.excel.report;
 
+import com.google.inject.Inject;
+import io.github.therealmone.fireres.core.annotation.EnvironmentTemperature;
+import io.github.therealmone.fireres.core.annotation.Time;
+import io.github.therealmone.fireres.excel.chart.FireModeChart;
+import io.github.therealmone.fireres.excel.model.Column;
+import io.github.therealmone.fireres.excel.model.ExcelReport;
+import io.github.therealmone.fireres.excel.model.ExcelReports;
 import io.github.therealmone.fireres.excel.model.firemode.EightTimeColumn;
 import io.github.therealmone.fireres.excel.model.firemode.EnvTempColumn;
 import io.github.therealmone.fireres.excel.model.firemode.FurnaceTemperatureColumn;
@@ -10,29 +17,35 @@ import io.github.therealmone.fireres.excel.model.firemode.ThermocoupleTemperatur
 import io.github.therealmone.fireres.excel.model.firemode.ThermocouplesMeanTemperatureColumn;
 import io.github.therealmone.fireres.excel.model.firemode.TimeColumn;
 import io.github.therealmone.fireres.firemode.report.FireModeReport;
-import io.github.therealmone.fireres.excel.chart.ExcelChart;
-import io.github.therealmone.fireres.excel.chart.FireModeChart;
-import io.github.therealmone.fireres.excel.model.Column;
-import io.github.therealmone.fireres.excel.model.ExcelReport;
-import lombok.Getter;
 import lombok.val;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FireModeExcelReport implements ExcelReport {
+public class FireModeExcelReportsProvider implements ExcelReportsProvider {
 
-    private final Integer time;
+    @Inject
+    private FireModeReport fireModeReport;
 
-    @Getter
-    private final List<Column> data;
+    @Inject
+    @Time
+    private Integer time;
 
-    public FireModeExcelReport(Integer time, Integer environmentTemperature, FireModeReport report) {
-        this.data = createData(report, time, environmentTemperature);
-        this.time = time;
+    @Inject
+    @EnvironmentTemperature
+    private Integer environmentTemperature;
+
+    @Override
+    public ExcelReports get() {
+        val data = createData();
+
+        return new ExcelReports(List.of(ExcelReport.builder()
+                .data(data)
+                .chart(new FireModeChart(time, data))
+                .build()));
     }
 
-    protected List<Column> createData(FireModeReport fireModeReport, Integer time, Integer environmentTemperature) {
+    protected List<Column> createData() {
         val columns = new ArrayList<Column>();
 
         columns.add(new TimeColumn(time));
@@ -60,8 +73,4 @@ public class FireModeExcelReport implements ExcelReport {
         return columns;
     }
 
-    @Override
-    public ExcelChart getChart() {
-        return new FireModeChart(time, getData());
-    }
 }

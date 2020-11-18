@@ -2,6 +2,7 @@ package io.github.therealmone.fireres.excess.pressure;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import io.github.therealmone.fireres.core.CoreModule;
 import lombok.val;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.InitializationError;
@@ -12,8 +13,10 @@ public class GuiceRunner extends BlockJUnit4ClassRunner {
 
     public GuiceRunner(Class<?> testClass) throws InitializationError {
         super(testClass);
-        val module = new ExcessPressureModule(new TestGenerationProperties());
-        this.injector = Guice.createInjector(module);
+
+        this.injector = Guice.createInjector(
+                new ExcessPressureModule(),
+                new CoreModule(new TestGenerationProperties()));
     }
 
     @Override
