@@ -1,12 +1,10 @@
 package io.github.therealmone.fireres.excel;
 
-import io.github.therealmone.fireres.core.common.config.GenerationProperties;
-import io.github.therealmone.fireres.core.common.report.FullReport;
-import io.github.therealmone.fireres.core.common.report.FullReportBuilder;
+import com.google.inject.Inject;
+import io.github.therealmone.fireres.excel.annotation.ExcessPressure;
+import io.github.therealmone.fireres.excel.annotation.FireMode;
+import io.github.therealmone.fireres.excel.annotation.UnheatedSurface;
 import io.github.therealmone.fireres.excel.sheet.ExcelSheet;
-import io.github.therealmone.fireres.excel.sheet.ExcessPressureSheet;
-import io.github.therealmone.fireres.excel.sheet.FireModeSheet;
-import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -15,50 +13,43 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.List;
 
-@RequiredArgsConstructor
 @Slf4j
 public class ExcelReportConstructor implements ReportConstructor {
 
     public static final String TIMES_NEW_ROMAN = "Times New Roman";
 
-    private final GenerationProperties generationProperties;
+    @Inject
+    @FireMode
+    private List<ExcelSheet> fireModeSheets;
+
+    @Inject
+    @ExcessPressure
+    private List<ExcelSheet> excessPressureSheets;
+
+    @Inject
+    @UnheatedSurface
+    private List<ExcelSheet> unheatedSurfaceSheets;
 
     @Override
     @SneakyThrows
     public void construct(File outputFile) {
         log.info("Writing excel report to: {}", outputFile.getAbsolutePath());
-        val report = new FullReportBuilder().build(generationProperties);
 
-        try (val excel = generateExcel(report);
+        try (val excel = generateExcel();
              val outputStream = new FileOutputStream(outputFile)) {
             excel.write(outputStream);
         }
     }
 
-    private Workbook generateExcel(FullReport report) {
+    private Workbook generateExcel() {
         val workbook = new XSSFWorkbook();
 
-        val fireModeSheet = new FireModeSheet(
-                report.getFireMode(),
-                report.getTime(),
-                report.getEnvironmentTemperature());
-
-        val excessPressureSheet = new ExcessPressureSheet(
-                report.getExcessPressure(),
-                report.getTime(),
-                generationProperties.getGeneral().getExcessPressure().getBasePressure());
-
-        createSheets(workbook,
-                fireModeSheet,
-                excessPressureSheet);
+        fireModeSheets.forEach(sheet -> sheet.create(workbook));
+        excessPressureSheets.forEach(sheet -> sheet.create(workbook));
+        unheatedSurfaceSheets.forEach(sheet -> sheet.create(workbook));
 
         return workbook;
-    }
-
-    private void createSheets(XSSFWorkbook workbook, ExcelSheet... sheets) {
-        for (ExcelSheet sheet : sheets) {
-            sheet.create(workbook);
-        }
     }
 }

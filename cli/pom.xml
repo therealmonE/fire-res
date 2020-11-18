@@ -41,7 +41,7 @@
                         <configuration>
                             <archive>
                                 <manifest>
-                                    <mainClass>io.github.therealmone.fireres.cli.Application</mainClass>
+                                    <mainClass>io.github.therealmone.fireres.cli.Main</mainClass>
                                 </manifest>
                             </archive>
                             <descriptorRefs>
