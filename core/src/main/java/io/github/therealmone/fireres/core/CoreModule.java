@@ -6,6 +6,7 @@ import io.github.therealmone.fireres.core.annotation.EnvironmentTemperature;
 import io.github.therealmone.fireres.core.annotation.Time;
 import io.github.therealmone.fireres.core.config.GeneralProperties;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
+import io.github.therealmone.fireres.core.factory.MeanFunctionFactory;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;
@@ -27,6 +28,8 @@ public class CoreModule extends AbstractModule {
 
         bind(Double.class).annotatedWith(BasePressure.class)
                 .toProvider(this::getBasePressure);
+
+        bind(MeanFunctionFactory.class);
     }
 
     private Integer getTime() {

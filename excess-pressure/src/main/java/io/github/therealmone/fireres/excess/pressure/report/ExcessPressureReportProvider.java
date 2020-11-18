@@ -16,10 +16,12 @@ public class ExcessPressureReportProvider implements Provider<ExcessPressureRepo
     @Inject
     private GenerationProperties properties;
 
+    @Inject
+    private ExcessPressureFactory factory;
+
     @Override
     public ExcessPressureReport get() {
         log.info("Building excess pressure report");
-        val factory = new ExcessPressureFactory(properties);
 
         val minAllowedPressure = factory.minAllowedPressure();
         val maxAllowedPressure = factory.maxAllowedPressure();

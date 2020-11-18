@@ -1,10 +1,12 @@
 package io.github.therealmone.fireres.unheated.surface.factory;
 
-import io.github.therealmone.fireres.core.MeanFunctionFactory;
+import com.google.inject.Inject;
+import io.github.therealmone.fireres.core.factory.MeanFunctionFactory;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.config.SampleProperties;
-import io.github.therealmone.fireres.core.generator.IncreasingChildFunctionGeneratorStrategy;
+import io.github.therealmone.fireres.core.generator.MeanWithChildFunctionGenerationParameters;
 import io.github.therealmone.fireres.core.config.unheated.surface.UnheatedSurfaceSecondaryGroupProperties;
+import io.github.therealmone.fireres.core.generator.strategy.IncreasingChildFunctionGeneratorStrategy;
 import io.github.therealmone.fireres.unheated.surface.generator.UnheatedSurfaceMeanBoundGenerator;
 import io.github.therealmone.fireres.unheated.surface.generator.UnheatedSurfaceThermocoupleBoundGenerator;
 import io.github.therealmone.fireres.unheated.surface.model.UnheatedSurfaceGroup;
@@ -12,7 +14,6 @@ import io.github.therealmone.fireres.unheated.surface.model.UnheatedSurfaceMeanB
 import io.github.therealmone.fireres.unheated.surface.model.UnheatedSurfaceMeanTemperature;
 import io.github.therealmone.fireres.unheated.surface.model.UnheatedSurfaceThermocoupleBound;
 import io.github.therealmone.fireres.unheated.surface.model.UnheatedSurfaceThermocoupleTemperature;
-import lombok.RequiredArgsConstructor;
 import lombok.val;
 
 import java.util.function.Function;
@@ -20,10 +21,13 @@ import java.util.stream.Collectors;
 
 import static io.github.therealmone.fireres.core.utils.FunctionUtils.constantFunction;
 
-@RequiredArgsConstructor
 public class UnheatedSurfaceFactory {
 
-    private final GenerationProperties generationProperties;
+    @Inject
+    private GenerationProperties generationProperties;
+
+    @Inject
+    private MeanFunctionFactory meanFunctionFactory;
 
     public UnheatedSurfaceMeanBound meanBound() {
         return new UnheatedSurfaceMeanBoundGenerator(
@@ -47,15 +51,16 @@ public class UnheatedSurfaceFactory {
         val sample = generationProperties.getSamples().get(sampleNumber);
         val group = sample.getUnheatedSurface().getFirstGroup();
 
-        val meanFunctionFactory = new MeanFunctionFactory(generationProperties, zeroBound, meanBound);
-
-        val strategy = new IncreasingChildFunctionGeneratorStrategy(
-                generationProperties.getGeneral().getEnvironmentTemperature(),
-                zeroBound,
-                thermocoupleBound);
-
         val meanWithChildFunctions = meanFunctionFactory
-                .meanWithChildFunctions(group, strategy, group.getThermocoupleCount());
+                .meanWithChildFunctions(MeanWithChildFunctionGenerationParameters.builder()
+                        .meanFunctionInterpolation(group)
+                        .meanLowerBound(zeroBound)
+                        .meanUpperBound(meanBound)
+                        .childFunctionsCount(group.getThermocoupleCount())
+                        .childLowerBound(zeroBound)
+                        .childUpperBound(thermocoupleBound)
+                        .strategy(new IncreasingChildFunctionGeneratorStrategy())
+                        .build());
 
         return UnheatedSurfaceGroup.builder()
                 .meanBound(meanBound)
@@ -88,15 +93,16 @@ public class UnheatedSurfaceFactory {
                 group.getBound()
         ).getValue());
 
-        val meanFunctionFactory = new MeanFunctionFactory(generationProperties, zeroBound, thermocoupleBound);
-
-        val strategy = new IncreasingChildFunctionGeneratorStrategy(
-                generationProperties.getGeneral().getEnvironmentTemperature(),
-                zeroBound,
-                thermocoupleBound());
-
         val meanWithChildFunctions = meanFunctionFactory
-                .meanWithChildFunctions(group, strategy, group.getThermocoupleCount());
+                .meanWithChildFunctions(MeanWithChildFunctionGenerationParameters.builder()
+                        .meanFunctionInterpolation(group)
+                        .meanLowerBound(zeroBound)
+                        .meanUpperBound(thermocoupleBound)
+                        .childFunctionsCount(group.getThermocoupleCount())
+                        .childLowerBound(zeroBound)
+                        .childUpperBound(thermocoupleBound)
+                        .strategy(new IncreasingChildFunctionGeneratorStrategy())
+                        .build());
 
         return UnheatedSurfaceGroup.builder()
                 .meanBound(null) //no mean bound for 3rd group

@@ -17,10 +17,12 @@ public class UnheatedSurfaceReportProvider implements Provider<UnheatedSurfaceRe
     @Inject
     private GenerationProperties properties;
 
+    @Inject
+    private UnheatedSurfaceFactory factory;
+
     @Override
     public UnheatedSurfaceReport get() {
         log.info("Building unheated surface report");
-        val factory = new UnheatedSurfaceFactory(properties);
 
         val samples = IntStream.range(0, properties.getSamples().size())
                 .mapToObj(sample -> UnheatedSurfaceSample.builder()

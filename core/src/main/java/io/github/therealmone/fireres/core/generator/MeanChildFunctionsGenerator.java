@@ -1,5 +1,6 @@
 package io.github.therealmone.fireres.core.generator;
 
+import io.github.therealmone.fireres.core.generator.strategy.ChildFunctionGeneratorStrategy;
 import io.github.therealmone.fireres.core.model.Point;
 import io.github.therealmone.fireres.core.exception.MeanChildFunctionGenerationException;
 import io.github.therealmone.fireres.core.model.IntegerPoint;
@@ -20,10 +21,15 @@ import static io.github.therealmone.fireres.core.utils.RandomUtils.generateValue
 @Slf4j
 public class MeanChildFunctionsGenerator implements MultiplePointSequencesGenerator<IntegerPointSequence> {
 
-
     private final Integer time;
-    private final IntegerPointSequence meanFunction;
+    private final Integer t0;
     private final Integer functionsCount;
+
+    private final IntegerPointSequence meanFunction;
+
+    private final IntegerPointSequence lowerBound;
+    private final IntegerPointSequence upperBound;
+
     private final ChildFunctionGeneratorStrategy strategy;
 
     @Override
@@ -37,8 +43,8 @@ public class MeanChildFunctionsGenerator implements MultiplePointSequencesGenera
             val mean = meanFunction.getPoint(t).getValue();
 
             val generatedValues = generateFunctionValues(
-                    strategy.resolveLowerBounds(t, functions, mean),
-                    strategy.resolveUpperBounds(t, functions, mean),
+                    strategy.resolveLowerBounds(lowerBound, t, t0, functions, mean),
+                    strategy.resolveUpperBounds(upperBound, t, t0, functions, mean),
                     mean
             );
 

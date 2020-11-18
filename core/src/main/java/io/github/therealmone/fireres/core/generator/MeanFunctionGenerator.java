@@ -1,5 +1,6 @@
 package io.github.therealmone.fireres.core.generator;
 
+import io.github.therealmone.fireres.core.config.Interpolation;
 import io.github.therealmone.fireres.core.model.IntegerPoint;
 import io.github.therealmone.fireres.core.model.IntegerPointSequence;
 import lombok.RequiredArgsConstructor;
@@ -31,17 +32,15 @@ public class MeanFunctionGenerator implements PointSequenceGenerator<IntegerPoin
 
     private final IntegerPointSequence upperBound;
     private final IntegerPointSequence lowerBound;
-    private final IntegerPointSequence interpolationPoints;
 
-    private final Boolean enrichWithRandomPoints;
-    private final Double newPointChance;
+    private final Interpolation interpolation;
 
     @Override
     public IntegerPointSequence generate() {
-        val points = new ArrayList<>(interpolationPoints.getValue());
+        val points = new ArrayList<>(interpolation.getInterpolationPoints());
         adjustInterpolationPoints(points);
 
-        if (enrichWithRandomPoints) {
+        if (interpolation.getRandomPoints().getEnrichWithRandomPoints()) {
             generateInnerPoints(points);
         }
 
@@ -65,7 +64,7 @@ public class MeanFunctionGenerator implements PointSequenceGenerator<IntegerPoin
     private void generateInnerPoints(List<IntegerPoint> interpolationPoints) {
         val adjustingPoints = asIntervals(interpolationPoints).stream()
                 .flatMap(interval ->
-                        raiseInterval(interval, newPointChance, i -> true).stream())
+                        raiseInterval(interval, interpolation.getRandomPoints().getNewPointChance(), i -> true).stream())
                 .collect(Collectors.toList());
 
         interpolationPoints.addAll(adjustingPoints);

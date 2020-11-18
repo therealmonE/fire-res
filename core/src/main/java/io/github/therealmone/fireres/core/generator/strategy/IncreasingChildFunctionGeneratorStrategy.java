@@ -1,7 +1,6 @@
-package io.github.therealmone.fireres.core.generator;
+package io.github.therealmone.fireres.core.generator.strategy;
 
 import io.github.therealmone.fireres.core.model.IntegerPointSequence;
-import lombok.RequiredArgsConstructor;
 import lombok.val;
 
 import java.util.Iterator;
@@ -9,12 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-@RequiredArgsConstructor
 public class IncreasingChildFunctionGeneratorStrategy implements ChildFunctionGeneratorStrategy {
-
-    private final Integer t0;
-    private final IntegerPointSequence lowerBound;
-    private final IntegerPointSequence upperBound;
 
     @Override
     public Iterator<Integer> getTimeIterator(Integer time) {
@@ -22,7 +16,9 @@ public class IncreasingChildFunctionGeneratorStrategy implements ChildFunctionGe
     }
 
     @Override
-    public List<Integer> resolveLowerBounds(Integer time, List<IntegerPointSequence> functions, Integer meanTemperature) {
+    public List<Integer> resolveLowerBounds(IntegerPointSequence lowerBound, Integer time, Integer t0,
+                                            List<IntegerPointSequence> functions, Integer meanTemperature) {
+
         val minAllowed = lowerBound.getPoint(time).getValue();
 
         return functions.stream()
@@ -38,7 +34,9 @@ public class IncreasingChildFunctionGeneratorStrategy implements ChildFunctionGe
     }
 
     @Override
-    public List<Integer> resolveUpperBounds(Integer time, List<IntegerPointSequence> functions, Integer meanTemperature) {
+    public List<Integer> resolveUpperBounds(IntegerPointSequence upperBound, Integer time, Integer t0,
+                                            List<IntegerPointSequence> functions, Integer meanTemperature) {
+
         val maxAllowed = upperBound.getPoint(time).getValue();
 
         return IntStream.range(0, functions.size())

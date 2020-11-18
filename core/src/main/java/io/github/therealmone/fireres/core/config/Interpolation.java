@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public class Interpolated {
+public class Interpolation {
 
     @Optional
     @Builder.Default

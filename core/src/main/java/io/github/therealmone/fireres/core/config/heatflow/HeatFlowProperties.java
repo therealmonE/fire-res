@@ -1,6 +1,6 @@
 package io.github.therealmone.fireres.core.config.heatflow;
 
-import io.github.therealmone.fireres.core.config.Interpolated;
+import io.github.therealmone.fireres.core.config.Interpolation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -12,7 +12,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public class HeatFlowProperties extends Interpolated {
+public class HeatFlowProperties extends Interpolation {
 
     private Integer sensorCount;
     private Integer bound;
