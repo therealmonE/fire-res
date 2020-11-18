@@ -1,6 +1,6 @@
 package io.github.therealmone.fireres.excel.model.pressure;
 
-import io.github.therealmone.fireres.core.pressure.model.MinAllowedPressure;
+import io.github.therealmone.fireres.excess.pressure.model.MinAllowedPressure;
 import io.github.therealmone.fireres.excel.chart.ChartColumn;
 import io.github.therealmone.fireres.excel.model.PointSequenceColumn;
 import io.github.therealmone.fireres.excel.style.chart.DefaultDataLineProperties;

@@ -1,6 +1,6 @@
 package io.github.therealmone.fireres.excel.model.pressure;
 
-import io.github.therealmone.fireres.core.pressure.report.ExcessPressureReport;
+import io.github.therealmone.fireres.excess.pressure.report.ExcessPressureReport;
 import io.github.therealmone.fireres.excel.chart.ExcelChart;
 import io.github.therealmone.fireres.excel.chart.ExcessPressureChart;
 import io.github.therealmone.fireres.excel.model.Column;

@@ -1,7 +1,7 @@
 package io.github.therealmone.fireres.core.utils;
 
-import io.github.therealmone.fireres.core.common.model.IntegerPoint;
-import io.github.therealmone.fireres.core.common.model.IntegerPointSequence;
+import io.github.therealmone.fireres.core.model.IntegerPoint;
+import io.github.therealmone.fireres.core.model.IntegerPointSequence;
 import org.apache.commons.math3.util.Pair;
 
 import java.util.List;

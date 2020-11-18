@@ -1,6 +1,6 @@
 package io.github.therealmone.fireres.excel.model.firemode;
 
-import io.github.therealmone.fireres.core.firemode.model.MaxAllowedTemperature;
+import io.github.therealmone.fireres.firemode.model.MaxAllowedTemperature;
 import io.github.therealmone.fireres.excel.chart.ChartColumn;
 import io.github.therealmone.fireres.excel.model.PointSequenceColumn;
 import io.github.therealmone.fireres.excel.style.chart.DefaultDataLineProperties;

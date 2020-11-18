@@ -1,8 +1,8 @@
 package io.github.therealmone.fireres.excel.model.pressure;
 
-import io.github.therealmone.fireres.core.common.model.DoublePoint;
-import io.github.therealmone.fireres.core.common.model.DoublePointSequence;
-import io.github.therealmone.fireres.core.pressure.model.SamplePressure;
+import io.github.therealmone.fireres.core.model.DoublePoint;
+import io.github.therealmone.fireres.core.model.DoublePointSequence;
+import io.github.therealmone.fireres.excess.pressure.model.SamplePressure;
 import io.github.therealmone.fireres.excel.model.PointSequenceColumn;
 import java.util.stream.Collectors;
 

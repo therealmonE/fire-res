@@ -1,6 +1,15 @@
 package io.github.therealmone.fireres.excel.model.firemode;
 
-import io.github.therealmone.fireres.core.firemode.report.FireModeReport;
+import io.github.therealmone.fireres.excel.model.firemode.EightTimeColumn;
+import io.github.therealmone.fireres.excel.model.firemode.EnvTempColumn;
+import io.github.therealmone.fireres.excel.model.firemode.FurnaceTemperatureColumn;
+import io.github.therealmone.fireres.excel.model.firemode.MaxAllowedTemperatureColumn;
+import io.github.therealmone.fireres.excel.model.firemode.MinAllowedTemperatureColumn;
+import io.github.therealmone.fireres.excel.model.firemode.StandardTemperatureColumn;
+import io.github.therealmone.fireres.excel.model.firemode.ThermocoupleTemperatureColumn;
+import io.github.therealmone.fireres.excel.model.firemode.ThermocouplesMeanTemperatureColumn;
+import io.github.therealmone.fireres.excel.model.firemode.TimeColumn;
+import io.github.therealmone.fireres.firemode.report.FireModeReport;
 import io.github.therealmone.fireres.excel.chart.ExcelChart;
 import io.github.therealmone.fireres.excel.chart.FireModeChart;
 import io.github.therealmone.fireres.excel.model.Column;

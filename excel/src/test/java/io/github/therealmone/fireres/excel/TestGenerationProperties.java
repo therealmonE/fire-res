@@ -1,15 +1,15 @@
 package io.github.therealmone.fireres.excel;
 
-import io.github.therealmone.fireres.core.common.config.GeneralProperties;
-import io.github.therealmone.fireres.core.common.config.GenerationProperties;
-import io.github.therealmone.fireres.core.common.config.RandomPointsProperties;
-import io.github.therealmone.fireres.core.common.config.SampleProperties;
-import io.github.therealmone.fireres.core.common.model.IntegerPoint;
-import io.github.therealmone.fireres.core.firemode.config.FireModeProperties;
-import io.github.therealmone.fireres.core.pressure.config.ExcessPressureProperties;
-import io.github.therealmone.fireres.core.unheated.config.UnheatedSurfaceGroupProperties;
-import io.github.therealmone.fireres.core.unheated.config.UnheatedSurfaceProperties;
-import io.github.therealmone.fireres.core.unheated.config.UnheatedSurfaceSecondaryGroupProperties;
+import io.github.therealmone.fireres.core.config.GeneralProperties;
+import io.github.therealmone.fireres.core.config.GenerationProperties;
+import io.github.therealmone.fireres.core.config.RandomPointsProperties;
+import io.github.therealmone.fireres.core.config.SampleProperties;
+import io.github.therealmone.fireres.core.config.excess.pressure.ExcessPressureProperties;
+import io.github.therealmone.fireres.core.config.firemode.FireModeProperties;
+import io.github.therealmone.fireres.core.config.unheated.surface.UnheatedSurfaceGroupProperties;
+import io.github.therealmone.fireres.core.config.unheated.surface.UnheatedSurfaceProperties;
+import io.github.therealmone.fireres.core.config.unheated.surface.UnheatedSurfaceSecondaryGroupProperties;
+import io.github.therealmone.fireres.core.model.IntegerPoint;
 
 import java.util.ArrayList;
 import java.util.List;

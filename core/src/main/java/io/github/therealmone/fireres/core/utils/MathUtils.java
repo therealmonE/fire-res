@@ -1,6 +1,6 @@
 package io.github.therealmone.fireres.core.utils;
 
-import io.github.therealmone.fireres.core.common.model.IntegerPoint;
+import io.github.therealmone.fireres.core.model.IntegerPoint;
 import lombok.val;
 
 import java.util.List;

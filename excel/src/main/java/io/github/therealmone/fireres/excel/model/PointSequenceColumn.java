@@ -1,7 +1,7 @@
 package io.github.therealmone.fireres.excel.model;
 
-import io.github.therealmone.fireres.core.common.model.Point;
-import io.github.therealmone.fireres.core.common.model.PointSequence;
+import io.github.therealmone.fireres.core.model.Point;
+import io.github.therealmone.fireres.core.model.PointSequence;
 
 import java.util.Comparator;
 import java.util.stream.Collectors;

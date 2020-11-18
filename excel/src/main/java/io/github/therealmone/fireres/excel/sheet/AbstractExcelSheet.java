@@ -1,6 +1,7 @@
 package io.github.therealmone.fireres.excel.sheet;
 
-import io.github.therealmone.fireres.core.common.report.Report;
+import com.google.inject.Inject;
+import io.github.therealmone.fireres.core.annotation.Time;
 import io.github.therealmone.fireres.excel.model.Column;
 import io.github.therealmone.fireres.excel.model.ExcelReport;
 import io.github.therealmone.fireres.excel.style.data.DataCellStyles;
@@ -14,18 +15,20 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 @RequiredArgsConstructor
-public abstract class AbstractExcelSheet<R extends Report> implements ExcelSheet {
+public abstract class AbstractExcelSheet implements ExcelSheet {
 
     private static final Integer REPORT_INTERVAL = 3;
 
+    @Inject
+    @Time
+    protected Integer time;
+
     protected final String sheetName;
-    protected final Integer time;
-    protected final R report;
 
     @Override
     public void create(XSSFWorkbook workbook) {
         val sheet = workbook.createSheet(sheetName);
-        val excelReports = createExcelReports(report);
+        val excelReports = createExcelReports();
 
         for (int i = 0; i < excelReports.size(); i++) {
             val excelReport = excelReports.get(i);
@@ -33,7 +36,7 @@ public abstract class AbstractExcelSheet<R extends Report> implements ExcelSheet
             val position = i * (time + REPORT_INTERVAL + 1);
 
             generateHeaders(sheet, columns, new HeaderCellStyles(workbook), position);
-            generateData(sheet, columns, time, new DataCellStyles(workbook), position);
+            generateData(sheet, columns, new DataCellStyles(workbook), position);
             generateChart(sheet, excelReport, position);
         }
     }
@@ -54,17 +57,17 @@ public abstract class AbstractExcelSheet<R extends Report> implements ExcelSheet
         }
     }
 
-    protected void generateData(XSSFSheet sheet, List<Column> columns, Integer maxRows,
+    protected void generateData(XSSFSheet sheet, List<Column> columns,
                                 DataCellStyles cellStyles, Integer position) {
 
-        IntStream.range(0, maxRows).forEach(time -> {
-            val row = sheet.createRow(position + time + 1);
+        IntStream.range(0, time).forEach(t -> {
+            val row = sheet.createRow(position + t + 1);
 
             IntStream.range(0, columns.size()).forEach(i -> {
                 val column = columns.get(i);
                 val cell = row.createCell(i);
 
-                cell.setCellValue(column.getValues().get(time).doubleValue());
+                cell.setCellValue(column.getValues().get(t).doubleValue());
                 cell.setCellStyle(column.isHighlighted()
                         ? cellStyles.getHighlightedCellStyle()
                         : cellStyles.getCommonCellStyle());
@@ -77,6 +80,6 @@ public abstract class AbstractExcelSheet<R extends Report> implements ExcelSheet
         chart.plot(sheet, position);
     }
 
-    protected abstract List<ExcelReport> createExcelReports(R report);
+    protected abstract List<ExcelReport> createExcelReports();
 
 }

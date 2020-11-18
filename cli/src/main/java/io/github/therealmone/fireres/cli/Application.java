@@ -1,7 +1,7 @@
 package io.github.therealmone.fireres.cli;
 
 import com.google.inject.Inject;
-import io.github.therealmone.fireres.core.common.config.GenerationProperties;
+import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.excel.ReportConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;

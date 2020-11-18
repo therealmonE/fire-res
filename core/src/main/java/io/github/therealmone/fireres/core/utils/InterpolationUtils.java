@@ -1,8 +1,8 @@
 package io.github.therealmone.fireres.core.utils;
 
-import io.github.therealmone.fireres.core.common.model.IntegerPoint;
-import io.github.therealmone.fireres.core.common.model.IntegerPointSequence;
-import io.github.therealmone.fireres.core.common.model.Point;
+import io.github.therealmone.fireres.core.model.IntegerPoint;
+import io.github.therealmone.fireres.core.model.IntegerPointSequence;
+import io.github.therealmone.fireres.core.model.Point;
 import lombok.val;
 import org.apache.commons.math3.analysis.interpolation.LinearInterpolator;
 import org.apache.commons.math3.util.Pair;
@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import static io.github.therealmone.fireres.core.utils.RandomUtils.generateValueInInterval;
 
