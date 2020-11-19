@@ -3,6 +3,7 @@ package io.github.therealmone.fireres.excel;
 import io.github.therealmone.fireres.core.config.GeneralProperties;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.config.InterpolationPoint;
+import io.github.therealmone.fireres.core.config.ReportType;
 import io.github.therealmone.fireres.core.config.SampleProperties;
 import io.github.therealmone.fireres.core.config.excess.pressure.ExcessPressureProperties;
 import io.github.therealmone.fireres.core.config.firemode.FireModeProperties;
@@ -27,8 +28,8 @@ public class TestGenerationProperties extends GenerationProperties {
     }};
 
     public TestGenerationProperties() {
-
         setGeneral(GeneralProperties.builder()
+                .includedReports(List.of(ReportType.values()))
                 .environmentTemperature(21)
                 .time(71)
                 .excessPressure(ExcessPressureProperties.builder()
@@ -57,6 +58,5 @@ public class TestGenerationProperties extends GenerationProperties {
                                 .build())
                         .build())
                 .build()));
-
     }
 }

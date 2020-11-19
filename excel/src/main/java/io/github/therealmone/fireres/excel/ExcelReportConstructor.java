@@ -20,15 +20,15 @@ public class ExcelReportConstructor implements ReportConstructor {
 
     public static final String TIMES_NEW_ROMAN = "Times New Roman";
 
-    @Inject
+    @Inject(optional = true)
     @FireMode
     private List<ExcelSheet> fireModeSheets;
 
-    @Inject
+    @Inject(optional = true)
     @ExcessPressure
     private List<ExcelSheet> excessPressureSheets;
 
-    @Inject
+    @Inject(optional = true)
     @UnheatedSurface
     private List<ExcelSheet> unheatedSurfaceSheets;
 
@@ -46,9 +46,17 @@ public class ExcelReportConstructor implements ReportConstructor {
     private Workbook generateExcel() {
         val workbook = new XSSFWorkbook();
 
-        fireModeSheets.forEach(sheet -> sheet.create(workbook));
-        excessPressureSheets.forEach(sheet -> sheet.create(workbook));
-        unheatedSurfaceSheets.forEach(sheet -> sheet.create(workbook));
+        if (fireModeSheets != null) {
+            fireModeSheets.forEach(sheet -> sheet.create(workbook));
+        }
+
+        if (excessPressureSheets != null) {
+            excessPressureSheets.forEach(sheet -> sheet.create(workbook));
+        }
+
+        if (unheatedSurfaceSheets != null) {
+            unheatedSurfaceSheets.forEach(sheet -> sheet.create(workbook));
+        }
 
         return workbook;
     }
