@@ -4,6 +4,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
 import io.github.therealmone.fireres.core.CoreModule;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
+import io.github.therealmone.fireres.core.config.ReportType;
 import io.github.therealmone.fireres.excel.annotation.ExcessPressure;
 import io.github.therealmone.fireres.excel.annotation.FireMode;
 import io.github.therealmone.fireres.excel.annotation.UnheatedSurface;
@@ -18,6 +19,7 @@ import io.github.therealmone.fireres.excel.sheet.UnheatedSurfaceSheetsProvider;
 import io.github.therealmone.fireres.excess.pressure.ExcessPressureModule;
 import io.github.therealmone.fireres.firemode.FireModeModule;
 import io.github.therealmone.fireres.unheated.surface.UnheatedSurfaceModule;
+import lombok.val;
 
 import java.util.List;
 import java.util.Map;
@@ -34,9 +36,19 @@ public class ExcelModule extends AbstractModule {
     protected void configure() {
         install(new CoreModule(properties));
 
-        configureFireMode();
-        configureExcessPressure();
-        configureUnheatedSurface();
+        val includedReports = properties.getGeneral().getIncludedReports();
+
+        if (includedReports.contains(ReportType.FIRE_MODE)) {
+            configureFireMode();
+        }
+
+        if (includedReports.contains(ReportType.EXCESS_PRESSURE)) {
+            configureExcessPressure();
+        }
+
+        if (includedReports.contains(ReportType.UNHEATED_SURFACE)) {
+            configureUnheatedSurface();
+        }
 
         bind(ReportConstructor.class).to(ExcelReportConstructor.class);
     }
