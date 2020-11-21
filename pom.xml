@@ -14,9 +14,10 @@
         <module>core</module>
         <module>cli</module>
         <module>excel</module>
-        <module>firemode</module>
+        <module>fire-mode</module>
         <module>excess-pressure</module>
         <module>unheated-surface</module>
+        <module>heat-flow</module>
     </modules>
 
     <properties>
