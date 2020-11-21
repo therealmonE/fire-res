@@ -6,5 +6,7 @@ import io.github.therealmone.fireres.core.model.IntegerPointSequence;
 import java.util.List;
 
 public class HeatFlowBound extends IntegerPointSequence {
-    public HeatFlowBound(List<IntegerPoint> value) { super(value); }
+    public HeatFlowBound(List<IntegerPoint> value) {
+        super(value);
+    }
 }

@@ -16,4 +16,5 @@ import java.util.List;
 public class HeatFlowReport implements Report {
 
     private List<HeatFlowSample> samples;
+
 }

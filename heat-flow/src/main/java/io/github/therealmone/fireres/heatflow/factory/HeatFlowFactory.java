@@ -13,13 +13,14 @@ import java.util.stream.Collectors;
 import static io.github.therealmone.fireres.core.utils.FunctionUtils.constantFunction;
 
 public class HeatFlowFactory {
+
     @Inject
     private GenerationProperties generationProperties;
 
     @Inject
     private MeanFunctionFactory meanFunctionFactory;
 
-    private HeatFlowBound bound(Integer sampleNumber) {
+    public HeatFlowBound bound(Integer sampleNumber) {
         val sample = generationProperties.getSamples().get(sampleNumber);
         return new HeatFlowBound(
                 constantFunction(

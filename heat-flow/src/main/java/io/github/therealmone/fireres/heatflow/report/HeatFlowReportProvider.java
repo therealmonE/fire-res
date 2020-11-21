@@ -11,7 +11,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Slf4j
-public class HeatFlowReportProvider  implements Provider<HeatFlowReport> {
+public class HeatFlowReportProvider implements Provider<HeatFlowReport> {
+
     @Inject
     private HeatFlowFactory heatFlowFactory;
 

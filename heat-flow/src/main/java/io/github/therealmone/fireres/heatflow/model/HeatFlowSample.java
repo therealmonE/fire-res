@@ -13,7 +13,9 @@ import java.util.List;
 @Builder
 
 public class HeatFlowSample {
+
     private HeatFlowBound bound;
     private HeatFlowMeanTemperature meanTemperature;
     private List<HeatFlowSensorTemperature> sensorTemperatures;
+
 }
