@@ -17,6 +17,6 @@ public class ExcessPressureProperties {
 
     @Optional
     @Builder.Default
-    private Double dispersionCoefficient = 0.5;
+    private Double dispersionCoefficient = 0.9999;
 
 }

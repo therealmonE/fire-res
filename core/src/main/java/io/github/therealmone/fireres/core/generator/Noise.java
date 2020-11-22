@@ -30,11 +30,11 @@ public final class Noise {
       return t * t * (3 - t - t);
    }
 
-   public static double noise(Double min, Double max, Integer time, Double dispersion) {
+   public static double noise(Double min, Double max, Integer time, Double dispersion, Integer seed) {
       val noiseMin = -0.12 - (1 - dispersion);
       val noiseMax = 0.12 + (1 - dispersion);
 
-      val noise = noise(time, 0.1);
+      val noise = noise(time, seed + 0.1);
 
       return (noise - noiseMin) * (max - min) / (noiseMax - noiseMin) + min;
    }

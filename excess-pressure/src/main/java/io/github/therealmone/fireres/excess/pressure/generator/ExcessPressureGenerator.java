@@ -12,6 +12,8 @@ import lombok.val;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static io.github.therealmone.fireres.core.utils.RandomUtils.generateValueInInterval;
+
 @RequiredArgsConstructor
 public class ExcessPressureGenerator implements PointSequenceGenerator<SamplePressure> {
 
@@ -28,8 +30,9 @@ public class ExcessPressureGenerator implements PointSequenceGenerator<SamplePre
                 .mapToObj(t -> {
                     val min = minAllowedPressure.getPoint(t).getValue();
                     val max = maxAllowedPressure.getPoint(t).getValue();
+                    val seed = generateValueInInterval(0, Integer.MAX_VALUE - 1);
 
-                    return new DoublePoint(t, Noise.noise(min, max, t, dispersion));
+                    return new DoublePoint(t, Noise.noise(min, max, t, dispersion, seed));
                 })
                 .collect(Collectors.toList());
 
