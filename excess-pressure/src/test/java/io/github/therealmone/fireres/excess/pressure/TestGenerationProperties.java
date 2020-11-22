@@ -13,6 +13,7 @@ public class TestGenerationProperties extends GenerationProperties {
     public static final int TIME = 71;
     public static final double BASE_PRESSURE = 10.0;
     public static final double PRESSURE_DELTA = 2.0;
+    public static final double DISPERSION_COEFFICIENT = 0.999;
 
     public TestGenerationProperties() {
         setGeneral(GeneralProperties.builder()
@@ -21,6 +22,7 @@ public class TestGenerationProperties extends GenerationProperties {
                 .excessPressure(ExcessPressureProperties.builder()
                         .basePressure(BASE_PRESSURE)
                         .delta(PRESSURE_DELTA)
+                        .dispersionCoefficient(DISPERSION_COEFFICIENT)
                         .build())
                 .build());
 

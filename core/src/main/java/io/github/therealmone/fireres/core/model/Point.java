@@ -12,6 +12,6 @@ public abstract class Point<T extends Number> {
     private Integer time;
     private T value;
 
-    public abstract IntegerPoint normalize(Integer shift);
+    public abstract T getNormalizedValue();
 
 }
