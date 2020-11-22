@@ -12,9 +12,9 @@ public class IntegerPoint extends Point<Integer> {
     }
 
     @Override
-    public IntegerPoint normalize(Integer shift) {
+    public Integer getNormalizedValue() {
         //already normalized
-        return this;
+        return this.getValue();
     }
 
 }

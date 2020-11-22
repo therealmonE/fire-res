@@ -12,11 +12,8 @@ public class DoublePoint extends Point<Double> {
     }
 
     @Override
-    public IntegerPoint normalize(Integer shift) {
-        return IntegerPoint.builder()
-                .time(getTime())
-                .value((int) (getValue() * Math.pow(10, shift)))
-                .build();
+    public Double getNormalizedValue() {
+        return ((int) (this.getValue() * 100)) / 100d;
     }
 
 }

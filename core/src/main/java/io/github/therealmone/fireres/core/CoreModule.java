@@ -1,6 +1,7 @@
 package io.github.therealmone.fireres.core;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Singleton;
 import io.github.therealmone.fireres.core.annotation.BasePressure;
 import io.github.therealmone.fireres.core.annotation.EnvironmentTemperature;
 import io.github.therealmone.fireres.core.annotation.Time;
@@ -21,13 +22,16 @@ public class CoreModule extends AbstractModule {
         bind(GenerationProperties.class).toInstance(properties);
 
         bind(Integer.class).annotatedWith(Time.class)
-                .toProvider(this::getTime);
+                .toProvider(this::getTime)
+                .in(Singleton.class);
 
         bind(Integer.class).annotatedWith(EnvironmentTemperature.class)
-                .toProvider(this::getEnvironmentTemperature);
+                .toProvider(this::getEnvironmentTemperature)
+                .in(Singleton.class);
 
         bind(Double.class).annotatedWith(BasePressure.class)
-                .toProvider(this::getBasePressure);
+                .toProvider(this::getBasePressure)
+                .in(Singleton.class);
 
         bind(MeanFunctionFactory.class);
     }

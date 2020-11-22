@@ -13,7 +13,7 @@ public class PressureColumn extends PointSequenceColumn{
     public PressureColumn(Integer index, SamplePressure samplePressure, Double basePressure) {
         super(HEADER + index, false,
                 new DoublePointSequence(samplePressure.getValue().stream()
-                        .map(p -> new DoublePoint(p.getTime(), basePressure + p.getValue()))
+                        .map(p -> new DoublePoint(p.getTime(), basePressure + p.getNormalizedValue()))
                         .collect(Collectors.toList()))
         );
     }

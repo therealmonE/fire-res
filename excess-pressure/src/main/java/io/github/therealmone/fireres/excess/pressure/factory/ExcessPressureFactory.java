@@ -34,7 +34,8 @@ public class ExcessPressureFactory {
         return new ExcessPressureGenerator(
                 generationProperties.getGeneral().getTime(),
                 minAllowedPressure,
-                maxAllowedPressure
+                maxAllowedPressure,
+                generationProperties.getGeneral().getExcessPressure().getDispersionCoefficient()
         ).generate();
     }
 
