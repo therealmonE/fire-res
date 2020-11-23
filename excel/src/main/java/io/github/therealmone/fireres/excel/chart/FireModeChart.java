@@ -14,6 +14,11 @@ public class FireModeChart extends AbstractExcelChart {
     }
 
     @Override
+    protected String getTitle() {
+        return "Режим пожара";
+    }
+
+    @Override
     protected String getValueAxisTitle() {
         return "Температура, оС";
     }

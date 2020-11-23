@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.factory.MeanFunctionFactory;
 import io.github.therealmone.fireres.core.generator.MeanWithChildFunctionGenerationParameters;
-import io.github.therealmone.fireres.core.generator.strategy.IncreasingChildFunctionGeneratorStrategy;
 import io.github.therealmone.fireres.heatflow.model.*;
 import lombok.val;
 
@@ -20,7 +19,7 @@ public class HeatFlowFactory {
     @Inject
     private MeanFunctionFactory meanFunctionFactory;
 
-    public HeatFlowBound bound(Integer sampleNumber) {
+    private HeatFlowBound bound(Integer sampleNumber) {
         val sample = generationProperties.getSamples().get(sampleNumber);
         return new HeatFlowBound(
                 constantFunction(
@@ -43,7 +42,7 @@ public class HeatFlowFactory {
                         .childFunctionsCount(sample.getHeatFlow().getSensorCount())
                         .childLowerBound(zeroBound)
                         .childUpperBound(bound)
-                        .strategy(new IncreasingChildFunctionGeneratorStrategy())
+                        .strategy(new HeatFlowChildFunctionGeneratorStrategy())
                         .build());
 
         return HeatFlowSample.builder()

@@ -7,6 +7,7 @@ import io.github.therealmone.fireres.core.config.ReportType;
 import io.github.therealmone.fireres.core.config.SampleProperties;
 import io.github.therealmone.fireres.core.config.excess.pressure.ExcessPressureProperties;
 import io.github.therealmone.fireres.core.config.firemode.FireModeProperties;
+import io.github.therealmone.fireres.core.config.heatflow.HeatFlowProperties;
 import io.github.therealmone.fireres.core.config.unheated.surface.UnheatedSurfaceGroupProperties;
 import io.github.therealmone.fireres.core.config.unheated.surface.UnheatedSurfaceProperties;
 import io.github.therealmone.fireres.core.config.unheated.surface.UnheatedSurfaceSecondaryGroupProperties;
@@ -56,6 +57,10 @@ public class TestGenerationProperties extends GenerationProperties {
                                 .thermocoupleCount(6)
                                 .bound(300)
                                 .build())
+                        .build())
+                .heatFlow(HeatFlowProperties.builder()
+                        .sensorCount(3)
+                        .bound(3500)
                         .build())
                 .build()));
     }

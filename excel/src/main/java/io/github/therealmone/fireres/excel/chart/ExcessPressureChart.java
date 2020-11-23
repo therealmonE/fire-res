@@ -17,6 +17,11 @@ public class ExcessPressureChart extends AbstractExcelChart {
     }
 
     @Override
+    protected String getTitle() {
+        return "Избыточное давление";
+    }
+
+    @Override
     protected String getValueAxisTitle() {
         return "Избыточное давление, " + basePressure + "±Δ";
     }

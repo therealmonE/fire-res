@@ -18,15 +18,19 @@ import org.apache.poi.xddf.usermodel.chart.XDDFChartData;
 import org.apache.poi.xddf.usermodel.chart.XDDFLineChartData;
 import org.apache.poi.xddf.usermodel.chart.XDDFNumericalDataSource;
 import org.apache.poi.xddf.usermodel.chart.XDDFValueAxis;
+import org.apache.poi.xddf.usermodel.text.TextAlignment;
 import org.apache.poi.xssf.usermodel.XSSFChart;
 import org.apache.poi.xssf.usermodel.XSSFClientAnchor;
 import org.apache.poi.xssf.usermodel.XSSFDrawing;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFRichTextString;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static io.github.therealmone.fireres.excel.ExcelReportConstructor.TIMES_NEW_ROMAN;
 import static org.apache.poi.xddf.usermodel.chart.XDDFDataSourcesFactory.fromNumericCellRange;
 
 @RequiredArgsConstructor
@@ -54,8 +58,20 @@ public abstract class AbstractExcelChart implements ExcelChart {
 
     private void setBackground(XSSFDrawing drawing, XSSFClientAnchor anchor) {
         val shape = drawing.createSimpleShape(anchor);
+
+        val font = new XSSFFont();
+        font.setFontName(TIMES_NEW_ROMAN);
+        font.setFontHeight(18);
+
+        val text = new XSSFRichTextString();
+        text.append(getTitle(), font);
+
         shape.setFillColor(255, 255, 255);
+        shape.setText(text);
+        shape.getTextBody().getParagraphs().forEach(p -> p.setTextAlignment(TextAlignment.CENTER));
     }
+
+    protected abstract String getTitle();
 
     private XDDFChartData createData(XSSFChart chart) {
         return chart.createData(ChartTypes.LINE, createCategoryAxis(chart), createValueAxis(chart));
