@@ -7,17 +7,13 @@ import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.config.ReportType;
 import io.github.therealmone.fireres.excel.annotation.ExcessPressure;
 import io.github.therealmone.fireres.excel.annotation.FireMode;
+import io.github.therealmone.fireres.excel.annotation.HeatFlow;
 import io.github.therealmone.fireres.excel.annotation.UnheatedSurface;
-import io.github.therealmone.fireres.excel.report.ExcelReport;
-import io.github.therealmone.fireres.excel.report.ExcessPressureExcelReportsProvider;
-import io.github.therealmone.fireres.excel.report.FireModeExcelReportsProvider;
-import io.github.therealmone.fireres.excel.report.UnheatedSurfaceExcelReportsProvider;
-import io.github.therealmone.fireres.excel.sheet.ExcelSheet;
-import io.github.therealmone.fireres.excel.sheet.ExcessPressureSheetsProvider;
-import io.github.therealmone.fireres.excel.sheet.FireModeSheetsProvider;
-import io.github.therealmone.fireres.excel.sheet.UnheatedSurfaceSheetsProvider;
+import io.github.therealmone.fireres.excel.report.*;
+import io.github.therealmone.fireres.excel.sheet.*;
 import io.github.therealmone.fireres.excess.pressure.ExcessPressureModule;
 import io.github.therealmone.fireres.firemode.FireModeModule;
+import io.github.therealmone.fireres.heatflow.HeatFlowModule;
 import io.github.therealmone.fireres.unheated.surface.UnheatedSurfaceModule;
 import lombok.val;
 
@@ -48,6 +44,10 @@ public class ExcelModule extends AbstractModule {
 
         if (includedReports.contains(ReportType.UNHEATED_SURFACE)) {
             configureUnheatedSurface();
+        }
+
+        if (includedReports.contains(ReportType.HEAT_FLOW)) {
+            configureHeatFlow();
         }
 
         bind(ReportConstructor.class).to(ExcelReportConstructor.class);
@@ -87,5 +87,17 @@ public class ExcelModule extends AbstractModule {
         bind(new TypeLiteral<Map<Integer, List<ExcelReport>>>(){})
                 .annotatedWith(UnheatedSurface.class)
                 .toProvider(UnheatedSurfaceExcelReportsProvider.class);
+    }
+
+    private void configureHeatFlow() {
+        install(new HeatFlowModule());
+
+        bind(new TypeLiteral<List<ExcelSheet>>(){})
+                .annotatedWith(HeatFlow.class)
+                .toProvider(HeatFlowSheetsProvider.class);
+
+        bind(new TypeLiteral<List<ExcelReport>>(){})
+                .annotatedWith(HeatFlow.class)
+                .toProvider(HeatFlowExcelReportsProvider.class);
     }
 }

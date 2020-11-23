@@ -3,6 +3,7 @@ package io.github.therealmone.fireres.excel;
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.excel.annotation.ExcessPressure;
 import io.github.therealmone.fireres.excel.annotation.FireMode;
+import io.github.therealmone.fireres.excel.annotation.HeatFlow;
 import io.github.therealmone.fireres.excel.annotation.UnheatedSurface;
 import io.github.therealmone.fireres.excel.sheet.ExcelSheet;
 import lombok.SneakyThrows;
@@ -32,6 +33,10 @@ public class ExcelReportConstructor implements ReportConstructor {
     @UnheatedSurface
     private List<ExcelSheet> unheatedSurfaceSheets;
 
+    @Inject(optional = true)
+    @HeatFlow
+    private List<ExcelSheet> heatFlowSheets;
+
     @Override
     @SneakyThrows
     public void construct(File outputFile) {
@@ -56,6 +61,10 @@ public class ExcelReportConstructor implements ReportConstructor {
 
         if (unheatedSurfaceSheets != null) {
             unheatedSurfaceSheets.forEach(sheet -> sheet.create(workbook));
+        }
+
+        if (heatFlowSheets != null) {
+            heatFlowSheets.forEach(sheet -> sheet.create(workbook));
         }
 
         return workbook;
