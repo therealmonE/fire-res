@@ -15,7 +15,7 @@ public class HeatFlowChart extends AbstractExcelChart {
 
     @Override
     protected String getValueAxisTitle() {
-        return "Тепловой поток, Вт/м2";
+        return "Тепловой поток, Вт/м^2";
     }
 
     @Override
