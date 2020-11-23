@@ -9,8 +9,16 @@ public class HeatFlowChart extends AbstractExcelChart {
     private static final Integer HEIGHT = 50;
     private static final Integer WIDTH = 25;
 
-    public HeatFlowChart(Integer time, List<Column> columns) {
+    private final Integer index;
+
+    public HeatFlowChart(Integer time, List<Column> columns, Integer index) {
         super(time, columns, HEIGHT, WIDTH);
+        this.index = index;
+    }
+
+    @Override
+    protected String getTitle() {
+        return "Плотность теплового потока - Образец №" + index;
     }
 
     @Override

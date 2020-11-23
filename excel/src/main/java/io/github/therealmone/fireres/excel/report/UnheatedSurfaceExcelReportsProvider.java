@@ -2,7 +2,6 @@ package io.github.therealmone.fireres.excel.report;
 
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.annotation.Time;
-import io.github.therealmone.fireres.excel.annotation.UnheatedSurface;
 import io.github.therealmone.fireres.excel.chart.UnheatedSurfaceChart;
 import io.github.therealmone.fireres.excel.column.Column;
 import io.github.therealmone.fireres.excel.column.TimeColumn;
@@ -45,18 +44,19 @@ public class UnheatedSurfaceExcelReportsProvider implements GroupedExcelReportsP
 
     private List<ExcelReport> createReports(UnheatedSurfaceSample sample) {
         return List.of(
-                createReportForGroup(sample.getFirstGroup(), 0),
+                createReportForGroup(1, sample.getFirstGroup(), 0),
 
-                createReportForGroup(sample.getSecondGroup(),
+                createReportForGroup(2, sample.getSecondGroup(),
                         sample.getFirstGroup().getThermocoupleTemperatures().size()),
 
-                createReportForGroup(sample.getThirdGroup(),
+                createReportForGroup(3, sample.getThirdGroup(),
                         sample.getFirstGroup().getThermocoupleTemperatures().size() +
                         sample.getSecondGroup().getThermocoupleTemperatures().size())
         );
     }
 
-    private ExcelReport createReportForGroup(UnheatedSurfaceGroup group, Integer thermocoupleIndexShift) {
+    private ExcelReport createReportForGroup(Integer groupIndex, UnheatedSurfaceGroup group,
+                                             Integer thermocoupleIndexShift) {
         val columns = new ArrayList<Column>();
 
         columns.add(new TimeColumn(time));
@@ -76,7 +76,7 @@ public class UnheatedSurfaceExcelReportsProvider implements GroupedExcelReportsP
 
         return ExcelReport.builder()
                 .data(columns)
-                .chart(new UnheatedSurfaceChart(time, columns))
+                .chart(new UnheatedSurfaceChart(time, columns, groupIndex))
                 .build();
     }
 }
