@@ -1,7 +1,6 @@
 package io.github.therealmone.fireres.core.config;
 
 import com.typesafe.config.Optional;
-import io.github.therealmone.fireres.core.model.Point;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,6 +24,10 @@ public class Interpolation {
     @Optional
     @Builder.Default
     private Double newPointChance = 0.5;
+
+    @Optional
+    @Builder.Default
+    private Double dispersionCoefficient = 1d;
 
     public void setInterpolationPoints(List<InterpolationPoint> interpolationPoints) {
         interpolationPoints.sort(Comparator.comparing(InterpolationPoint::getTime));

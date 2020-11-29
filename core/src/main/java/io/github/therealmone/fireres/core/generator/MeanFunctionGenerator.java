@@ -54,7 +54,8 @@ public class MeanFunctionGenerator implements PointSequenceGenerator<IntegerPoin
         addLastPointIfNeeded(interpolationPoints, time, lowerBound, upperBound);
 
         val adjustingPoints = asIntervals(interpolationPoints).stream()
-                .flatMap(interval -> raiseInterval(interval, 1.0, this::intervalOutOfBounds).stream())
+                .flatMap(interval -> raiseInterval(interval, 1.0, 1.0, this::intervalOutOfBounds)
+                        .stream())
                 .collect(Collectors.toList());
 
         interpolationPoints.addAll(adjustingPoints);
@@ -64,37 +65,39 @@ public class MeanFunctionGenerator implements PointSequenceGenerator<IntegerPoin
     private void generateInnerPoints(List<IntegerPoint> interpolationPoints) {
         val adjustingPoints = asIntervals(interpolationPoints).stream()
                 .flatMap(interval ->
-                        raiseInterval(interval, interpolation.getNewPointChance(), i -> true).stream())
+                        raiseInterval(interval, interpolation.getNewPointChance(), interpolation.getDispersionCoefficient(), i -> true)
+                                .stream())
                 .collect(Collectors.toList());
 
         interpolationPoints.addAll(adjustingPoints);
         interpolationPoints.sort(Comparator.comparing(IntegerPoint::getTime));
     }
 
-    private List<IntegerPoint> raiseInterval(Pair<IntegerPoint, IntegerPoint> interval, Double newPointChance,
-                                                 Predicate<Pair<IntegerPoint, IntegerPoint>> conditionForRaising) {
+    private List<IntegerPoint> raiseInterval(Pair<IntegerPoint, IntegerPoint> interval,
+                                             Double newPointChance, Double dispersion,
+                                             Predicate<Pair<IntegerPoint, IntegerPoint>> conditionForRaising) {
 
         if (interval.getFirst().getTime().equals(interval.getSecond().getTime() - 1)
                 || !conditionForRaising.test(interval)) {
             return emptyList();
         }
 
-        val middlePoint = generateMiddlePoint(interval, newPointChance);
+        val middlePoint = generateMiddlePoint(interval, newPointChance, dispersion);
 
         val raisedInterval = new ArrayList<IntegerPoint>();
 
         raisedInterval.add(middlePoint);
         raisedInterval.addAll(
-                raiseInterval(new Pair<>(interval.getFirst(), middlePoint), newPointChance, conditionForRaising));
+                raiseInterval(new Pair<>(interval.getFirst(), middlePoint), newPointChance, dispersion, conditionForRaising));
         raisedInterval.addAll(
-                raiseInterval(new Pair<>(middlePoint, interval.getSecond()), newPointChance, conditionForRaising));
+                raiseInterval(new Pair<>(middlePoint, interval.getSecond()), newPointChance, dispersion, conditionForRaising));
 
         raisedInterval.sort(Comparator.comparing(IntegerPoint::getTime));
 
         return raisedInterval;
     }
 
-    private IntegerPoint generateMiddlePoint(Pair<IntegerPoint, IntegerPoint> interval, Double newPointChance) {
+    private IntegerPoint generateMiddlePoint(Pair<IntegerPoint, IntegerPoint> interval, Double newPointChance, Double dispersion) {
         val middleTime = (interval.getFirst().getTime() + interval.getSecond().getTime()) / 2;
         val interpolatedInterval = interpolateInterval(interval);
 
@@ -104,20 +107,22 @@ public class MeanFunctionGenerator implements PointSequenceGenerator<IntegerPoin
                 .orElseThrow()
                 .getValue();
 
+        val min = Math.max(
+                this.lowerBound.getPoint(middleTime).getValue(),
+                interval.getFirst().getValue());
+
+        val max = Math.min(
+                this.upperBound.getPoint(middleTime).getValue(),
+                interval.getSecond().getValue());
+
+        val mean = (max + min) / 2;
+
         if (rollDice(newPointChance)) {
-            val lowerBound = Math.max(
-                    this.lowerBound.getPoint(middleTime).getValue(),
-                    interval.getFirst().getValue());
-
-            val upperBound = Math.min(
-                    this.upperBound.getPoint(middleTime).getValue(),
-                    interval.getSecond().getValue());
-
-            return new IntegerPoint(middleTime, generateValueInInterval(lowerBound, upperBound));
+            return new IntegerPoint(middleTime, generateValueInInterval(
+                    mean - (int) ((mean - min) * dispersion),
+                    mean + (int) ((max - mean) * dispersion)
+            ));
         } else {
-            val min = upperBound.getPoint(middleTime).getValue();
-            val max = lowerBound.getPoint(middleTime).getValue();
-
             if (middleTemperature < min) {
                 return new IntegerPoint(middleTime, min);
             } else if (middleTemperature > max) {
@@ -131,8 +136,8 @@ public class MeanFunctionGenerator implements PointSequenceGenerator<IntegerPoin
     private boolean outOfBounds(IntegerPoint point) {
         val time = point.getTime();
 
-        return point.getValue() < upperBound.getPoint(time).getValue()
-                || point.getValue() > lowerBound.getPoint(time).getValue();
+        return point.getValue() > upperBound.getPoint(time).getValue()
+                || point.getValue() < lowerBound.getPoint(time).getValue();
     }
 
     private boolean intervalOutOfBounds(Pair<IntegerPoint, IntegerPoint> interval) {
