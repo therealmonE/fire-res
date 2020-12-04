@@ -6,9 +6,9 @@ import com.google.inject.Provider;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.config.SampleProperties;
 import io.github.therealmone.fireres.core.generator.MeanWithChildFunctionGenerationParameters;
-import io.github.therealmone.fireres.core.generator.strategy.DecreasingChildFunctionGeneratorStrategy;
 import io.github.therealmone.fireres.core.model.IntegerPointSequence;
 import io.github.therealmone.fireres.firemode.factory.FireModeFactory;
+import io.github.therealmone.fireres.firemode.generator.FireModeGeneratorStrategy;
 import io.github.therealmone.fireres.firemode.model.FireModeSample;
 import io.github.therealmone.fireres.firemode.model.MaxAllowedTemperature;
 import io.github.therealmone.fireres.firemode.model.MinAllowedTemperature;
@@ -67,7 +67,7 @@ public class FireModeReportProvider implements Provider<FireModeReport> {
                         .childLowerBound(lowerBound)
                         .childUpperBound(upperBound)
                         .childFunctionsCount(sample.getFireMode().getThermocoupleCount())
-                        .strategy(new DecreasingChildFunctionGeneratorStrategy())
+                        .strategy(new FireModeGeneratorStrategy())
                         .build());
 
         return FireModeSample.builder()

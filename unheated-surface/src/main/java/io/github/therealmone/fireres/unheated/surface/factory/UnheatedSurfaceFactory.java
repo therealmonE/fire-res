@@ -6,7 +6,7 @@ import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.config.SampleProperties;
 import io.github.therealmone.fireres.core.generator.MeanWithChildFunctionGenerationParameters;
 import io.github.therealmone.fireres.core.config.unheated.surface.UnheatedSurfaceSecondaryGroupProperties;
-import io.github.therealmone.fireres.core.generator.strategy.IncreasingChildFunctionGeneratorStrategy;
+import io.github.therealmone.fireres.unheated.surface.generator.UnheatedSurfaceGeneratorStrategy;
 import io.github.therealmone.fireres.unheated.surface.generator.UnheatedSurfaceMeanBoundGenerator;
 import io.github.therealmone.fireres.unheated.surface.generator.UnheatedSurfaceThermocoupleBoundGenerator;
 import io.github.therealmone.fireres.unheated.surface.model.UnheatedSurfaceGroup;
@@ -59,7 +59,7 @@ public class UnheatedSurfaceFactory {
                         .childFunctionsCount(group.getThermocoupleCount())
                         .childLowerBound(zeroBound)
                         .childUpperBound(thermocoupleBound)
-                        .strategy(new IncreasingChildFunctionGeneratorStrategy())
+                        .strategy(new UnheatedSurfaceGeneratorStrategy())
                         .build());
 
         return UnheatedSurfaceGroup.builder()
@@ -101,7 +101,7 @@ public class UnheatedSurfaceFactory {
                         .childFunctionsCount(group.getThermocoupleCount())
                         .childLowerBound(zeroBound)
                         .childUpperBound(thermocoupleBound)
-                        .strategy(new IncreasingChildFunctionGeneratorStrategy())
+                        .strategy(new UnheatedSurfaceGeneratorStrategy())
                         .build());
 
         return UnheatedSurfaceGroup.builder()
