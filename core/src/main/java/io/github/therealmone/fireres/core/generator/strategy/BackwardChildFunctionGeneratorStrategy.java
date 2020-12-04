@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class DecreasingChildFunctionGeneratorStrategy implements ChildFunctionGeneratorStrategy {
+public abstract class BackwardChildFunctionGeneratorStrategy implements ChildFunctionGeneratorStrategy {
 
     @Override
     public Iterator<Integer> getTimeIterator(Integer time) {
@@ -47,8 +47,6 @@ public class DecreasingChildFunctionGeneratorStrategy implements ChildFunctionGe
                 .collect(Collectors.toList());
     }
 
-    public int resolveDelta(Integer t0, Integer time) {
-        return (int) Math.round(t0 / (double) (time + 1));
-    }
+    protected abstract Integer resolveDelta(Integer t0, Integer time);
 
 }
