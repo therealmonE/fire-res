@@ -10,7 +10,7 @@ import java.util.List;
 
 public class HeatFlowSheetsProvider implements ExcelSheetsProvider {
 
-    private static final String SHEET_NAME = "Изменение плотности теплового потока";
+    private static final String SHEET_NAME = "Изм. плотности теплового потока";
 
     @Inject
     @Time
