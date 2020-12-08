@@ -45,6 +45,11 @@ public abstract class ForwardChildFunctionGeneratorStrategy implements ChildFunc
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public Integer resolvePreviousTime(Integer time) {
+        return time - 1;
+    }
+
     protected abstract Integer resolveDelta(Integer t0, Integer time);
 
 }

@@ -2,7 +2,6 @@ package io.github.therealmone.fireres.excel;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import io.github.therealmone.fireres.core.CoreModule;
 import lombok.val;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.junit.runners.model.InitializationError;

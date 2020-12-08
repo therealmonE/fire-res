@@ -77,7 +77,8 @@ public class MeanFunctionFactory {
                         meanFunction,
                         lowerBound,
                         upperBound,
-                        generationParameters.getStrategy()
+                        generationParameters.getStrategy(),
+                        generationParameters.getMeanFunctionInterpolation().getNonLinearityCoefficient()
                 ).generate();
             } catch (MeanChildFunctionGenerationException e) {
                 log.error("Failed to generate mean child functions");

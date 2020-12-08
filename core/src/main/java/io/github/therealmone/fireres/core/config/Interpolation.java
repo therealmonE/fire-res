@@ -23,7 +23,7 @@ public class Interpolation {
 
     @Optional
     @Builder.Default
-    private Double newPointChance = 0.5;
+    private Double linearityCoefficient = 0.5;
 
     @Optional
     @Builder.Default
@@ -32,6 +32,10 @@ public class Interpolation {
     public void setInterpolationPoints(List<InterpolationPoint> interpolationPoints) {
         interpolationPoints.sort(Comparator.comparing(InterpolationPoint::getTime));
         this.interpolationPoints = interpolationPoints;
+    }
+
+    public Double getNonLinearityCoefficient() {
+        return 1 - linearityCoefficient;
     }
 
 }

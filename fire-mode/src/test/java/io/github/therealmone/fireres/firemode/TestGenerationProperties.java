@@ -13,7 +13,7 @@ public class TestGenerationProperties extends GenerationProperties {
 
     public static final int ENVIRONMENT_TEMPERATURE = 21;
     public static final int TIME = 71;
-    public static final double NEW_POINT_CHANCE = 0.7;
+    public static final double LINEAR_COEFFICIENT = 0.3;
 
     public static final List<InterpolationPoint> INTERPOLATION_POINTS = new ArrayList<>() {{
         add(new InterpolationPoint(0, 21));
@@ -35,7 +35,7 @@ public class TestGenerationProperties extends GenerationProperties {
 
         setSamples(List.of(SampleProperties.builder()
                 .fireMode(FireModeProperties.builder()
-                        .newPointChance(NEW_POINT_CHANCE)
+                        .linearityCoefficient(LINEAR_COEFFICIENT)
                         .interpolationPoints(INTERPOLATION_POINTS)
                         .thermocoupleCount(6)
                         .build())

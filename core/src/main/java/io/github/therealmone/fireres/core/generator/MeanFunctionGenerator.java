@@ -65,8 +65,12 @@ public class MeanFunctionGenerator implements PointSequenceGenerator<IntegerPoin
     private void generateInnerPoints(List<IntegerPoint> interpolationPoints) {
         val adjustingPoints = asIntervals(interpolationPoints).stream()
                 .flatMap(interval ->
-                        raiseInterval(interval, interpolation.getNewPointChance(), interpolation.getDispersionCoefficient(), i -> true)
-                                .stream())
+                        raiseInterval(
+                                interval,
+                                interpolation.getNonLinearityCoefficient(),
+                                interpolation.getDispersionCoefficient(),
+                                i -> true
+                        ).stream())
                 .collect(Collectors.toList());
 
         interpolationPoints.addAll(adjustingPoints);

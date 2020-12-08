@@ -17,7 +17,6 @@ import static io.github.therealmone.fireres.unheated.surface.TestUtils.assertFun
 import static io.github.therealmone.fireres.unheated.surface.TestUtils.assertFunctionNotHigher;
 import static io.github.therealmone.fireres.unheated.surface.TestUtils.assertFunctionNotLower;
 import static io.github.therealmone.fireres.unheated.surface.TestUtils.assertThermocouplesTemperaturesEqualsMean;
-import static io.github.therealmone.fireres.unheated.surface.TestUtils.assertUnheatedSurfaceReportIsValid;
 import static org.junit.Assert.assertNull;
 
 @RunWith(GuiceRunner.class)

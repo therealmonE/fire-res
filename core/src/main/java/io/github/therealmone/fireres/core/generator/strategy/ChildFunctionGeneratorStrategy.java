@@ -15,4 +15,6 @@ public interface ChildFunctionGeneratorStrategy {
     List<Integer> resolveUpperBounds(IntegerPointSequence upperBound, Integer time, Integer t0,
                                      List<IntegerPointSequence> functions, Integer meanTemperature);
 
+    Integer resolvePreviousTime(Integer time);
+
 }
