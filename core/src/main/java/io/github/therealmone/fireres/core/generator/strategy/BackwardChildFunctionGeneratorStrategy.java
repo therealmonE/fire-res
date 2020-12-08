@@ -47,6 +47,11 @@ public abstract class BackwardChildFunctionGeneratorStrategy implements ChildFun
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public Integer resolvePreviousTime(Integer time) {
+        return time + 1;
+    }
+
     protected abstract Integer resolveDelta(Integer t0, Integer time);
 
 }
