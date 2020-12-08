@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class UnheatedSurfaceSheetsProvider implements ExcelSheetsProvider {
 
-    private static final String SHEET_NAME = "Необогреваемая поверхность №%s";
+    private static final String SHEET_NAME = "Необогреваемая пов-сть, Обр. %s";
 
     @Inject
     @Time
