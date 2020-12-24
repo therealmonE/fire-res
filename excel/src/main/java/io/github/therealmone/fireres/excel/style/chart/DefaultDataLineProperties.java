@@ -14,7 +14,7 @@ public class DefaultDataLineProperties extends XDDFLineProperties {
 
         fillProperties.setColor(color);
 
-        setWidth(1.0);
+        setWidth(1.5);
         setFillProperties(fillProperties);
     }
 
