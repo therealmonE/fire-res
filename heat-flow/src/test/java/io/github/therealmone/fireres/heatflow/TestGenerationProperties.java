@@ -17,7 +17,6 @@ public class TestGenerationProperties extends GenerationProperties {
     public TestGenerationProperties() {
 
         setGeneral(GeneralProperties.builder()
-                .environmentTemperature(ENVIRONMENT_TEMPERATURE)
                 .time(TIME)
                 .build());
 
