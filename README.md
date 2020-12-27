@@ -10,7 +10,11 @@ Fire-resistance report generator
 Данный проект предназначен для генерации отчетов о тестировании строительных конструкций
 и элементов инжерерных систем на огнестойкость в соответствии со следующими гостами:
 
-- [ГОСТ 30247.0-94](https://github.com/therealmonE/fire-res/blob/main/docs/%D0%93%D0%9E%D0%A1%D0%A2%2030247.0-94.pdf)
+- [ГОСТ 30247.0-94](https://github.com/therealmonE/fire-res/blob/main/docs/gost/%D0%93%D0%9E%D0%A1%D0%A2%2030247.0-94.pdf)
+- [ГОСТ Р 53307](https://github.com/therealmonE/fire-res/blob/main/docs/gost/%D0%93%D0%9E%D0%A1%D0%A2%20%D0%A0%2053307.pdf)
+- [ГОСТ Р 53308](https://github.com/therealmonE/fire-res/blob/main/docs/gost/%D0%93%D0%9E%D0%A1%D0%A2%20%D0%A0%2053308.pdf)
+- [ГОСТ 33000](https://github.com/therealmonE/fire-res/blob/main/docs/gost/%D0%93%D0%9E%D0%A1%D0%A2%2033000.pdf)
+
 
 ## Начало работы
 
