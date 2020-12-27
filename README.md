@@ -25,7 +25,7 @@ Fire-resistance report generator
  
  ## Wiki
  
- Для лучшего понимания работы с приложением, советуем ознакомиться с [Wiki]().
+ Для лучшего понимания работы с приложением, советуем ознакомиться с [Wiki](https://github.com/therealmonE/fire-res/wiki).
  
  ## Полезные ссылки
  
