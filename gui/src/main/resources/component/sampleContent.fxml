@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<Accordion maxHeight="Infinity" maxWidth="Infinity"
+           AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+    <panes>
+        <TitledPane animated="false" text="Режим пожара">
+            <content>
+                <AnchorPane />
+            </content>
+        </TitledPane>
+    </panes>
+</Accordion>

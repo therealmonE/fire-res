@@ -1,21 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
-<StackPane xmlns="http://javafx.com/javafx/11.0.1"
-           xmlns:fx="http://javafx.com/fxml/1"
-           stylesheets="/css/style.css">
-
+<VBox stylesheets="/css/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <BorderPane>
-            <top>
-                <fx:include source="/component/topMenuBar.fxml"/>
-            </top>
-            <center>
-                <fx:include source="/component/samplesTabPane.fxml"/>
-            </center>
-        </BorderPane>
+        <fx:include source="/component/topMenuBar.fxml"/>
+        <fx:include source="/component/samplesTabPane.fxml"/>
     </children>
-
-</StackPane>
+</VBox>

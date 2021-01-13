@@ -1,8 +1,6 @@
 package io.github.therealmone.fireres.gui.config;
 
-import javafx.stage.Screen;
 import javafx.stage.Stage;
-import lombok.val;
 
 public class PrimaryStageConfigurer implements Configurer<Stage> {
 
@@ -12,12 +10,10 @@ public class PrimaryStageConfigurer implements Configurer<Stage> {
     public void config(Stage stage) {
         stage.setTitle(TITLE);
 
-        val bounds = Screen.getPrimary().getVisualBounds();
+        stage.setWidth(600);
+        stage.setHeight(400);
 
-        stage.setWidth(bounds.getWidth());
-        stage.setHeight(bounds.getHeight());
-
-        stage.setResizable(false);
+        stage.setResizable(true);
     }
 
 }
