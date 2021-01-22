@@ -26,12 +26,13 @@ public class ExcessPressureModule extends AbstractModule {
     public ReportEnrichPipeline<ExcessPressureReport> enrichPipeline(
             MinAllowedPressureEnricher minAllowedPressureEnricher,
             MaxAllowedPressureEnricher maxAllowedPressureEnricher,
-            SamplesPressureEnricher samplesPressureEnricher) {
-
+            SamplesPressureEnricher samplesPressureEnricher
+    ) {
         return new DefaultReportEnrichPipeline<>(List.of(
                 minAllowedPressureEnricher,
                 maxAllowedPressureEnricher,
-                samplesPressureEnricher));
+                samplesPressureEnricher
+        ));
     }
 
 }
