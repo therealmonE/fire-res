@@ -22,12 +22,16 @@ public class DefaultReportEnrichPipeline<R extends Report> implements ReportEnri
 
     @Override
     public void accept(R report, EnrichType enrichType) {
-        log.info("Enriching {} with {}", report.getClass().getSimpleName(), enrichType.getClass().getSimpleName());
+        log.info("Enriching {} with {}", report.getClass().getSimpleName(), ((Enum<?>) enrichType).name());
         val enricher = lookUpEnricher(enrichType);
 
         enricher.enrich(report);
 
-        enricher.getAffectedTypes().forEach(affectedType -> accept(report, affectedType));
+        enricher.getAffectedTypes().forEach(affectedType -> {
+            log.info("Enriching {} with affected type {}", report.getClass().getSimpleName(), ((Enum<?>) affectedType).name());
+
+            lookUpEnricher(affectedType).enrich(report);
+        });
     }
 
     private ReportEnricher<R> lookUpEnricher(EnrichType enrichType) {

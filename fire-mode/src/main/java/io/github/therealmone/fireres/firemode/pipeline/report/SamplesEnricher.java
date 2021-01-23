@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import static io.github.therealmone.fireres.firemode.pipeline.report.FireModeReportEnrichType.SAMPLES;
 
 @Slf4j
-public class SamplesTemperatureSEnricher implements ReportEnricher<FireModeReport> {
+public class SamplesEnricher implements ReportEnricher<FireModeReport> {
 
     @Inject
     private GenerationProperties generationProperties;

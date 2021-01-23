@@ -12,7 +12,7 @@ import io.github.therealmone.fireres.firemode.pipeline.sample.SampleMeanWithTher
 import io.github.therealmone.fireres.firemode.pipeline.report.FurnaceTemperatureEnricher;
 import io.github.therealmone.fireres.firemode.pipeline.report.MaxAllowedTemperatureEnricher;
 import io.github.therealmone.fireres.firemode.pipeline.report.MinAllowedTemperatureEnricher;
-import io.github.therealmone.fireres.firemode.pipeline.report.SamplesTemperatureSEnricher;
+import io.github.therealmone.fireres.firemode.pipeline.report.SamplesEnricher;
 import io.github.therealmone.fireres.firemode.pipeline.report.StandardTemperatureEnricher;
 import io.github.therealmone.fireres.firemode.report.FireModeReport;
 import io.github.therealmone.fireres.firemode.report.FireModeReportProvider;
@@ -35,7 +35,7 @@ public class FireModeModule extends AbstractModule {
             MinAllowedTemperatureEnricher minAllowedTemperatureEnricher,
             MaxAllowedTemperatureEnricher maxAllowedTemperatureEnricher,
             FurnaceTemperatureEnricher furnaceTemperatureEnricher,
-            SamplesTemperatureSEnricher samplesTemperatureSEnricher
+            SamplesEnricher samplesTemperatureSEnricher
     ) {
         return new DefaultReportEnrichPipeline<>(List.of(
                 standardTemperatureEnricher,
