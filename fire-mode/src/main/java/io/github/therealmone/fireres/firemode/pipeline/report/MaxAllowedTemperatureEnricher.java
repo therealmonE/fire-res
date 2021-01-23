@@ -1,4 +1,4 @@
-package io.github.therealmone.fireres.firemode.pipeline.sample;
+package io.github.therealmone.fireres.firemode.pipeline.report;
 
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
@@ -10,8 +10,8 @@ import lombok.val;
 
 import java.util.List;
 
-import static io.github.therealmone.fireres.firemode.pipeline.sample.FireModeReportEnrichType.MAX_ALLOWED_TEMPERATURE;
-import static io.github.therealmone.fireres.firemode.pipeline.sample.FireModeReportEnrichType.SAMPLES;
+import static io.github.therealmone.fireres.firemode.pipeline.report.FireModeReportEnrichType.MAX_ALLOWED_TEMPERATURE;
+import static io.github.therealmone.fireres.firemode.pipeline.report.FireModeReportEnrichType.SAMPLES;
 
 public class MaxAllowedTemperatureEnricher implements ReportEnricher<FireModeReport> {
 

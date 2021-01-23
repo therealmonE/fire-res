@@ -1,4 +1,4 @@
-package io.github.therealmone.fireres.firemode.pipeline.report;
+package io.github.therealmone.fireres.firemode.pipeline.sample;
 
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
@@ -16,7 +16,7 @@ import lombok.val;
 
 import java.util.stream.Collectors;
 
-import static io.github.therealmone.fireres.firemode.pipeline.report.FireModeSampleEnrichType.SAMPLE_MEAN_WITH_THERMOCOUPLE_TEMPERATURES;
+import static io.github.therealmone.fireres.firemode.pipeline.sample.FireModeSampleEnrichType.SAMPLE_MEAN_WITH_THERMOCOUPLE_TEMPERATURES;
 
 public class SampleMeanWithThermocoupleTemperaturesEnricher implements SampleEnricher<FireModeReport, FireModeSample> {
 

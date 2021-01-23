@@ -8,12 +8,12 @@ import io.github.therealmone.fireres.core.pipeline.report.ReportEnrichPipeline;
 import io.github.therealmone.fireres.core.pipeline.sample.DefaultSampleEnrichPipeline;
 import io.github.therealmone.fireres.core.pipeline.sample.SampleEnrichPipeline;
 import io.github.therealmone.fireres.firemode.model.FireModeSample;
-import io.github.therealmone.fireres.firemode.pipeline.report.SampleMeanWithThermocoupleTemperaturesEnricher;
-import io.github.therealmone.fireres.firemode.pipeline.sample.FurnaceTemperatureEnricher;
-import io.github.therealmone.fireres.firemode.pipeline.sample.MaxAllowedTemperatureEnricher;
-import io.github.therealmone.fireres.firemode.pipeline.sample.MinAllowedTemperatureEnricher;
-import io.github.therealmone.fireres.firemode.pipeline.sample.SamplesTemperatureSEnricher;
-import io.github.therealmone.fireres.firemode.pipeline.sample.StandardTemperatureEnricher;
+import io.github.therealmone.fireres.firemode.pipeline.sample.SampleMeanWithThermocoupleTemperaturesEnricher;
+import io.github.therealmone.fireres.firemode.pipeline.report.FurnaceTemperatureEnricher;
+import io.github.therealmone.fireres.firemode.pipeline.report.MaxAllowedTemperatureEnricher;
+import io.github.therealmone.fireres.firemode.pipeline.report.MinAllowedTemperatureEnricher;
+import io.github.therealmone.fireres.firemode.pipeline.report.SamplesTemperatureSEnricher;
+import io.github.therealmone.fireres.firemode.pipeline.report.StandardTemperatureEnricher;
 import io.github.therealmone.fireres.firemode.report.FireModeReport;
 import io.github.therealmone.fireres.firemode.report.FireModeReportProvider;
 

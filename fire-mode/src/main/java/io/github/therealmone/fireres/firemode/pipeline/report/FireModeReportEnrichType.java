@@ -1,4 +1,4 @@
-package io.github.therealmone.fireres.firemode.pipeline.sample;
+package io.github.therealmone.fireres.firemode.pipeline.report;
 
 import io.github.therealmone.fireres.core.pipeline.EnrichType;
 
