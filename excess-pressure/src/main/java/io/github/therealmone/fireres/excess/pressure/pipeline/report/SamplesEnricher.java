@@ -7,12 +7,14 @@ import io.github.therealmone.fireres.core.pipeline.report.ReportEnricher;
 import io.github.therealmone.fireres.core.pipeline.sample.SampleEnrichPipeline;
 import io.github.therealmone.fireres.excess.pressure.model.ExcessPressureSample;
 import io.github.therealmone.fireres.excess.pressure.report.ExcessPressureReport;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 import java.util.ArrayList;
 
 import static io.github.therealmone.fireres.excess.pressure.pipeline.report.ExcessPressureReportEnrichType.SAMPLES;
 
+@Slf4j
 public class SamplesEnricher implements ReportEnricher<ExcessPressureReport> {
 
     @Inject
@@ -23,6 +25,7 @@ public class SamplesEnricher implements ReportEnricher<ExcessPressureReport> {
 
     @Override
     public void enrich(ExcessPressureReport report) {
+        log.info("Excess pressure: enriching report with samples");
         report.setSamples(new ArrayList<>());
 
         generationProperties.getSamples().forEach(sample -> {

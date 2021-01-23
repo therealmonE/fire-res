@@ -8,6 +8,7 @@ import io.github.therealmone.fireres.unheated.surface.generator.UnheatedSurfaceT
 import io.github.therealmone.fireres.unheated.surface.model.UnheatedSurfaceSample;
 import io.github.therealmone.fireres.unheated.surface.model.UnheatedSurfaceThermocoupleBound;
 import io.github.therealmone.fireres.unheated.surface.report.UnheatedSurfaceReport;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 import java.util.List;
@@ -16,6 +17,7 @@ import static io.github.therealmone.fireres.core.utils.FunctionUtils.constantFun
 import static io.github.therealmone.fireres.unheated.surface.pipeline.sample.UnheatedSurfaceSampleEnrichType.SAMPLE_SECOND_GROUP_MEAN_WITH_THERMOCOUPLE_TEMPERATURES;
 import static io.github.therealmone.fireres.unheated.surface.pipeline.sample.UnheatedSurfaceSampleEnrichType.SAMPLE_SECOND_GROUP_THERMOCOUPLE_BOUND;
 
+@Slf4j
 public class SampleSecondGroupThermocoupleBoundEnricher implements SampleEnricher<UnheatedSurfaceReport, UnheatedSurfaceSample> {
 
     @Inject
@@ -23,6 +25,7 @@ public class SampleSecondGroupThermocoupleBoundEnricher implements SampleEnriche
 
     @Override
     public void enrich(UnheatedSurfaceReport report, UnheatedSurfaceSample sample) {
+        log.info("Unheated surface: enriching sample {} second group with thermocouple bound", sample.getId());
         val sampleProperties = generationProperties.getSampleById(sample.getId());
         val groupProperties = sampleProperties.getUnheatedSurface().getSecondGroup();
         val time = generationProperties.getGeneral().getTime();

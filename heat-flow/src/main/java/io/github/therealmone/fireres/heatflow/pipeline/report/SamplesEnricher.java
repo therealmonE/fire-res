@@ -7,12 +7,14 @@ import io.github.therealmone.fireres.core.pipeline.report.ReportEnricher;
 import io.github.therealmone.fireres.core.pipeline.sample.SampleEnrichPipeline;
 import io.github.therealmone.fireres.heatflow.model.HeatFlowSample;
 import io.github.therealmone.fireres.heatflow.report.HeatFlowReport;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 import java.util.ArrayList;
 
 import static io.github.therealmone.fireres.heatflow.pipeline.report.HeatFlowReportEnrichType.SAMPLES;
 
+@Slf4j
 public class SamplesEnricher implements ReportEnricher<HeatFlowReport> {
 
     @Inject
@@ -23,6 +25,7 @@ public class SamplesEnricher implements ReportEnricher<HeatFlowReport> {
 
     @Override
     public void enrich(HeatFlowReport report) {
+        log.info("Heat flow: enriching report with samples");
         report.setSamples(new ArrayList<>());
 
         generationProperties.getSamples().forEach(sample -> {

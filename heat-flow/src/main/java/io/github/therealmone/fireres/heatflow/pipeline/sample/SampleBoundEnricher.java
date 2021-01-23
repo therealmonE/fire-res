@@ -7,6 +7,7 @@ import io.github.therealmone.fireres.core.pipeline.sample.SampleEnricher;
 import io.github.therealmone.fireres.heatflow.generator.HeatFlowBoundGenerator;
 import io.github.therealmone.fireres.heatflow.model.HeatFlowSample;
 import io.github.therealmone.fireres.heatflow.report.HeatFlowReport;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
 import static io.github.therealmone.fireres.heatflow.pipeline.sample.HeatFlowSampleEnrichType.SAMPLE_BOUND;
 import static io.github.therealmone.fireres.heatflow.pipeline.sample.HeatFlowSampleEnrichType.SAMPLE_MEAN_WITH_SENSORS_TEMPERATURES;
 
+@Slf4j
 public class SampleBoundEnricher implements SampleEnricher<HeatFlowReport, HeatFlowSample> {
 
     @Inject
@@ -21,6 +23,7 @@ public class SampleBoundEnricher implements SampleEnricher<HeatFlowReport, HeatF
 
     @Override
     public void enrich(HeatFlowReport report, HeatFlowSample sample) {
+        log.info("Heat flow: enriching sample {} with bound", sample.getId());
         val sampleProperties = generationProperties.getSampleById(sample.getId());
         val time = generationProperties.getGeneral().getTime();
 

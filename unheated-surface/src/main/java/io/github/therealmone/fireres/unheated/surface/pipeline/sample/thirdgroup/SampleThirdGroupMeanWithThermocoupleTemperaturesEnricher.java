@@ -11,6 +11,7 @@ import io.github.therealmone.fireres.unheated.surface.model.UnheatedSurfaceMeanT
 import io.github.therealmone.fireres.unheated.surface.model.UnheatedSurfaceSample;
 import io.github.therealmone.fireres.unheated.surface.model.UnheatedSurfaceThermocoupleTemperature;
 import io.github.therealmone.fireres.unheated.surface.report.UnheatedSurfaceReport;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 import java.util.stream.Collectors;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 import static io.github.therealmone.fireres.core.utils.FunctionUtils.constantFunction;
 import static io.github.therealmone.fireres.unheated.surface.pipeline.sample.UnheatedSurfaceSampleEnrichType.SAMPLE_THIRD_GROUP_MEAN_WITH_THERMOCOUPLE_TEMPERATURES;
 
+@Slf4j
 public class SampleThirdGroupMeanWithThermocoupleTemperaturesEnricher implements
         SampleEnricher<UnheatedSurfaceReport, UnheatedSurfaceSample> {
 
@@ -29,6 +31,7 @@ public class SampleThirdGroupMeanWithThermocoupleTemperaturesEnricher implements
 
     @Override
     public void enrich(UnheatedSurfaceReport report, UnheatedSurfaceSample sample) {
+        log.info("Unheated surface: enriching sample {} second group with mean and thermocouple temperatures", sample.getId());
         val time = generationProperties.getGeneral().getTime();
         val thermocoupleBound = sample.getThirdGroup().getThermocoupleBound();
         val zeroBound = constantFunction(time, 0);

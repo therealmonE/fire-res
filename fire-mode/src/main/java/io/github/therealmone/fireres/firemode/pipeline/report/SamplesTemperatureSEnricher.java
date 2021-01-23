@@ -7,12 +7,14 @@ import io.github.therealmone.fireres.core.pipeline.report.ReportEnricher;
 import io.github.therealmone.fireres.core.pipeline.sample.SampleEnrichPipeline;
 import io.github.therealmone.fireres.firemode.model.FireModeSample;
 import io.github.therealmone.fireres.firemode.report.FireModeReport;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 import java.util.ArrayList;
 
 import static io.github.therealmone.fireres.firemode.pipeline.report.FireModeReportEnrichType.SAMPLES;
 
+@Slf4j
 public class SamplesTemperatureSEnricher implements ReportEnricher<FireModeReport> {
 
     @Inject
@@ -23,6 +25,7 @@ public class SamplesTemperatureSEnricher implements ReportEnricher<FireModeRepor
 
     @Override
     public void enrich(FireModeReport report) {
+        log.info("Fire mode: enriching report with samples");
         report.setSamples(new ArrayList<>());
 
         generationProperties.getSamples().forEach(sample -> {

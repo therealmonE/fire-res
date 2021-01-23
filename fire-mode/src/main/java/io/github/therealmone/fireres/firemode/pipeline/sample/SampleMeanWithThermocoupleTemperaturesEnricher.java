@@ -12,12 +12,14 @@ import io.github.therealmone.fireres.firemode.model.FireModeSample;
 import io.github.therealmone.fireres.firemode.model.ThermocoupleMeanTemperature;
 import io.github.therealmone.fireres.firemode.model.ThermocoupleTemperature;
 import io.github.therealmone.fireres.firemode.report.FireModeReport;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 import java.util.stream.Collectors;
 
 import static io.github.therealmone.fireres.firemode.pipeline.sample.FireModeSampleEnrichType.SAMPLE_MEAN_WITH_THERMOCOUPLE_TEMPERATURES;
 
+@Slf4j
 public class SampleMeanWithThermocoupleTemperaturesEnricher implements SampleEnricher<FireModeReport, FireModeSample> {
 
     @Inject
@@ -28,6 +30,7 @@ public class SampleMeanWithThermocoupleTemperaturesEnricher implements SampleEnr
 
     @Override
     public void enrich(FireModeReport report, FireModeSample sample) {
+        log.info("Fire mode: enriching sample {} with mean and thermocouple temperatures", sample.getId());
         val lowerBound = new IntegerPointSequence(report.getMinAllowedTemperature().getSmoothedValue());
         val upperBound = new IntegerPointSequence(report.getMaxAllowedTemperature().getSmoothedValue());
         val sampleProperties = generationProperties.getSampleById(sample.getId());

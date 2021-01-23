@@ -11,6 +11,7 @@ import io.github.therealmone.fireres.heatflow.model.HeatFlowMeanTemperature;
 import io.github.therealmone.fireres.heatflow.model.HeatFlowSample;
 import io.github.therealmone.fireres.heatflow.model.HeatFlowSensorTemperature;
 import io.github.therealmone.fireres.heatflow.report.HeatFlowReport;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 import java.util.stream.Collectors;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 import static io.github.therealmone.fireres.core.utils.FunctionUtils.constantFunction;
 import static io.github.therealmone.fireres.heatflow.pipeline.sample.HeatFlowSampleEnrichType.SAMPLE_MEAN_WITH_SENSORS_TEMPERATURES;
 
+@Slf4j
 public class SampleMeanWithSensorsTemperaturesEnricher implements SampleEnricher<HeatFlowReport, HeatFlowSample> {
 
     @Inject
@@ -28,6 +30,7 @@ public class SampleMeanWithSensorsTemperaturesEnricher implements SampleEnricher
 
     @Override
     public void enrich(HeatFlowReport report, HeatFlowSample sample) {
+        log.info("Heat flow: enriching sample {} with mean and sensors temperatures", sample.getId());
         val time = generationProperties.getGeneral().getTime();
         val bound = sample.getBound();
         val zeroBound = constantFunction(time, 0);

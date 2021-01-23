@@ -8,12 +8,14 @@ import io.github.therealmone.fireres.core.pipeline.sample.SampleEnrichPipeline;
 import io.github.therealmone.fireres.unheated.surface.model.UnheatedSurfaceGroup;
 import io.github.therealmone.fireres.unheated.surface.model.UnheatedSurfaceSample;
 import io.github.therealmone.fireres.unheated.surface.report.UnheatedSurfaceReport;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 import java.util.ArrayList;
 
 import static io.github.therealmone.fireres.unheated.surface.pipeline.report.UnheatedSurfaceReportEnrichType.SAMPLES;
 
+@Slf4j
 public class SamplesEnricher implements ReportEnricher<UnheatedSurfaceReport> {
 
     @Inject
@@ -24,6 +26,7 @@ public class SamplesEnricher implements ReportEnricher<UnheatedSurfaceReport> {
 
     @Override
     public void enrich(UnheatedSurfaceReport report) {
+        log.info("Unheated surface: enriching report with samples");
         report.setSamples(new ArrayList<>());
 
         generationProperties.getSamples().forEach(sample -> {

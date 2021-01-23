@@ -6,6 +6,7 @@ import io.github.therealmone.fireres.core.pipeline.EnrichType;
 import io.github.therealmone.fireres.core.pipeline.report.ReportEnricher;
 import io.github.therealmone.fireres.firemode.generator.StandardTempGenerator;
 import io.github.therealmone.fireres.firemode.report.FireModeReport;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 import java.util.List;
@@ -16,6 +17,7 @@ import static io.github.therealmone.fireres.firemode.pipeline.report.FireModeRep
 import static io.github.therealmone.fireres.firemode.pipeline.report.FireModeReportEnrichType.SAMPLES;
 import static io.github.therealmone.fireres.firemode.pipeline.report.FireModeReportEnrichType.STANDARD_TEMPERATURE;
 
+@Slf4j
 public class StandardTemperatureEnricher implements ReportEnricher<FireModeReport> {
 
     @Inject
@@ -23,6 +25,7 @@ public class StandardTemperatureEnricher implements ReportEnricher<FireModeRepor
 
     @Override
     public void enrich(FireModeReport report) {
+        log.info("Fire mode: enriching report with standard temperature");
         val time = generationProperties.getGeneral().getTime();
         val t0 = generationProperties.getGeneral().getEnvironmentTemperature();
 
