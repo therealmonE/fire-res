@@ -11,7 +11,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
 public class HeatFlowSample {
 
     private HeatFlowBound bound;

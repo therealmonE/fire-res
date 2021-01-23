@@ -1,14 +1,14 @@
-package io.github.therealmone.fireres.firemode.pipeline;
+package io.github.therealmone.fireres.firemode.pipeline.sample;
 
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.pipeline.EnrichType;
-import io.github.therealmone.fireres.core.pipeline.ReportEnricher;
+import io.github.therealmone.fireres.core.pipeline.report.ReportEnricher;
 import io.github.therealmone.fireres.firemode.generator.FurnaceTempGenerator;
 import io.github.therealmone.fireres.firemode.report.FireModeReport;
 import lombok.val;
 
-import static io.github.therealmone.fireres.firemode.pipeline.FireModeEnrichType.FURNACE_TEMPERATURE;
+import static io.github.therealmone.fireres.firemode.pipeline.sample.FireModeReportEnrichType.FURNACE_TEMPERATURE;
 
 
 public class FurnaceTemperatureEnricher implements ReportEnricher<FireModeReport> {

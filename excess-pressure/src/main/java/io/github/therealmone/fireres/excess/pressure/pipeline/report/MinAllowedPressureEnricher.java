@@ -1,17 +1,17 @@
-package io.github.therealmone.fireres.excess.pressure.pipeline;
+package io.github.therealmone.fireres.excess.pressure.pipeline.report;
 
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.pipeline.EnrichType;
-import io.github.therealmone.fireres.core.pipeline.ReportEnricher;
+import io.github.therealmone.fireres.core.pipeline.report.ReportEnricher;
 import io.github.therealmone.fireres.excess.pressure.generator.MinAllowedPressureGenerator;
 import io.github.therealmone.fireres.excess.pressure.report.ExcessPressureReport;
 import lombok.val;
 
 import java.util.List;
 
-import static io.github.therealmone.fireres.excess.pressure.pipeline.ExcessPressureEnrichType.MIN_ALLOWED_PRESSURE;
-import static io.github.therealmone.fireres.excess.pressure.pipeline.ExcessPressureEnrichType.SAMPLES_PRESSURE;
+import static io.github.therealmone.fireres.excess.pressure.pipeline.report.ExcessPressureReportEnrichType.MIN_ALLOWED_PRESSURE;
+import static io.github.therealmone.fireres.excess.pressure.pipeline.report.ExcessPressureReportEnrichType.SAMPLES;
 
 public class MinAllowedPressureEnricher implements ReportEnricher<ExcessPressureReport> {
 
@@ -36,6 +36,6 @@ public class MinAllowedPressureEnricher implements ReportEnricher<ExcessPressure
 
     @Override
     public List<EnrichType> getAffectedTypes() {
-        return List.of(SAMPLES_PRESSURE);
+        return List.of(SAMPLES);
     }
 }

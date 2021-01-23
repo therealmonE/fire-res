@@ -1,6 +1,7 @@
-package io.github.therealmone.fireres.core.pipeline;
+package io.github.therealmone.fireres.core.pipeline.report;
 
 import io.github.therealmone.fireres.core.model.Report;
+import io.github.therealmone.fireres.core.pipeline.EnrichType;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 

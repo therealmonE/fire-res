@@ -1,20 +1,20 @@
-package io.github.therealmone.fireres.firemode.pipeline;
+package io.github.therealmone.fireres.firemode.pipeline.sample;
 
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.pipeline.EnrichType;
-import io.github.therealmone.fireres.core.pipeline.ReportEnricher;
+import io.github.therealmone.fireres.core.pipeline.report.ReportEnricher;
 import io.github.therealmone.fireres.firemode.generator.StandardTempGenerator;
 import io.github.therealmone.fireres.firemode.report.FireModeReport;
 import lombok.val;
 
 import java.util.List;
 
-import static io.github.therealmone.fireres.firemode.pipeline.FireModeEnrichType.FURNACE_TEMPERATURE;
-import static io.github.therealmone.fireres.firemode.pipeline.FireModeEnrichType.MAX_ALLOWED_TEMPERATURE;
-import static io.github.therealmone.fireres.firemode.pipeline.FireModeEnrichType.MIN_ALLOWED_TEMPERATURE;
-import static io.github.therealmone.fireres.firemode.pipeline.FireModeEnrichType.SAMPLES_TEMPERATURE;
-import static io.github.therealmone.fireres.firemode.pipeline.FireModeEnrichType.STANDARD_TEMPERATURE;
+import static io.github.therealmone.fireres.firemode.pipeline.sample.FireModeReportEnrichType.FURNACE_TEMPERATURE;
+import static io.github.therealmone.fireres.firemode.pipeline.sample.FireModeReportEnrichType.MAX_ALLOWED_TEMPERATURE;
+import static io.github.therealmone.fireres.firemode.pipeline.sample.FireModeReportEnrichType.MIN_ALLOWED_TEMPERATURE;
+import static io.github.therealmone.fireres.firemode.pipeline.sample.FireModeReportEnrichType.SAMPLES;
+import static io.github.therealmone.fireres.firemode.pipeline.sample.FireModeReportEnrichType.STANDARD_TEMPERATURE;
 
 public class StandardTemperatureEnricher implements ReportEnricher<FireModeReport> {
 
@@ -43,6 +43,6 @@ public class StandardTemperatureEnricher implements ReportEnricher<FireModeRepor
                 MIN_ALLOWED_TEMPERATURE,
                 MAX_ALLOWED_TEMPERATURE,
                 FURNACE_TEMPERATURE,
-                SAMPLES_TEMPERATURE);
+                SAMPLES);
     }
 }

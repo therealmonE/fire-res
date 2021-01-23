@@ -2,7 +2,7 @@ package io.github.therealmone.fireres.firemode.report;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import io.github.therealmone.fireres.core.pipeline.ReportEnrichPipeline;
+import io.github.therealmone.fireres.core.pipeline.report.ReportEnrichPipeline;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 

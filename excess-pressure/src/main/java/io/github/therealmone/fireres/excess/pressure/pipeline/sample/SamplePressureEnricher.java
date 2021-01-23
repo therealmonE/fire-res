@@ -1,44 +1,38 @@
-package io.github.therealmone.fireres.excess.pressure.pipeline;
+package io.github.therealmone.fireres.excess.pressure.pipeline.sample;
 
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.pipeline.EnrichType;
-import io.github.therealmone.fireres.core.pipeline.ReportEnricher;
+import io.github.therealmone.fireres.core.pipeline.sample.SampleEnricher;
 import io.github.therealmone.fireres.excess.pressure.generator.SamplePressureGenerator;
 import io.github.therealmone.fireres.excess.pressure.model.ExcessPressureSample;
 import io.github.therealmone.fireres.excess.pressure.report.ExcessPressureReport;
 import lombok.val;
 
-import java.util.ArrayList;
+import static io.github.therealmone.fireres.excess.pressure.pipeline.sample.ExcessPressureSampleEnrichType.SAMPLE_PRESSURE;
 
-import static io.github.therealmone.fireres.excess.pressure.pipeline.ExcessPressureEnrichType.SAMPLES_PRESSURE;
-
-public class SamplesPressureEnricher implements ReportEnricher<ExcessPressureReport> {
+public class SamplePressureEnricher implements SampleEnricher<ExcessPressureReport, ExcessPressureSample> {
 
     @Inject
     private GenerationProperties generationProperties;
 
     @Override
-    public void enrich(ExcessPressureReport report) {
+    public void enrich(ExcessPressureReport report, ExcessPressureSample sample) {
         val time = generationProperties.getGeneral().getTime();
         val minAllowedPressure = report.getMinAllowedPressure();
         val maxAllowedPressure = report.getMaxAllowedPressure();
         val dispersion = generationProperties.getGeneral().getExcessPressure().getDispersionCoefficient();
 
-        report.setSamples(new ArrayList<>());
+        val samplePressure = new SamplePressureGenerator(
+                time, minAllowedPressure, maxAllowedPressure, dispersion)
+                .generate();
 
-        generationProperties.getSamples().forEach(sample -> {
-            val samplePressure = new SamplePressureGenerator(
-                    time, minAllowedPressure, maxAllowedPressure, dispersion)
-                    .generate();
-
-            report.getSamples().add(new ExcessPressureSample(samplePressure));
-        });
-
+        sample.setPressure(samplePressure);
     }
 
     @Override
     public boolean supports(EnrichType enrichType) {
-        return SAMPLES_PRESSURE.equals(enrichType);
+        return SAMPLE_PRESSURE.equals(enrichType);
     }
+
 }
