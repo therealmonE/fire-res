@@ -1,18 +1,17 @@
 package io.github.therealmone.fireres.heatflow.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import io.github.therealmone.fireres.core.model.ReportSample;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.UUID;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@RequiredArgsConstructor
+public class HeatFlowSample implements ReportSample {
 
-public class HeatFlowSample {
+    private final UUID id;
 
     private HeatFlowBound bound;
     private HeatFlowMeanTemperature meanTemperature;

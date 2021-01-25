@@ -1,15 +1,16 @@
 package io.github.therealmone.fireres.excess.pressure.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import io.github.therealmone.fireres.core.model.ReportSample;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+
+import java.util.UUID;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class ExcessPressureSample {
+@RequiredArgsConstructor
+public class ExcessPressureSample implements ReportSample {
+
+    private final UUID id;
 
     private SamplePressure pressure;
 

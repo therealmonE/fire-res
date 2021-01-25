@@ -61,7 +61,7 @@ public class MeanFunctionFactory {
         ).generate();
     }
 
-    private List<IntegerPointSequence> childFunctions(MeanWithChildFunctionGenerationParameters generationParameters,
+    public List<IntegerPointSequence> childFunctions(MeanWithChildFunctionGenerationParameters generationParameters,
                                                       IntegerPointSequence meanFunction) {
 
         val lowerBound = generationParameters.getChildLowerBound();

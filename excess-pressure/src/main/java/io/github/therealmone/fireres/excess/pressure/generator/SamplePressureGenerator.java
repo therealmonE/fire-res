@@ -15,7 +15,7 @@ import java.util.stream.IntStream;
 import static io.github.therealmone.fireres.core.utils.RandomUtils.generateValueInInterval;
 
 @RequiredArgsConstructor
-public class ExcessPressureGenerator implements PointSequenceGenerator<SamplePressure> {
+public class SamplePressureGenerator implements PointSequenceGenerator<SamplePressure> {
 
     private final Integer time;
 
