@@ -1,3 +1,7 @@
 .addSampleTab {
     -fx-background-color: red;
 }
+
+.labelParams{
+    word-break: break-all;
+}

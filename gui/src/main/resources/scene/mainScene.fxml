@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<VBox stylesheets="/css/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="526.0" prefWidth="600.0" stylesheets="/css/style.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <fx:include source="/component/topMenuBar.fxml"/>
-        <fx:include source="/component/samplesTabPane.fxml"/>
+        <fx:include source="../component/topMenuBar.fxml" />
+      <Accordion />
+        <fx:include source="../component/samplesTabPane.fxml" />
+      <Accordion />
     </children>
 </VBox>

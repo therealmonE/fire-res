@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="80.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="component.GeneralPrams">
+   <children>
+       <TextField layoutX="116.0" layoutY="36.0" prefHeight="25.0" prefWidth="190.0" />
+       <TextField layoutX="398.0" layoutY="36.0" prefHeight="25.0" prefWidth="190.0" />
+      <Pane layoutY="2.0" prefHeight="25.0" prefWidth="415.0">
+         <children>
+            <Label layoutX="14.0" layoutY="3.0" text="Параметры теплового потока">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+         </children>
+      </Pane>
+      <Label layoutX="46.0" layoutY="31.0" prefWidth="70.0" text="Количество датчиков" wrapText="true" />
+      <Label layoutX="328.0" layoutY="32.0" prefWidth="70.0" text="Тепвой поток, макс." wrapText="true" />
+   </children>
+</AnchorPane>
