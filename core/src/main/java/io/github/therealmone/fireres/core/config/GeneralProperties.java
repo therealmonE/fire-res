@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -22,8 +23,10 @@ public class GeneralProperties {
     private Integer environmentTemperature;
 
     @Optional
-    private ExcessPressureProperties excessPressure;
+    @Builder.Default
+    private ExcessPressureProperties excessPressure = new ExcessPressureProperties();
 
-    private List<ReportType> includedReports;
+    @Builder.Default
+    private List<ReportType> includedReports = new ArrayList<>();
 
 }

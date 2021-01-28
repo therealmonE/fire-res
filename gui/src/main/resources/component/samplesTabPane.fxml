@@ -1,42 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<TabPane fx:id="samplesTabPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="513.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.github.therealmone.fireres.gui.controller.SamplesTabController">
+<TabPane fx:id="samplesTabPane" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1"
+         xmlns:fx="http://javafx.com/fxml/1"
+         fx:controller="io.github.therealmone.fireres.gui.controller.SamplesTabController">
 
     <tabs>
-        <Tab text="Образец 1">
-            <content>
-                <AnchorPane maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="476.0" prefWidth="600.0">
-                    <!--               <children>-->
-                    <!--                   <fx:include source="sampleContent.fxml"/>-->
-                    <!--               </children>-->
-                    <opaqueInsets>
-                        <Insets />
-                    </opaqueInsets>
-                    <children>
-                        <fx:include source="../component/includedReports.fxml" />
-                        <Accordion />
-                        <fx:include source="../component/generalPrams.fxml" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="123.0" />
-                        <Accordion />
-                        <fx:include source="../component/excessPressurePrams.fxml" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="273.0" />
-                        <Accordion />
-                        <fx:include source="../component/heatFlowPrams.fxml" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="353.0" />
-
-                        <Button layoutX="333.0" layoutY="445.0" mnemonicParsing="false" style="-fx-background-color: #00cc00;" text="Сгенерировать" />
-                        <Button layoutX="450.0" layoutY="445.0" mnemonicParsing="false" text="Выгрузить" />
-                        <Button layoutX="535.0" layoutY="445.0" mnemonicParsing="false" style="-fx-background-color: f13a13;" text="Сброс" />
-                    </children>
-
-                </AnchorPane>
-            </content>
-        </Tab>
-        <Tab fx:id="addSampleTab" styleClass="addSampleTab" text="Добавить образец">
-            <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
+        <Tab fx:id="addSampleTab" styleClass="addSampleTab" text="+">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
         </Tab>
     </tabs>
 

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Accordion?>
-<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 
-<Accordion maxHeight="Infinity" maxWidth="Infinity"
-           AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-    <panes>
-        <TitledPane animated="false" text=" ">
-            <content>
-                <AnchorPane />
-            </content>
-        </TitledPane>
-    </panes>
-</Accordion>
+<ScrollPane hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
+            minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1">
+    <AnchorPane focusTraversable="true" prefHeight="700.0">
+        <VBox>
+            <fx:include source="fire-mode/fireModeTitledPane.fxml"/>
+            <fx:include source="excess-pressure/excessPressureTitledPane.fxml"/>
+        </VBox>
+    </AnchorPane>
+</ScrollPane>

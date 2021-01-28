@@ -52,6 +52,26 @@
             <artifactId>fire-res-core</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>io.github.therealmone</groupId>
+            <artifactId>fire-res-firemode</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.therealmone</groupId>
+            <artifactId>fire-res-excess-pressure</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.therealmone</groupId>
+            <artifactId>fire-res-unheated-surface</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.therealmone</groupId>
+            <artifactId>fire-res-heat-flow</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>

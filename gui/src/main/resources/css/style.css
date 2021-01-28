@@ -1,7 +1,9 @@
 .addSampleTab {
-    -fx-background-color: red;
+    -fx-background-color: #dddddd;
+    -fx-font-size: 18;
+    -fx-font-weight: bold;
 }
 
-.labelParams{
+.labelParams {
     word-break: break-all;
 }

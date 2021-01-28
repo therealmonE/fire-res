@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -19,7 +20,7 @@ public class Interpolation {
 
     @Optional
     @Builder.Default
-    private List<InterpolationPoint> interpolationPoints = Collections.emptyList();
+    private List<InterpolationPoint> interpolationPoints = new ArrayList<>();
 
     @Optional
     @Builder.Default

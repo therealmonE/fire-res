@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<TitledPane animated="false" text="Избыточное давление" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1">
+    <AnchorPane focusTraversable="true">
+        <HBox focusTraversable="true">
+            <VBox focusTraversable="true">
+                <fx:include source="excessPressureParams.fxml"/>
+            </VBox>
+            <fx:include source="excessPressureChart.fxml"/>
+        </HBox>
+    </AnchorPane>
+</TitledPane>

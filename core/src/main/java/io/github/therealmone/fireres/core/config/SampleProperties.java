@@ -20,12 +20,15 @@ public class SampleProperties {
     private final UUID id = UUID.randomUUID();
 
     @Optional
-    private FireModeProperties fireMode;
+    @Builder.Default
+    private FireModeProperties fireMode = new FireModeProperties();
 
     @Optional
-    private UnheatedSurfaceProperties unheatedSurface;
+    @Builder.Default
+    private UnheatedSurfaceProperties unheatedSurface = new UnheatedSurfaceProperties();
 
     @Optional
-    private HeatFlowProperties heatFlow;
+    @Builder.Default
+    private HeatFlowProperties heatFlow = new HeatFlowProperties();
 
 }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+
+<ButtonBar xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+  <buttons>
+      <Button layoutX="333.0" layoutY="445.0" mnemonicParsing="false" style="-fx-background-color: #00cc00;" text="Сгенерировать" />
+      <Button layoutX="450.0" layoutY="445.0" mnemonicParsing="false" text="Выгрузить" />
+      <Button layoutX="535.0" layoutY="445.0" mnemonicParsing="false" style="-fx-background-color: f13a13;" text="Сброс" />
+  </buttons>
+</ButtonBar>

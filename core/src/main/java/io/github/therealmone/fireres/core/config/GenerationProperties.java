@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,8 +15,11 @@ import java.util.UUID;
 @Builder
 public class GenerationProperties {
 
-    private GeneralProperties general;
-    private List<SampleProperties> samples;
+    @Builder.Default
+    private GeneralProperties general = new GeneralProperties();
+
+    @Builder.Default
+    private List<SampleProperties> samples = new ArrayList<>();
 
     public SampleProperties getSampleById(UUID id) {
         return samples.stream()
