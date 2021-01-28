@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <LineChart focusTraversable="true" prefHeight="600.0" prefWidth="900.0">
+        <xAxis>
+            <CategoryAxis focusTraversable="true" label="Время" side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+            <NumberAxis label="Температура" side="LEFT" />
+        </yAxis>
+    </LineChart>
+</Pane>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.CheckMenuItem?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<TitledPane animated="false" collapsible="false" contentDisplay="RIGHT" text="Общие параметры"
+            xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="io.github.therealmone.fireres.gui.controller.GeneralParamsController">
+    <AnchorPane>
+        <padding>
+            <Insets left="15.0" top="15.0"/>
+        </padding>
+        <GridPane layoutX="15.0" layoutY="15.0">
+            <columnConstraints>
+                <ColumnConstraints/>
+                <ColumnConstraints/>
+                <ColumnConstraints minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints minWidth="10.0" prefWidth="100.0"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints/>
+                <RowConstraints/>
+            </rowConstraints>
+            <Label prefHeight="16.0" prefWidth="60.0" text="Время:"/>
+            <Spinner fx:id="timeSpinner" editable="true" max="1000" min="1" prefHeight="26.0" prefWidth="80.0"
+                     GridPane.columnIndex="1"/>
+            <Label prefHeight="16.0" prefWidth="183.0" text="Температура окружения:" GridPane.rowIndex="1"/>
+            <Spinner fx:id="environmentTemperatureSpinner" editable="true" max="50" min="0" prefHeight="26.0" prefWidth="80.0"
+                     GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <GridPane.margin>
+                    <Insets top="15.0"/>
+                </GridPane.margin>
+            </Spinner>
+            <MenuButton fx:id="includedReportsMenuButton" mnemonicParsing="false" text="Отчеты" GridPane.columnIndex="3">
+                <items>
+                    <CheckMenuItem mnemonicParsing="false" selected="true" text="Режим пожара"/>
+                    <CheckMenuItem mnemonicParsing="false" selected="true" text="Избыточное давление"/>
+                    <CheckMenuItem mnemonicParsing="false" selected="true"
+                                   text="Необогреваемая поверхность"/>
+                    <CheckMenuItem mnemonicParsing="false" selected="true" text="Тепловой поток"/>
+                </items>
+            </MenuButton>
+        </GridPane>
+    </AnchorPane>
+</TitledPane>

@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.VBox?>
 
 <VBox stylesheets="/css/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
-    <children>
-        <fx:include source="/component/topMenuBar.fxml"/>
-        <fx:include source="/component/samplesTabPane.fxml"/>
-    </children>
+    <fx:include source="../component/topMenuBar.fxml"/>
+    <Separator prefHeight="30.0"/>
+    <fx:include source="../component/generalParams.fxml"/>
+    <Separator prefHeight="30.0" prefWidth="600.0"/>
+    <fx:include source="../component/samplesTabPane.fxml"/>
+    <Separator prefHeight="30.0"/>
+    <fx:include source="../component/bottomButtonBar.fxml"/>
 </VBox>

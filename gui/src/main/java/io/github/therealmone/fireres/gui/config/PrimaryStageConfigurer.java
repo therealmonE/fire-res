@@ -10,10 +10,10 @@ public class PrimaryStageConfigurer implements Configurer<Stage> {
     public void config(Stage stage) {
         stage.setTitle(TITLE);
 
-        stage.setWidth(600);
-        stage.setHeight(400);
+        stage.setWidth(1175);
+        stage.setHeight(1000);
 
-        stage.setResizable(true);
+        stage.setResizable(false);
     }
 
 }
