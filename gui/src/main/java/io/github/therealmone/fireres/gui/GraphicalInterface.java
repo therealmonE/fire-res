@@ -2,16 +2,21 @@ package io.github.therealmone.fireres.gui;
 
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.gui.config.PrimaryStageConfigurer;
-import javafx.scene.Scene;
+import io.github.therealmone.fireres.gui.service.FxmlLoadService;
 import javafx.stage.Stage;
+import lombok.val;
 
 public class GraphicalInterface {
 
     @Inject
     private PrimaryStageConfigurer primaryStageConfigurer;
 
-    public void start(Stage stage, Scene mainScene) {
+    @Inject
+    private FxmlLoadService fxmlLoadService;
+
+    public void start(Stage stage) {
         primaryStageConfigurer.config(stage);
+        val mainScene = fxmlLoadService.loadMainScene();
 
         stage.setScene(mainScene);
         stage.show();

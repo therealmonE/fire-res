@@ -3,7 +3,9 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<Tab xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<Tab fx:id="sampleTab" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+     fx:controller="io.github.therealmone.fireres.gui.controller.SampleController"
+     onClosed="#closeSample">
     <AnchorPane>
         <fx:include source="sampleContent.fxml"/>
     </AnchorPane>

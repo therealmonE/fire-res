@@ -3,7 +3,7 @@ package io.github.therealmone.fireres.gui.service.impl;
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.gui.service.ResetSettingsService;
-import io.github.therealmone.fireres.gui.service.SampleCreatorService;
+import io.github.therealmone.fireres.gui.service.SampleService;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TabPane;
@@ -22,13 +22,13 @@ public class ResetSettingsServiceImpl implements ResetSettingsService {
     private GenerationProperties generationProperties;
 
     @Inject
-    private SampleCreatorService sampleCreatorService;
+    private SampleService sampleService;
 
     @Override
     public void resetSamples(TabPane samplesTabPane) {
         generationProperties.getSamples().clear();
         samplesTabPane.getTabs().removeIf(tab -> !tab.getId().equals("addSampleTab"));
-        sampleCreatorService.createNewSample(samplesTabPane);
+        sampleService.createNewSample(samplesTabPane);
     }
 
     @Override
