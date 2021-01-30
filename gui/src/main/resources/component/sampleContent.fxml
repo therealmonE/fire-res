@@ -4,17 +4,17 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<TabPane id="reportsTabPane" side="BOTTOM" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+<TabPane fx:id="reportsTabPane" side="BOTTOM" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
 
     <tabs>
-        <Tab id="fireModeTab" styleClass="fireModeTab" text="Режим пожара">
+        <Tab fx:id="fireModeTab" styleClass="fireModeTab" text="Режим пожара">
             <AnchorPane focusTraversable="true" prefHeight="625.0">
                 <VBox prefHeight="625.0">
                     <fx:include source="fire-mode/fireModePane.fxml" />
                 </VBox>
             </AnchorPane>
         </Tab>
-        <Tab id="excessPressureTab" styleClass="excessPressureTab" text="Избыточное давление">
+        <Tab fx:id="excessPressureTab" styleClass="excessPressureTab" text="Избыточное давление">
             <AnchorPane focusTraversable="true" prefHeight="625.0">
                 <VBox prefHeight="625.0">
                     <fx:include source="excess-pressure/excessPressurePane.fxml" />

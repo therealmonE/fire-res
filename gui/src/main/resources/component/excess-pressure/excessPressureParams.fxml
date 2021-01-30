@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.control.Spinner?>
 
-<GridPane>
+<GridPane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"/>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
@@ -22,14 +22,14 @@
         <Insets left="15.0" top="15.0" bottom="15.0"/>
     </padding>
     <Label prefHeight="16.0" prefWidth="150.0" text="Базовое давление:"/>
-    <Spinner id="pressureSpinner" editable="true" initialValue="0" max="1000" min="0" prefHeight="26.0" prefWidth="100.0"
+    <Spinner fx:id="pressureSpinner" editable="true" initialValue="0" max="1000" min="0" prefHeight="26.0" prefWidth="100.0"
              GridPane.columnIndex="1"/>
     <Label prefHeight="16.0" prefWidth="150.0" text="Коэффициент дисперсии:" GridPane.rowIndex="1">
         <GridPane.margin>
             <Insets top="15.0"/>
         </GridPane.margin>
     </Label>
-    <Spinner id="dispersionSpinner" editable="true" initialValue="0.98" max="1" min="0" prefHeight="26.0" prefWidth="100.0"
+    <Spinner fx:id="dispersionSpinner" editable="true" initialValue="0.98" max="1" min="0" prefHeight="26.0" prefWidth="100.0"
              GridPane.columnIndex="1" GridPane.rowIndex="1" amountToStepBy="0.01">
         <GridPane.margin>
             <Insets top="15.0"/>
@@ -40,7 +40,7 @@
             <Insets top="15.0"/>
         </GridPane.margin>
     </Label>
-    <Spinner id="deltaSpinner" editable="true" initialValue="0" max="1000" min="0" prefHeight="26.0" prefWidth="100.0"
+    <Spinner fx:id="deltaSpinner" editable="true" initialValue="0" max="1000" min="0" prefHeight="26.0" prefWidth="100.0"
              GridPane.columnIndex="1" GridPane.rowIndex="2">
         <GridPane.margin>
             <Insets top="15.0"/>
