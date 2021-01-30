@@ -1,8 +1,7 @@
 package io.github.therealmone.fireres.core.factory;
 
 import com.google.inject.Inject;
-import io.github.therealmone.fireres.core.annotation.EnvironmentTemperature;
-import io.github.therealmone.fireres.core.annotation.Time;
+import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.generator.MeanWithChildFunctionGenerationParameters;
 import io.github.therealmone.fireres.core.generator.MeanChildFunctionsGenerator;
 import io.github.therealmone.fireres.core.generator.MeanFunctionGenerator;
@@ -25,12 +24,7 @@ public class MeanFunctionFactory {
     private static final Integer CHILD_FUNCTIONS_GENERATION_ATTEMPTS = 10;
 
     @Inject
-    @Time
-    private Integer time;
-
-    @Inject
-    @EnvironmentTemperature
-    private Integer environmentTemperature;
+    private GenerationProperties generationProperties;
 
     public Pair<IntegerPointSequence, List<IntegerPointSequence>> meanWithChildFunctions(MeanWithChildFunctionGenerationParameters generationParameters) {
         for (int i = 0; i < MEAN_FUNCTION_GENERATION_ATTEMPTS; i++) {
@@ -47,10 +41,12 @@ public class MeanFunctionFactory {
         throw new ImpossibleGenerationException();
     }
 
-    private IntegerPointSequence meanFunction(MeanWithChildFunctionGenerationParameters generationParameters) {
-        val lowerBound = generationParameters.getMeanLowerBound();
-        val upperBound = generationParameters.getMeanUpperBound();
-        val interpolation = generationParameters.getMeanFunctionInterpolation();
+    private IntegerPointSequence meanFunction(MeanWithChildFunctionGenerationParameters meanWithChildFunctionsParameters) {
+        val time = generationProperties.getGeneral().getTime();
+        val environmentTemperature = generationProperties.getGeneral().getEnvironmentTemperature();
+        val lowerBound = meanWithChildFunctionsParameters.getMeanLowerBound();
+        val upperBound = meanWithChildFunctionsParameters.getMeanUpperBound();
+        val interpolation = meanWithChildFunctionsParameters.getMeanFunctionInterpolation();
 
         return new MeanFunctionGenerator(
                 environmentTemperature,
@@ -61,12 +57,14 @@ public class MeanFunctionFactory {
         ).generate();
     }
 
-    public List<IntegerPointSequence> childFunctions(MeanWithChildFunctionGenerationParameters generationParameters,
-                                                      IntegerPointSequence meanFunction) {
+    public List<IntegerPointSequence> childFunctions(MeanWithChildFunctionGenerationParameters meanWithChildFunctionsParameters,
+                                                     IntegerPointSequence meanFunction) {
 
-        val lowerBound = generationParameters.getChildLowerBound();
-        val upperBound = generationParameters.getChildUpperBound();
-        val functionsCount = generationParameters.getChildFunctionsCount();
+        val time = generationProperties.getGeneral().getTime();
+        val environmentTemperature = generationProperties.getGeneral().getEnvironmentTemperature();
+        val lowerBound = meanWithChildFunctionsParameters.getChildLowerBound();
+        val upperBound = meanWithChildFunctionsParameters.getChildUpperBound();
+        val functionsCount = meanWithChildFunctionsParameters.getChildFunctionsCount();
 
         for (int i = 0; i < CHILD_FUNCTIONS_GENERATION_ATTEMPTS; i++) {
             try {
@@ -77,8 +75,8 @@ public class MeanFunctionFactory {
                         meanFunction,
                         lowerBound,
                         upperBound,
-                        generationParameters.getStrategy(),
-                        generationParameters.getMeanFunctionInterpolation().getNonLinearityCoefficient()
+                        meanWithChildFunctionsParameters.getStrategy(),
+                        meanWithChildFunctionsParameters.getMeanFunctionInterpolation().getNonLinearityCoefficient()
                 ).generate();
             } catch (MeanChildFunctionGenerationException e) {
                 log.error("Failed to generate mean child functions");

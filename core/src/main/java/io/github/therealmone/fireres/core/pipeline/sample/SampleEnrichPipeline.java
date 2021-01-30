@@ -8,6 +8,6 @@ public interface SampleEnrichPipeline<R extends Report, S extends ReportSample> 
 
     void accept(R report, S sample);
 
-    void accept(R report, S sample, EnrichType enrichType);
+    void accept(R report, S sample, SampleEnrichType enrichType);
 
 }

@@ -28,6 +28,7 @@ public class ExcessPressureModule extends AbstractModule {
     }
 
     @Provides
+    @Singleton
     public ReportEnrichPipeline<ExcessPressureReport> enrichPipeline(
             SamplesEnricher samplesEnricher
     ) {
@@ -37,6 +38,7 @@ public class ExcessPressureModule extends AbstractModule {
     }
 
     @Provides
+    @Singleton
     public SampleEnrichPipeline<ExcessPressureReport, ExcessPressureSample> sampleEnrichPipeline(
             BasePressureEnricher basePressureEnricher,
             MinAllowedPressureEnricher minAllowedPressureEnricher,

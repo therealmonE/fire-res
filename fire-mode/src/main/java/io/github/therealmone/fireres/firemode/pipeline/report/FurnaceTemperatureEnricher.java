@@ -2,7 +2,7 @@ package io.github.therealmone.fireres.firemode.pipeline.report;
 
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
-import io.github.therealmone.fireres.core.pipeline.EnrichType;
+import io.github.therealmone.fireres.core.pipeline.report.ReportEnrichType;
 import io.github.therealmone.fireres.core.pipeline.report.ReportEnricher;
 import io.github.therealmone.fireres.firemode.generator.FurnaceTempGenerator;
 import io.github.therealmone.fireres.firemode.report.FireModeReport;
@@ -31,7 +31,7 @@ public class FurnaceTemperatureEnricher implements ReportEnricher<FireModeReport
     }
 
     @Override
-    public boolean supports(EnrichType enrichType) {
+    public boolean supports(ReportEnrichType enrichType) {
         return FURNACE_TEMPERATURE.equals(enrichType);
     }
 

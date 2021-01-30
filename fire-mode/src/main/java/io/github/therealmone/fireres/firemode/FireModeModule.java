@@ -26,10 +26,10 @@ public class FireModeModule extends AbstractModule {
         bind(FireModeReport.class)
                 .toProvider(FireModeReportProvider.class)
                 .in(Singleton.class);
-
     }
 
     @Provides
+    @Singleton
     public ReportEnrichPipeline<FireModeReport> enrichPipeline(
             StandardTemperatureEnricher standardTemperatureEnricher,
             MinAllowedTemperatureEnricher minAllowedTemperatureEnricher,
@@ -47,6 +47,7 @@ public class FireModeModule extends AbstractModule {
     }
 
     @Provides
+    @Singleton
     public SampleEnrichPipeline<FireModeReport, FireModeSample> sampleEnrichPipeline(
             SampleMeanWithThermocoupleTemperaturesEnricher sampleMeanWithThermocoupleTemperaturesEnricher
     ) {

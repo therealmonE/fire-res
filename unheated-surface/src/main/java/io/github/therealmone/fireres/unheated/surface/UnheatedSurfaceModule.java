@@ -31,6 +31,7 @@ public class UnheatedSurfaceModule extends AbstractModule {
     }
 
     @Provides
+    @Singleton
     public ReportEnrichPipeline<UnheatedSurfaceReport> enrichPipeline(
             SamplesEnricher samplesEnricher
     ) {
@@ -40,6 +41,7 @@ public class UnheatedSurfaceModule extends AbstractModule {
     }
 
     @Provides
+    @Singleton
     public SampleEnrichPipeline<UnheatedSurfaceReport, UnheatedSurfaceSample> sampleEnrichPipeline(
 
             SampleFirstGroupMeanBoundEnricher sampleFirstGroupMeanBoundEnricher,

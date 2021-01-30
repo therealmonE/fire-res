@@ -1,8 +1,7 @@
 package io.github.therealmone.fireres.excel.report;
 
 import com.google.inject.Inject;
-import io.github.therealmone.fireres.core.annotation.EnvironmentTemperature;
-import io.github.therealmone.fireres.core.annotation.Time;
+import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.excel.chart.FireModeChart;
 import io.github.therealmone.fireres.excel.column.Column;
 import io.github.therealmone.fireres.excel.column.firemode.EightTimeColumn;
@@ -26,15 +25,11 @@ public class FireModeExcelReportsProvider implements ExcelReportsProvider {
     private FireModeReport fireModeReport;
 
     @Inject
-    @Time
-    private Integer time;
-
-    @Inject
-    @EnvironmentTemperature
-    private Integer environmentTemperature;
+    private GenerationProperties generationProperties;
 
     @Override
     public List<ExcelReport> get() {
+        val time = generationProperties.getGeneral().getTime();
         val data = createData();
 
         return List.of(ExcelReport.builder()
@@ -45,6 +40,8 @@ public class FireModeExcelReportsProvider implements ExcelReportsProvider {
 
     protected List<Column> createData() {
         val columns = new ArrayList<Column>();
+        val time = generationProperties.getGeneral().getTime();
+        val environmentTemperature = generationProperties.getGeneral().getEnvironmentTemperature();
 
         columns.add(new TimeColumn(time));
         columns.add(new EnvTempColumn(time, environmentTemperature));

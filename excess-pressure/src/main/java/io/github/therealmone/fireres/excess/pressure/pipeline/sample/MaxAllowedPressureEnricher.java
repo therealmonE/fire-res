@@ -2,8 +2,7 @@ package io.github.therealmone.fireres.excess.pressure.pipeline.sample;
 
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
-import io.github.therealmone.fireres.core.pipeline.EnrichType;
-import io.github.therealmone.fireres.core.pipeline.report.ReportEnricher;
+import io.github.therealmone.fireres.core.pipeline.sample.SampleEnrichType;
 import io.github.therealmone.fireres.core.pipeline.sample.SampleEnricher;
 import io.github.therealmone.fireres.excess.pressure.generator.MaxAllowedPressureGenerator;
 import io.github.therealmone.fireres.excess.pressure.model.ExcessPressureSample;
@@ -36,12 +35,12 @@ public class MaxAllowedPressureEnricher implements SampleEnricher<ExcessPressure
     }
 
     @Override
-    public boolean supports(EnrichType enrichType) {
+    public boolean supports(SampleEnrichType enrichType) {
         return SAMPLE_MAX_ALLOWED_PRESSURE.equals(enrichType);
     }
 
     @Override
-    public List<EnrichType> getAffectedTypes() {
+    public List<SampleEnrichType> getAffectedTypes() {
         return List.of(SAMPLE_PRESSURE);
     }
 }

@@ -2,7 +2,6 @@ package io.github.therealmone.fireres.excess.pressure.report;
 
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.excess.pressure.GuiceRunner;
-import io.github.therealmone.fireres.excess.pressure.model.ExcessPressureSample;
 import lombok.val;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,30 +19,31 @@ public class ExcessPressureReportTest {
 
     @Test
     public void generateMinAllowedPressure() {
-        val minAllowedPressure = reportProvider.get().getMinAllowedPressure();
+        reportProvider.get().getSamples().forEach(sample -> {
+            val minAllowedPressure = sample.getMinAllowedPressure();
 
-        assertFunctionIsConstant(-PRESSURE_DELTA, minAllowedPressure.getValue());
+            assertFunctionIsConstant(-PRESSURE_DELTA, minAllowedPressure.getValue());
+        });
     }
 
     @Test
     public void generateMaxAllowedPressure() {
-        val maxAllowedPressure = reportProvider.get().getMaxAllowedPressure();
+        reportProvider.get().getSamples().forEach(sample -> {
+            val maxAllowedPressure = sample.getMaxAllowedPressure();
 
-        assertFunctionIsConstant(PRESSURE_DELTA, maxAllowedPressure.getValue());
+            assertFunctionIsConstant(PRESSURE_DELTA, maxAllowedPressure.getValue());
+        });
     }
 
     @Test
     public void generatePressure() {
-        val report = reportProvider.get();
+        reportProvider.get().getSamples().forEach(sample -> {
+            val minAllowedPressure = sample.getMinAllowedPressure();
+            val maxAllowedPressure = sample.getMaxAllowedPressure();
 
-        val minAllowedPressure = report.getMinAllowedPressure();
-        val maxAllowedPressure = report.getMaxAllowedPressure();
-        val samples = report.getSamples();
-
-        for (ExcessPressureSample sample : samples) {
             assertFunctionNotHigher(sample.getPressure().getValue(), maxAllowedPressure.getValue());
             assertFunctionNotLower(sample.getPressure().getValue(), minAllowedPressure.getValue());
-        }
+        });
     }
 
 }

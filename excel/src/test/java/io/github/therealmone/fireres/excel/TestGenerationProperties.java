@@ -43,10 +43,6 @@ public class TestGenerationProperties extends GenerationProperties {
                 .includedReports(List.of(ReportType.values()))
                 .environmentTemperature(21)
                 .time(71)
-                .excessPressure(ExcessPressureProperties.builder()
-                        .basePressure(10.0)
-                        .delta(2.0)
-                        .build())
                 .build());
 
         setSamples(List.of(SampleProperties.builder()
@@ -54,6 +50,10 @@ public class TestGenerationProperties extends GenerationProperties {
                         .linearityCoefficient(0.3)
                         .interpolationPoints(FIREMODE_INTERPOLATION_POINTS)
                         .thermocoupleCount(6)
+                        .build())
+                .excessPressure(ExcessPressureProperties.builder()
+                        .basePressure(10.0)
+                        .delta(2.0)
                         .build())
                 .unheatedSurface(UnheatedSurfaceProperties.builder()
                         .firstGroup(UnheatedSurfaceGroupProperties.builder()

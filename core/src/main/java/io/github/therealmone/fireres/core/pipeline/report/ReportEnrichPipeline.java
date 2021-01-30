@@ -7,6 +7,6 @@ public interface ReportEnrichPipeline<R extends Report> {
 
     void accept(R report);
 
-    void accept(R report, EnrichType enrichType);
+    void accept(R report, ReportEnrichType enrichType);
 
 }

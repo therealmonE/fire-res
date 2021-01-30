@@ -1,7 +1,6 @@
 package io.github.therealmone.fireres.core.pipeline.report;
 
 import io.github.therealmone.fireres.core.model.Report;
-import io.github.therealmone.fireres.core.pipeline.EnrichType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -21,7 +20,7 @@ public class DefaultReportEnrichPipeline<R extends Report> implements ReportEnri
     }
 
     @Override
-    public void accept(R report, EnrichType enrichType) {
+    public void accept(R report, ReportEnrichType enrichType) {
         log.info("Enriching {} with {}", report.getClass().getSimpleName(), ((Enum<?>) enrichType).name());
         val enricher = lookUpEnricher(enrichType);
 
@@ -34,7 +33,7 @@ public class DefaultReportEnrichPipeline<R extends Report> implements ReportEnri
         });
     }
 
-    private ReportEnricher<R> lookUpEnricher(EnrichType enrichType) {
+    private ReportEnricher<R> lookUpEnricher(ReportEnrichType enrichType) {
         return enrichers.stream()
                 .filter(enricher -> enricher.supports(enrichType))
                 .findFirst()

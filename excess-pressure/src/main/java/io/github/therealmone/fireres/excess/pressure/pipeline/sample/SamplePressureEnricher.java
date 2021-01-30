@@ -2,7 +2,7 @@ package io.github.therealmone.fireres.excess.pressure.pipeline.sample;
 
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
-import io.github.therealmone.fireres.core.pipeline.EnrichType;
+import io.github.therealmone.fireres.core.pipeline.sample.SampleEnrichType;
 import io.github.therealmone.fireres.core.pipeline.sample.SampleEnricher;
 import io.github.therealmone.fireres.excess.pressure.generator.SamplePressureGenerator;
 import io.github.therealmone.fireres.excess.pressure.model.ExcessPressureSample;
@@ -35,7 +35,7 @@ public class SamplePressureEnricher implements SampleEnricher<ExcessPressureRepo
     }
 
     @Override
-    public boolean supports(EnrichType enrichType) {
+    public boolean supports(SampleEnrichType enrichType) {
         return SAMPLE_PRESSURE.equals(enrichType);
     }
 
