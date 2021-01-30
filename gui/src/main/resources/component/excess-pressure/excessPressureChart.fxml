@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 
 <Pane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
-    <LineChart focusTraversable="true" prefHeight="600.0" prefWidth="900.0">
+    <LineChart fx:id="excessPressureChart" focusTraversable="true" prefHeight="600.0" prefWidth="900.0">
         <xAxis>
             <CategoryAxis focusTraversable="true" label="Время" side="BOTTOM" />
         </xAxis>
