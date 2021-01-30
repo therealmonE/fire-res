@@ -1,13 +1,16 @@
 package io.github.therealmone.fireres.gui;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Singleton;
 import io.github.therealmone.fireres.core.CoreModule;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.excess.pressure.ExcessPressureModule;
 import io.github.therealmone.fireres.firemode.FireModeModule;
+import io.github.therealmone.fireres.gui.service.ElementStorageService;
 import io.github.therealmone.fireres.gui.service.FxmlLoadService;
 import io.github.therealmone.fireres.gui.service.ResetSettingsService;
 import io.github.therealmone.fireres.gui.service.SampleService;
+import io.github.therealmone.fireres.gui.service.impl.ElementStorageServiceImpl;
 import io.github.therealmone.fireres.gui.service.impl.FxmlLoadServiceImpl;
 import io.github.therealmone.fireres.gui.service.impl.ResetSettingsServiceImpl;
 import io.github.therealmone.fireres.gui.service.impl.SampleServiceImpl;
@@ -26,10 +29,11 @@ public class GuiModule extends AbstractModule {
         install(new UnheatedSurfaceModule());
         install(new HeatFlowModule());
 
-        bind(GraphicalInterface.class);
-        bind(SampleService.class).to(SampleServiceImpl.class);
-        bind(ResetSettingsService.class).to(ResetSettingsServiceImpl.class);
-        bind(FxmlLoadService.class).to(FxmlLoadServiceImpl.class);
+        bind(GraphicalInterface.class).in(Singleton.class);
+        bind(SampleService.class).to(SampleServiceImpl.class).in(Singleton.class);
+        bind(ResetSettingsService.class).to(ResetSettingsServiceImpl.class).in(Singleton.class);
+        bind(FxmlLoadService.class).to(FxmlLoadServiceImpl.class).in(Singleton.class);
+        bind(ElementStorageService.class).to(ElementStorageServiceImpl.class).in(Singleton.class);
     }
 
 }

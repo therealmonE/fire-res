@@ -28,7 +28,7 @@ public class ResetSettingsServiceImpl implements ResetSettingsService {
     public void resetSamples(TabPane samplesTabPane) {
         generationProperties.getSamples().clear();
         samplesTabPane.getTabs().removeIf(tab -> !tab.getId().equals("addSampleTab"));
-        sampleService.createNewSample(samplesTabPane);
+        sampleService.createNewSample();
     }
 
     @Override

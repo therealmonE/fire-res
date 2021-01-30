@@ -5,19 +5,13 @@ import io.github.therealmone.fireres.gui.service.ResetSettingsService;
 import io.github.therealmone.fireres.gui.service.SampleService;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
 @Slf4j
-@Data
-public class SamplesTabController implements Initializable {
+public class SamplesTabController extends AbstractController {
 
     @FXML
     private TabPane samplesTabPane;
@@ -29,9 +23,7 @@ public class SamplesTabController implements Initializable {
     private SampleService sampleService;
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        log.info("Initializing: {}", this.getClass().getSimpleName());
-
+    public void initialize() {
         resetSettingsService.resetSamples(samplesTabPane);
     }
 
@@ -48,7 +40,7 @@ public class SamplesTabController implements Initializable {
         if (isAddSampleTab(target)) {
             val tabPane = target.getTabPane();
 
-            sampleService.createNewSample(tabPane);
+            sampleService.createNewSample();
 
             if (tabPane.getTabs().size() > 2) {
                 tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.SELECTED_TAB);
