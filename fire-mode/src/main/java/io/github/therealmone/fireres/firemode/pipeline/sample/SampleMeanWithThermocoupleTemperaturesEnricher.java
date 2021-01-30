@@ -5,7 +5,7 @@ import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.factory.MeanFunctionFactory;
 import io.github.therealmone.fireres.core.generator.MeanWithChildFunctionGenerationParameters;
 import io.github.therealmone.fireres.core.model.IntegerPointSequence;
-import io.github.therealmone.fireres.core.pipeline.EnrichType;
+import io.github.therealmone.fireres.core.pipeline.sample.SampleEnrichType;
 import io.github.therealmone.fireres.core.pipeline.sample.SampleEnricher;
 import io.github.therealmone.fireres.firemode.generator.FireModeGeneratorStrategy;
 import io.github.therealmone.fireres.firemode.model.FireModeSample;
@@ -54,7 +54,7 @@ public class SampleMeanWithThermocoupleTemperaturesEnricher implements SampleEnr
     }
 
     @Override
-    public boolean supports(EnrichType enrichType) {
+    public boolean supports(SampleEnrichType enrichType) {
         return SAMPLE_MEAN_WITH_THERMOCOUPLE_TEMPERATURES.equals(enrichType);
     }
 }

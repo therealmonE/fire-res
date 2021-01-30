@@ -26,17 +26,14 @@ public class ExcessPressureReportRepeatingTest {
         for (int i = 0; i < ATTEMPTS; i++) {
             val report = reportProvider.get();
 
-            val min = report.getMinAllowedPressure();
-            val max = report.getMaxAllowedPressure();
-
-            assertFunctionIsConstant(-PRESSURE_DELTA, min.getValue());
-            assertFunctionIsConstant(PRESSURE_DELTA, max.getValue());
-
-            assertSizesEquals(TIME, min.getValue(), max.getValue());
-
             report.getSamples().forEach(sample -> {
+                val min = sample.getMinAllowedPressure();
+                val max = sample.getMaxAllowedPressure();
                 val pressure = sample.getPressure();
 
+                assertFunctionIsConstant(-PRESSURE_DELTA, min.getValue());
+                assertFunctionIsConstant(PRESSURE_DELTA, max.getValue());
+                assertSizesEquals(TIME, min.getValue(), max.getValue());
                 assertFunctionNotHigher(pressure.getValue(), max.getValue());
                 assertFunctionNotLower(pressure.getValue(), min.getValue());
             });

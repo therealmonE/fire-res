@@ -1,8 +1,8 @@
 package io.github.therealmone.fireres.unheated.surface.pipeline.sample;
 
-import io.github.therealmone.fireres.core.pipeline.EnrichType;
+import io.github.therealmone.fireres.core.pipeline.sample.SampleEnrichType;
 
-public enum UnheatedSurfaceSampleEnrichType implements EnrichType {
+public enum UnheatedSurfaceSampleEnrichType implements SampleEnrichType {
 
     SAMPLE_FIRST_GROUP_MEAN_BOUND,
     SAMPLE_FIRST_GROUP_THERMOCOUPLE_BOUND,

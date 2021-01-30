@@ -8,8 +8,9 @@ import io.github.therealmone.fireres.core.pipeline.report.ReportEnrichPipeline;
 import io.github.therealmone.fireres.core.pipeline.sample.DefaultSampleEnrichPipeline;
 import io.github.therealmone.fireres.core.pipeline.sample.SampleEnrichPipeline;
 import io.github.therealmone.fireres.excess.pressure.model.ExcessPressureSample;
-import io.github.therealmone.fireres.excess.pressure.pipeline.report.MaxAllowedPressureEnricher;
-import io.github.therealmone.fireres.excess.pressure.pipeline.report.MinAllowedPressureEnricher;
+import io.github.therealmone.fireres.excess.pressure.pipeline.sample.BasePressureEnricher;
+import io.github.therealmone.fireres.excess.pressure.pipeline.sample.MaxAllowedPressureEnricher;
+import io.github.therealmone.fireres.excess.pressure.pipeline.sample.MinAllowedPressureEnricher;
 import io.github.therealmone.fireres.excess.pressure.pipeline.report.SamplesEnricher;
 import io.github.therealmone.fireres.excess.pressure.pipeline.sample.SamplePressureEnricher;
 import io.github.therealmone.fireres.excess.pressure.report.ExcessPressureReport;
@@ -27,23 +28,27 @@ public class ExcessPressureModule extends AbstractModule {
     }
 
     @Provides
+    @Singleton
     public ReportEnrichPipeline<ExcessPressureReport> enrichPipeline(
-            MinAllowedPressureEnricher minAllowedPressureEnricher,
-            MaxAllowedPressureEnricher maxAllowedPressureEnricher,
             SamplesEnricher samplesEnricher
     ) {
         return new DefaultReportEnrichPipeline<>(List.of(
-                minAllowedPressureEnricher,
-                maxAllowedPressureEnricher,
                 samplesEnricher
         ));
     }
 
     @Provides
+    @Singleton
     public SampleEnrichPipeline<ExcessPressureReport, ExcessPressureSample> sampleEnrichPipeline(
+            BasePressureEnricher basePressureEnricher,
+            MinAllowedPressureEnricher minAllowedPressureEnricher,
+            MaxAllowedPressureEnricher maxAllowedPressureEnricher,
             SamplePressureEnricher samplePressureEnricher
     ) {
         return new DefaultSampleEnrichPipeline<>(List.of(
+                basePressureEnricher,
+                minAllowedPressureEnricher,
+                maxAllowedPressureEnricher,
                 samplePressureEnricher
         ));
     }

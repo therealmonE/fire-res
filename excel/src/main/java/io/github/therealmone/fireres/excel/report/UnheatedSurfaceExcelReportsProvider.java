@@ -1,7 +1,7 @@
 package io.github.therealmone.fireres.excel.report;
 
 import com.google.inject.Inject;
-import io.github.therealmone.fireres.core.annotation.Time;
+import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.excel.chart.UnheatedSurfaceChart;
 import io.github.therealmone.fireres.excel.column.Column;
 import io.github.therealmone.fireres.excel.column.TimeColumn;
@@ -25,8 +25,7 @@ public class UnheatedSurfaceExcelReportsProvider implements GroupedExcelReportsP
     private UnheatedSurfaceReport report;
 
     @Inject
-    @Time
-    private Integer time;
+    private GenerationProperties generationProperties;
 
     @Override
     public Map<Integer, List<ExcelReport>> get() {
@@ -57,6 +56,7 @@ public class UnheatedSurfaceExcelReportsProvider implements GroupedExcelReportsP
 
     private ExcelReport createReportForGroup(Integer groupIndex, UnheatedSurfaceGroup group,
                                              Integer thermocoupleIndexShift) {
+        val time = generationProperties.getGeneral().getTime();
         val columns = new ArrayList<Column>();
 
         columns.add(new TimeColumn(time));

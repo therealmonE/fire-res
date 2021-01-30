@@ -2,7 +2,6 @@ package io.github.therealmone.fireres.core.pipeline.sample;
 
 import io.github.therealmone.fireres.core.model.Report;
 import io.github.therealmone.fireres.core.model.ReportSample;
-import io.github.therealmone.fireres.core.pipeline.EnrichType;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 
@@ -19,7 +18,7 @@ public class DefaultSampleEnrichPipeline<R extends Report, S extends ReportSampl
     }
 
     @Override
-    public void accept(R report, S sample, EnrichType enrichType) {
+    public void accept(R report, S sample, SampleEnrichType enrichType) {
         val enricher = lookUpEnricher(enrichType);
 
         enricher.enrich(report, sample);
@@ -27,7 +26,7 @@ public class DefaultSampleEnrichPipeline<R extends Report, S extends ReportSampl
         enricher.getAffectedTypes().forEach(affectedType -> accept(report, sample, affectedType));
     }
 
-    private SampleEnricher<R, S> lookUpEnricher(EnrichType enrichType) {
+    private SampleEnricher<R, S> lookUpEnricher(SampleEnrichType enrichType) {
         return enrichers.stream()
                 .filter(enricher -> enricher.supports(enrichType))
                 .findFirst()

@@ -19,13 +19,14 @@ public class TestGenerationProperties extends GenerationProperties {
         setGeneral(GeneralProperties.builder()
                 .environmentTemperature(ENVIRONMENT_TEMPERATURE)
                 .time(TIME)
+                .build());
+
+        setSamples(List.of(SampleProperties.builder()
                 .excessPressure(ExcessPressureProperties.builder()
                         .basePressure(BASE_PRESSURE)
                         .delta(PRESSURE_DELTA)
                         .dispersionCoefficient(DISPERSION_COEFFICIENT)
                         .build())
-                .build());
-
-        setSamples(List.of(SampleProperties.builder().build()));
+                .build()));
     }
 }

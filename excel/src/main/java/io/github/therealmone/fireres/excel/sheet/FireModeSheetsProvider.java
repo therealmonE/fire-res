@@ -1,7 +1,7 @@
 package io.github.therealmone.fireres.excel.sheet;
 
 import com.google.inject.Inject;
-import io.github.therealmone.fireres.core.annotation.Time;
+import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.excel.annotation.FireMode;
 import io.github.therealmone.fireres.excel.report.ExcelReport;
 
@@ -13,8 +13,7 @@ public class FireModeSheetsProvider implements ExcelSheetsProvider {
     private static final String SHEET_NAME = "Режим пожара";
 
     @Inject
-    @Time
-    private Integer time;
+    private GenerationProperties generationProperties;
 
     @Inject
     @FireMode
@@ -25,7 +24,7 @@ public class FireModeSheetsProvider implements ExcelSheetsProvider {
         return Collections.singletonList(new AbstractExcelSheet() {
             @Override
             protected Integer getTime() {
-                return time;
+                return generationProperties.getGeneral().getTime();
             }
 
             @Override

@@ -1,7 +1,7 @@
 package io.github.therealmone.fireres.excel.sheet;
 
 import com.google.inject.Inject;
-import io.github.therealmone.fireres.core.annotation.Time;
+import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.excel.annotation.UnheatedSurface;
 import io.github.therealmone.fireres.excel.report.ExcelReport;
 import lombok.val;
@@ -15,8 +15,7 @@ public class UnheatedSurfaceSheetsProvider implements ExcelSheetsProvider {
     private static final String SHEET_NAME = "Необогреваемая пов-сть, Обр. %s";
 
     @Inject
-    @Time
-    private Integer time;
+    private GenerationProperties generationProperties;
 
     @Inject
     @UnheatedSurface
@@ -32,7 +31,7 @@ public class UnheatedSurfaceSheetsProvider implements ExcelSheetsProvider {
                     return new AbstractExcelSheet() {
                         @Override
                         protected Integer getTime() {
-                            return time;
+                            return generationProperties.getGeneral().getTime();
                         }
 
                         @Override

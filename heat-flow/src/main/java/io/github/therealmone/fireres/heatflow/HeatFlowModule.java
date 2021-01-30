@@ -26,6 +26,7 @@ public class HeatFlowModule extends AbstractModule {
     }
 
     @Provides
+    @Singleton
     public ReportEnrichPipeline<HeatFlowReport> enrichPipeline(
             SamplesEnricher samplesEnricher
     ) {
@@ -35,6 +36,7 @@ public class HeatFlowModule extends AbstractModule {
     }
 
     @Provides
+    @Singleton
     public SampleEnrichPipeline<HeatFlowReport, HeatFlowSample> sampleEnrichPipeline(
             SampleBoundEnricher sampleBoundEnricher,
             SampleMeanWithSensorsTemperaturesEnricher sampleMeanWithSensorsTemperaturesEnricher

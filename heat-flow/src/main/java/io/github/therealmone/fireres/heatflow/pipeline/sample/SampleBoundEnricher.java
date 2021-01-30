@@ -2,7 +2,7 @@ package io.github.therealmone.fireres.heatflow.pipeline.sample;
 
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
-import io.github.therealmone.fireres.core.pipeline.EnrichType;
+import io.github.therealmone.fireres.core.pipeline.sample.SampleEnrichType;
 import io.github.therealmone.fireres.core.pipeline.sample.SampleEnricher;
 import io.github.therealmone.fireres.heatflow.generator.HeatFlowBoundGenerator;
 import io.github.therealmone.fireres.heatflow.model.HeatFlowSample;
@@ -34,12 +34,12 @@ public class SampleBoundEnricher implements SampleEnricher<HeatFlowReport, HeatF
     }
 
     @Override
-    public boolean supports(EnrichType enrichType) {
+    public boolean supports(SampleEnrichType enrichType) {
         return SAMPLE_BOUND.equals(enrichType);
     }
 
     @Override
-    public List<EnrichType> getAffectedTypes() {
+    public List<SampleEnrichType> getAffectedTypes() {
         return List.of(SAMPLE_MEAN_WITH_SENSORS_TEMPERATURES);
     }
 
