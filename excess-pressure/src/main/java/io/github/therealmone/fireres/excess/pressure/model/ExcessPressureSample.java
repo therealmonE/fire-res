@@ -13,5 +13,8 @@ public class ExcessPressureSample implements ReportSample {
     private final UUID id;
 
     private SamplePressure pressure;
+    private Double basePressure;
+    private MinAllowedPressure minAllowedPressure;
+    private MaxAllowedPressure maxAllowedPressure;
 
 }

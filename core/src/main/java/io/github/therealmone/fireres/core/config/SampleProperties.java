@@ -1,6 +1,7 @@
 package io.github.therealmone.fireres.core.config;
 
 import com.typesafe.config.Optional;
+import io.github.therealmone.fireres.core.config.excess.pressure.ExcessPressureProperties;
 import io.github.therealmone.fireres.core.config.firemode.FireModeProperties;
 import io.github.therealmone.fireres.core.config.unheated.surface.UnheatedSurfaceProperties;
 import io.github.therealmone.fireres.core.config.heatflow.HeatFlowProperties;
@@ -22,6 +23,10 @@ public class SampleProperties {
     @Optional
     @Builder.Default
     private FireModeProperties fireMode = new FireModeProperties();
+
+    @Optional
+    @Builder.Default
+    private ExcessPressureProperties excessPressure = new ExcessPressureProperties();
 
     @Optional
     @Builder.Default
