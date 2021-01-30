@@ -31,16 +31,11 @@ public class FxmlLoadServiceImpl implements FxmlLoadService {
 
     @Override
     @SneakyThrows
-    public Tab loadSampleTab(TabPane samplesTabPane) {
+    public Tab loadSampleTab() {
         val sampleResource = getClass().getResource("/component/sample.fxml");
         val loader = createLoader(sampleResource);
 
-        val sampleTab = (Tab) loader.load();
-        val controller = (SampleController) loader.getController();
-
-        controller.setSamplesTabPane(samplesTabPane);
-
-        return sampleTab;
+        return loader.load();
     }
 
     private FXMLLoader createLoader(URL resource) {

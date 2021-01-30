@@ -3,6 +3,7 @@ package io.github.therealmone.fireres.gui.service.impl;
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.config.SampleProperties;
+import io.github.therealmone.fireres.gui.service.ElementStorageService;
 import io.github.therealmone.fireres.gui.service.FxmlLoadService;
 import io.github.therealmone.fireres.gui.service.SampleService;
 import javafx.scene.control.Tab;
@@ -10,6 +11,8 @@ import javafx.scene.control.TabPane;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
+
+import static io.github.therealmone.fireres.gui.service.ElementStorageService.SAMPLES_TAB_PANE;
 
 @Slf4j
 public class SampleServiceImpl implements SampleService {
@@ -20,12 +23,15 @@ public class SampleServiceImpl implements SampleService {
     @Inject
     private FxmlLoadService fxmlLoadService;
 
-    @Override
-    public void createNewSample(TabPane samplesTabPane) {
-        val samplesProperties = generationProperties.getSamples();
+    @Inject
+    private ElementStorageService elementStorageService;
 
-        val newTab = createSampleTab(samplesTabPane,
-                String.format("Образец №%d", samplesProperties.size() + 1));
+    @Override
+    public void createNewSample() {
+        val samplesProperties = generationProperties.getSamples();
+        val samplesTabPane = (TabPane) elementStorageService.getFirstById(SAMPLES_TAB_PANE).orElseThrow();
+
+        val newTab = createSampleTab(String.format("Образец №%d", samplesProperties.size() + 1));
 
         val newSampleProperties = new SampleProperties();
 
@@ -37,8 +43,9 @@ public class SampleServiceImpl implements SampleService {
     }
 
     @Override
-    public void closeSample(TabPane samplesTabPane, Tab closedSampleTab) {
+    public void closeSample(Tab closedSampleTab) {
         val sampleId = ((SampleProperties) closedSampleTab.getUserData()).getId();
+        val samplesTabPane = (TabPane) elementStorageService.getFirstById(SAMPLES_TAB_PANE).orElseThrow();
 
         if (generationProperties.getSamples().removeIf(sample -> sample.getId().equals(sampleId))) {
             renameSamples(samplesTabPane);
@@ -50,8 +57,8 @@ public class SampleServiceImpl implements SampleService {
     }
 
     @SneakyThrows
-    private Tab createSampleTab(TabPane samplesTabPane, String tabName) {
-        val tab = (Tab) fxmlLoadService.loadSampleTab(samplesTabPane);
+    private Tab createSampleTab(String tabName) {
+        val tab = (Tab) fxmlLoadService.loadSampleTab();
 
         tab.setText(tabName);
 
