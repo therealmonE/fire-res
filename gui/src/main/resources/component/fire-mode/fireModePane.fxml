@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<TitledPane animated="false" text="Режим пожара" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<Pane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <AnchorPane>
         <HBox>
             <VBox>
@@ -12,4 +12,4 @@
             <fx:include source="fireModeChart.fxml"/>
         </HBox>
     </AnchorPane>
-</TitledPane>
+</Pane>

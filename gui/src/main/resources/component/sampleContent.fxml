@@ -1,16 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<ScrollPane hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"
-            minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1"
-            xmlns:fx="http://javafx.com/fxml/1">
-    <AnchorPane focusTraversable="true" prefHeight="700.0">
-        <VBox>
-            <fx:include source="fire-mode/fireModeTitledPane.fxml"/>
-            <fx:include source="excess-pressure/excessPressureTitledPane.fxml"/>
-        </VBox>
-    </AnchorPane>
-</ScrollPane>
+<TabPane id="reportsTabPane" side="BOTTOM" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+
+    <tabs>
+        <Tab id="fireModeTab" styleClass="fireModeTab" text="Режим пожара">
+            <AnchorPane focusTraversable="true" prefHeight="625.0">
+                <VBox prefHeight="625.0">
+                    <fx:include source="fire-mode/fireModePane.fxml" />
+                </VBox>
+            </AnchorPane>
+        </Tab>
+        <Tab id="excessPressureTab" styleClass="excessPressureTab" text="Избыточное давление">
+            <AnchorPane focusTraversable="true" prefHeight="625.0">
+                <VBox prefHeight="625.0">
+                    <fx:include source="excess-pressure/excessPressurePane.fxml" />
+                </VBox>
+            </AnchorPane>
+        </Tab>
+    </tabs>
+
+</TabPane>
