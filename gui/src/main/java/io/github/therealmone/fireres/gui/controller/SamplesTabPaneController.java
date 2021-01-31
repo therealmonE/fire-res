@@ -1,17 +1,29 @@
 package io.github.therealmone.fireres.gui.controller;
 
 import com.google.inject.Inject;
+import io.github.therealmone.fireres.gui.annotation.ChildControllers;
+import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.service.ResetSettingsService;
 import io.github.therealmone.fireres.gui.service.SampleService;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@EqualsAndHashCode(callSuper = true)
 @Slf4j
-public class SamplesTabController extends AbstractController {
+@Data
+public class SamplesTabPaneController extends AbstractController {
+
+    @ParentController
+    private MainSceneController mainSceneController;
 
     @FXML
     private TabPane samplesTabPane;
@@ -22,9 +34,16 @@ public class SamplesTabController extends AbstractController {
     @Inject
     private SampleService sampleService;
 
+    /**
+     * Injected via {@link io.github.therealmone.fireres.gui.service.FxmlLoadService}
+     * @see io.github.therealmone.fireres.gui.service.FxmlLoadService#loadSampleTab(SamplesTabPaneController, Object)
+     */
+    @ChildControllers
+    private List<SampleTabController> sampleTabControllers = new ArrayList<>();
+
     @Override
-    public void initialize() {
-        resetSettingsService.resetSamples(samplesTabPane);
+    public void postConstruct() {
+        resetSettingsService.resetSamples(this);
     }
 
     @FXML
@@ -38,12 +57,10 @@ public class SamplesTabController extends AbstractController {
         val target = (Tab) event.getTarget();
 
         if (isAddSampleTab(target)) {
-            val tabPane = target.getTabPane();
+            sampleService.createNewSample(this);
 
-            sampleService.createNewSample();
-
-            if (tabPane.getTabs().size() > 2) {
-                tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.SELECTED_TAB);
+            if (samplesTabPane.getTabs().size() > 2) {
+                samplesTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.SELECTED_TAB);
             }
         }
     }

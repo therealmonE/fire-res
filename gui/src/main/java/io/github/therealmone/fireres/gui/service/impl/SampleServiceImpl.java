@@ -3,7 +3,7 @@ package io.github.therealmone.fireres.gui.service.impl;
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.config.SampleProperties;
-import io.github.therealmone.fireres.gui.service.ElementStorageService;
+import io.github.therealmone.fireres.gui.controller.SamplesTabPaneController;
 import io.github.therealmone.fireres.gui.service.FxmlLoadService;
 import io.github.therealmone.fireres.gui.service.SampleService;
 import javafx.scene.control.Tab;
@@ -11,8 +11,6 @@ import javafx.scene.control.TabPane;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
-
-import static io.github.therealmone.fireres.gui.service.ElementStorageService.SAMPLES_TAB_PANE;
 
 @Slf4j
 public class SampleServiceImpl implements SampleService {
@@ -23,17 +21,16 @@ public class SampleServiceImpl implements SampleService {
     @Inject
     private FxmlLoadService fxmlLoadService;
 
-    @Inject
-    private ElementStorageService elementStorageService;
-
     @Override
-    public void createNewSample() {
+    public void createNewSample(SamplesTabPaneController samplesTabPaneController) {
         val samplesProperties = generationProperties.getSamples();
-        val samplesTabPane = (TabPane) elementStorageService.getFirstById(SAMPLES_TAB_PANE).orElseThrow();
-
-        val newTab = createSampleTab(String.format("Образец №%d", samplesProperties.size() + 1));
+        val samplesTabPane = samplesTabPaneController.getSamplesTabPane();
 
         val newSampleProperties = new SampleProperties();
+        val newTab = createSampleTab(
+                samplesTabPaneController,
+                newSampleProperties,
+                String.format("Образец №%d", samplesProperties.size() + 1));
 
         samplesProperties.add(newSampleProperties);
         newTab.setUserData(newSampleProperties);
@@ -43,9 +40,8 @@ public class SampleServiceImpl implements SampleService {
     }
 
     @Override
-    public void closeSample(Tab closedSampleTab) {
+    public void closeSample(TabPane samplesTabPane, Tab closedSampleTab) {
         val sampleId = ((SampleProperties) closedSampleTab.getUserData()).getId();
-        val samplesTabPane = (TabPane) elementStorageService.getFirstById(SAMPLES_TAB_PANE).orElseThrow();
 
         if (generationProperties.getSamples().removeIf(sample -> sample.getId().equals(sampleId))) {
             renameSamples(samplesTabPane);
@@ -56,9 +52,21 @@ public class SampleServiceImpl implements SampleService {
         }
     }
 
+    @Override
+    public SampleProperties getSampleProperties(Tab sampleTab) {
+        if (sampleTab.getUserData() != null && sampleTab.getUserData() instanceof SampleProperties) {
+            return (SampleProperties) sampleTab.getUserData();
+        } else {
+            throw new IllegalStateException("Sample tab user data is not instance of " + SampleProperties.class.getSimpleName());
+        }
+    }
+
     @SneakyThrows
-    private Tab createSampleTab(String tabName) {
-        val tab = (Tab) fxmlLoadService.loadSampleTab();
+    private Tab createSampleTab(SamplesTabPaneController samplesTabPaneController,
+                                SampleProperties sampleProperties,
+                                String tabName) {
+
+        val tab = (Tab) fxmlLoadService.loadSampleTab(samplesTabPaneController, sampleProperties);
 
         tab.setText(tabName);
 

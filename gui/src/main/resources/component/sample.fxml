@@ -1,12 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 
 <Tab fx:id="sampleTab" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-     fx:controller="io.github.therealmone.fireres.gui.controller.SampleController"
+     fx:controller="io.github.therealmone.fireres.gui.controller.SampleTabController"
      onClosed="#closeSample">
     <AnchorPane>
-        <fx:include source="sampleContent.fxml"/>
+        <TabPane fx:id="reportsTabPane" side="BOTTOM" tabClosingPolicy="UNAVAILABLE"
+                 xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+
+            <tabs>
+                <Tab fx:id="fireModeTab" styleClass="fireModeTab" text="Режим пожара">
+                    <AnchorPane focusTraversable="true" prefHeight="625.0">
+                        <VBox prefHeight="625.0">
+                            <fx:include fx:id="fireModePane" source="fire-mode/fireModePane.fxml"/>
+                        </VBox>
+                    </AnchorPane>
+                </Tab>
+                <Tab fx:id="excessPressureTab" styleClass="excessPressureTab" text="Избыточное давление">
+                    <AnchorPane focusTraversable="true" prefHeight="625.0">
+                        <VBox prefHeight="625.0">
+                            <fx:include fx:id="excessPressurePane" source="excess-pressure/excessPressurePane.fxml"/>
+                        </VBox>
+                    </AnchorPane>
+                </Tab>
+            </tabs>
+
+        </TabPane>
     </AnchorPane>
 </Tab>
