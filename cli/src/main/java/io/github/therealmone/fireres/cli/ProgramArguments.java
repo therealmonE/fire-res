@@ -15,7 +15,4 @@ public class ProgramArguments {
     @Parameter(names = {"-c", "--config"}, description = "Config path")
     private String config;
 
-    @Parameter(names = {"-p", "--path"}, description = "Path to generate report")
-    private String path;
-
 }

@@ -12,9 +12,6 @@ import java.nio.file.Path;
 public class Application {
 
     @Inject
-    private ProgramArguments programArguments;
-
-    @Inject
     private GenerationProperties generationProperties;
 
     @Inject
@@ -22,7 +19,7 @@ public class Application {
 
     public void run() {
         val outputFile = Path.of(
-                programArguments.getPath(),
+                generationProperties.getGeneral().getOutputPath(),
                 generationProperties.getGeneral().getFileName() + ".xlsx"
         ).toFile();
 

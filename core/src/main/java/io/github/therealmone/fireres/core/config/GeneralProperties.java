@@ -16,6 +16,8 @@ public class GeneralProperties {
 
     private String fileName;
 
+    private String outputPath;
+
     private Integer time;
 
     private Integer environmentTemperature;
