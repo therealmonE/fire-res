@@ -21,6 +21,7 @@ public class MainSceneController extends AbstractController {
         topMenuBarController.setMainSceneController(this);
         generalParamsController.setMainSceneController(this);
         samplesTabPaneController.setMainSceneController(this);
+        bottomButtonBarController.setMainSceneController(this);
 
         topMenuBarController.postConstruct();
         generalParamsController.postConstruct();
