@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.github.therealmone.fireres.gui.controller.heat.flow.HeatFlowPaneController">
+    <AnchorPane focusTraversable="true">
+        <HBox focusTraversable="true">
+            <VBox focusTraversable="true">
+                <fx:include fx:id="heatFlowParams" source="heatFlowParams.fxml" />
+                <fx:include fx:id="functionParams" source="../common-params/functionParams.fxml" />
+            <HBox.margin>
+               <Insets left="15.0" />
+            </HBox.margin>
+            </VBox>
+            <fx:include fx:id="heatFlowChart" source="heatFlowChart.fxml" />
+        </HBox>
+    </AnchorPane>
+
+</Pane>
