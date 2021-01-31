@@ -46,9 +46,5 @@ public class FunctionParamsController extends AbstractController implements Samp
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
         valueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
 
-        IntStream.range(0, 100).forEach(i ->
-                interpolationPointsTableView.getItems().add(new InterpolationPoint(i, i*1000)));
-
-
     }
 }
