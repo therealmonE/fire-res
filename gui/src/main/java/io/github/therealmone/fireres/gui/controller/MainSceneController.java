@@ -1,19 +1,24 @@
 package io.github.therealmone.fireres.gui.controller;
 
+import io.github.therealmone.fireres.gui.annotation.ChildController;
 import javafx.fxml.FXML;
 
 public class MainSceneController extends AbstractController {
 
     @FXML
+    @ChildController
     private TopMenuBarController topMenuBarController;
 
     @FXML
+    @ChildController
     private GeneralParamsController generalParamsController;
 
     @FXML
+    @ChildController
     private SamplesTabPaneController samplesTabPaneController;
 
     @FXML
+    @ChildController
     private BottomButtonBarController bottomButtonBarController;
 
     @Override

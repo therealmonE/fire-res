@@ -2,6 +2,8 @@ package io.github.therealmone.fireres.gui.controller;
 
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.SampleProperties;
+import io.github.therealmone.fireres.gui.annotation.ChildController;
+import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.controller.excess.pressure.ExcessPressurePaneController;
 import io.github.therealmone.fireres.gui.service.SampleService;
 import javafx.event.Event;
@@ -21,6 +23,7 @@ public class SampleTabController extends AbstractController implements SampleCon
      * Injected via {@link io.github.therealmone.fireres.gui.service.FxmlLoadService}
      * @see io.github.therealmone.fireres.gui.service.FxmlLoadService#loadSampleTab(SamplesTabPaneController, Object)
      */
+    @ParentController
     private SamplesTabPaneController samplesTabPaneController;
 
     @Inject
@@ -30,6 +33,7 @@ public class SampleTabController extends AbstractController implements SampleCon
     private Tab sampleTab;
 
     @FXML
+    @ChildController
     private ExcessPressurePaneController excessPressurePaneController;
 
     @Override

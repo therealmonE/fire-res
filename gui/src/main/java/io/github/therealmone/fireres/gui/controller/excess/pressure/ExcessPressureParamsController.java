@@ -3,6 +3,7 @@ package io.github.therealmone.fireres.gui.controller.excess.pressure;
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.config.SampleProperties;
+import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.controller.AbstractController;
 import io.github.therealmone.fireres.gui.controller.SampleContainer;
 import io.github.therealmone.fireres.gui.service.ResetSettingsService;
@@ -17,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ExcessPressureParamsController extends AbstractController implements SampleContainer {
 
+    @ParentController
     private ExcessPressurePaneController excessPressurePaneController;
 
     @FXML

@@ -1,6 +1,8 @@
 package io.github.therealmone.fireres.gui.controller;
 
 import com.google.inject.Inject;
+import io.github.therealmone.fireres.gui.annotation.ChildControllers;
+import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.service.ResetSettingsService;
 import io.github.therealmone.fireres.gui.service.SampleService;
 import javafx.event.Event;
@@ -20,6 +22,7 @@ import java.util.List;
 @Data
 public class SamplesTabPaneController extends AbstractController {
 
+    @ParentController
     private MainSceneController mainSceneController;
 
     @FXML
@@ -35,6 +38,7 @@ public class SamplesTabPaneController extends AbstractController {
      * Injected via {@link io.github.therealmone.fireres.gui.service.FxmlLoadService}
      * @see io.github.therealmone.fireres.gui.service.FxmlLoadService#loadSampleTab(SamplesTabPaneController, Object)
      */
+    @ChildControllers
     private List<SampleTabController> sampleTabControllers = new ArrayList<>();
 
     @Override

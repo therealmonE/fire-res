@@ -1,6 +1,8 @@
 package io.github.therealmone.fireres.gui.controller.excess.pressure;
 
 import io.github.therealmone.fireres.core.config.SampleProperties;
+import io.github.therealmone.fireres.gui.annotation.ChildController;
+import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.controller.AbstractController;
 import io.github.therealmone.fireres.gui.controller.SampleContainer;
 import io.github.therealmone.fireres.gui.controller.SampleTabController;
@@ -13,8 +15,10 @@ import lombok.EqualsAndHashCode;
 public class ExcessPressurePaneController extends AbstractController implements SampleContainer {
 
     @FXML
+    @ChildController
     private ExcessPressureParamsController excessPressureParamsController;
 
+    @ParentController
     private SampleTabController sampleTabController;
 
     @Override
