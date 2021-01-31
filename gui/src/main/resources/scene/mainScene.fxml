@@ -3,12 +3,15 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox stylesheets="/css/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
-    <fx:include source="../component/topMenuBar.fxml"/>
+<VBox stylesheets="/css/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="io.github.therealmone.fireres.gui.controller.MainSceneController">
+
+    <fx:include fx:id="topMenuBar" source="../component/topMenuBar.fxml"/>
     <Separator prefHeight="30.0"/>
-    <fx:include source="../component/generalParams.fxml"/>
+    <fx:include fx:id="generalParams" source="../component/generalParams.fxml"/>
     <Separator prefHeight="30.0" prefWidth="600.0"/>
-    <fx:include source="../component/samplesTabPane.fxml"/>
+    <fx:include fx:id="samplesTabPane" source="../component/samplesTabPane.fxml"/>
     <Separator prefHeight="30.0"/>
-    <fx:include source="../component/bottomButtonBar.fxml"/>
+    <fx:include fx:id="bottomButtonBar" source="../component/bottomButtonBar.fxml"/>
+
 </VBox>

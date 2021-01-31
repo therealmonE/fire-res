@@ -6,7 +6,7 @@
 
 <TabPane fx:id="samplesTabPane" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1"
          xmlns:fx="http://javafx.com/fxml/1"
-         fx:controller="io.github.therealmone.fireres.gui.controller.SamplesTabController">
+         fx:controller="io.github.therealmone.fireres.gui.controller.SamplesTabPaneController">
 
     <tabs>
         <Tab fx:id="addSampleTab" styleClass="addSampleTab" text="+"

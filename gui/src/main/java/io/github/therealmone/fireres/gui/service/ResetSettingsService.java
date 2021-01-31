@@ -1,14 +1,15 @@
 package io.github.therealmone.fireres.gui.service;
 
-import javafx.scene.control.Spinner;
-import javafx.scene.control.TabPane;
+import io.github.therealmone.fireres.gui.controller.GeneralParamsController;
+import io.github.therealmone.fireres.gui.controller.SamplesTabPaneController;
+import io.github.therealmone.fireres.gui.controller.excess.pressure.ExcessPressureParamsController;
 
 public interface ResetSettingsService {
 
-    void resetSamples(TabPane samplesTabPane);
+    void resetSamples(SamplesTabPaneController samplesTabPaneController);
 
-    void resetEnvironmentTemperature(Spinner<Integer> environmentTemperatureSpinner);
+    void resetGeneralParameters(GeneralParamsController generalParamsController);
 
-    void resetTime(Spinner<Integer> timeSpinner);
+    void resetExcessPressureParameters(ExcessPressureParamsController excessPressureParamsController);
 
 }
