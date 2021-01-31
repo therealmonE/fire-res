@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TitledPane?>
+
+<TitledPane text="Параметры теплового потока" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="io.github.therealmone.fireres.gui.controller.heat.flow.HeatFlowParamsController">
+    <padding>
+        <Insets top="15.0"/>
+    </padding>
+    <GridPane>
+        <columnConstraints>
+            <ColumnConstraints/>
+            <ColumnConstraints/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints/>
+            <RowConstraints/>
+        </rowConstraints>
+        <padding>
+            <Insets left="15.0" top="15.0" bottom="15.0" right="15.0"/>
+        </padding>
+
+        <Label prefHeight="16.0" prefWidth="150.0" text="Количество сенсоров:" GridPane.rowIndex="2"/>
+
+        <Spinner fx:id="sensorSpinner" editable="true" max="100" min="1" prefHeight="26.0" prefWidth="100.0"
+                 GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+        <Label prefHeight="16.0" prefWidth="150.0" text="Макс. допустимый поток:" GridPane.rowIndex="3">
+            <GridPane.margin>
+                <Insets top="15.0"/>
+            </GridPane.margin>
+        </Label>
+        <Spinner fx:id="heatFlowSpinner" editable="true" max="10000" min="1" prefHeight="26.0" prefWidth="100.0"
+                 GridPane.columnIndex="1" GridPane.rowIndex="3" amountToStepBy="100">
+            <GridPane.margin>
+                <Insets top="15.0"/>
+            </GridPane.margin>
+        </Spinner>
+    </GridPane>
+</TitledPane>
