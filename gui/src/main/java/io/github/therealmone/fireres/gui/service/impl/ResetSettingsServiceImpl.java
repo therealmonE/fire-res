@@ -1,7 +1,11 @@
 package io.github.therealmone.fireres.gui.service.impl;
 
 import com.google.inject.Inject;
-import io.github.therealmone.fireres.gui.config.*;
+import io.github.therealmone.fireres.gui.config.ExcessPressureParametersConfigurer;
+import io.github.therealmone.fireres.gui.config.FireModeParametersConfigurer;
+import io.github.therealmone.fireres.gui.config.GeneralParametersConfigurer;
+import io.github.therealmone.fireres.gui.config.HeatFlowParametersConfigurer;
+import io.github.therealmone.fireres.gui.config.SamplesConfigurer;
 import io.github.therealmone.fireres.gui.controller.GeneralParamsController;
 import io.github.therealmone.fireres.gui.controller.SamplesTabPaneController;
 import io.github.therealmone.fireres.gui.controller.excess.pressure.ExcessPressureParamsController;
