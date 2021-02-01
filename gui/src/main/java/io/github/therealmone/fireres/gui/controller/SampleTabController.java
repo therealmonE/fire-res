@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.SampleProperties;
 import io.github.therealmone.fireres.gui.annotation.ChildController;
 import io.github.therealmone.fireres.gui.annotation.ParentController;
-import io.github.therealmone.fireres.gui.controller.common.FunctionParamsController;
 import io.github.therealmone.fireres.gui.controller.excess.pressure.ExcessPressurePaneController;
 import io.github.therealmone.fireres.gui.controller.fire.mode.FireModePaneController;
 import io.github.therealmone.fireres.gui.controller.heat.flow.HeatFlowPaneController;
@@ -24,6 +23,7 @@ public class SampleTabController extends AbstractController implements SampleCon
 
     /**
      * Injected via {@link io.github.therealmone.fireres.gui.service.FxmlLoadService}
+     *
      * @see io.github.therealmone.fireres.gui.service.FxmlLoadService#loadSampleTab(SamplesTabPaneController, Object)
      */
     @ParentController

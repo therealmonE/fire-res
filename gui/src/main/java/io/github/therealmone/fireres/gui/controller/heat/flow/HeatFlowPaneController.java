@@ -7,7 +7,6 @@ import io.github.therealmone.fireres.gui.controller.AbstractController;
 import io.github.therealmone.fireres.gui.controller.SampleContainer;
 import io.github.therealmone.fireres.gui.controller.SampleTabController;
 import io.github.therealmone.fireres.gui.controller.common.FunctionParamsController;
-import io.github.therealmone.fireres.gui.controller.excess.pressure.ExcessPressureParamsController;
 import javafx.fxml.FXML;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

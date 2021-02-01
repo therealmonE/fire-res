@@ -2,25 +2,28 @@ package io.github.therealmone.fireres.gui.controller.common;
 
 import io.github.therealmone.fireres.core.config.InterpolationPoint;
 import io.github.therealmone.fireres.core.config.SampleProperties;
-import io.github.therealmone.fireres.gui.annotation.ChildController;
 import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.controller.AbstractController;
 import io.github.therealmone.fireres.gui.controller.SampleContainer;
-import io.github.therealmone.fireres.gui.controller.SampleTabController;
-import io.github.therealmone.fireres.gui.controller.excess.pressure.ExcessPressureParamsController;
+import javafx.beans.binding.Bindings;
+import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 import java.util.stream.IntStream;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-
+@Slf4j
 public class FunctionParamsController extends AbstractController implements SampleContainer {
 
     @ParentController
@@ -35,6 +38,9 @@ public class FunctionParamsController extends AbstractController implements Samp
     @FXML
     private TableColumn<InterpolationPoint, Integer> valueColumn;
 
+    @FXML
+    private ContextMenu integrationPointsContextMenu;
+
     @Override
     public SampleProperties getSampleProperties() {
         return parentController.getSampleProperties();
@@ -42,9 +48,55 @@ public class FunctionParamsController extends AbstractController implements Samp
 
     @Override
     public void postConstruct() {
-
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
         valueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
 
+        initializeTableContextMenu();
+        initializeRowContextMenu();
+
+        IntStream.range(0, 4).forEach(i ->
+                interpolationPointsTableView.getItems().add(new InterpolationPoint(i, i * 1000)));
+    }
+
+    private void initializeTableContextMenu() {
+        val addPointMenuItem = new MenuItem("Добавить");
+
+        addPointMenuItem.setOnAction(this::handleRowAddedEvent);
+
+        integrationPointsContextMenu.getItems().add(addPointMenuItem);
+    }
+
+    private void initializeRowContextMenu() {
+        interpolationPointsTableView.setRowFactory(
+                tableView -> {
+                    val row = new TableRow<InterpolationPoint>();
+                    val contextMenu = createRowContextMenu(row);
+
+                    row.contextMenuProperty().bind(
+                            Bindings.when(row.emptyProperty().not())
+                                    .then(contextMenu)
+                                    .otherwise((ContextMenu) null));
+
+                    return row;
+                });
+    }
+
+    private ContextMenu createRowContextMenu(TableRow<InterpolationPoint> row) {
+        val rowMenu = new ContextMenu();
+        val editItem = new MenuItem("Добавить");
+        val removeItem = new MenuItem("Удалить");
+
+        removeItem.setOnAction(event -> handleRowDeletedEvent(row));
+        rowMenu.getItems().addAll(editItem, removeItem);
+
+        return rowMenu;
+    }
+
+    private void handleRowDeletedEvent(TableRow<InterpolationPoint> affectedRow) {
+        interpolationPointsTableView.getItems().remove(affectedRow.getItem());
+    }
+
+    private void handleRowAddedEvent(Event event) {
+        log.info("Interpolation point added");
     }
 }
