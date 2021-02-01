@@ -51,8 +51,6 @@ public class FunctionParamsController extends AbstractController implements Samp
         initializeTableContextMenu();
         initializeRowContextMenu();
 
-        IntStream.range(0, 4).forEach(i ->
-                interpolationPointsTableView.getItems().add(new InterpolationPoint(i, i * 1000)));
     }
 
     private void initializeTableContextMenu() {
