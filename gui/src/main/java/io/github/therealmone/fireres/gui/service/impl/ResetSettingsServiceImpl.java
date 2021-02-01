@@ -1,13 +1,11 @@
 package io.github.therealmone.fireres.gui.service.impl;
 
 import com.google.inject.Inject;
-import io.github.therealmone.fireres.gui.config.ExcessPressureParametersConfigurer;
-import io.github.therealmone.fireres.gui.config.GeneralParametersConfigurer;
-import io.github.therealmone.fireres.gui.config.HeatFlowParametersConfigurer;
-import io.github.therealmone.fireres.gui.config.SamplesConfigurer;
+import io.github.therealmone.fireres.gui.config.*;
 import io.github.therealmone.fireres.gui.controller.GeneralParamsController;
 import io.github.therealmone.fireres.gui.controller.SamplesTabPaneController;
 import io.github.therealmone.fireres.gui.controller.excess.pressure.ExcessPressureParamsController;
+import io.github.therealmone.fireres.gui.controller.fire.mode.FireModeParamsController;
 import io.github.therealmone.fireres.gui.controller.heat.flow.HeatFlowParamsController;
 import io.github.therealmone.fireres.gui.service.ResetSettingsService;
 
@@ -24,6 +22,9 @@ public class ResetSettingsServiceImpl implements ResetSettingsService {
 
     @Inject
     private HeatFlowParametersConfigurer heatFlowParametersConfigurer;
+
+    @Inject
+    private FireModeParametersConfigurer fireModeParametersConfigurer;
 
     @Override
     public void resetSamples(SamplesTabPaneController samplesTabPaneController) {
@@ -43,6 +44,11 @@ public class ResetSettingsServiceImpl implements ResetSettingsService {
     @Override
     public void resetHeatFlowParameters(HeatFlowParamsController heatFlowParamsController) {
         heatFlowParametersConfigurer.config(heatFlowParamsController);
+    }
+
+    @Override
+    public void resetFireModeParameters(FireModeParamsController fireModeParamsController) {
+        fireModeParametersConfigurer.config(fireModeParamsController);
     }
 
 }
