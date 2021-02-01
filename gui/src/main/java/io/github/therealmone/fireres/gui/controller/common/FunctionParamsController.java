@@ -38,9 +38,6 @@ public class FunctionParamsController extends AbstractController implements Samp
     @FXML
     private TableColumn<InterpolationPoint, Integer> valueColumn;
 
-    @FXML
-    private ContextMenu integrationPointsContextMenu;
-
     @Override
     public SampleProperties getSampleProperties() {
         return parentController.getSampleProperties();
@@ -59,11 +56,19 @@ public class FunctionParamsController extends AbstractController implements Samp
     }
 
     private void initializeTableContextMenu() {
+        val contextMenu = createTableContextMenu();
+
+        interpolationPointsTableView.setContextMenu(contextMenu);
+    }
+
+    private ContextMenu createTableContextMenu() {
+        val contextMenu = new ContextMenu();
         val addPointMenuItem = new MenuItem("Добавить");
 
         addPointMenuItem.setOnAction(this::handleRowAddedEvent);
+        contextMenu.getItems().add(addPointMenuItem);
 
-        integrationPointsContextMenu.getItems().add(addPointMenuItem);
+        return contextMenu;
     }
 
     private void initializeRowContextMenu() {
@@ -83,11 +88,12 @@ public class FunctionParamsController extends AbstractController implements Samp
 
     private ContextMenu createRowContextMenu(TableRow<InterpolationPoint> row) {
         val rowMenu = new ContextMenu();
-        val editItem = new MenuItem("Добавить");
-        val removeItem = new MenuItem("Удалить");
+        val addPointMenuItem = new MenuItem("Добавить");
+        val removePointMenuItem = new MenuItem("Удалить");
 
-        removeItem.setOnAction(event -> handleRowDeletedEvent(row));
-        rowMenu.getItems().addAll(editItem, removeItem);
+        addPointMenuItem.setOnAction(this::handleRowAddedEvent);
+        removePointMenuItem.setOnAction(event -> handleRowDeletedEvent(row));
+        rowMenu.getItems().addAll(addPointMenuItem, removePointMenuItem);
 
         return rowMenu;
     }

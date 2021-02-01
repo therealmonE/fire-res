@@ -45,11 +45,6 @@
                 <children>
                     <TableView fx:id="interpolationPointsTableView" focusTraversable="false" prefHeight="300.0"
                                prefWidth="250.0">
-                        <contextMenu>
-                            <ContextMenu fx:id="integrationPointsContextMenu">
-
-                            </ContextMenu>
-                        </contextMenu>
                         <columns>
                             <TableColumn fx:id="timeColumn" editable="false" prefWidth="118.0" resizable="false"
                                          text="Время"/>
