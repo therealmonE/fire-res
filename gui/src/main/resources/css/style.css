@@ -11,3 +11,8 @@
 .table-column {
     -fx-alignment: CENTER;
 }
+
+.scroll-pane {
+    -fx-unit-increment: 10;
+    -fx-block-increment: 50;
+}

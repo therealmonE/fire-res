@@ -1,15 +1,25 @@
 package io.github.therealmone.fireres.gui.controller.common;
 
+import com.google.inject.Inject;
+import io.github.therealmone.fireres.core.config.Interpolation;
 import io.github.therealmone.fireres.core.config.InterpolationPoint;
 import io.github.therealmone.fireres.core.config.SampleProperties;
 import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.controller.AbstractController;
+import io.github.therealmone.fireres.gui.controller.Controller;
 import io.github.therealmone.fireres.gui.controller.SampleContainer;
+import io.github.therealmone.fireres.gui.controller.fire.mode.FireModePaneController;
+import io.github.therealmone.fireres.gui.controller.heat.flow.HeatFlowPaneController;
+import io.github.therealmone.fireres.gui.controller.unheated.surface.thermocouple.groups.first.thermocouple.group.FirstThermocoupleGroupPaneController;
+import io.github.therealmone.fireres.gui.controller.unheated.surface.thermocouple.groups.second.thermocouple.group.SecondThermocoupleGroupPaneController;
+import io.github.therealmone.fireres.gui.controller.unheated.surface.thermocouple.groups.third.thermocouple.group.ThirdThermocoupleGroupPaneController;
+import io.github.therealmone.fireres.gui.service.ResetSettingsService;
 import javafx.beans.binding.Bindings;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Spinner;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
@@ -19,15 +29,33 @@ import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
-import java.util.stream.IntStream;
+import java.util.Map;
+import java.util.function.Function;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Slf4j
 public class FunctionParamsController extends AbstractController implements SampleContainer {
 
+    private static final Map<Class<? extends Controller>, Function<SampleProperties, Interpolation>> MAPPER_MAP = Map.of(
+            FireModePaneController.class, SampleProperties::getFireMode,
+            HeatFlowPaneController.class, SampleProperties::getHeatFlow,
+            FirstThermocoupleGroupPaneController.class, sample -> sample.getUnheatedSurface().getFirstGroup(),
+            SecondThermocoupleGroupPaneController.class, sample -> sample.getUnheatedSurface().getSecondGroup(),
+            ThirdThermocoupleGroupPaneController.class, sample -> sample.getUnheatedSurface().getThirdGroup()
+    );
+
     @ParentController
     private SampleContainer parentController;
+
+    @Inject
+    private ResetSettingsService resetSettingsService;
+
+    @FXML
+    private Spinner<Double> linearSpinner;
+
+    @FXML
+    private Spinner<Double> dispersionSpinner;
 
     @FXML
     private TableView<InterpolationPoint> interpolationPointsTableView;
@@ -42,7 +70,21 @@ public class FunctionParamsController extends AbstractController implements Samp
     public SampleProperties getSampleProperties() {
         return parentController.getSampleProperties();
     }
+    @Override
+    protected void initialize() {
+        linearSpinner.focusedProperty().addListener((observable, oldValue, newValue) ->
+                handleSpinnerFocusChanged(newValue, linearSpinner));
 
+        dispersionSpinner.focusedProperty().addListener((observable, oldValue, newValue) ->
+                handleSpinnerFocusChanged(newValue, dispersionSpinner));
+    }
+
+    private void handleSpinnerFocusChanged (Boolean newValue, Spinner<?> spinner) {
+        if (!newValue) {
+            log.info("Spinner {} lost focus, sample id: {}", spinner.getId(), getSampleProperties().getId());
+            commitSpinner(spinner);
+        }
+    }
     @Override
     public void postConstruct() {
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
@@ -51,6 +93,11 @@ public class FunctionParamsController extends AbstractController implements Samp
         initializeTableContextMenu();
         initializeRowContextMenu();
 
+        resetSettingsService.resetFunctionParameters(this);
+    }
+
+    public Function<SampleProperties, Interpolation> getSamplePropertiesMapper() {
+        return MAPPER_MAP.get(parentController.getClass());
     }
 
     private void initializeTableContextMenu() {

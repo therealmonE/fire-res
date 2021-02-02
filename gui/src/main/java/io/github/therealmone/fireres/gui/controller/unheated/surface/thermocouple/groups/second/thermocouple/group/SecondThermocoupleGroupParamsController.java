@@ -1,7 +1,6 @@
-package io.github.therealmone.fireres.gui.controller.heat.flow;
+package io.github.therealmone.fireres.gui.controller.unheated.surface.thermocouple.groups.second.thermocouple.group;
 
 import com.google.inject.Inject;
-import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.config.SampleProperties;
 import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.controller.AbstractController;
@@ -16,35 +15,32 @@ import lombok.extern.slf4j.Slf4j;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Slf4j
-public class HeatFlowParamsController extends AbstractController implements SampleContainer {
+public class SecondThermocoupleGroupParamsController extends AbstractController implements SampleContainer {
 
     @ParentController
-    private HeatFlowPaneController heatFlowPaneController;
+    private SecondThermocoupleGroupPaneController secondThermocoupleGroupPaneController;
 
     @FXML
-    private Spinner<Double> sensorSpinner;
+    private Spinner<Integer> secondThermocoupleGroupNumberOfThermocouplesSpinner;
 
     @FXML
-    private Spinner<Double> heatFlowSpinner;
+    private Spinner<Integer> secondThermocoupleGroupBoundSpinner;
 
     @Inject
     private ResetSettingsService resetSettingsService;
 
-    @Inject
-    private GenerationProperties generationProperties;
-
     @Override
     protected void initialize() {
-        sensorSpinner.focusedProperty().addListener((observable, oldValue, newValue) ->
-                handleSpinnerFocusChanged(newValue, sensorSpinner));
+        secondThermocoupleGroupNumberOfThermocouplesSpinner.focusedProperty().addListener((observable, oldValue, newValue) ->
+                handleSpinnerFocusChanged(newValue, secondThermocoupleGroupNumberOfThermocouplesSpinner));
 
-        heatFlowSpinner.focusedProperty().addListener((observable, oldValue, newValue) ->
-                handleSpinnerFocusChanged(newValue, heatFlowSpinner));
+        secondThermocoupleGroupBoundSpinner.focusedProperty().addListener((observable, oldValue, newValue) ->
+                handleSpinnerFocusChanged(newValue, secondThermocoupleGroupBoundSpinner));
     }
 
     @Override
     public void postConstruct() {
-        resetSettingsService.resetHeatFlowParameters(this);
+        resetSettingsService.resetSecondThermocoupleGroupParameters(this);
     }
 
     private void handleSpinnerFocusChanged(Boolean newValue, Spinner<?> spinner) {
@@ -56,6 +52,7 @@ public class HeatFlowParamsController extends AbstractController implements Samp
 
     @Override
     public SampleProperties getSampleProperties() {
-        return heatFlowPaneController.getSampleProperties();
+        return secondThermocoupleGroupPaneController.getSampleProperties();
     }
+
 }

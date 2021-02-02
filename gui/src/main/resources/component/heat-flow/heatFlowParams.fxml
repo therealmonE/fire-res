@@ -27,8 +27,7 @@
         </padding>
 
         <Label prefHeight="16.0" prefWidth="150.0" text="Количество сенсоров:" GridPane.rowIndex="2"/>
-
-        <Spinner fx:id="sensorSpinner" editable="true" max="100" min="1" prefHeight="26.0" prefWidth="100.0"
+        <Spinner fx:id="sensorSpinner" editable="true"  prefHeight="26.0" prefWidth="100.0"
                  GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
         <Label prefHeight="16.0" prefWidth="150.0" text="Макс. допустимый поток:" GridPane.rowIndex="3">
@@ -36,8 +35,8 @@
                 <Insets top="15.0"/>
             </GridPane.margin>
         </Label>
-        <Spinner fx:id="heatFlowSpinner" editable="true" max="10000" min="1" prefHeight="26.0" prefWidth="100.0"
-                 GridPane.columnIndex="1" GridPane.rowIndex="3" amountToStepBy="100">
+        <Spinner fx:id="heatFlowSpinner" editable="true" prefHeight="26.0" prefWidth="100.0"
+                 GridPane.columnIndex="1" GridPane.rowIndex="3">
             <GridPane.margin>
                 <Insets top="15.0"/>
             </GridPane.margin>

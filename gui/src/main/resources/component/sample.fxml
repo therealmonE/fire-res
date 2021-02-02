@@ -4,7 +4,6 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
-
 <Tab fx:id="sampleTab" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
      fx:controller="io.github.therealmone.fireres.gui.controller.SampleTabController"
      onClosed="#closeSample">
@@ -31,6 +30,13 @@
                 <AnchorPane focusTraversable="true" prefHeight="625.0">
                     <VBox prefHeight="625.0">
                         <fx:include fx:id="heatFlowPane" source="heat-flow/heatFlowPane.fxml"/>
+                    </VBox>
+                </AnchorPane>
+            </Tab>
+            <Tab fx:id="unheatedSurfaceTab" styleClass="unheatedSurfaceTab" text="Необогреваемая поверхность">
+                <AnchorPane focusTraversable="true" prefHeight="625.0">
+                    <VBox prefHeight="625.0">
+                        <fx:include fx:id="unheatedSurfacePane" source="unheated-surface/unheatedSurfacePane.fxml"/>
                     </VBox>
                 </AnchorPane>
             </Tab>

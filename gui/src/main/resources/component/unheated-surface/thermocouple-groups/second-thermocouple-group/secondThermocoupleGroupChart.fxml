@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.Pane?>
 
 <Pane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
-    <LineChart fx:id="fireModeChart" focusTraversable="true" prefHeight="600.0" prefWidth="940.0">
+    <LineChart fx:id="secondThermocoupleGroupChart" focusTraversable="true" prefHeight="600.0" prefWidth="940.0">
         <xAxis>
             <CategoryAxis focusTraversable="true" label="Время" side="BOTTOM"/>
         </xAxis>

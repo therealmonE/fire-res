@@ -7,6 +7,7 @@ import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.controller.excess.pressure.ExcessPressurePaneController;
 import io.github.therealmone.fireres.gui.controller.fire.mode.FireModePaneController;
 import io.github.therealmone.fireres.gui.controller.heat.flow.HeatFlowPaneController;
+import io.github.therealmone.fireres.gui.controller.unheated.surface.UnheatedSurfacePaneController;
 import io.github.therealmone.fireres.gui.service.SampleService;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -47,11 +48,15 @@ public class SampleTabController extends AbstractController implements SampleCon
     @ChildController
     private FireModePaneController fireModePaneController;
 
+    @FXML
+    private UnheatedSurfacePaneController unheatedSurfacePaneController;
+
     @Override
     public void initialize() {
         excessPressurePaneController.setSampleTabController(this);
         heatFlowPaneController.setSampleTabController(this);
         fireModePaneController.setSampleTabController(this);
+        unheatedSurfacePaneController.setSampleTabController(this);
     }
 
     @Override
@@ -59,6 +64,7 @@ public class SampleTabController extends AbstractController implements SampleCon
         excessPressurePaneController.postConstruct();
         heatFlowPaneController.postConstruct();
         fireModePaneController.postConstruct();
+        unheatedSurfacePaneController.postConstruct();
     }
 
     @FXML
