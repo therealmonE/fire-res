@@ -2,44 +2,72 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.control.Spinner?>
-<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.VBox?>
 
-<TitledPane text="Параметры теплового потока" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+<TitledPane text="Параметры теплового потока" xmlns="http://javafx.com/javafx/10.0.2-internal"
+            xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="io.github.therealmone.fireres.gui.controller.heat.flow.HeatFlowParamsController">
+
+    <VBox>
+
+        <padding>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
+        </padding>
+
+        <GridPane>
+
+            <columnConstraints>
+                <ColumnConstraints/>
+                <ColumnConstraints/>
+                <ColumnConstraints/>
+            </columnConstraints>
+
+            <rowConstraints>
+                <RowConstraints/>
+                <RowConstraints/>
+            </rowConstraints>
+
+            <Label prefHeight="16.0" prefWidth="150.0" text="Количество сенсоров:" GridPane.rowIndex="0"/>
+
+            <Spinner fx:id="sensorSpinner" editable="true" prefHeight="26.0" prefWidth="80.0" GridPane.columnIndex="1"
+                     GridPane.rowIndex="0"/>
+
+            <Label prefWidth="24.0" text="шт." GridPane.columnIndex="2" GridPane.rowIndex="0">
+                <padding>
+                    <Insets left="5.0"/>
+                </padding>
+            </Label>
+
+            <Label prefHeight="16.0" prefWidth="150.0" text="Макс. допустимый поток:" GridPane.rowIndex="1">
+                <GridPane.margin>
+                    <Insets top="15.0"/>
+                </GridPane.margin>
+            </Label>
+
+            <Spinner fx:id="heatFlowSpinner" editable="true" prefHeight="26.0" prefWidth="80.0" GridPane.columnIndex="1"
+                     GridPane.rowIndex="1">
+                <GridPane.margin>
+                    <Insets top="15.0"/>
+                </GridPane.margin>
+            </Spinner>
+
+            <Label prefWidth="45.0" text="Вт/м^2" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                <padding>
+                    <Insets left="5.0" top="15.0"/>
+                </padding>
+            </Label>
+
+        </GridPane>
+
+    </VBox>
+
     <padding>
         <Insets top="15.0"/>
     </padding>
-    <GridPane>
-        <columnConstraints>
-            <ColumnConstraints/>
-            <ColumnConstraints/>
-        </columnConstraints>
-        <rowConstraints>
-            <RowConstraints/>
-            <RowConstraints/>
-        </rowConstraints>
-        <padding>
-            <Insets left="15.0" top="15.0" bottom="15.0" right="15.0"/>
-        </padding>
 
-        <Label prefHeight="16.0" prefWidth="150.0" text="Количество сенсоров:" GridPane.rowIndex="2"/>
-        <Spinner fx:id="sensorSpinner" editable="true"  prefHeight="26.0" prefWidth="100.0"
-                 GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-
-        <Label prefHeight="16.0" prefWidth="150.0" text="Макс. допустимый поток:" GridPane.rowIndex="3">
-            <GridPane.margin>
-                <Insets top="15.0"/>
-            </GridPane.margin>
-        </Label>
-        <Spinner fx:id="heatFlowSpinner" editable="true" prefHeight="26.0" prefWidth="100.0"
-                 GridPane.columnIndex="1" GridPane.rowIndex="3">
-            <GridPane.margin>
-                <Insets top="15.0"/>
-            </GridPane.margin>
-        </Spinner>
-    </GridPane>
 </TitledPane>

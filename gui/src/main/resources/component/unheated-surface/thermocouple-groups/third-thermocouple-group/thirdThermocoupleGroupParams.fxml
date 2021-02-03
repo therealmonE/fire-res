@@ -10,39 +10,63 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<TitledPane contentDisplay="RIGHT" prefWidth="280.0" text="Общие параметры"
+<TitledPane contentDisplay="RIGHT" prefWidth="307.0" text="Общие параметры"
             xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="io.github.therealmone.fireres.gui.controller.unheated.surface.thermocouple.groups.third.thermocouple.group.ThirdThermocoupleGroupParamsController">
+
     <padding>
         <Insets top="15.0"/>
     </padding>
     <AnchorPane>
         <VBox>
             <GridPane>
+
                 <columnConstraints>
                     <ColumnConstraints/>
+                    <ColumnConstraints/>
+                    <ColumnConstraints/>
                 </columnConstraints>
+
                 <rowConstraints>
                     <RowConstraints/>
+                    <RowConstraints/>
                 </rowConstraints>
-                <padding>
-                    <Insets top="15.0" left="15.0"/>
-                </padding>
-                <Label prefHeight="16.0" prefWidth="150.0" text="Количество термопар:"/>
-                <Spinner fx:id="thirdThermocoupleGroupNumberOfThermocouplesSpinner" editable="true"
-                         prefHeight="26.0" prefWidth="100.0" GridPane.columnIndex="1"/>
 
-                <Label prefHeight="16.0" prefWidth="150.0" GridPane.rowIndex="1" text="Макс. допустимая температура:">
+                <padding>
+                    <Insets left="15.0" top="15.0"/>
+                </padding>
+
+                <Label prefHeight="16.0" prefWidth="150.0" text="Количество термопар:"/>
+
+                <Spinner fx:id="thirdThermocoupleGroupNumberOfThermocouplesSpinner" editable="true" prefHeight="26.0"
+                         prefWidth="80.0" GridPane.columnIndex="1"/>
+
+                <Label prefWidth="24.0" text="шт." GridPane.columnIndex="2" GridPane.rowIndex="0">
+                    <padding>
+                        <Insets left="5.0"/>
+                    </padding>
+                </Label>
+
+                <Label prefHeight="34.0" prefWidth="150.0" text="Макс. допустимая температура:" wrapText="true"
+                       GridPane.rowIndex="1">
                     <GridPane.margin>
                         <Insets top="15.0"/>
                     </GridPane.margin>
                 </Label>
-                <Spinner fx:id="thirdThermocoupleGroupBoundSpinner" editable="true"
-                         prefHeight="26.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+
+                <Spinner fx:id="thirdThermocoupleGroupBoundSpinner" editable="true" prefHeight="26.0" prefWidth="80.0"
+                         GridPane.columnIndex="1" GridPane.rowIndex="1">
                     <GridPane.margin>
                         <Insets top="15.0"/>
                     </GridPane.margin>
                 </Spinner>
+
+                <Label prefWidth="24.0" text="°C" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                    <padding>
+                        <Insets left="5.0" top="15.0"/>
+                    </padding>
+                </Label>
+
             </GridPane>
         </VBox>
     </AnchorPane>
