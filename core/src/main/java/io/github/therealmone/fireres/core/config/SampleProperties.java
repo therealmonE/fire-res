@@ -20,6 +20,8 @@ public class SampleProperties {
 
     private final UUID id = UUID.randomUUID();
 
+    private String name;
+
     @Optional
     @Builder.Default
     private FireModeProperties fireMode = new FireModeProperties();

@@ -3,19 +3,16 @@ package io.github.therealmone.fireres.firemode;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import io.github.therealmone.fireres.core.pipeline.report.DefaultReportEnrichPipeline;
-import io.github.therealmone.fireres.core.pipeline.report.ReportEnrichPipeline;
-import io.github.therealmone.fireres.core.pipeline.sample.DefaultSampleEnrichPipeline;
-import io.github.therealmone.fireres.core.pipeline.sample.SampleEnrichPipeline;
-import io.github.therealmone.fireres.firemode.model.FireModeSample;
-import io.github.therealmone.fireres.firemode.pipeline.sample.SampleMeanWithThermocoupleTemperaturesEnricher;
-import io.github.therealmone.fireres.firemode.pipeline.report.FurnaceTemperatureEnricher;
-import io.github.therealmone.fireres.firemode.pipeline.report.MaxAllowedTemperatureEnricher;
-import io.github.therealmone.fireres.firemode.pipeline.report.MinAllowedTemperatureEnricher;
-import io.github.therealmone.fireres.firemode.pipeline.report.SamplesEnricher;
-import io.github.therealmone.fireres.firemode.pipeline.report.StandardTemperatureEnricher;
+import io.github.therealmone.fireres.core.pipeline.DefaultReportEnrichPipeline;
+import io.github.therealmone.fireres.core.pipeline.ReportEnrichPipeline;
+import io.github.therealmone.fireres.firemode.pipeline.MeanWithThermocoupleTemperaturesEnricher;
+import io.github.therealmone.fireres.firemode.pipeline.FurnaceTemperatureEnricher;
+import io.github.therealmone.fireres.firemode.pipeline.MaxAllowedTemperatureEnricher;
+import io.github.therealmone.fireres.firemode.pipeline.MinAllowedTemperatureEnricher;
+import io.github.therealmone.fireres.firemode.pipeline.StandardTemperatureEnricher;
 import io.github.therealmone.fireres.firemode.report.FireModeReport;
-import io.github.therealmone.fireres.firemode.report.FireModeReportProvider;
+import io.github.therealmone.fireres.firemode.service.FireModeService;
+import io.github.therealmone.fireres.firemode.service.impl.FireModeServiceImpl;
 
 import java.util.List;
 
@@ -23,9 +20,13 @@ public class FireModeModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(FireModeReport.class)
-                .toProvider(FireModeReportProvider.class)
-                .in(Singleton.class);
+        bind(FurnaceTemperatureEnricher.class).in(Singleton.class);
+        bind(StandardTemperatureEnricher.class).in(Singleton.class);
+        bind(MinAllowedTemperatureEnricher.class).in(Singleton.class);
+        bind(MaxAllowedTemperatureEnricher.class).in(Singleton.class);
+        bind(MeanWithThermocoupleTemperaturesEnricher.class).in(Singleton.class);
+
+        bind(FireModeService.class).to(FireModeServiceImpl.class);
     }
 
     @Provides
@@ -35,24 +36,14 @@ public class FireModeModule extends AbstractModule {
             MinAllowedTemperatureEnricher minAllowedTemperatureEnricher,
             MaxAllowedTemperatureEnricher maxAllowedTemperatureEnricher,
             FurnaceTemperatureEnricher furnaceTemperatureEnricher,
-            SamplesEnricher samplesTemperatureSEnricher
+            MeanWithThermocoupleTemperaturesEnricher meanWithThermocoupleTemperaturesEnricher
     ) {
         return new DefaultReportEnrichPipeline<>(List.of(
                 standardTemperatureEnricher,
                 minAllowedTemperatureEnricher,
                 maxAllowedTemperatureEnricher,
                 furnaceTemperatureEnricher,
-                samplesTemperatureSEnricher
-        ));
-    }
-
-    @Provides
-    @Singleton
-    public SampleEnrichPipeline<FireModeReport, FireModeSample> sampleEnrichPipeline(
-            SampleMeanWithThermocoupleTemperaturesEnricher sampleMeanWithThermocoupleTemperaturesEnricher
-    ) {
-        return new DefaultSampleEnrichPipeline<>(List.of(
-                sampleMeanWithThermocoupleTemperaturesEnricher
+                meanWithThermocoupleTemperaturesEnricher
         ));
     }
 

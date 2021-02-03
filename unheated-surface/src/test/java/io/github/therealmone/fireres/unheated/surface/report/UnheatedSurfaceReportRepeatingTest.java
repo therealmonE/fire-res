@@ -1,7 +1,10 @@
 package io.github.therealmone.fireres.unheated.surface.report;
 
 import com.google.inject.Inject;
+import io.github.therealmone.fireres.core.config.GenerationProperties;
+import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.unheated.surface.GuiceRunner;
+import io.github.therealmone.fireres.unheated.surface.service.UnheatedSurfaceService;
 import lombok.val;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,12 +17,16 @@ public class UnheatedSurfaceReportRepeatingTest {
     private static final Integer ATTEMPTS = 100;
 
     @Inject
-    private UnheatedSurfaceReportProvider reportProvider;
+    private UnheatedSurfaceService unheatedSurfaceService;
+
+    @Inject
+    private GenerationProperties generationProperties;
 
     @Test
     public void provideReportTest() {
         for (int i = 0; i < ATTEMPTS; i++) {
-            val report = reportProvider.get();
+            val sample = new Sample(generationProperties.getSamples().get(0));
+            val report = unheatedSurfaceService.createReport(sample);
 
             assertUnheatedSurfaceReportIsValid(report);
         }

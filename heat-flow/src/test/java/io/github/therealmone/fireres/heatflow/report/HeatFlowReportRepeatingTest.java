@@ -1,7 +1,10 @@
 package io.github.therealmone.fireres.heatflow.report;
 
 import com.google.inject.Inject;
+import io.github.therealmone.fireres.core.config.GenerationProperties;
+import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.heatflow.GuiceRunner;
+import io.github.therealmone.fireres.heatflow.service.HeatFlowService;
 import lombok.val;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,24 +24,28 @@ public class HeatFlowReportRepeatingTest {
     private static final Integer CYCLES = 100;
 
     @Inject
-    private HeatFlowReportProvider reportProvider;
+    private GenerationProperties generationProperties;
+
+    @Inject
+    private HeatFlowService heatFlowService;
 
     @Test
     public void provideReportTest() {
         for (int i = 0; i < CYCLES; i++) {
-            val report = reportProvider.get();
+            val sample = new Sample(generationProperties.getSamples().get(0));
+            val report = heatFlowService.createReport(sample);
 
-            val bound = report.getSamples().get(0).getBound();
+            val bound = report.getBound();
 
             assertFunctionIsConstant(BOUND, bound.getValue());
 
-            val mean = report.getSamples().get(0).getMeanTemperature();
+            val mean = report.getMeanTemperature();
 
             assertFunctionConstantlyGrowing(mean.getValue());
             assertFunctionNotLower(mean.getValue(), constantFunction(TIME, 0).getValue());
             assertFunctionNotHigher(mean.getValue(), bound.getValue());
 
-            val sensors = report.getSamples().get(0).getSensorTemperatures();
+            val sensors = report.getSensorTemperatures();
 
             assertThermocouplesTemperaturesEqualsMean(sensors, mean);
 

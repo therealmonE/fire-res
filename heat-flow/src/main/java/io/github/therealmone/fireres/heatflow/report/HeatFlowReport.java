@@ -1,20 +1,25 @@
 package io.github.therealmone.fireres.heatflow.report;
 
 import io.github.therealmone.fireres.core.model.Report;
-import io.github.therealmone.fireres.heatflow.model.HeatFlowSample;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import io.github.therealmone.fireres.core.model.Sample;
+import io.github.therealmone.fireres.heatflow.model.HeatFlowBound;
+import io.github.therealmone.fireres.heatflow.model.HeatFlowMeanTemperature;
+import io.github.therealmone.fireres.heatflow.model.HeatFlowSensorTemperature;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.UUID;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@RequiredArgsConstructor
 public class HeatFlowReport implements Report {
 
-    private List<HeatFlowSample> samples;
+    private final Sample sample;
+    private final UUID id = UUID.randomUUID();
+
+    private HeatFlowBound bound;
+    private HeatFlowMeanTemperature meanTemperature;
+    private List<HeatFlowSensorTemperature> sensorTemperatures;
 
 }

@@ -14,8 +14,6 @@ import java.util.List;
 @Builder
 public class GeneralProperties {
 
-    private String fileName;
-
     private String outputPath;
 
     private Integer time;

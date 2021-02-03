@@ -9,18 +9,15 @@ import org.apache.poi.xddf.usermodel.XDDFLineProperties;
 public class ThermocouplesMeanTemperatureColumn extends PointSequenceColumn implements ChartColumn {
 
     private static final String HEADER = "Тср";
-    private static final String CHART_TITLE = "Среднее значение температуры в печи - Образец № ";
+    private static final String CHART_TITLE = "Среднее значение температуры в печи";
 
-    private final Integer index;
-
-    public ThermocouplesMeanTemperatureColumn(Integer index, ThermocoupleMeanTemperature thermocoupleMeanTemperature) {
-        super(HEADER + index, true, thermocoupleMeanTemperature);
-        this.index = index;
+    public ThermocouplesMeanTemperatureColumn(ThermocoupleMeanTemperature thermocoupleMeanTemperature) {
+        super(HEADER, true, thermocoupleMeanTemperature);
     }
 
     @Override
     public String getChartLegendTitle() {
-        return CHART_TITLE + index;
+        return CHART_TITLE;
     }
 
     @Override

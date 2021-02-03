@@ -76,11 +76,9 @@ public class TestUtils {
     }
 
     public static void assertUnheatedSurfaceReportIsValid(UnheatedSurfaceReport report) {
-        report.getSamples().forEach(sample -> {
-            assertUnheatedSurfaceGroup(sample.getFirstGroup());
-            assertUnheatedSurfaceGroup(sample.getSecondGroup());
-            assertUnheatedSurfaceGroup(sample.getThirdGroup());
-        });
+        assertUnheatedSurfaceGroup(report.getFirstGroup());
+        assertUnheatedSurfaceGroup(report.getSecondGroup());
+        assertUnheatedSurfaceGroup(report.getThirdGroup());
     }
 
     private static void assertUnheatedSurfaceGroup(UnheatedSurfaceGroup group) {
