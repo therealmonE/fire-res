@@ -2,10 +2,11 @@ package io.github.therealmone.fireres.gui.controller.fire.mode;
 
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
-import io.github.therealmone.fireres.core.config.SampleProperties;
+import io.github.therealmone.fireres.core.model.Report;
+import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.controller.AbstractController;
-import io.github.therealmone.fireres.gui.controller.SampleContainer;
+import io.github.therealmone.fireres.gui.controller.ReportContainer;
 import io.github.therealmone.fireres.gui.service.ResetSettingsService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Spinner;
@@ -16,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Slf4j
-public class FireModeParamsController extends AbstractController implements SampleContainer {
+public class FireModeParamsController extends AbstractController implements ReportContainer {
 
     @ParentController
     private FireModePaneController fireModePaneController;
@@ -32,14 +33,14 @@ public class FireModeParamsController extends AbstractController implements Samp
 
     private void handleSpinnerFocusChanged(Boolean newValue, Spinner<?> spinner) {
         if (!newValue) {
-            log.info("Spinner {} lost focus, sample id: {}", spinner.getId(), getSampleProperties().getId());
+            log.info("Spinner {} lost focus, sample id: {}", spinner.getId(), getSample().getId());
             commitSpinner(spinner);
         }
     }
 
     @Override
-    public SampleProperties getSampleProperties() {
-        return fireModePaneController.getSampleProperties();
+    public Sample getSample() {
+        return fireModePaneController.getSample();
     }
 
     @Override
@@ -51,5 +52,10 @@ public class FireModeParamsController extends AbstractController implements Samp
     @Override
     public void postConstruct() {
         resetSettingsService.resetFireModeParameters(this);
+    }
+
+    @Override
+    public Report getReport() {
+        return fireModePaneController.getReport();
     }
 }

@@ -1,10 +1,14 @@
 package io.github.therealmone.fireres.gui.controller.fire.mode;
 
-import io.github.therealmone.fireres.core.config.SampleProperties;
+import com.google.inject.Inject;
+import io.github.therealmone.fireres.core.model.Report;
+import io.github.therealmone.fireres.core.model.Sample;
+import io.github.therealmone.fireres.firemode.report.FireModeReport;
+import io.github.therealmone.fireres.firemode.service.FireModeService;
 import io.github.therealmone.fireres.gui.annotation.ChildController;
 import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.controller.AbstractController;
-import io.github.therealmone.fireres.gui.controller.SampleContainer;
+import io.github.therealmone.fireres.gui.controller.ReportContainer;
 import io.github.therealmone.fireres.gui.controller.SampleTabController;
 import io.github.therealmone.fireres.gui.controller.common.FunctionParamsController;
 import javafx.fxml.FXML;
@@ -13,7 +17,12 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class FireModePaneController extends AbstractController implements SampleContainer {
+public class FireModePaneController extends AbstractController implements ReportContainer {
+
+    private FireModeReport report;
+
+    @Inject
+    private FireModeService fireModeService;
 
     @ParentController
     private SampleTabController sampleTabController;
@@ -27,8 +36,8 @@ public class FireModePaneController extends AbstractController implements Sample
     private FunctionParamsController functionParamsController;
 
     @Override
-    public SampleProperties getSampleProperties() {
-        return sampleTabController.getSampleProperties();
+    public Sample getSample() {
+        return sampleTabController.getSample();
     }
 
     @Override
@@ -41,5 +50,12 @@ public class FireModePaneController extends AbstractController implements Sample
     public void postConstruct() {
         fireModeParamsController.postConstruct();
         functionParamsController.postConstruct();
+
+        this.report = fireModeService.createReport(getSample());
+    }
+
+    @Override
+    public Report getReport() {
+        return report;
     }
 }

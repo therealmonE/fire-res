@@ -2,7 +2,7 @@ package io.github.therealmone.fireres.gui.controller.excess.pressure;
 
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
-import io.github.therealmone.fireres.core.config.SampleProperties;
+import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.controller.AbstractController;
 import io.github.therealmone.fireres.gui.controller.SampleContainer;
@@ -55,13 +55,13 @@ public class ExcessPressureParamsController extends AbstractController implement
 
     private void handleSpinnerFocusChanged(Boolean newValue, Spinner<?> spinner) {
         if (!newValue) {
-            log.info("Spinner {} lost focus, sample id: {}", spinner.getId(), getSampleProperties().getId());
+            log.info("Spinner {} lost focus, sample id: {}", spinner.getId(), getSample().getId());
             commitSpinner(spinner);
         }
     }
 
     @Override
-    public SampleProperties getSampleProperties() {
-        return excessPressurePaneController.getSampleProperties();
+    public Sample getSample() {
+        return excessPressurePaneController.getSample();
     }
 }

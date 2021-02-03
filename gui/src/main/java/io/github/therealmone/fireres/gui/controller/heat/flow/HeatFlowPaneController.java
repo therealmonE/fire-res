@@ -1,10 +1,11 @@
 package io.github.therealmone.fireres.gui.controller.heat.flow;
 
-import io.github.therealmone.fireres.core.config.SampleProperties;
+import io.github.therealmone.fireres.core.model.Report;
+import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.gui.annotation.ChildController;
 import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.controller.AbstractController;
-import io.github.therealmone.fireres.gui.controller.SampleContainer;
+import io.github.therealmone.fireres.gui.controller.ReportContainer;
 import io.github.therealmone.fireres.gui.controller.SampleTabController;
 import io.github.therealmone.fireres.gui.controller.common.FunctionParamsController;
 import javafx.fxml.FXML;
@@ -14,7 +15,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 
-public class HeatFlowPaneController extends AbstractController implements SampleContainer {
+public class HeatFlowPaneController extends AbstractController implements ReportContainer {
 
     @FXML
     @ChildController
@@ -28,8 +29,8 @@ public class HeatFlowPaneController extends AbstractController implements Sample
     private SampleTabController sampleTabController;
 
     @Override
-    public SampleProperties getSampleProperties() {
-        return sampleTabController.getSampleProperties();
+    public Sample getSample() {
+        return sampleTabController.getSample();
     }
 
     @Override
@@ -42,5 +43,10 @@ public class HeatFlowPaneController extends AbstractController implements Sample
     public void postConstruct() {
         heatFlowParamsController.postConstruct();
         functionParamsController.postConstruct();
+    }
+
+    @Override
+    public Report getReport() {
+        return null;
     }
 }

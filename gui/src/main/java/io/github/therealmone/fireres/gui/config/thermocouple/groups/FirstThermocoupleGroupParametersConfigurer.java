@@ -14,7 +14,7 @@ public class FirstThermocoupleGroupParametersConfigurer implements Configurer<Fi
 
     @Override
     public void config(FirstThermocoupleGroupParamsController controller) {
-        val sampleProperties = controller.getSampleProperties();
+        val sampleProperties = controller.getSample().getSampleProperties();
 
         resetThermocouplesNumber(controller.getFirstThermocoupleGroupNumberOfThermocouplesSpinner(), sampleProperties);
     }

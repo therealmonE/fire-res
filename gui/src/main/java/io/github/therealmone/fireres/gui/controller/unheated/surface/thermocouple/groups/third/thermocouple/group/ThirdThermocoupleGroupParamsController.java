@@ -2,6 +2,7 @@ package io.github.therealmone.fireres.gui.controller.unheated.surface.thermocoup
 
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.SampleProperties;
+import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.controller.AbstractController;
 import io.github.therealmone.fireres.gui.controller.SampleContainer;
@@ -30,8 +31,8 @@ public class ThirdThermocoupleGroupParamsController extends AbstractController i
     private ResetSettingsService resetSettingsService;
 
     @Override
-    public SampleProperties getSampleProperties() {
-        return thirdThermocoupleGroupPaneController.getSampleProperties();
+    public Sample getSample() {
+        return thirdThermocoupleGroupPaneController.getSample();
     }
 
     @Override
@@ -50,7 +51,7 @@ public class ThirdThermocoupleGroupParamsController extends AbstractController i
 
     private void handleSpinnerFocusChanged(Boolean newValue, Spinner<?> spinner) {
         if (!newValue) {
-            log.info("Spinner {} lost focus, sample id: {}", spinner.getId(), getSampleProperties().getId());
+            log.info("Spinner {} lost focus, sample id: {}", spinner.getId(), getSample().getId());
             commitSpinner(spinner);
         }
     }

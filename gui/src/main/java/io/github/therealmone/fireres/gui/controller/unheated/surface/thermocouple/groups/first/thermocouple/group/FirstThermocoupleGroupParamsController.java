@@ -1,7 +1,7 @@
 package io.github.therealmone.fireres.gui.controller.unheated.surface.thermocouple.groups.first.thermocouple.group;
 
 import com.google.inject.Inject;
-import io.github.therealmone.fireres.core.config.SampleProperties;
+import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.controller.AbstractController;
 import io.github.therealmone.fireres.gui.controller.SampleContainer;
@@ -11,7 +11,6 @@ import javafx.scene.control.Spinner;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
-
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -40,14 +39,14 @@ public class FirstThermocoupleGroupParamsController extends AbstractController i
 
     private void handleSpinnerFocusChanged(Boolean newValue, Spinner<?> spinner) {
         if (!newValue) {
-            log.info("Spinner {} lost focus, sample id: {}", spinner.getId(), getSampleProperties().getId());
+            log.info("Spinner {} lost focus, sample id: {}", spinner.getId(), getSample().getId());
             commitSpinner(spinner);
         }
     }
 
     @Override
-    public SampleProperties getSampleProperties() {
-        return firstThermocoupleGroupPaneController.getSampleProperties();
+    public Sample getSample() {
+        return firstThermocoupleGroupPaneController.getSample();
     }
 
 }
