@@ -1,7 +1,10 @@
 package io.github.therealmone.fireres.firemode.report;
 
 import com.google.inject.Inject;
+import io.github.therealmone.fireres.core.config.GenerationProperties;
+import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.firemode.GuiceRunner;
+import io.github.therealmone.fireres.firemode.service.FireModeService;
 import lombok.val;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,12 +23,16 @@ public class FireModeReportRepeatingTest {
     private static final Integer ATTEMPTS = 100;
 
     @Inject
-    private FireModeReportProvider reportProvider;
+    private GenerationProperties generationProperties;
+
+    @Inject
+    private FireModeService fireModeService;
 
     @Test
     public void provideReportTest() {
         for (int i = 0; i < ATTEMPTS; i++) {
-            val report = reportProvider.get();
+            val sample = new Sample(generationProperties.getSamples().get(0));
+            val report = fireModeService.createReport(sample);
 
             val furnaceTemp = report.getFurnaceTemperature().getValue();
             val minAllowedTemp = report.getMinAllowedTemperature().getValue();
@@ -45,29 +52,27 @@ public class FireModeReportRepeatingTest {
             assertFunctionNotHigher(standardTemp, maxAllowedTemp);
             assertFunctionNotHigher(standardTemp, maxAllowedSmoothedTemp);
 
-            report.getSamples().forEach(sample -> {
-                val meanTemp = sample.getThermocoupleMeanTemperature();
+            val meanTemp = report.getThermocoupleMeanTemperature();
 
-                assertFunctionConstantlyGrowing(meanTemp.getValue());
-                assertFunctionNotLower(meanTemp.getValue(), minAllowedTemp);
-                assertFunctionNotHigher(meanTemp.getValue(), maxAllowedTemp);
-                assertFunctionNotHigher(meanTemp.getValue(), maxAllowedSmoothedTemp);
+            assertFunctionConstantlyGrowing(meanTemp.getValue());
+            assertFunctionNotLower(meanTemp.getValue(), minAllowedTemp);
+            assertFunctionNotHigher(meanTemp.getValue(), maxAllowedTemp);
+            assertFunctionNotHigher(meanTemp.getValue(), maxAllowedSmoothedTemp);
 
-                val thermocouplesTemps = sample.getThermocoupleTemperatures();
+            val thermocouplesTemps = report.getThermocoupleTemperatures();
 
-                assertEquals(6, thermocouplesTemps.size());
-                assertThermocouplesTemperaturesEqualsMean(thermocouplesTemps, meanTemp);
+            assertEquals(6, thermocouplesTemps.size());
+            assertThermocouplesTemperaturesEqualsMean(thermocouplesTemps, meanTemp);
 
-                thermocouplesTemps.forEach(thermocouplesTemp -> {
+            thermocouplesTemps.forEach(thermocouplesTemp -> {
 
-                    assertEquals(TIME, thermocouplesTemp.getValue().size());
+                assertEquals(TIME, thermocouplesTemp.getValue().size());
 
-                    assertFunctionConstantlyGrowing(thermocouplesTemp.getValue());
-                    assertFunctionNotLower(thermocouplesTemp.getValue(), minAllowedTemp);
-                    assertFunctionNotHigher(thermocouplesTemp.getValue(), maxAllowedTemp);
-                    assertFunctionNotHigher(thermocouplesTemp.getValue(), maxAllowedSmoothedTemp);
+                assertFunctionConstantlyGrowing(thermocouplesTemp.getValue());
+                assertFunctionNotLower(thermocouplesTemp.getValue(), minAllowedTemp);
+                assertFunctionNotHigher(thermocouplesTemp.getValue(), maxAllowedTemp);
+                assertFunctionNotHigher(thermocouplesTemp.getValue(), maxAllowedSmoothedTemp);
 
-                });
             });
         }
     }

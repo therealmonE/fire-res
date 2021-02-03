@@ -12,7 +12,7 @@ public class GuiceRunner extends BlockJUnit4ClassRunner {
 
     public GuiceRunner(Class<?> testClass) throws InitializationError {
         super(testClass);
-        val module = new ExcelModule(new TestGenerationProperties());
+        val module = new TestModule();
         this.injector = Guice.createInjector(module);
     }
 

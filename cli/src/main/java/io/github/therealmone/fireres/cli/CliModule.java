@@ -4,8 +4,13 @@ import com.beust.jcommander.JCommander;
 import com.google.inject.AbstractModule;
 import com.typesafe.config.ConfigBeanFactory;
 import com.typesafe.config.ConfigFactory;
+import io.github.therealmone.fireres.core.CoreModule;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.excel.ExcelModule;
+import io.github.therealmone.fireres.excess.pressure.ExcessPressureModule;
+import io.github.therealmone.fireres.firemode.FireModeModule;
+import io.github.therealmone.fireres.heatflow.HeatFlowModule;
+import io.github.therealmone.fireres.unheated.surface.UnheatedSurfaceModule;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
@@ -24,7 +29,12 @@ public class CliModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        install(new ExcelModule(generationProperties));
+        install(new CoreModule(generationProperties));
+        install(new ExcelModule());
+        install(new FireModeModule());
+        install(new ExcessPressureModule());
+        install(new UnheatedSurfaceModule());
+        install(new HeatFlowModule());
 
         bind(ProgramArguments.class).toInstance(programArguments);
         bind(GenerationProperties.class).toInstance(generationProperties);

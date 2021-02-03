@@ -8,7 +8,7 @@ import org.apache.poi.xddf.usermodel.XDDFLineProperties;
 
 public class MaxAllowedPressureColumn extends PointSequenceColumn implements ChartColumn {
 
-    private static final String HEADER = "Pмакс";
+    private static final String HEADER = "Δмакс";
     private static final String CHART_TITLE = "Максимальный допуск избыточного давления";
 
     public MaxAllowedPressureColumn(MaxAllowedPressure maxAllowedPressure) {

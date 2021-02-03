@@ -1,7 +1,10 @@
 package io.github.therealmone.fireres.excess.pressure.report;
 
 import com.google.inject.Inject;
+import io.github.therealmone.fireres.core.config.GenerationProperties;
+import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.excess.pressure.GuiceRunner;
+import io.github.therealmone.fireres.excess.pressure.service.ExcessPressureService;
 import lombok.val;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,24 +22,26 @@ public class ExcessPressureReportRepeatingTest {
     private static final Integer ATTEMPTS = 100;
 
     @Inject
-    private ExcessPressureReportProvider reportProvider;
+    private GenerationProperties generationProperties;
+
+    @Inject
+    private ExcessPressureService excessPressureService;
 
     @Test
     public void provideReportTest() {
         for (int i = 0; i < ATTEMPTS; i++) {
-            val report = reportProvider.get();
+            val sample = new Sample(generationProperties.getSamples().get(0));
+            val report = excessPressureService.createReport(sample);
 
-            report.getSamples().forEach(sample -> {
-                val min = sample.getMinAllowedPressure();
-                val max = sample.getMaxAllowedPressure();
-                val pressure = sample.getPressure();
+            val min = report.getMinAllowedPressure();
+            val max = report.getMaxAllowedPressure();
+            val pressure = report.getPressure();
 
-                assertFunctionIsConstant(-PRESSURE_DELTA, min.getValue());
-                assertFunctionIsConstant(PRESSURE_DELTA, max.getValue());
-                assertSizesEquals(TIME, min.getValue(), max.getValue());
-                assertFunctionNotHigher(pressure.getValue(), max.getValue());
-                assertFunctionNotLower(pressure.getValue(), min.getValue());
-            });
+            assertFunctionIsConstant(-PRESSURE_DELTA, min.getValue());
+            assertFunctionIsConstant(PRESSURE_DELTA, max.getValue());
+            assertSizesEquals(TIME, min.getValue(), max.getValue());
+            assertFunctionNotHigher(pressure.getValue(), max.getValue());
+            assertFunctionNotLower(pressure.getValue(), min.getValue());
         }
     }
 

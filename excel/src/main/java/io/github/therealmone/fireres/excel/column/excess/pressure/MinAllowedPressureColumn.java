@@ -8,7 +8,7 @@ import org.apache.poi.xddf.usermodel.XDDFLineProperties;
 
 public class MinAllowedPressureColumn extends PointSequenceColumn implements ChartColumn {
 
-    private static final String HEADER = "Pмин";
+    private static final String HEADER = "Δмин";
     private static final String CHART_TITLE = "Минимальный допуск избыточного давления";
 
     public MinAllowedPressureColumn(MinAllowedPressure minAllowedPressure) {

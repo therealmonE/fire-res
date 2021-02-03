@@ -1,7 +1,10 @@
 package io.github.therealmone.fireres.heatflow.report;
 
 import com.google.inject.Inject;
+import io.github.therealmone.fireres.core.config.GenerationProperties;
+import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.heatflow.GuiceRunner;
+import io.github.therealmone.fireres.heatflow.service.HeatFlowService;
 import lombok.val;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,23 +18,28 @@ import static io.github.therealmone.fireres.heatflow.TestUtils.*;
 public class HeatFlowReportTest {
 
     @Inject
-    private HeatFlowReportProvider reportProvider;
+    private GenerationProperties generationProperties;
+
+    @Inject
+    private HeatFlowService heatFlowService;
 
     @Test
     public void generateBound() {
-        val report = reportProvider.get();
+        val sample = new Sample(generationProperties.getSamples().get(0));
+        val report = heatFlowService.createReport(sample);
 
-        val bound = report.getSamples().get(0).getBound();
+        val bound = report.getBound();
 
         assertFunctionIsConstant(BOUND, bound.getValue());
     }
 
     @Test
     public void generateMeanFunction() {
-        val report = reportProvider.get();
+        val sample = new Sample(generationProperties.getSamples().get(0));
+        val report = heatFlowService.createReport(sample);
 
-        val bound = report.getSamples().get(0).getBound();
-        val mean = report.getSamples().get(0).getMeanTemperature();
+        val bound = report.getBound();
+        val mean = report.getMeanTemperature();
 
         assertFunctionConstantlyGrowing(mean.getValue());
         assertFunctionNotLower(mean.getValue(), constantFunction(TIME, 0).getValue());
@@ -40,11 +48,12 @@ public class HeatFlowReportTest {
 
     @Test
     public void generateSensorsFunctions() {
-        val report = reportProvider.get();
+        val sample = new Sample(generationProperties.getSamples().get(0));
+        val report = heatFlowService.createReport(sample);
 
-        val bound = report.getSamples().get(0).getBound();
-        val mean = report.getSamples().get(0).getMeanTemperature();
-        val sensors = report.getSamples().get(0).getSensorTemperatures();
+        val bound = report.getBound();
+        val mean = report.getMeanTemperature();
+        val sensors = report.getSensorTemperatures();
 
         assertThermocouplesTemperaturesEqualsMean(sensors, mean);
 

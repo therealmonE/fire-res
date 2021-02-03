@@ -1,19 +1,19 @@
 package io.github.therealmone.fireres.firemode.report;
 
 import com.google.inject.Inject;
+import io.github.therealmone.fireres.core.config.GenerationProperties;
+import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.firemode.GuiceRunner;
+import io.github.therealmone.fireres.firemode.service.FireModeService;
 import lombok.val;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.List;
 
-import static io.github.therealmone.fireres.firemode.TestGenerationProperties.TIME;
 import static io.github.therealmone.fireres.firemode.TestUtils.assertFunctionConstantlyGrowing;
 import static io.github.therealmone.fireres.firemode.TestUtils.assertFunctionNotHigher;
 import static io.github.therealmone.fireres.firemode.TestUtils.assertFunctionNotLower;
-import static io.github.therealmone.fireres.firemode.TestUtils.assertSizesEquals;
-import static io.github.therealmone.fireres.firemode.TestUtils.assertThermocouplesTemperaturesEqualsMean;
 import static io.github.therealmone.fireres.firemode.TestUtils.toPointList;
 import static org.junit.Assert.assertEquals;
 
@@ -21,11 +21,15 @@ import static org.junit.Assert.assertEquals;
 public class FireModeReportTest {
 
     @Inject
-    private FireModeReportProvider reportProvider;
+    private GenerationProperties generationProperties;
+
+    @Inject
+    private FireModeService fireModeService;
 
     @Test
     public void generateFurnaceTemperature() {
-        val report = reportProvider.get();
+        val sample = new Sample(generationProperties.getSamples().get(0));
+        val report = fireModeService.createReport(sample);
 
         val expectedValues = toPointList(List.of(
                 42, 350, 446, 503, 545, 577, 604,
@@ -48,7 +52,8 @@ public class FireModeReportTest {
 
     @Test
     public void generateMaxAllowedTemperature() {
-        val report = reportProvider.get();
+        val sample = new Sample(generationProperties.getSamples().get(0));
+        val report = fireModeService.createReport(sample);
 
         val expectedFunction = toPointList(List.of(
                 24, 378, 489, 554, 603,
@@ -81,7 +86,8 @@ public class FireModeReportTest {
 
     @Test
     public void generateMinAllowedTemperature() {
-        val report = reportProvider.get();
+        val sample = new Sample(generationProperties.getSamples().get(0));
+        val report = fireModeService.createReport(sample);
 
         val expectedFunction = toPointList(List.of(
                 18, 280, 361, 410, 445,
@@ -114,7 +120,8 @@ public class FireModeReportTest {
 
     @Test
     public void generateStandardTemperature() {
-        val report = reportProvider.get();
+        val sample = new Sample(generationProperties.getSamples().get(0));
+        val report = fireModeService.createReport(sample);
 
         val expectedNumbers = toPointList(List.of(
                 21, 329, 425, 482, 524, 556, 583, 606,

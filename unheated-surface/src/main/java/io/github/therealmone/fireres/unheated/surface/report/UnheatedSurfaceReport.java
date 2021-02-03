@@ -1,20 +1,22 @@
 package io.github.therealmone.fireres.unheated.surface.report;
 
 import io.github.therealmone.fireres.core.model.Report;
-import io.github.therealmone.fireres.unheated.surface.model.UnheatedSurfaceSample;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import io.github.therealmone.fireres.core.model.Sample;
+import io.github.therealmone.fireres.unheated.surface.model.UnheatedSurfaceGroup;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
-import java.util.List;
+import java.util.UUID;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@RequiredArgsConstructor
 public class UnheatedSurfaceReport implements Report {
 
-    private List<UnheatedSurfaceSample> samples;
+    private final Sample sample;
+    private final UUID id = UUID.randomUUID();
+
+    private UnheatedSurfaceGroup firstGroup;
+    private UnheatedSurfaceGroup secondGroup;
+    private UnheatedSurfaceGroup thirdGroup;
 
 }

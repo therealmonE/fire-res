@@ -1,20 +1,25 @@
 package io.github.therealmone.fireres.excess.pressure.report;
 
 import io.github.therealmone.fireres.core.model.Report;
-import io.github.therealmone.fireres.excess.pressure.model.ExcessPressureSample;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import io.github.therealmone.fireres.core.model.Sample;
+import io.github.therealmone.fireres.excess.pressure.model.MaxAllowedPressure;
+import io.github.therealmone.fireres.excess.pressure.model.MinAllowedPressure;
+import io.github.therealmone.fireres.excess.pressure.model.Pressure;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
-import java.util.List;
+import java.util.UUID;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@RequiredArgsConstructor
 public class ExcessPressureReport implements Report {
 
-    private List<ExcessPressureSample> samples;
+    private final Sample sample;
+    private final UUID id = UUID.randomUUID();
+
+    private Pressure pressure;
+    private Double basePressure;
+    private MinAllowedPressure minAllowedPressure;
+    private MaxAllowedPressure maxAllowedPressure;
 
 }

@@ -1,11 +1,10 @@
 package io.github.therealmone.fireres.excel;
 
 import com.google.inject.Inject;
-import io.github.therealmone.fireres.excel.annotation.ExcessPressure;
-import io.github.therealmone.fireres.excel.annotation.FireMode;
-import io.github.therealmone.fireres.excel.annotation.HeatFlow;
-import io.github.therealmone.fireres.excel.annotation.UnheatedSurface;
-import io.github.therealmone.fireres.excel.sheet.ExcelSheet;
+import io.github.therealmone.fireres.core.config.GeneralProperties;
+import io.github.therealmone.fireres.core.model.Report;
+import io.github.therealmone.fireres.core.model.Sample;
+import io.github.therealmone.fireres.excel.sheet.ExcelSheetsBuilder;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -14,58 +13,33 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.List;
+import java.util.Map;
 
 @Slf4j
 public class ExcelReportConstructor implements ReportConstructor {
 
     public static final String TIMES_NEW_ROMAN = "Times New Roman";
 
-    @Inject(optional = true)
-    @FireMode
-    private List<ExcelSheet> fireModeSheets;
-
-    @Inject(optional = true)
-    @ExcessPressure
-    private List<ExcelSheet> excessPressureSheets;
-
-    @Inject(optional = true)
-    @UnheatedSurface
-    private List<ExcelSheet> unheatedSurfaceSheets;
-
-    @Inject(optional = true)
-    @HeatFlow
-    private List<ExcelSheet> heatFlowSheets;
+    @Inject
+    private Map<Class<? extends Report>, ExcelSheetsBuilder> builderMap;
 
     @Override
     @SneakyThrows
-    public void construct(File outputFile) {
+    public void construct(GeneralProperties generalProperties, Sample sample, File outputFile) {
         log.info("Writing excel report to: {}", outputFile.getAbsolutePath());
 
-        try (val excel = generateExcel();
+        try (val excel = generateExcel(generalProperties, sample);
              val outputStream = new FileOutputStream(outputFile)) {
             excel.write(outputStream);
         }
     }
 
-    private Workbook generateExcel() {
+    private Workbook generateExcel(GeneralProperties generalProperties, Sample sample) {
         val workbook = new XSSFWorkbook();
 
-        if (fireModeSheets != null) {
-            fireModeSheets.forEach(sheet -> sheet.create(workbook));
-        }
-
-        if (excessPressureSheets != null) {
-            excessPressureSheets.forEach(sheet -> sheet.create(workbook));
-        }
-
-        if (unheatedSurfaceSheets != null) {
-            unheatedSurfaceSheets.forEach(sheet -> sheet.create(workbook));
-        }
-
-        if (heatFlowSheets != null) {
-            heatFlowSheets.forEach(sheet -> sheet.create(workbook));
-        }
+        sample.getReports().forEach(report ->
+                builderMap.get(report.getClass()).build(generalProperties, report)
+                        .forEach(sheet -> sheet.create(workbook)));
 
         return workbook;
     }
