@@ -14,7 +14,7 @@ public class FireModeParametersConfigurer implements Configurer<FireModeParamsCo
 
     @Override
     public void config(FireModeParamsController controller) {
-        val sampleProperties = controller.getSampleProperties();
+        val sampleProperties = controller.getSample().getSampleProperties();
 
         resetThermocoupleCount(controller.getThermocoupleSpinner(), sampleProperties);
     }

@@ -4,9 +4,12 @@ import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.Interpolation;
 import io.github.therealmone.fireres.core.config.InterpolationPoint;
 import io.github.therealmone.fireres.core.config.SampleProperties;
+import io.github.therealmone.fireres.core.model.Report;
+import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.controller.AbstractController;
 import io.github.therealmone.fireres.gui.controller.Controller;
+import io.github.therealmone.fireres.gui.controller.ReportContainer;
 import io.github.therealmone.fireres.gui.controller.SampleContainer;
 import io.github.therealmone.fireres.gui.controller.fire.mode.FireModePaneController;
 import io.github.therealmone.fireres.gui.controller.heat.flow.HeatFlowPaneController;
@@ -35,7 +38,7 @@ import java.util.function.Function;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Slf4j
-public class FunctionParamsController extends AbstractController implements SampleContainer {
+public class FunctionParamsController extends AbstractController implements SampleContainer, ReportContainer {
 
     private static final Map<Class<? extends Controller>, Function<SampleProperties, Interpolation>> MAPPER_MAP = Map.of(
             FireModePaneController.class, SampleProperties::getFireMode,
@@ -46,7 +49,7 @@ public class FunctionParamsController extends AbstractController implements Samp
     );
 
     @ParentController
-    private SampleContainer parentController;
+    private ReportContainer parentController;
 
     @Inject
     private ResetSettingsService resetSettingsService;
@@ -67,9 +70,10 @@ public class FunctionParamsController extends AbstractController implements Samp
     private TableColumn<InterpolationPoint, Integer> valueColumn;
 
     @Override
-    public SampleProperties getSampleProperties() {
-        return parentController.getSampleProperties();
+    public Sample getSample() {
+        return parentController.getSample();
     }
+
     @Override
     protected void initialize() {
         linearSpinner.focusedProperty().addListener((observable, oldValue, newValue) ->
@@ -81,7 +85,7 @@ public class FunctionParamsController extends AbstractController implements Samp
 
     private void handleSpinnerFocusChanged (Boolean newValue, Spinner<?> spinner) {
         if (!newValue) {
-            log.info("Spinner {} lost focus, sample id: {}", spinner.getId(), getSampleProperties().getId());
+            log.info("Spinner {} lost focus, sample id: {}", spinner.getId(), getSample().getId());
             commitSpinner(spinner);
         }
     }
@@ -149,5 +153,10 @@ public class FunctionParamsController extends AbstractController implements Samp
 
     private void handleRowAddedEvent(Event event) {
         log.info("Interpolation point added");
+    }
+
+    @Override
+    public Report getReport() {
+        return parentController.getReport();
     }
 }

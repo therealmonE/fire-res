@@ -1,6 +1,7 @@
 package io.github.therealmone.fireres.gui.controller.unheated.surface;
 
 import io.github.therealmone.fireres.core.config.SampleProperties;
+import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.gui.annotation.ChildController;
 import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.controller.AbstractController;
@@ -33,8 +34,8 @@ public class UnheatedSurfacePaneController extends AbstractController implements
     private SampleTabController sampleTabController;
 
     @Override
-    public SampleProperties getSampleProperties() {
-        return sampleTabController.getSampleProperties();
+    public Sample getSample() {
+        return sampleTabController.getSample();
     }
 
     @Override

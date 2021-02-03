@@ -3,6 +3,7 @@ package io.github.therealmone.fireres.gui.service.impl;
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.config.SampleProperties;
+import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.gui.controller.SamplesTabPaneController;
 import io.github.therealmone.fireres.gui.service.FxmlLoadService;
 import io.github.therealmone.fireres.gui.service.SampleService;
@@ -27,21 +28,22 @@ public class SampleServiceImpl implements SampleService {
         val samplesTabPane = samplesTabPaneController.getSamplesTabPane();
 
         val newSampleProperties = new SampleProperties();
+
+        samplesProperties.add(newSampleProperties);
+
         val newTab = createSampleTab(
                 samplesTabPaneController,
                 newSampleProperties,
                 String.format("Образец №%d", samplesProperties.size() + 1));
 
-        samplesProperties.add(newSampleProperties);
-        newTab.setUserData(newSampleProperties);
-
+        newTab.setUserData(new Sample(newSampleProperties));
         samplesTabPane.getTabs().add(samplesTabPane.getTabs().size() - 1, newTab);
         samplesTabPane.getSelectionModel().select(newTab);
     }
 
     @Override
     public void closeSample(TabPane samplesTabPane, Tab closedSampleTab) {
-        val sampleId = ((SampleProperties) closedSampleTab.getUserData()).getId();
+        val sampleId = ((Sample) closedSampleTab.getUserData()).getId();
 
         if (generationProperties.getSamples().removeIf(sample -> sample.getId().equals(sampleId))) {
             renameSamples(samplesTabPane);
@@ -53,11 +55,11 @@ public class SampleServiceImpl implements SampleService {
     }
 
     @Override
-    public SampleProperties getSampleProperties(Tab sampleTab) {
-        if (sampleTab.getUserData() != null && sampleTab.getUserData() instanceof SampleProperties) {
-            return (SampleProperties) sampleTab.getUserData();
+    public Sample getSample(Tab sampleTab) {
+        if (sampleTab.getUserData() != null && sampleTab.getUserData() instanceof Sample) {
+            return (Sample) sampleTab.getUserData();
         } else {
-            throw new IllegalStateException("Sample tab user data is not instance of " + SampleProperties.class.getSimpleName());
+            throw new IllegalStateException("Sample tab user data is not instance of " + Sample.class.getSimpleName());
         }
     }
 
@@ -66,7 +68,7 @@ public class SampleServiceImpl implements SampleService {
                                 SampleProperties sampleProperties,
                                 String tabName) {
 
-        val tab = (Tab) fxmlLoadService.loadSampleTab(samplesTabPaneController, sampleProperties);
+        val tab = (Tab) fxmlLoadService.loadSampleTab(samplesTabPaneController, new Sample(sampleProperties));
 
         tab.setText(tabName);
 
@@ -80,7 +82,7 @@ public class SampleServiceImpl implements SampleService {
             val sampleProperties = generationProperties.getSamples().get(i);
             val sampleTab = samplesTabs.stream()
                     .filter(tab ->
-                            ((SampleProperties) tab.getUserData()).getId().equals(sampleProperties.getId()))
+                            ((Sample) tab.getUserData()).getId().equals(sampleProperties.getId()))
                     .findFirst()
                     .orElseThrow();
 

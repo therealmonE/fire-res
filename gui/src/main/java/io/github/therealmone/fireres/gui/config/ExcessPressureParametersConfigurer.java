@@ -23,7 +23,7 @@ public class ExcessPressureParametersConfigurer implements Configurer<ExcessPres
 
     @Override
     public void config(ExcessPressureParamsController controller) {
-        val sampleProperties = controller.getSampleProperties();
+        val sampleProperties = controller.getSample().getSampleProperties();
 
         resetBasePressure(controller.getBasePressureSpinner(), sampleProperties);
         resetDispersionCoefficient(controller.getDispersionCoefficientSpinner(), sampleProperties);

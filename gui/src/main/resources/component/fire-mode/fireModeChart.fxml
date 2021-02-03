@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<Pane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="io.github.therealmone.fireres.gui.controller.fire.mode.FireModeChartController">
     <LineChart fx:id="fireModeChart" focusTraversable="true" prefHeight="600.0" prefWidth="950.0">
         <xAxis>
-            <CategoryAxis focusTraversable="true" label="Время, мин." side="BOTTOM"/>
+            <NumberAxis focusTraversable="true" label="Время, мин." side="BOTTOM"/>
         </xAxis>
 
         <yAxis>

@@ -23,7 +23,7 @@ public class FunctionParametersConfigurer implements Configurer<FunctionParamsCo
 
     @Override
     public void config(FunctionParamsController controller) {
-        val sampleProperties = controller.getSampleProperties();
+        val sampleProperties = controller.getSample().getSampleProperties();
         val mapper = controller.getSamplePropertiesMapper();
 
         resetLinearCoefficient(controller.getLinearSpinner(), sampleProperties, mapper);

@@ -20,7 +20,7 @@ public class SecondThermocoupleGroupParametersConfigurer implements Configurer<S
 
     @Override
     public void config(SecondThermocoupleGroupParamsController controller) {
-        val sampleProperties = controller.getSampleProperties();
+        val sampleProperties = controller.getSample().getSampleProperties();
 
         resetThermocouplesNumber(controller.getSecondThermocoupleGroupNumberOfThermocouplesSpinner(), sampleProperties);
         resetBound(controller.getSecondThermocoupleGroupBoundSpinner(), sampleProperties);

@@ -1,7 +1,7 @@
 package io.github.therealmone.fireres.gui.controller.unheated.surface.thermocouple.groups.second.thermocouple.group;
 
 import com.google.inject.Inject;
-import io.github.therealmone.fireres.core.config.SampleProperties;
+import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.controller.AbstractController;
 import io.github.therealmone.fireres.gui.controller.SampleContainer;
@@ -45,14 +45,14 @@ public class SecondThermocoupleGroupParamsController extends AbstractController 
 
     private void handleSpinnerFocusChanged(Boolean newValue, Spinner<?> spinner) {
         if (!newValue) {
-            log.info("Spinner {} lost focus, sample id: {}", spinner.getId(), getSampleProperties().getId());
+            log.info("Spinner {} lost focus, sample id: {}", spinner.getId(), getSample().getId());
             commitSpinner(spinner);
         }
     }
 
     @Override
-    public SampleProperties getSampleProperties() {
-        return secondThermocoupleGroupPaneController.getSampleProperties();
+    public Sample getSample() {
+        return secondThermocoupleGroupPaneController.getSample();
     }
 
 }

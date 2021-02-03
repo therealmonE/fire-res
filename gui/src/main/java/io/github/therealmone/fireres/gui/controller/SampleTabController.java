@@ -2,6 +2,7 @@ package io.github.therealmone.fireres.gui.controller;
 
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.SampleProperties;
+import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.gui.annotation.ChildController;
 import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.controller.excess.pressure.ExcessPressurePaneController;
@@ -79,8 +80,8 @@ public class SampleTabController extends AbstractController implements SampleCon
     }
 
     @Override
-    public SampleProperties getSampleProperties() {
-        return sampleService.getSampleProperties(sampleTab);
+    public Sample getSample() {
+        return sampleService.getSample(sampleTab);
     }
 
 }

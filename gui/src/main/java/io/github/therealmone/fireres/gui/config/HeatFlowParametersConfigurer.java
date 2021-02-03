@@ -1,6 +1,5 @@
 package io.github.therealmone.fireres.gui.config;
 
-
 import io.github.therealmone.fireres.core.config.SampleProperties;
 import io.github.therealmone.fireres.gui.controller.heat.flow.HeatFlowParamsController;
 import javafx.scene.control.Spinner;
@@ -20,7 +19,7 @@ public class HeatFlowParametersConfigurer implements Configurer<HeatFlowParamsCo
 
     @Override
     public void config(HeatFlowParamsController controller) {
-        val sampleProperties = controller.getSampleProperties();
+        val sampleProperties = controller.getSample().getSampleProperties();
 
         resetSensorsCount(controller.getSensorSpinner(), sampleProperties);
         resetHeatFlow(controller.getHeatFlowSpinner(), sampleProperties);
