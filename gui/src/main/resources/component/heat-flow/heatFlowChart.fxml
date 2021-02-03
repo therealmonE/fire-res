@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.layout.VBox?>
 
 <VBox xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
-    <LineChart focusTraversable="true" prefHeight="600.0" prefWidth="1000.0">
+    <LineChart focusTraversable="true" prefHeight="600.0" prefWidth="940.0">
         <xAxis>
-            <CategoryAxis focusTraversable="true" label="Время" side="BOTTOM" />
+            <CategoryAxis focusTraversable="true" label="Время" side="BOTTOM"/>
         </xAxis>
         <yAxis>
-            <NumberAxis label="Температура" side="LEFT" />
+            <NumberAxis label="Температура" side="LEFT"/>
         </yAxis>
     </LineChart>
 </VBox>

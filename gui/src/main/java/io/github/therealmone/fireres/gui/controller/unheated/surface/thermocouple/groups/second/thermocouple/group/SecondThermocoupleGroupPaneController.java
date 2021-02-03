@@ -1,45 +1,45 @@
-package io.github.therealmone.fireres.gui.controller.fire.mode;
+package io.github.therealmone.fireres.gui.controller.unheated.surface.thermocouple.groups.second.thermocouple.group;
 
 import io.github.therealmone.fireres.core.config.SampleProperties;
 import io.github.therealmone.fireres.gui.annotation.ChildController;
 import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.controller.AbstractController;
 import io.github.therealmone.fireres.gui.controller.SampleContainer;
-import io.github.therealmone.fireres.gui.controller.SampleTabController;
 import io.github.therealmone.fireres.gui.controller.common.FunctionParamsController;
+import io.github.therealmone.fireres.gui.controller.unheated.surface.UnheatedSurfacePaneController;
 import javafx.fxml.FXML;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class FireModePaneController extends AbstractController implements SampleContainer {
-
-    @ParentController
-    private SampleTabController sampleTabController;
+public class SecondThermocoupleGroupPaneController extends AbstractController implements SampleContainer {
 
     @FXML
     @ChildController
-    private FireModeParamsController fireModeParamsController;
+    private SecondThermocoupleGroupParamsController secondThermocoupleGroupParamsController;
 
     @FXML
     @ChildController
     private FunctionParamsController functionParamsController;
 
+    @ParentController
+    private UnheatedSurfacePaneController unheatedSurfacePaneController;
+
     @Override
     public SampleProperties getSampleProperties() {
-        return sampleTabController.getSampleProperties();
+        return unheatedSurfacePaneController.getSampleProperties();
     }
 
     @Override
     protected void initialize() {
-        fireModeParamsController.setFireModePaneController(this);
+        secondThermocoupleGroupParamsController.setSecondThermocoupleGroupPaneController(this);
         functionParamsController.setParentController(this);
     }
 
     @Override
     public void postConstruct() {
-        fireModeParamsController.postConstruct();
+        secondThermocoupleGroupParamsController.postConstruct();
         functionParamsController.postConstruct();
     }
 }

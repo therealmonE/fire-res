@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
 <TitledPane contentDisplay="RIGHT" prefWidth="280.0" text="Параметры функции"
             xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
@@ -26,15 +34,15 @@
                     <Insets bottom="15.0"/>
                 </padding>
                 <Label prefHeight="16.0" prefWidth="150.0" text="Коэффициент линейности:"/>
-                <Spinner fx:id="linearSpinner" amountToStepBy="0.01" editable="true" initialValue="0.5" max="1" min="0"
+                <Spinner fx:id="linearSpinner" editable="true"
                          prefHeight="26.0" prefWidth="100.0" GridPane.columnIndex="1"/>
                 <Label prefHeight="16.0" prefWidth="150.0" text="Коэффициент дисперции:" GridPane.rowIndex="1">
                     <GridPane.margin>
                         <Insets top="15.0"/>
                     </GridPane.margin>
                 </Label>
-                <Spinner fx:id="dispersionSpinner" amountToStepBy="0.01" editable="true" initialValue="1" max="1"
-                         min="0" prefHeight="26.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <Spinner fx:id="dispersionSpinner" editable="true"
+                         prefHeight="26.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                     <GridPane.margin>
                         <Insets top="15.0"/>
                     </GridPane.margin>

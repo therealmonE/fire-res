@@ -28,15 +28,15 @@
                 <RowConstraints/>
             </rowConstraints>
             <Label prefHeight="16.0" prefWidth="150.0" text="Базовое давление:"/>
-            <Spinner fx:id="basePressureSpinner" editable="true" initialValue="0" max="1000" min="0" prefHeight="26.0"
+            <Spinner fx:id="basePressureSpinner" editable="true" prefHeight="26.0"
                      prefWidth="100.0" GridPane.columnIndex="1"/>
             <Label prefHeight="16.0" prefWidth="150.0" text="Коэффициент дисперсии:" GridPane.rowIndex="1">
                 <GridPane.margin>
                     <Insets top="15.0"/>
                 </GridPane.margin>
             </Label>
-            <Spinner fx:id="dispersionCoefficientSpinner" amountToStepBy="0.01" editable="true" initialValue="0.98"
-                     max="1" min="0" prefHeight="26.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Spinner fx:id="dispersionCoefficientSpinner"  editable="true"
+                     prefHeight="26.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                 <GridPane.margin>
                     <Insets top="15.0"/>
                 </GridPane.margin>
@@ -46,7 +46,7 @@
                     <Insets top="15.0"/>
                 </GridPane.margin>
             </Label>
-            <Spinner fx:id="deltaSpinner" editable="true" initialValue="0" max="1000" min="0" prefHeight="26.0"
+            <Spinner fx:id="deltaSpinner" editable="true" prefHeight="26.0"
                      prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                 <GridPane.margin>
                     <Insets top="15.0"/>

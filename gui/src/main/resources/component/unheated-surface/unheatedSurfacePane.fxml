@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<VBox stylesheets="/css/style.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="io.github.therealmone.fireres.gui.controller.unheated.surface.UnheatedSurfacePaneController">
+    <children>
+        <ScrollPane hbarPolicy="NEVER">
+            <AnchorPane focusTraversable="true">
+                <HBox focusTraversable="true">
+                    <VBox focusTraversable="true">
+                        <fx:include fx:id="firstThermocoupleGroupPane"
+                                    source="thermocouple-groups/first-thermocouple-group/firstThermocoupleGroupPane.fxml"/>
+
+                        <fx:include fx:id="secondThermocoupleGroupPane"
+                                    source="thermocouple-groups/second-thermocouple-group/secondThermocoupleGroupPane.fxml"/>
+
+                        <fx:include fx:id="thirdThermocoupleGroupPane"
+                                    source="thermocouple-groups/third-thermocouple-group/thirdThermocoupleGroupPane.fxml"/>
+                    </VBox>
+                </HBox>
+            </AnchorPane>
+        </ScrollPane>
+    </children>
+</VBox>

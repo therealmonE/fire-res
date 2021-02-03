@@ -2,7 +2,6 @@ package io.github.therealmone.fireres.gui.config;
 
 
 import io.github.therealmone.fireres.core.config.SampleProperties;
-import io.github.therealmone.fireres.gui.controller.excess.pressure.ExcessPressureParamsController;
 import io.github.therealmone.fireres.gui.controller.heat.flow.HeatFlowParamsController;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
@@ -17,6 +16,7 @@ public class HeatFlowParametersConfigurer implements Configurer<HeatFlowParamsCo
     private static final Integer DEFAULT_HEAT_FLOW = 1;
     private static final Integer DEFAULT_HEAT_FLOW_MIN = 1;
     private static final Integer DEFAULT_HEAT_FLOW_MAX = 10000;
+    private static final Integer DEFAULT_HEAT_FLOW_INCREMENT = 100;
 
     @Override
     public void config(HeatFlowParamsController controller) {
@@ -42,7 +42,8 @@ public class HeatFlowParametersConfigurer implements Configurer<HeatFlowParamsCo
         heatFlow.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(
                 DEFAULT_HEAT_FLOW_MIN,
                 DEFAULT_HEAT_FLOW_MAX,
-                DEFAULT_HEAT_FLOW
+                DEFAULT_HEAT_FLOW,
+                DEFAULT_HEAT_FLOW_INCREMENT
         ));
     }
 }
