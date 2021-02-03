@@ -36,14 +36,14 @@ public class SampleServiceImpl implements SampleService {
                 newSampleProperties,
                 String.format("Образец №%d", samplesProperties.size() + 1));
 
-        newTab.setUserData(newSampleProperties);
+        newTab.setUserData(new Sample(newSampleProperties));
         samplesTabPane.getTabs().add(samplesTabPane.getTabs().size() - 1, newTab);
         samplesTabPane.getSelectionModel().select(newTab);
     }
 
     @Override
     public void closeSample(TabPane samplesTabPane, Tab closedSampleTab) {
-        val sampleId = ((SampleProperties) closedSampleTab.getUserData()).getId();
+        val sampleId = ((Sample) closedSampleTab.getUserData()).getId();
 
         if (generationProperties.getSamples().removeIf(sample -> sample.getId().equals(sampleId))) {
             renameSamples(samplesTabPane);
@@ -82,7 +82,7 @@ public class SampleServiceImpl implements SampleService {
             val sampleProperties = generationProperties.getSamples().get(i);
             val sampleTab = samplesTabs.stream()
                     .filter(tab ->
-                            ((SampleProperties) tab.getUserData()).getId().equals(sampleProperties.getId()))
+                            ((Sample) tab.getUserData()).getId().equals(sampleProperties.getId()))
                     .findFirst()
                     .orElseThrow();
 
