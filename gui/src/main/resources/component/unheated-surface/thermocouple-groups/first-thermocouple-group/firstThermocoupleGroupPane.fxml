@@ -9,6 +9,7 @@
 <TitledPane text="Первая группа термопар" expanded="false" xmlns="http://javafx.com/javafx/10.0.2-internal"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="io.github.therealmone.fireres.gui.controller.unheated.surface.thermocouple.groups.first.thermocouple.group.FirstThermocoupleGroupPaneController">
+
     <AnchorPane focusTraversable="true">
         <HBox focusTraversable="true">
             <VBox focusTraversable="true">

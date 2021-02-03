@@ -9,51 +9,74 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<TitledPane text="Параметры избыточного давления" xmlns="http://javafx.com/javafx/10.0.2-internal"
+<TitledPane prefWidth="307.0" text="Параметры избыточного давления" xmlns="http://javafx.com/javafx/10.0.2-internal"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="io.github.therealmone.fireres.gui.controller.excess.pressure.ExcessPressureParamsController">
-    <padding>
-        <Insets left="15.0" top="15.0"/>
-    </padding>
+
     <VBox>
         <GridPane>
+
             <columnConstraints>
                 <ColumnConstraints/>
                 <ColumnConstraints/>
                 <ColumnConstraints/>
             </columnConstraints>
+
             <rowConstraints>
                 <RowConstraints/>
                 <RowConstraints/>
                 <RowConstraints/>
             </rowConstraints>
+
             <Label prefHeight="16.0" prefWidth="150.0" text="Базовое давление:"/>
-            <Spinner fx:id="basePressureSpinner" editable="true" prefHeight="26.0"
-                     prefWidth="100.0" GridPane.columnIndex="1"/>
+
+            <Spinner fx:id="basePressureSpinner" editable="true" prefHeight="26.0" prefWidth="80.0"
+                     GridPane.columnIndex="1"/>
+
+            <Label prefWidth="20.0" text="Па" GridPane.columnIndex="2" GridPane.rowIndex="0">
+                <padding>
+                    <Insets left="5.0"/>
+                </padding>
+            </Label>
+
             <Label prefHeight="16.0" prefWidth="150.0" text="Коэффициент дисперсии:" GridPane.rowIndex="1">
                 <GridPane.margin>
                     <Insets top="15.0"/>
                 </GridPane.margin>
             </Label>
-            <Spinner fx:id="dispersionCoefficientSpinner"  editable="true"
-                     prefHeight="26.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+
+            <Spinner fx:id="dispersionCoefficientSpinner" editable="true" prefHeight="26.0" prefWidth="80.0"
+                     GridPane.columnIndex="1" GridPane.rowIndex="1">
                 <GridPane.margin>
                     <Insets top="15.0"/>
                 </GridPane.margin>
             </Spinner>
+
             <Label prefHeight="16.0" prefWidth="150.0" text="Дельта:" GridPane.rowIndex="2">
                 <GridPane.margin>
                     <Insets top="15.0"/>
                 </GridPane.margin>
             </Label>
-            <Spinner fx:id="deltaSpinner" editable="true" prefHeight="26.0"
-                     prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+
+            <Spinner fx:id="deltaSpinner" editable="true" prefHeight="26.0" prefWidth="80.0" GridPane.columnIndex="1"
+                     GridPane.rowIndex="2">
                 <GridPane.margin>
                     <Insets top="15.0"/>
                 </GridPane.margin>
             </Spinner>
+
+            <Label prefWidth="15.0" text="Δ" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                <padding>
+                    <Insets left="5.0" top="15.0"/>
+                </padding>
+            </Label>
+
         </GridPane>
-
+        <padding>
+            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
+        </padding>
     </VBox>
-
+    <padding>
+        <Insets top="15.0"/>
+    </padding>
 </TitledPane>

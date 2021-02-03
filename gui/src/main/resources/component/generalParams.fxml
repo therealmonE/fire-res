@@ -19,30 +19,49 @@
             <Insets left="15.0" top="15.0"/>
         </padding>
         <GridPane layoutX="15.0" layoutY="15.0">
+
             <columnConstraints>
                 <ColumnConstraints/>
                 <ColumnConstraints/>
                 <ColumnConstraints minWidth="10.0" prefWidth="100.0"/>
                 <ColumnConstraints minWidth="10.0" prefWidth="100.0"/>
             </columnConstraints>
+
             <rowConstraints>
                 <RowConstraints/>
                 <RowConstraints/>
             </rowConstraints>
+
             <Label prefHeight="16.0" prefWidth="60.0" text="Время:"/>
+
             <Spinner fx:id="timeSpinner" editable="true" max="1000" min="1" prefHeight="26.0" prefWidth="80.0"
                      GridPane.columnIndex="1"/>
+
             <Label prefHeight="16.0" prefWidth="183.0" text="Температура окружения:" GridPane.rowIndex="1">
                 <GridPane.margin>
                     <Insets top="15.0"/>
                 </GridPane.margin>
             </Label>
+
+            <Label prefWidth="45.0" text="мин." GridPane.columnIndex="2" GridPane.rowIndex="0">
+                <padding>
+                    <Insets left="5.0"/>
+                </padding>
+            </Label>
+
             <Spinner fx:id="environmentTemperatureSpinner" editable="true" max="50" min="0" prefHeight="26.0" prefWidth="80.0"
                      GridPane.columnIndex="1" GridPane.rowIndex="1">
                 <GridPane.margin>
                     <Insets top="15.0"/>
                 </GridPane.margin>
             </Spinner>
+
+            <Label prefWidth="45.0" text="°C" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                <padding>
+                    <Insets left="5.0" top="15.0"/>
+                </padding>
+            </Label>
+
             <MenuButton fx:id="includedReportsMenuButton" mnemonicParsing="false" text="Отчеты" GridPane.columnIndex="3">
                 <items>
                     <CheckMenuItem mnemonicParsing="false" selected="true" text="Режим пожара"/>
