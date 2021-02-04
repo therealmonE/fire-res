@@ -6,16 +6,11 @@ import io.github.therealmone.fireres.core.config.InterpolationPoint;
 import io.github.therealmone.fireres.core.config.SampleProperties;
 import io.github.therealmone.fireres.core.model.Report;
 import io.github.therealmone.fireres.core.model.Sample;
+import io.github.therealmone.fireres.core.service.InterpolationService;
 import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.controller.AbstractController;
-import io.github.therealmone.fireres.gui.controller.Controller;
 import io.github.therealmone.fireres.gui.controller.ReportContainer;
 import io.github.therealmone.fireres.gui.controller.SampleContainer;
-import io.github.therealmone.fireres.gui.controller.fire.mode.FireModePaneController;
-import io.github.therealmone.fireres.gui.controller.heat.flow.HeatFlowPaneController;
-import io.github.therealmone.fireres.gui.controller.unheated.surface.thermocouple.groups.first.thermocouple.group.FirstThermocoupleGroupPaneController;
-import io.github.therealmone.fireres.gui.controller.unheated.surface.thermocouple.groups.second.thermocouple.group.SecondThermocoupleGroupPaneController;
-import io.github.therealmone.fireres.gui.controller.unheated.surface.thermocouple.groups.third.thermocouple.group.ThirdThermocoupleGroupPaneController;
 import io.github.therealmone.fireres.gui.service.FxmlLoadService;
 import io.github.therealmone.fireres.gui.service.ResetSettingsService;
 import javafx.beans.binding.Bindings;
@@ -33,21 +28,13 @@ import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
-import java.util.Map;
 import java.util.function.Function;
 
+@SuppressWarnings({"unchecked", "rawtypes"})
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Slf4j
 public class FunctionParamsController extends AbstractController implements SampleContainer, ReportContainer {
-
-    private static final Map<Class<? extends Controller>, Function<SampleProperties, Interpolation>> MAPPER_MAP = Map.of(
-            FireModePaneController.class, SampleProperties::getFireMode,
-            HeatFlowPaneController.class, SampleProperties::getHeatFlow,
-            FirstThermocoupleGroupPaneController.class, sample -> sample.getUnheatedSurface().getFirstGroup(),
-            SecondThermocoupleGroupPaneController.class, sample -> sample.getUnheatedSurface().getSecondGroup(),
-            ThirdThermocoupleGroupPaneController.class, sample -> sample.getUnheatedSurface().getThirdGroup()
-    );
 
     @ParentController
     private ReportContainer parentController;
@@ -59,10 +46,10 @@ public class FunctionParamsController extends AbstractController implements Samp
     private FxmlLoadService fxmlLoadService;
 
     @FXML
-    private Spinner<Double> linearSpinner;
+    private Spinner<Double> linearityCoefficientSpinner;
 
     @FXML
-    private Spinner<Double> dispersionSpinner;
+    private Spinner<Double> dispersionCoefficientSpinner;
 
     @FXML
     private TableView<InterpolationPoint> interpolationPointsTableView;
@@ -73,6 +60,12 @@ public class FunctionParamsController extends AbstractController implements Samp
     @FXML
     private TableColumn<InterpolationPoint, Integer> valueColumn;
 
+    private InterpolationService interpolationService;
+
+    private Function<SampleProperties, Interpolation> propertiesMapper;
+
+    private Runnable postReportUpdateAction;
+
     @Override
     public Sample getSample() {
         return parentController.getSample();
@@ -80,19 +73,13 @@ public class FunctionParamsController extends AbstractController implements Samp
 
     @Override
     protected void initialize() {
-        linearSpinner.focusedProperty().addListener((observable, oldValue, newValue) ->
-                handleSpinnerFocusChanged(newValue, linearSpinner));
+        linearityCoefficientSpinner.focusedProperty().addListener((observable, oldValue, newValue) ->
+                handleLinearityCoefficientFocusChanged(newValue));
 
-        dispersionSpinner.focusedProperty().addListener((observable, oldValue, newValue) ->
-                handleSpinnerFocusChanged(newValue, dispersionSpinner));
+        dispersionCoefficientSpinner.focusedProperty().addListener((observable, oldValue, newValue) ->
+                handleDispersionCoefficientFocusChanged(newValue));
     }
 
-    private void handleSpinnerFocusChanged (Boolean newValue, Spinner<?> spinner) {
-        if (!newValue) {
-            log.info("Spinner {} lost focus, sample id: {}", spinner.getId(), getSample().getId());
-            commitSpinner(spinner);
-        }
-    }
     @Override
     public void postConstruct() {
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
@@ -102,10 +89,6 @@ public class FunctionParamsController extends AbstractController implements Samp
         initializeRowContextMenu();
 
         resetSettingsService.resetFunctionParameters(this);
-    }
-
-    public Function<SampleProperties, Interpolation> getSamplePropertiesMapper() {
-        return MAPPER_MAP.get(parentController.getClass());
     }
 
     private void initializeTableContextMenu() {
@@ -159,6 +142,20 @@ public class FunctionParamsController extends AbstractController implements Samp
         log.info("Interpolation point added");
 
         fxmlLoadService.loadInterpolationPointModalWindow().show();
+    }
+
+    private void handleLinearityCoefficientFocusChanged(Boolean focusValue) {
+        handleSpinnerLostFocus(focusValue, linearityCoefficientSpinner, () -> {
+            interpolationService.updateLinearityCoefficient(getReport(), linearityCoefficientSpinner.getValue());
+            postReportUpdateAction.run();
+        });
+    }
+
+    private void handleDispersionCoefficientFocusChanged(Boolean focusValue) {
+        handleSpinnerLostFocus(focusValue, dispersionCoefficientSpinner, () -> {
+            interpolationService.updateDispersionCoefficient(getReport(), dispersionCoefficientSpinner.getValue());
+            postReportUpdateAction.run();
+        });
     }
 
     @Override

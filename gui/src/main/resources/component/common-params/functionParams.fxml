@@ -36,7 +36,7 @@
 
                 <Label prefHeight="16.0" prefWidth="150.0" text="Коэффициент линейности:"/>
 
-                <Spinner fx:id="linearSpinner" editable="true" prefHeight="26.0" prefWidth="80.0"
+                <Spinner fx:id="linearityCoefficientSpinner" editable="true" prefHeight="26.0" prefWidth="80.0"
                          GridPane.columnIndex="1"/>
 
                 <Label prefHeight="16.0" prefWidth="150.0" text="Коэффициент дисперции:" GridPane.rowIndex="1">
@@ -45,7 +45,7 @@
                     </GridPane.margin>
                 </Label>
 
-                <Spinner fx:id="dispersionSpinner" editable="true" prefHeight="26.0" prefWidth="80.0"
+                <Spinner fx:id="dispersionCoefficientSpinner" editable="true" prefHeight="26.0" prefWidth="80.0"
                          GridPane.columnIndex="1" GridPane.rowIndex="1">
                     <GridPane.margin>
                         <Insets top="15.0"/>

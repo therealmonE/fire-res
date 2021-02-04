@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.InterpolationPoint;
 import io.github.therealmone.fireres.core.pipeline.ReportEnrichPipeline;
 import io.github.therealmone.fireres.unheated.surface.report.UnheatedSurfaceReport;
-import io.github.therealmone.fireres.unheated.surface.service.UnheatedSurfaceSecondGroupService;
 import io.github.therealmone.fireres.unheated.surface.service.UnheatedSurfaceThirdGroupService;
 import lombok.val;
 

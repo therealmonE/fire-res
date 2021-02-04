@@ -1,6 +1,7 @@
 package io.github.therealmone.fireres.gui.controller.fire.mode;
 
 import com.google.inject.Inject;
+import io.github.therealmone.fireres.core.config.SampleProperties;
 import io.github.therealmone.fireres.core.model.Report;
 import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.firemode.report.FireModeReport;
@@ -51,8 +52,13 @@ public class FireModePaneController extends AbstractController implements Report
     @Override
     protected void initialize() {
         fireModeParamsController.setFireModePaneController(this);
-        functionParamsController.setParentController(this);
         fireModeChartController.setFireModePaneController(this);
+
+        functionParamsController.setParentController(this);
+        functionParamsController.setInterpolationService(fireModeService);
+        functionParamsController.setPropertiesMapper(SampleProperties::getFireMode);
+        functionParamsController.setPostReportUpdateAction(() ->
+                chartsSynchronizationService.syncFireModeChart(fireModeChartController.getFireModeChart(), report));
     }
 
     @Override

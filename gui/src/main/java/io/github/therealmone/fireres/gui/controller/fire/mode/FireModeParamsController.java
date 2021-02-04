@@ -42,17 +42,12 @@ public class FireModeParamsController extends AbstractController implements Repo
     private ChartsSynchronizationService chartsSynchronizationService;
 
     @SneakyThrows
-    private void handleThermocoupleSpinnerFocusChanged(Boolean newValue) {
-        if (!newValue) {
-            log.info("Spinner {} lost focus, sample id: {}", thermocoupleSpinner.getId(), getSample().getId());
-            commitSpinner(thermocoupleSpinner);
-
+    private void handleThermocoupleSpinnerFocusChanged(Boolean focusValue) {
+        handleSpinnerLostFocus(focusValue, thermocoupleSpinner, () -> {
             fireModeService.updateThermocoupleCount((FireModeReport) getReport(), thermocoupleSpinner.getValue());
-            log.info("Report updated");
-
             chartsSynchronizationService.syncFireModeChart(
                     fireModePaneController.getFireModeChartController().getFireModeChart(), (FireModeReport) getReport());
-        }
+        });
     }
 
     @Override

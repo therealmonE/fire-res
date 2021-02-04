@@ -1,6 +1,5 @@
 package io.github.therealmone.fireres.gui.controller.excess.pressure;
 
-import io.github.therealmone.fireres.core.config.SampleProperties;
 import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.gui.annotation.ChildController;
 import io.github.therealmone.fireres.gui.annotation.ParentController;
