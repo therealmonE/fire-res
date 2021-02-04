@@ -30,6 +30,8 @@ import lombok.val;
 
 import java.util.function.Function;
 
+import static java.util.Collections.singletonList;
+
 @SuppressWarnings({"unchecked", "rawtypes"})
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -135,13 +137,13 @@ public class FunctionParamsController extends AbstractController implements Samp
     }
 
     private void handleRowDeletedEvent(TableRow<InterpolationPoint> affectedRow) {
+        interpolationService.removeInterpolationPoints(getReport(), singletonList(affectedRow.getItem()));
         interpolationPointsTableView.getItems().remove(affectedRow.getItem());
+        postReportUpdateAction.run();
     }
 
     private void handleRowAddedEvent(Event event) {
-        log.info("Interpolation point added");
-
-        fxmlLoadService.loadInterpolationPointModalWindow().show();
+        fxmlLoadService.loadInterpolationPointModalWindow(this).show();
     }
 
     private void handleLinearityCoefficientFocusChanged(Boolean focusValue) {

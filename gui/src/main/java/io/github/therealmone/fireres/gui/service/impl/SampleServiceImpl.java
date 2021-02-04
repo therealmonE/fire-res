@@ -34,7 +34,7 @@ public class SampleServiceImpl implements SampleService {
         val newTab = createSampleTab(
                 samplesTabPaneController,
                 newSampleProperties,
-                String.format("Образец №%d", samplesProperties.size() + 1));
+                String.format("Образец №%d", samplesProperties.size()));
 
         newTab.setUserData(new Sample(newSampleProperties));
         samplesTabPane.getTabs().add(samplesTabPane.getTabs().size() - 1, newTab);

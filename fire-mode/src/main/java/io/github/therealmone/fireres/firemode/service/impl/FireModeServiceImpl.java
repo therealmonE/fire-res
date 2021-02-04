@@ -57,7 +57,12 @@ public class FireModeServiceImpl implements FireModeService {
             currentPoints.addAll(pointsToAdd);
             currentPoints.sort(Comparator.comparing(InterpolationPoint::getTime));
 
-            reportPipeline.accept(report, MEAN_WITH_THERMOCOUPLE_TEMPERATURES);
+            try {
+                reportPipeline.accept(report, MEAN_WITH_THERMOCOUPLE_TEMPERATURES);
+            } catch (Exception e) {
+                currentPoints.removeAll(pointsToAdd);
+                throw e;
+            }
         }
     }
 

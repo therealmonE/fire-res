@@ -54,7 +54,12 @@ public class UnheatedSurfaceThirdGroupServiceImpl implements UnheatedSurfaceThir
             currentPoints.addAll(pointsToAdd);
             currentPoints.sort(Comparator.comparing(InterpolationPoint::getTime));
 
-            reportPipeline.accept(report, THIRD_GROUP_MEAN_WITH_THERMOCOUPLE_TEMPERATURES);
+            try {
+                reportPipeline.accept(report, THIRD_GROUP_MEAN_WITH_THERMOCOUPLE_TEMPERATURES);
+            } catch (Exception e) {
+                currentPoints.removeAll(pointsToAdd);
+                throw e;
+            }
         }
     }
 

@@ -4,12 +4,15 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import io.github.therealmone.fireres.gui.controller.SampleTabController;
 import io.github.therealmone.fireres.gui.controller.SamplesTabPaneController;
+import io.github.therealmone.fireres.gui.controller.common.FunctionParamsController;
+import io.github.therealmone.fireres.gui.controller.common.InterpolationPointsModalWindowController;
 import io.github.therealmone.fireres.gui.service.FxmlLoadService;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lombok.SneakyThrows;
@@ -51,17 +54,24 @@ public class FxmlLoadServiceImpl implements FxmlLoadService {
 
     @Override
     @SneakyThrows
-    public Stage loadInterpolationPointModalWindow() {
+    public Stage loadInterpolationPointModalWindow(FunctionParamsController functionParamsController) {
         val resource = getClass().getResource("/component/common-params/interpolationPointsModalWindow.fxml");
         val loader = createLoader(resource);
 
         val modalWindowPane = (Pane) loader.load();
+        val controller = (InterpolationPointsModalWindowController) loader.getController();
+
+        controller.setFunctionParamsController(functionParamsController);
+
         val modalWindow = new Stage();
 
         modalWindow.setScene(new Scene(modalWindowPane));
         modalWindow.setTitle("Добавление точек интерполяции");
         modalWindow.setResizable(false);
         modalWindow.initStyle(StageStyle.UTILITY);
+        modalWindow.initModality(Modality.APPLICATION_MODAL);
+
+        controller.setModalWindow(modalWindow);
 
         return modalWindow;
     }
