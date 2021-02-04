@@ -16,6 +16,7 @@ import io.github.therealmone.fireres.gui.controller.heat.flow.HeatFlowPaneContro
 import io.github.therealmone.fireres.gui.controller.unheated.surface.thermocouple.groups.first.thermocouple.group.FirstThermocoupleGroupPaneController;
 import io.github.therealmone.fireres.gui.controller.unheated.surface.thermocouple.groups.second.thermocouple.group.SecondThermocoupleGroupPaneController;
 import io.github.therealmone.fireres.gui.controller.unheated.surface.thermocouple.groups.third.thermocouple.group.ThirdThermocoupleGroupPaneController;
+import io.github.therealmone.fireres.gui.service.FxmlLoadService;
 import io.github.therealmone.fireres.gui.service.ResetSettingsService;
 import javafx.beans.binding.Bindings;
 import javafx.event.Event;
@@ -53,6 +54,9 @@ public class FunctionParamsController extends AbstractController implements Samp
 
     @Inject
     private ResetSettingsService resetSettingsService;
+
+    @Inject
+    private FxmlLoadService fxmlLoadService;
 
     @FXML
     private Spinner<Double> linearSpinner;
@@ -153,6 +157,8 @@ public class FunctionParamsController extends AbstractController implements Samp
 
     private void handleRowAddedEvent(Event event) {
         log.info("Interpolation point added");
+
+        fxmlLoadService.loadInterpolationPointModalWindow().show();
     }
 
     @Override

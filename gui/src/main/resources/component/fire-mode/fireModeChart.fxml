@@ -6,7 +6,7 @@
 
 <Pane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="io.github.therealmone.fireres.gui.controller.fire.mode.FireModeChartController">
-    <SmoothedLineChart fx:id="fireModeChart" focusTraversable="true" prefHeight="600.0" prefWidth="950.0">
+    <SmoothedLineChart fx:id="fireModeChart" focusTraversable="true" legendSide="RIGHT" prefHeight="600.0" prefWidth="950.0">
         <xAxis>
             <NumberAxis focusTraversable="true" label="Время, мин." side="BOTTOM"/>
         </xAxis>

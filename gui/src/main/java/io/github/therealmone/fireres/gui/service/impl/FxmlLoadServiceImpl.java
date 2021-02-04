@@ -9,6 +9,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import lombok.SneakyThrows;
 import lombok.val;
 
@@ -44,6 +47,23 @@ public class FxmlLoadServiceImpl implements FxmlLoadService {
         samplesTabPaneController.getSampleTabControllers().add(controller);
 
         return sampleTab;
+    }
+
+    @Override
+    @SneakyThrows
+    public Stage loadInterpolationPointModalWindow() {
+        val resource = getClass().getResource("/component/common-params/interpolationPointsModalWindow.fxml");
+        val loader = createLoader(resource);
+
+        val modalWindowPane = (Pane) loader.load();
+        val modalWindow = new Stage();
+
+        modalWindow.setScene(new Scene(modalWindowPane));
+        modalWindow.setTitle("Добавление точек интерполяции");
+        modalWindow.setResizable(false);
+        modalWindow.initStyle(StageStyle.UTILITY);
+
+        return modalWindow;
     }
 
     private FXMLLoader createLoader(URL resource) {

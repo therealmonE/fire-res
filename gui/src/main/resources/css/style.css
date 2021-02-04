@@ -16,3 +16,36 @@
     -fx-unit-increment: 10;
     -fx-block-increment: 50;
 }
+
+/* ====== LINE CHART =========================================================== */
+.chart {
+    -fx-create-symbols: false;
+}
+.chart-line-symbol {
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 5px;
+    -fx-padding: 5px;
+}
+
+.chart-series-line {
+    -fx-stroke-width: 4px;
+}
+
+#fireModeStandardTemperatureLine {
+    -fx-stroke: gray;
+    -fx-stroke-width: 1px;
+    -fx-opacity: 0.7;
+    -fx-stroke-dash-array: 2 12 12 2;
+}
+
+#fireModeMeanTemperatureLine{
+    -fx-stroke-width: 2px;
+}
+
+#fireModeMaxTemperatureLine{
+    -fx-stroke-width: 2px;
+}
+
+#fireModeMinTemperatureLine{
+    -fx-stroke-width: 2px;
+}
