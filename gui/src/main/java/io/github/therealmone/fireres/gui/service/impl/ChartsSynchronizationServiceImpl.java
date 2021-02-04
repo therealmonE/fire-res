@@ -18,14 +18,9 @@ public class ChartsSynchronizationServiceImpl implements ChartsSynchronizationSe
         chart.getData().clear();
 
         val series = new XYChart.Series<Number, Number>();
-
         val seriesMin = new XYChart.Series<Number, Number>();
-
         val seriesMax = new XYChart.Series<Number, Number>();
-
         val seriesStandard = new XYChart.Series<Number, Number>();
-
-        //todo: показывать остальные графики
 
         series.setName("Средняя температура");
         report.getThermocoupleMeanTemperature().getValue()
