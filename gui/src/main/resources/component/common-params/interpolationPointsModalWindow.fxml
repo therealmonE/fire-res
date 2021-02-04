@@ -10,7 +10,8 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<Pane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+<Pane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="io.github.therealmone.fireres.gui.controller.common.InterpolationPointsModalWindowController">
     <VBox>
         <GridPane>
 
@@ -44,13 +45,13 @@
                     <Insets top="15.0"/>
                 </GridPane.margin>
             </Spinner>
-            <Button prefWidth="100.0" GridPane.columnIndex="0" GridPane.rowIndex="2" text="Добавить">
+            <Button prefWidth="100.0" GridPane.columnIndex="0" GridPane.rowIndex="2" text="Добавить" onAction="#addInterpolationPoint">
                 <GridPane.margin>
                     <Insets top="15.0"/>
                 </GridPane.margin>
             </Button>
 
-            <Button prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2" text="Отменить">
+            <Button prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2" text="Отменить" onAction="#closeWindow">
                 <GridPane.margin>
                     <Insets top="15.0"/>
                 </GridPane.margin>

@@ -62,7 +62,12 @@ public class HeatFlowServiceImpl implements HeatFlowService {
             currentPoints.addAll(pointsToAdd);
             currentPoints.sort(Comparator.comparing(InterpolationPoint::getTime));
 
-            reportPipeline.accept(report, MEAN_WITH_SENSORS_TEMPERATURES);
+            try {
+                reportPipeline.accept(report, MEAN_WITH_SENSORS_TEMPERATURES);
+            } catch (Exception e) {
+                currentPoints.removeAll(pointsToAdd);
+                throw e;
+            }
         }
     }
 

@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.InterpolationPoint;
 import io.github.therealmone.fireres.core.pipeline.ReportEnrichPipeline;
 import io.github.therealmone.fireres.unheated.surface.report.UnheatedSurfaceReport;
-import io.github.therealmone.fireres.unheated.surface.service.UnheatedSurfaceSecondGroupService;
 import io.github.therealmone.fireres.unheated.surface.service.UnheatedSurfaceThirdGroupService;
 import lombok.val;
 
@@ -55,7 +54,12 @@ public class UnheatedSurfaceThirdGroupServiceImpl implements UnheatedSurfaceThir
             currentPoints.addAll(pointsToAdd);
             currentPoints.sort(Comparator.comparing(InterpolationPoint::getTime));
 
-            reportPipeline.accept(report, THIRD_GROUP_MEAN_WITH_THERMOCOUPLE_TEMPERATURES);
+            try {
+                reportPipeline.accept(report, THIRD_GROUP_MEAN_WITH_THERMOCOUPLE_TEMPERATURES);
+            } catch (Exception e) {
+                currentPoints.removeAll(pointsToAdd);
+                throw e;
+            }
         }
     }
 
