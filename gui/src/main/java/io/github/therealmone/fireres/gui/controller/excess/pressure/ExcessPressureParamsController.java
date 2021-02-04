@@ -2,10 +2,11 @@ package io.github.therealmone.fireres.gui.controller.excess.pressure;
 
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
+import io.github.therealmone.fireres.core.model.Report;
 import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.controller.AbstractController;
-import io.github.therealmone.fireres.gui.controller.SampleContainer;
+import io.github.therealmone.fireres.gui.controller.ReportContainer;
 import io.github.therealmone.fireres.gui.service.ResetSettingsService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Spinner;
@@ -16,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Slf4j
-public class ExcessPressureParamsController extends AbstractController implements SampleContainer {
+public class ExcessPressureParamsController extends AbstractController implements ReportContainer {
 
     @ParentController
     private ExcessPressurePaneController excessPressurePaneController;
@@ -63,5 +64,10 @@ public class ExcessPressureParamsController extends AbstractController implement
     @Override
     public Sample getSample() {
         return excessPressurePaneController.getSample();
+    }
+
+    @Override
+    public Report getReport() {
+        return excessPressurePaneController.getReport();
     }
 }
