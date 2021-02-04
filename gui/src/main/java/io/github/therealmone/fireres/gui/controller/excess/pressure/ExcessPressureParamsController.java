@@ -1,12 +1,14 @@
 package io.github.therealmone.fireres.gui.controller.excess.pressure;
 
 import com.google.inject.Inject;
-import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.model.Report;
 import io.github.therealmone.fireres.core.model.Sample;
+import io.github.therealmone.fireres.excess.pressure.report.ExcessPressureReport;
+import io.github.therealmone.fireres.excess.pressure.service.ExcessPressureService;
 import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.controller.AbstractController;
 import io.github.therealmone.fireres.gui.controller.ReportContainer;
+import io.github.therealmone.fireres.gui.service.ChartsSynchronizationService;
 import io.github.therealmone.fireres.gui.service.ResetSettingsService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Spinner;
@@ -35,18 +37,21 @@ public class ExcessPressureParamsController extends AbstractController implement
     private ResetSettingsService resetSettingsService;
 
     @Inject
-    private GenerationProperties generationProperties;
+    private ExcessPressureService excessPressureService;
+
+    @Inject
+    private ChartsSynchronizationService chartsSynchronizationService;
 
     @Override
     protected void initialize() {
         basePressureSpinner.focusedProperty().addListener((observable, oldValue, newValue) ->
-                handleSpinnerFocusChanged(newValue, basePressureSpinner));
+                handleBasePressureSpinnerLostFocus(newValue));
 
         dispersionCoefficientSpinner.focusedProperty().addListener((observable, oldValue, newValue) ->
-                handleSpinnerFocusChanged(newValue, dispersionCoefficientSpinner));
+                handleDispersionCoefficientLostFocus(newValue));
 
         deltaSpinner.focusedProperty().addListener((observable, oldValue, newValue) ->
-                handleSpinnerFocusChanged(newValue, deltaSpinner));
+                handleDeltaSpinnerLostFocus(newValue));
     }
 
     @Override
@@ -54,11 +59,30 @@ public class ExcessPressureParamsController extends AbstractController implement
         resetSettingsService.resetExcessPressureParameters(this);
     }
 
-    private void handleSpinnerFocusChanged(Boolean newValue, Spinner<?> spinner) {
-        if (!newValue) {
-            log.info("Spinner {} lost focus, sample id: {}", spinner.getId(), getSample().getId());
-            commitSpinner(spinner);
-        }
+    private void handleBasePressureSpinnerLostFocus(Boolean focusValue) {
+        handleSpinnerLostFocus(focusValue, basePressureSpinner, () -> {
+            excessPressureService.updateBasePressure((ExcessPressureReport) getReport(), basePressureSpinner.getValue());
+            chartsSynchronizationService.syncExcessPressureChart(
+                    excessPressurePaneController.getExcessPressureChartController().getExcessPressureChart(),
+                    (ExcessPressureReport) getReport());
+        });
+    }
+    private void handleDispersionCoefficientLostFocus(Boolean focusValue) {
+        handleSpinnerLostFocus(focusValue, dispersionCoefficientSpinner, () -> {
+            excessPressureService.updateDispersionCoefficient((ExcessPressureReport) getReport(), dispersionCoefficientSpinner.getValue());
+            chartsSynchronizationService.syncExcessPressureChart(
+                    excessPressurePaneController.getExcessPressureChartController().getExcessPressureChart(),
+                    (ExcessPressureReport) getReport());
+        });
+    }
+
+    private void handleDeltaSpinnerLostFocus(Boolean focusValue) {
+        handleSpinnerLostFocus(focusValue, deltaSpinner, () -> {
+            excessPressureService.updateDelta((ExcessPressureReport) getReport(), deltaSpinner.getValue());
+            chartsSynchronizationService.syncExcessPressureChart(
+                    excessPressurePaneController.getExcessPressureChartController().getExcessPressureChart(),
+                    (ExcessPressureReport) getReport());
+        });
     }
 
     @Override

@@ -39,37 +39,37 @@
                 </padding>
             </Label>
 
-            <Label prefHeight="16.0" prefWidth="150.0" text="Коэффициент дисперсии:" GridPane.rowIndex="1">
-                <GridPane.margin>
-                    <Insets top="15.0"/>
-                </GridPane.margin>
-            </Label>
-
-            <Spinner fx:id="dispersionCoefficientSpinner" editable="true" prefHeight="26.0" prefWidth="80.0"
-                     GridPane.columnIndex="1" GridPane.rowIndex="1">
-                <GridPane.margin>
-                    <Insets top="15.0"/>
-                </GridPane.margin>
-            </Spinner>
-
-            <Label prefHeight="16.0" prefWidth="150.0" text="Дельта:" GridPane.rowIndex="2">
+            <Label prefHeight="16.0" prefWidth="150.0" text="Дельта:" GridPane.rowIndex="1">
                 <GridPane.margin>
                     <Insets top="15.0"/>
                 </GridPane.margin>
             </Label>
 
             <Spinner fx:id="deltaSpinner" editable="true" prefHeight="26.0" prefWidth="80.0" GridPane.columnIndex="1"
-                     GridPane.rowIndex="2">
+                     GridPane.rowIndex="1">
                 <GridPane.margin>
                     <Insets top="15.0"/>
                 </GridPane.margin>
             </Spinner>
 
-            <Label prefWidth="15.0" text="Δ" GridPane.columnIndex="2" GridPane.rowIndex="2">
+            <Label prefWidth="15.0" text="Δ" GridPane.columnIndex="2" GridPane.rowIndex="1">
                 <padding>
                     <Insets left="5.0" top="15.0"/>
                 </padding>
             </Label>
+
+            <Label prefHeight="16.0" prefWidth="150.0" text="Коэффициент дисперсии:" GridPane.rowIndex="2">
+                <GridPane.margin>
+                    <Insets top="15.0"/>
+                </GridPane.margin>
+            </Label>
+
+            <Spinner fx:id="dispersionCoefficientSpinner" editable="true" prefHeight="26.0" prefWidth="80.0"
+                     GridPane.columnIndex="1" GridPane.rowIndex="2">
+                <GridPane.margin>
+                    <Insets top="15.0"/>
+                </GridPane.margin>
+            </Spinner>
 
         </GridPane>
         <padding>
