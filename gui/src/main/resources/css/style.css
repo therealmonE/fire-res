@@ -33,8 +33,17 @@
 }
 
 #fireModeStandardTemperatureLine {
-    -fx-stroke: gray;
+    -fx-stroke: rgba(128, 128, 128, 0.7);
     -fx-stroke-width: 1px;
-    -fx-opacity: 0.7;
     -fx-stroke-dash-array: 2 12 12 2;
 }
+#heatFlowSensorsLine {
+    -fx-stroke-width: 1px;
+}
+
+#heatFlowMeanFlowLine {
+    -fx-stroke-width: 4px;
+    -fx-stroke:red;
+}
+
+

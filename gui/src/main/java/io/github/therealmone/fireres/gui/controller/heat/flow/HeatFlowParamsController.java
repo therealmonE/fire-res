@@ -1,12 +1,15 @@
 package io.github.therealmone.fireres.gui.controller.heat.flow;
 
 import com.google.inject.Inject;
-import io.github.therealmone.fireres.core.config.GenerationProperties;
+import io.github.therealmone.fireres.core.model.Report;
 import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.controller.AbstractController;
-import io.github.therealmone.fireres.gui.controller.SampleContainer;
+import io.github.therealmone.fireres.gui.controller.ReportContainer;
+import io.github.therealmone.fireres.gui.service.ChartsSynchronizationService;
 import io.github.therealmone.fireres.gui.service.ResetSettingsService;
+import io.github.therealmone.fireres.heatflow.report.HeatFlowReport;
+import io.github.therealmone.fireres.heatflow.service.HeatFlowService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Spinner;
 import lombok.Data;
@@ -16,30 +19,33 @@ import lombok.extern.slf4j.Slf4j;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Slf4j
-public class HeatFlowParamsController extends AbstractController implements SampleContainer {
+public class HeatFlowParamsController extends AbstractController implements ReportContainer {
 
     @ParentController
     private HeatFlowPaneController heatFlowPaneController;
 
     @FXML
-    private Spinner<Double> sensorSpinner;
+    private Spinner<Integer> sensorSpinner;
 
     @FXML
-    private Spinner<Double> heatFlowSpinner;
+    private Spinner<Integer> heatFlowBoundSpinner;
 
     @Inject
     private ResetSettingsService resetSettingsService;
 
     @Inject
-    private GenerationProperties generationProperties;
+    private HeatFlowService heatFlowService;
+
+    @Inject
+    private ChartsSynchronizationService chartsSynchronizationService;
 
     @Override
     protected void initialize() {
         sensorSpinner.focusedProperty().addListener((observable, oldValue, newValue) ->
-                handleSpinnerFocusChanged(newValue, sensorSpinner));
+                handleSensorSpinnerLostFocus(newValue));
 
-        heatFlowSpinner.focusedProperty().addListener((observable, oldValue, newValue) ->
-                handleSpinnerFocusChanged(newValue, heatFlowSpinner));
+        heatFlowBoundSpinner.focusedProperty().addListener((observable, oldValue, newValue) ->
+                handleHeatFlowBoundSpinnerLostFocus(newValue));
     }
 
     @Override
@@ -47,15 +53,31 @@ public class HeatFlowParamsController extends AbstractController implements Samp
         resetSettingsService.resetHeatFlowParameters(this);
     }
 
-    private void handleSpinnerFocusChanged(Boolean newValue, Spinner<?> spinner) {
-        if (!newValue) {
-            log.info("Spinner {} lost focus, sample id: {}", spinner.getId(), getSample().getId());
-            commitSpinner(spinner);
-        }
+    private void handleSensorSpinnerLostFocus(Boolean focusValue) {
+        handleSpinnerLostFocus(focusValue, sensorSpinner, () -> {
+            heatFlowService.updateSensorsCount((HeatFlowReport) getReport(), sensorSpinner.getValue());
+            chartsSynchronizationService.syncHeatFlowChart(
+                    heatFlowPaneController.getHeatFlowChartController().getHeatFlowChart(),
+                    (HeatFlowReport) getReport());
+        });
     }
+    private void handleHeatFlowBoundSpinnerLostFocus(Boolean focusValue) {
+        handleSpinnerLostFocus(focusValue, heatFlowBoundSpinner, () -> {
+            heatFlowService.updateBound((HeatFlowReport) getReport(), heatFlowBoundSpinner.getValue());
+            chartsSynchronizationService.syncHeatFlowChart(
+                    heatFlowPaneController.getHeatFlowChartController().getHeatFlowChart(),
+                    (HeatFlowReport) getReport());
+        });
+    }
+
 
     @Override
     public Sample getSample() {
         return heatFlowPaneController.getSample();
+    }
+
+    @Override
+    public Report getReport() {
+        return heatFlowPaneController.getReport();
     }
 }

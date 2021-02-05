@@ -13,4 +13,9 @@ public final class ElementIds {
     public static final String EXCESS_PRESSURE_MAX_ALLOWED_PRESSURE_LINE = "excessPressureMaxAllowedPressureLine";
     public static final String EXCESS_PRESSURE_LINE = "excessPressureLine";
 
+    public static final String HEAT_FLOW_SENSORS_LINE = "heatFlowSensorsLine";
+    public static final String HEAT_FLOW_MAX_ALLOWED_FLOW_LINE = "heatFlowMaxAllowedFlowLine";
+    public static final String HEAT_FLOW_MEAN_FLOW_LINE = "heatFlowMeanFlowLine";
+
+
 }

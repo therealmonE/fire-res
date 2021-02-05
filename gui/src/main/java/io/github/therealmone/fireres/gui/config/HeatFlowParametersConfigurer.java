@@ -12,37 +12,37 @@ public class HeatFlowParametersConfigurer implements Configurer<HeatFlowParamsCo
     private static final Integer DEFAULT_SENSORS_COUNT_MIN = 1;
     private static final Integer DEFAULT_SENSORS_COUNT_MAX = 100;
 
-    private static final Integer DEFAULT_HEAT_FLOW = 1;
-    private static final Integer DEFAULT_HEAT_FLOW_MIN = 1;
-    private static final Integer DEFAULT_HEAT_FLOW_MAX = 10000;
-    private static final Integer DEFAULT_HEAT_FLOW_INCREMENT = 100;
+    private static final Integer DEFAULT_HEAT_FLOW_BOUND = 3500;
+    private static final Integer DEFAULT_HEAT_FLOW_MIN_BOUND = 1000;
+    private static final Integer DEFAULT_HEAT_FLOW_MAX_BOUND = 100000;
+    private static final Integer DEFAULT_HEAT_FLOW_BOUND_INCREMENT = 100;
 
     @Override
     public void config(HeatFlowParamsController controller) {
         val sampleProperties = controller.getSample().getSampleProperties();
 
         resetSensorsCount(controller.getSensorSpinner(), sampleProperties);
-        resetHeatFlow(controller.getHeatFlowSpinner(), sampleProperties);
+        resetHeatFlowBound(controller.getHeatFlowBoundSpinner(), sampleProperties);
     }
 
-    private void resetSensorsCount(Spinner<Double> SensorsCount, SampleProperties sample) {
+    private void resetSensorsCount(Spinner<Integer> sensorsCount, SampleProperties sample) {
         sample.getHeatFlow().setSensorCount(DEFAULT_SENSORS_COUNT);
 
-        SensorsCount.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(
+        sensorsCount.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(
                 DEFAULT_SENSORS_COUNT_MIN,
                 DEFAULT_SENSORS_COUNT_MAX,
                 DEFAULT_SENSORS_COUNT
         ));
     }
 
-    private void resetHeatFlow(Spinner<Double> heatFlow, SampleProperties sample) {
-        sample.getHeatFlow().setBound(DEFAULT_HEAT_FLOW);
+    private void resetHeatFlowBound(Spinner<Integer> heatFlow, SampleProperties sample) {
+        sample.getHeatFlow().setBound(DEFAULT_HEAT_FLOW_BOUND);
 
-        heatFlow.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(
-                DEFAULT_HEAT_FLOW_MIN,
-                DEFAULT_HEAT_FLOW_MAX,
-                DEFAULT_HEAT_FLOW,
-                DEFAULT_HEAT_FLOW_INCREMENT
+        heatFlow.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(
+                DEFAULT_HEAT_FLOW_MIN_BOUND,
+                DEFAULT_HEAT_FLOW_MAX_BOUND,
+                DEFAULT_HEAT_FLOW_BOUND,
+                DEFAULT_HEAT_FLOW_BOUND_INCREMENT
         ));
     }
 }
