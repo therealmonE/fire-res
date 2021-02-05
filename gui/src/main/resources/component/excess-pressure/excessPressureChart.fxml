@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
-    <LineChart fx:id="excessPressureChart" focusTraversable="true" prefHeight="600.0" prefWidth="950.0">
+<Pane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="io.github.therealmone.fireres.gui.controller.excess.pressure.ExcessPressureChartController">
+    <LineChart fx:id="excessPressureChart" prefHeight="600.0" prefWidth="950.0" legendSide="RIGHT">
         <xAxis>
-            <CategoryAxis focusTraversable="true" label="Время, мин." side="BOTTOM"/>
+            <NumberAxis label="Время, мин." side="BOTTOM"/>
         </xAxis>
 
         <yAxis>
-            <NumberAxis label="Температура °C" side="LEFT"/>
+            <NumberAxis side="LEFT"/>
         </yAxis>
     </LineChart>
 </Pane>

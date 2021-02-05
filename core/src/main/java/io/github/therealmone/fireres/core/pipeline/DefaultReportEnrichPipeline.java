@@ -22,7 +22,7 @@ public class DefaultReportEnrichPipeline<R extends Report> implements ReportEnri
 
     @Override
     public void accept(R report, ReportEnrichType enrichType) {
-        log.info("Enriching report: {}, id: {} with :{}",
+        log.info("Enriching report: {}, id: {} with: {}",
                 report.getClass().getSimpleName(), report.getId(), ((Enum<?>) enrichType).name());
 
         val enricher = lookUpEnricher(enrichType);

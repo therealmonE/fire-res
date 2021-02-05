@@ -13,7 +13,7 @@ public class PrimaryStageConfigurer implements Configurer<Stage> {
         stage.setWidth(1280);
         stage.setHeight(1024);
 
-        stage.setResizable(false);
+        stage.setResizable(true);
     }
 
 }
