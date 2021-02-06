@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
-    <LineChart fx:id="secondThermocoupleGroupChart" focusTraversable="true" prefHeight="600.0" prefWidth="950.0">
+<?import io.github.therealmone.fireres.gui.component.SmoothedLineChart?>
+
+<Pane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="io.github.therealmone.fireres.gui.controller.unheated.surface.thermocouple.groups.second.thermocouple.group.SecondThermocoupleGroupChartController">
+    <SmoothedLineChart fx:id="secondThermocoupleGroupChart" focusTraversable="true" prefHeight="600.0" prefWidth="950.0">
         <xAxis>
-            <CategoryAxis focusTraversable="true" label="Время, мин" side="BOTTOM"/>
+            <NumberAxis label="Время, мин" side="BOTTOM"/>
         </xAxis>
 
         <yAxis>
             <NumberAxis label="Температура °C" side="LEFT"/>
         </yAxis>
-    </LineChart>
+    </SmoothedLineChart>
 </Pane>

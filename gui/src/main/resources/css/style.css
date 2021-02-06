@@ -37,6 +37,7 @@
     -fx-stroke-width: 1px;
     -fx-stroke-dash-array: 2 12 12 2;
 }
+
 #heatFlowSensorsLine {
     -fx-stroke-width: 1px;
 }
@@ -46,4 +47,30 @@
     -fx-stroke:red;
 }
 
+#firstThermocoupleGroupMeanTemperatureLine{
+    -fx-stroke-width: 4px;
+    -fx-stroke:red;
+}
+
+#firstThermocoupleGroupThermocoupleTemperatureLine{
+    -fx-stroke-width: 1px;
+}
+
+#secondThermocoupleGroupMeanTemperatureLine{
+    -fx-stroke-width: 4px;
+    -fx-stroke:red;
+}
+
+#secondThermocoupleGroupThermocoupleTemperatureLine{
+    -fx-stroke-width: 1px;
+}
+
+#thirdThermocoupleGroupMeanTemperatureLine{
+    -fx-stroke-width: 4px;
+    -fx-stroke:red;
+}
+
+#thirdThermocoupleGroupThermocoupleTemperatureLine{
+    -fx-stroke-width: 1px;
+}
 

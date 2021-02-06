@@ -14,7 +14,7 @@ public class ThirdThermocoupleGroupParametersConfigurer implements Configurer<Th
     private static final Integer DEFAULT_THERMOCOUPLES_NUMBER_MAX = 100;
 
     private static final Integer DEFAULT_BOUND = 300;
-    private static final Integer DEFAULT_BOUND_MIN = 1;
+    private static final Integer DEFAULT_BOUND_MIN = 2;
     private static final Integer DEFAULT_BOUND_MAX = 10000;
     private static final Integer DEFAULT_BOUND_INCREMENT = 100;
 
@@ -37,7 +37,7 @@ public class ThirdThermocoupleGroupParametersConfigurer implements Configurer<Th
     }
 
     private void resetBound(Spinner<Integer> ThermocouplesBound, SampleProperties sample) {
-        sample.getUnheatedSurface().getThirdGroup().setBound(DEFAULT_THERMOCOUPLES_NUMBER);
+        sample.getUnheatedSurface().getThirdGroup().setBound(DEFAULT_BOUND);
 
         ThermocouplesBound.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(
                 DEFAULT_BOUND_MIN,

@@ -9,6 +9,8 @@ import io.github.therealmone.fireres.gui.controller.AbstractController;
 import io.github.therealmone.fireres.gui.controller.ReportContainer;
 import io.github.therealmone.fireres.gui.controller.common.FunctionParamsController;
 import io.github.therealmone.fireres.gui.controller.unheated.surface.UnheatedSurfacePaneController;
+import io.github.therealmone.fireres.gui.service.ChartsSynchronizationService;
+import io.github.therealmone.fireres.unheated.surface.report.UnheatedSurfaceReport;
 import io.github.therealmone.fireres.unheated.surface.service.UnheatedSurfaceThirdGroupService;
 import javafx.fxml.FXML;
 import lombok.Data;
@@ -16,12 +18,15 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-
 public class ThirdThermocoupleGroupPaneController extends AbstractController implements ReportContainer {
 
     @FXML
     @ChildController
     private ThirdThermocoupleGroupParamsController thirdThermocoupleGroupParamsController;
+
+    @FXML
+    @ChildController
+    private ThirdThermocoupleGroupChartController thirdThermocoupleGroupChartController;
 
     @FXML
     @ChildController
@@ -33,6 +38,9 @@ public class ThirdThermocoupleGroupPaneController extends AbstractController imp
     @Inject
     private UnheatedSurfaceThirdGroupService unheatedSurfaceThirdGroupService;
 
+    @Inject
+    private ChartsSynchronizationService chartsSynchronizationService;
+
     @Override
     public Sample getSample() {
         return unheatedSurfacePaneController.getSample();
@@ -41,10 +49,14 @@ public class ThirdThermocoupleGroupPaneController extends AbstractController imp
     @Override
     protected void initialize() {
         thirdThermocoupleGroupParamsController.setThirdThermocoupleGroupPaneController(this);
+        thirdThermocoupleGroupChartController.setThirdThermocoupleGroupPaneController(this);
 
         functionParamsController.setParentController(this);
         functionParamsController.setInterpolationService(unheatedSurfaceThirdGroupService);
         functionParamsController.setPropertiesMapper(sampleProperties -> sampleProperties.getUnheatedSurface().getThirdGroup());
+        functionParamsController.setPostReportUpdateAction(() ->
+                chartsSynchronizationService.syncThirdThermocoupleGroupChart(
+                        thirdThermocoupleGroupChartController.getThirdThermocoupleGroupChart(), (UnheatedSurfaceReport) getReport()));
     }
 
     @Override
@@ -55,6 +67,6 @@ public class ThirdThermocoupleGroupPaneController extends AbstractController imp
 
     @Override
     public Report getReport() {
-        return null;
+        return unheatedSurfacePaneController.getReport();
     }
 }
