@@ -11,6 +11,7 @@ import lombok.val;
 import java.util.Comparator;
 import java.util.List;
 
+import static io.github.therealmone.fireres.heatflow.pipeline.HeatFlowReportEnrichType.BOUND;
 import static io.github.therealmone.fireres.heatflow.pipeline.HeatFlowReportEnrichType.MEAN_WITH_SENSORS_TEMPERATURES;
 
 public class HeatFlowServiceImpl implements HeatFlowService {
@@ -37,26 +38,28 @@ public class HeatFlowServiceImpl implements HeatFlowService {
 
     @Override
     public void updateBound(HeatFlowReport report, Integer bound) {
+        report.getSample().getSampleProperties().getHeatFlow().setBound(bound);
 
+        reportPipeline.accept(report, BOUND);
     }
 
     @Override
     public void updateLinearityCoefficient(HeatFlowReport report, Double linearityCoefficient) {
-        report.getSample().getSampleProperties().getFireMode().setLinearityCoefficient(linearityCoefficient);
+        report.getSample().getSampleProperties().getHeatFlow().setLinearityCoefficient(linearityCoefficient);
 
         reportPipeline.accept(report, MEAN_WITH_SENSORS_TEMPERATURES);
     }
 
     @Override
     public void updateDispersionCoefficient(HeatFlowReport report, Double dispersionCoefficient) {
-        report.getSample().getSampleProperties().getFireMode().setDispersionCoefficient(dispersionCoefficient);
+        report.getSample().getSampleProperties().getHeatFlow().setDispersionCoefficient(dispersionCoefficient);
 
         reportPipeline.accept(report, MEAN_WITH_SENSORS_TEMPERATURES);
     }
 
     @Override
     public void addInterpolationPoints(HeatFlowReport report, List<InterpolationPoint> pointsToAdd) {
-        val currentPoints = report.getSample().getSampleProperties().getFireMode().getInterpolationPoints();
+        val currentPoints = report.getSample().getSampleProperties().getHeatFlow().getInterpolationPoints();
 
         if (!pointsToAdd.isEmpty()) {
             currentPoints.addAll(pointsToAdd);
@@ -73,7 +76,7 @@ public class HeatFlowServiceImpl implements HeatFlowService {
 
     @Override
     public void removeInterpolationPoints(HeatFlowReport report, List<InterpolationPoint> pointsToRemove) {
-        val currentPoints = report.getSample().getSampleProperties().getFireMode().getInterpolationPoints();
+        val currentPoints = report.getSample().getSampleProperties().getHeatFlow().getInterpolationPoints();
 
         if (currentPoints.removeIf(pointsToRemove::contains)) {
             reportPipeline.accept(report, MEAN_WITH_SENSORS_TEMPERATURES);
