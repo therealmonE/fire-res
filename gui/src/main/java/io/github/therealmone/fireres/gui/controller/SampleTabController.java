@@ -12,6 +12,7 @@ import io.github.therealmone.fireres.gui.service.SampleService;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +40,21 @@ public class SampleTabController extends AbstractController implements SampleCon
 
     @FXML
     private Tab sampleTab;
+
+    @FXML
+    private Tab fireModeTab;
+
+    @FXML
+    private Tab excessPressureTab;
+
+    @FXML
+    private Tab heatFlowTab;
+
+    @FXML
+    private Tab unheatedSurfaceTab;
+
+    @FXML
+    private TabPane reportsTabPane;
 
     @FXML
     @ChildController

@@ -64,11 +64,10 @@
 
             <MenuButton fx:id="includedReportsMenuButton" mnemonicParsing="false" text="Отчеты" GridPane.columnIndex="3">
                 <items>
-                    <CheckMenuItem mnemonicParsing="false" selected="true" text="Режим пожара"/>
-                    <CheckMenuItem mnemonicParsing="false" selected="true" text="Избыточное давление"/>
-                    <CheckMenuItem mnemonicParsing="false" selected="true"
-                                   text="Необогреваемая поверхность"/>
-                    <CheckMenuItem mnemonicParsing="false" selected="true" text="Тепловой поток"/>
+                    <CheckMenuItem mnemonicParsing="false" selected="true" text="Режим пожара" onAction="#changeFireModeInclusion"/>
+                    <CheckMenuItem mnemonicParsing="false" selected="true" text="Избыточное давление" onAction="#changeExcessPressureInclusion"/>
+                    <CheckMenuItem mnemonicParsing="false" selected="true" text="Тепловой поток" onAction="#changeHeatFlowInclusion"/>
+                    <CheckMenuItem mnemonicParsing="false" selected="true" text="Необогреваемая поверхность" onAction="#changeUnheatedSurfaceInclusion"/>
                 </items>
             </MenuButton>
         </GridPane>

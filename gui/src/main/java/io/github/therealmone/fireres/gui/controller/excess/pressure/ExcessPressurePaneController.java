@@ -1,6 +1,7 @@
 package io.github.therealmone.fireres.gui.controller.excess.pressure;
 
 import com.google.inject.Inject;
+import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.model.Report;
 import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.excess.pressure.report.ExcessPressureReport;
@@ -9,15 +10,20 @@ import io.github.therealmone.fireres.gui.annotation.ChildController;
 import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.controller.AbstractController;
 import io.github.therealmone.fireres.gui.controller.ReportContainer;
+import io.github.therealmone.fireres.gui.controller.ReportInclusionChanger;
 import io.github.therealmone.fireres.gui.controller.SampleTabController;
 import io.github.therealmone.fireres.gui.service.ChartsSynchronizationService;
 import javafx.fxml.FXML;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import static io.github.therealmone.fireres.core.config.ReportType.EXCESS_PRESSURE;
+import static io.github.therealmone.fireres.gui.util.TabUtils.disableTab;
+import static io.github.therealmone.fireres.gui.util.TabUtils.enableTab;
+
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class ExcessPressurePaneController extends AbstractController implements ReportContainer {
+public class ExcessPressurePaneController extends AbstractController implements ReportContainer, ReportInclusionChanger {
 
     private ExcessPressureReport report;
 
@@ -38,6 +44,9 @@ public class ExcessPressurePaneController extends AbstractController implements 
     @ParentController
     private SampleTabController sampleTabController;
 
+    @Inject
+    private GenerationProperties generationProperties;
+
     @Override
     public Sample getSample() {
         return sampleTabController.getSample();
@@ -53,12 +62,34 @@ public class ExcessPressurePaneController extends AbstractController implements 
     public void postConstruct() {
         excessPressureParamsController.postConstruct();
 
-        this.report = excessPressureService.createReport(getSample());
+        createReport();
         chartsSynchronizationService.syncExcessPressureChart(excessPressureChartController.getExcessPressureChart(), report);
+    }
+
+    private void createReport() {
+        this.report = excessPressureService.createReport(getSample());
+
+        if (!generationProperties.getGeneral().getIncludedReports().contains(EXCESS_PRESSURE)) {
+            excludeReport();
+        }
     }
 
     @Override
     public Report getReport() {
         return report;
+    }
+
+    @Override
+    public void excludeReport() {
+        getSample().removeReport(report);
+        disableTab(sampleTabController.getExcessPressureTab());
+        generationProperties.getGeneral().getIncludedReports().removeIf(EXCESS_PRESSURE::equals);
+    }
+
+    @Override
+    public void includeReport() {
+        getSample().putReport(report);
+        enableTab(sampleTabController.getExcessPressureTab(), sampleTabController.getReportsTabPane());
+        generationProperties.getGeneral().getIncludedReports().add(EXCESS_PRESSURE);
     }
 }
