@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 public interface FxmlLoadService {
 
-    Scene loadMainScene();
+    Scene loadMainScene(Stage primaryStage);
 
     Tab loadSampleTab(SamplesTabPaneController samplesTabPaneController, Object userData);
 

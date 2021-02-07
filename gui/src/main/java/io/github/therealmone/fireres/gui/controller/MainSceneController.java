@@ -2,8 +2,15 @@ package io.github.therealmone.fireres.gui.controller;
 
 import io.github.therealmone.fireres.gui.annotation.ChildController;
 import javafx.fxml.FXML;
+import javafx.stage.Stage;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class MainSceneController extends AbstractController {
+
+    private Stage primaryStage;
 
     @FXML
     @ChildController

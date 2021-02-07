@@ -2,6 +2,7 @@ package io.github.therealmone.fireres.gui.service.impl;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import io.github.therealmone.fireres.gui.controller.MainSceneController;
 import io.github.therealmone.fireres.gui.controller.SampleTabController;
 import io.github.therealmone.fireres.gui.controller.SamplesTabPaneController;
 import io.github.therealmone.fireres.gui.controller.common.FunctionParamsController;
@@ -27,10 +28,12 @@ public class FxmlLoadServiceImpl implements FxmlLoadService {
 
     @Override
     @SneakyThrows
-    public Scene loadMainScene() {
+    public Scene loadMainScene(Stage primaryStage) {
         val mainSceneResource = getClass().getResource("/scene/mainScene.fxml");
         val loader = createLoader(mainSceneResource);
         val root = (Parent) loader.load();
+
+        ((MainSceneController) loader.getController()).setPrimaryStage(primaryStage);
 
         return new Scene(root);
     }

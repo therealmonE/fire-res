@@ -13,6 +13,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.Comparator;
 import java.util.Map;
 
 @Slf4j
@@ -22,6 +23,9 @@ public class ExcelReportConstructor implements ReportConstructor {
 
     @Inject
     private Map<Class<? extends Report>, ExcelSheetsBuilder> builderMap;
+
+    @Inject
+    private Map<Class<? extends Report>, Integer> reportOrder;
 
     @Override
     @SneakyThrows
@@ -37,9 +41,11 @@ public class ExcelReportConstructor implements ReportConstructor {
     private Workbook generateExcel(GeneralProperties generalProperties, Sample sample) {
         val workbook = new XSSFWorkbook();
 
-        sample.getReports().forEach(report ->
-                builderMap.get(report.getClass()).build(generalProperties, report)
-                        .forEach(sheet -> sheet.create(workbook)));
+        sample.getReports().stream()
+                .sorted(Comparator.comparing(r -> reportOrder.get(r.getClass())))
+                .forEach(report ->
+                        builderMap.get(report.getClass()).build(generalProperties, report)
+                                .forEach(sheet -> sheet.create(workbook)));
 
         return workbook;
     }

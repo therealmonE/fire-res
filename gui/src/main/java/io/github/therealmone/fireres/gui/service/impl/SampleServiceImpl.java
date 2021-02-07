@@ -22,6 +22,9 @@ public class SampleServiceImpl implements SampleService {
     @Inject
     private FxmlLoadService fxmlLoadService;
 
+    @Inject
+    private SampleService sampleService;
+
     @Override
     public void createNewSample(SamplesTabPaneController samplesTabPaneController) {
         val samplesProperties = generationProperties.getSamples();
@@ -31,12 +34,10 @@ public class SampleServiceImpl implements SampleService {
 
         samplesProperties.add(newSampleProperties);
 
-        val newTab = createSampleTab(
-                samplesTabPaneController,
-                newSampleProperties,
-                String.format("Образец №%d", samplesProperties.size()));
+        val sampleName = String.format("Образец №%d", samplesProperties.size());
+        val newTab = createSampleTab(samplesTabPaneController, newSampleProperties, sampleName);
 
-        newTab.setUserData(new Sample(newSampleProperties));
+        newSampleProperties.setName(sampleName);
         samplesTabPane.getTabs().add(samplesTabPane.getTabs().size() - 1, newTab);
         samplesTabPane.getSelectionModel().select(newTab);
     }
@@ -86,7 +87,10 @@ public class SampleServiceImpl implements SampleService {
                     .findFirst()
                     .orElseThrow();
 
-            sampleTab.setText("Образец №" + (i + 1));
+            val sampleName = "Образец №" + (i + 1);
+
+            sampleService.getSample(sampleTab).getSampleProperties().setName(sampleName);
+            sampleTab.setText(sampleName);
         }
 
         samplesTabs.sort((t1, t2) -> {
