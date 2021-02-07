@@ -58,4 +58,15 @@ public class ExcelModule extends AbstractModule {
         );
     }
 
+    @Provides
+    @Singleton
+    public static Map<Class<? extends Report>, Integer> reportOrder() {
+        return Map.of(
+                FireModeReport.class, 0,
+                ExcessPressureReport.class, 1,
+                HeatFlowReport.class, 2,
+                UnheatedSurfaceReport.class, 3
+        );
+    }
+
 }

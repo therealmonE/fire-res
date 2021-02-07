@@ -16,7 +16,7 @@ public class GraphicalInterface {
 
     public void start(Stage stage) {
         primaryStageConfigurer.config(stage);
-        val mainScene = fxmlLoadService.loadMainScene();
+        val mainScene = fxmlLoadService.loadMainScene(stage);
 
         stage.setScene(mainScene);
         stage.show();

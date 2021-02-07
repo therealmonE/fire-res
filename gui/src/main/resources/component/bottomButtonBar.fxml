@@ -7,7 +7,7 @@
            fx:controller="io.github.therealmone.fireres.gui.controller.BottomButtonBarController">
     <buttons>
         <Button layoutX="333.0" layoutY="445.0" mnemonicParsing="false" text="Сгенерировать"/>
-        <Button layoutX="450.0" layoutY="445.0" mnemonicParsing="false" text="Выгрузить"/>
+        <Button layoutX="450.0" layoutY="445.0" mnemonicParsing="false" text="Выгрузить" onAction="#exportSamples"/>
         <Button layoutX="535.0" layoutY="445.0" mnemonicParsing="false" text="Сброс"/>
     </buttons>
 </ButtonBar>
