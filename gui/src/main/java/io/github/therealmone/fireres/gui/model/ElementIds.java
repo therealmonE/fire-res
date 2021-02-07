@@ -17,5 +17,20 @@ public final class ElementIds {
     public static final String HEAT_FLOW_MAX_ALLOWED_FLOW_LINE = "heatFlowMaxAllowedFlowLine";
     public static final String HEAT_FLOW_MEAN_FLOW_LINE = "heatFlowMeanFlowLine";
 
+    public static final String FIRST_THERMOCOUPLE_GROUP_THERMOCOUPLE_TEMPERATURE_LINE = "firstThermocoupleGroupThermocoupleTemperatureLine";
+    public static final String FIRST_THERMOCOUPLE_GROUP_THERMOCOUPLE_MAX_TEMPERATURE_LINE = "firstThermocoupleGroupThermocoupleMaxTemperatureLine";
+    public static final String FIRST_THERMOCOUPLE_GROUP_MEAN_BOUND_TEMPERATURE_LINE= "firstThermocoupleGroupMeanBoundTemperatureLine";
+    public static final String FIRST_THERMOCOUPLE_GROUP_MEAN_TEMPERATURE_LINE = "firstThermocoupleGroupMeanTemperatureLine";
+
+    public static final String SECOND_THERMOCOUPLE_GROUP_THERMOCOUPLE_TEMPERATURE_LINE = "secondThermocoupleGroupThermocoupleTemperatureLine";
+    public static final String SECOND_THERMOCOUPLE_GROUP_THERMOCOUPLE_MAX_TEMPERATURE_LINE = "secondThermocoupleGroupThermocoupleMaxTemperatureLine";
+    public static final String SECOND_THERMOCOUPLE_GROUP_MEAN_TEMPERATURE_LINE = "secondThermocoupleGroupMeanTemperatureLine";
+
+    public static final String THIRD_THERMOCOUPLE_GROUP_THERMOCOUPLE_TEMPERATURE_LINE = "thirdThermocoupleGroupThermocoupleTemperatureLine";
+    public static final String THIRD_THERMOCOUPLE_GROUP_THERMOCOUPLE_MAX_TEMPERATURE_LINE = "thirdThermocoupleGroupThermocoupleMaxTemperatureLine";
+    public static final String THIRD_THERMOCOUPLE_GROUP_MEAN_TEMPERATURE_LINE = "thirdThermocoupleGroupMeanTemperatureLine";
+
+
+
 
 }

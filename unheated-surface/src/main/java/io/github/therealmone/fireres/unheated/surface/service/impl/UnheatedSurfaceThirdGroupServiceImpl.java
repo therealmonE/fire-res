@@ -11,6 +11,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import static io.github.therealmone.fireres.unheated.surface.pipeline.UnheatedSurfaceReportEnrichType.THIRD_GROUP_MEAN_WITH_THERMOCOUPLE_TEMPERATURES;
+import static io.github.therealmone.fireres.unheated.surface.pipeline.UnheatedSurfaceReportEnrichType.THIRD_GROUP_THERMOCOUPLE_BOUND;
 
 public class UnheatedSurfaceThirdGroupServiceImpl implements UnheatedSurfaceThirdGroupService {
 
@@ -28,7 +29,7 @@ public class UnheatedSurfaceThirdGroupServiceImpl implements UnheatedSurfaceThir
     public void updateBound(UnheatedSurfaceReport report, Integer bound) {
         report.getSample().getSampleProperties().getUnheatedSurface().getThirdGroup().setBound(bound);
 
-        reportPipeline.accept(report, THIRD_GROUP_MEAN_WITH_THERMOCOUPLE_TEMPERATURES);
+        reportPipeline.accept(report, THIRD_GROUP_THERMOCOUPLE_BOUND);
     }
 
     @Override

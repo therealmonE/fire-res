@@ -9,6 +9,8 @@ import io.github.therealmone.fireres.gui.controller.AbstractController;
 import io.github.therealmone.fireres.gui.controller.ReportContainer;
 import io.github.therealmone.fireres.gui.controller.common.FunctionParamsController;
 import io.github.therealmone.fireres.gui.controller.unheated.surface.UnheatedSurfacePaneController;
+import io.github.therealmone.fireres.gui.service.ChartsSynchronizationService;
+import io.github.therealmone.fireres.unheated.surface.report.UnheatedSurfaceReport;
 import io.github.therealmone.fireres.unheated.surface.service.UnheatedSurfaceFirstGroupService;
 import javafx.fxml.FXML;
 import lombok.Data;
@@ -26,11 +28,18 @@ public class FirstThermocoupleGroupPaneController extends AbstractController imp
     @ChildController
     private FunctionParamsController functionParamsController;
 
+    @FXML
+    @ChildController
+    private FirstThermocoupleGroupChartController firstThermocoupleGroupChartController;
+
     @ParentController
     private UnheatedSurfacePaneController unheatedSurfacePaneController;
 
     @Inject
     private UnheatedSurfaceFirstGroupService unheatedSurfaceFirstGroupService;
+
+    @Inject
+    private ChartsSynchronizationService chartsSynchronizationService;
 
     @Override
     public Sample getSample() {
@@ -40,10 +49,14 @@ public class FirstThermocoupleGroupPaneController extends AbstractController imp
     @Override
     protected void initialize() {
         firstThermocoupleGroupParamsController.setFirstThermocoupleGroupPaneController(this);
+        firstThermocoupleGroupChartController.setFirstThermocoupleGroupPaneController(this);
 
         functionParamsController.setParentController(this);
         functionParamsController.setInterpolationService(unheatedSurfaceFirstGroupService);
         functionParamsController.setPropertiesMapper(sampleProperties -> sampleProperties.getUnheatedSurface().getFirstGroup());
+        functionParamsController.setPostReportUpdateAction(() ->
+                chartsSynchronizationService.syncFirstThermocoupleGroupChart(
+                        firstThermocoupleGroupChartController.getFirstThermocoupleGroupChart(), (UnheatedSurfaceReport) getReport()));
     }
 
     @Override
@@ -54,6 +67,6 @@ public class FirstThermocoupleGroupPaneController extends AbstractController imp
 
     @Override
     public Report getReport() {
-        return null;
+        return unheatedSurfacePaneController.getReport();
     }
 }
