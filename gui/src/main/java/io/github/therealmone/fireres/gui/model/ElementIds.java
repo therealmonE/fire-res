@@ -3,6 +3,10 @@ package io.github.therealmone.fireres.gui.model;
 public final class ElementIds {
 
     public static final String SAMPLES_TAB_PANE = "samplesTabPane";
+    public static final String FIRE_MOD_TAB = "fireModeTab";
+    public static final String EXCESS_PRESSURE_TAB = "excessPressureTab";
+    public static final String HEAT_FLOW_TAB = "heatFlowTab";
+    public static final String UNHEATED_SURFACE_TAB = "unheatedSurfaceTab";
 
     public static final String FIREMODE_STANDARD_TEMPERATURE_LINE = "fireModeStandardTemperatureLine";
     public static final String FIREMODE_MIN_TEMPERATURE_LINE = "fireModeMinTemperatureLine";

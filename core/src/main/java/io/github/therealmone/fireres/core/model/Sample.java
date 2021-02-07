@@ -27,6 +27,10 @@ public class Sample {
         reports.put(report.getClass(), report);
     }
 
+    public void removeReport(Report report) {
+        reports.remove(report.getClass());
+    }
+
     public Collection<Report> getReports() {
         return reports.values();
     }

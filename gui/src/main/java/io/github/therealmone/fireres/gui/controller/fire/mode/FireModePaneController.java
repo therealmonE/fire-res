@@ -1,6 +1,7 @@
 package io.github.therealmone.fireres.gui.controller.fire.mode;
 
 import com.google.inject.Inject;
+import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.config.SampleProperties;
 import io.github.therealmone.fireres.core.model.Report;
 import io.github.therealmone.fireres.core.model.Sample;
@@ -10,6 +11,7 @@ import io.github.therealmone.fireres.gui.annotation.ChildController;
 import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.controller.AbstractController;
 import io.github.therealmone.fireres.gui.controller.ReportContainer;
+import io.github.therealmone.fireres.gui.controller.ReportInclusionChanger;
 import io.github.therealmone.fireres.gui.controller.SampleTabController;
 import io.github.therealmone.fireres.gui.controller.common.FunctionParamsController;
 import io.github.therealmone.fireres.gui.service.ChartsSynchronizationService;
@@ -17,9 +19,13 @@ import javafx.fxml.FXML;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import static io.github.therealmone.fireres.core.config.ReportType.FIRE_MODE;
+import static io.github.therealmone.fireres.gui.util.TabUtils.disableTab;
+import static io.github.therealmone.fireres.gui.util.TabUtils.enableTab;
+
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class FireModePaneController extends AbstractController implements ReportContainer {
+public class FireModePaneController extends AbstractController implements ReportContainer, ReportInclusionChanger {
 
     private FireModeReport report;
 
@@ -44,6 +50,9 @@ public class FireModePaneController extends AbstractController implements Report
     @Inject
     private ChartsSynchronizationService chartsSynchronizationService;
 
+    @Inject
+    private GenerationProperties generationProperties;
+
     @Override
     public Sample getSample() {
         return sampleTabController.getSample();
@@ -67,12 +76,34 @@ public class FireModePaneController extends AbstractController implements Report
         functionParamsController.postConstruct();
         fireModeChartController.postConstruct();
 
-        this.report = fireModeService.createReport(getSample());
+        createReport();
         chartsSynchronizationService.syncFireModeChart(fireModeChartController.getFireModeChart(), report);
+    }
+
+    private void createReport() {
+        this.report = fireModeService.createReport(getSample());
+
+        if (!generationProperties.getGeneral().getIncludedReports().contains(FIRE_MODE)) {
+            excludeReport();
+        }
     }
 
     @Override
     public Report getReport() {
         return report;
+    }
+
+    @Override
+    public void excludeReport() {
+        getSample().removeReport(report);
+        disableTab(sampleTabController.getFireModeTab());
+        generationProperties.getGeneral().getIncludedReports().removeIf(FIRE_MODE::equals);
+    }
+
+    @Override
+    public void includeReport() {
+        getSample().putReport(report);
+        enableTab(sampleTabController.getFireModeTab(), sampleTabController.getReportsTabPane());
+        generationProperties.getGeneral().getIncludedReports().add(FIRE_MODE);
     }
 }
