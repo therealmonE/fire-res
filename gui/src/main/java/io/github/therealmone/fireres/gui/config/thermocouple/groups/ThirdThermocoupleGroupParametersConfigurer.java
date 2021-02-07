@@ -22,8 +22,8 @@ public class ThirdThermocoupleGroupParametersConfigurer implements Configurer<Th
     public void config(ThirdThermocoupleGroupParamsController controller) {
         val sampleProperties = controller.getSample().getSampleProperties();
 
-        resetThermocouplesNumber(controller.getThirdThermocoupleGroupNumberOfThermocouplesSpinner(), sampleProperties);
-        resetBound(controller.getThirdThermocoupleGroupBoundSpinner(), sampleProperties);
+        resetThermocouplesNumber(controller.getThirdGroupThermocouplesCountSpinner(), sampleProperties);
+        resetBound(controller.getThirdGroupBoundSpinner(), sampleProperties);
     }
 
     private void resetThermocouplesNumber(Spinner<Integer> ThermocouplesNumber, SampleProperties sample) {

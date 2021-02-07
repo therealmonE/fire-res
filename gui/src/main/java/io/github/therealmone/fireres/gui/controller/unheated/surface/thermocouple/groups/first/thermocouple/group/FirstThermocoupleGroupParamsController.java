@@ -26,7 +26,7 @@ public class FirstThermocoupleGroupParamsController extends AbstractController i
     private FirstThermocoupleGroupPaneController firstThermocoupleGroupPaneController;
 
     @FXML
-    private Spinner<Integer> firstThermocoupleGroupNumberOfThermocouplesSpinner;
+    private Spinner<Integer> firstGroupThermocouplesCountSpinner;
 
     @Inject
     private ResetSettingsService resetSettingsService;
@@ -38,9 +38,9 @@ public class FirstThermocoupleGroupParamsController extends AbstractController i
     private ChartsSynchronizationService chartsSynchronizationService;
 
     @SneakyThrows
-    private void handleFirstThermocoupleGroupNumberOfThermocouplesSpinnerFocusChanged(Boolean focusValue) {
-        handleSpinnerLostFocus(focusValue, firstThermocoupleGroupNumberOfThermocouplesSpinner, () -> {
-            unheatedSurfaceFirstGroupService.updateThermocoupleCount((UnheatedSurfaceReport) getReport(), firstThermocoupleGroupNumberOfThermocouplesSpinner.getValue());
+    private void handleThermocouplesCountSpinnerFocusChanged(Boolean focusValue) {
+        handleSpinnerLostFocus(focusValue, firstGroupThermocouplesCountSpinner, () -> {
+            unheatedSurfaceFirstGroupService.updateThermocoupleCount((UnheatedSurfaceReport) getReport(), firstGroupThermocouplesCountSpinner.getValue());
             chartsSynchronizationService.syncFirstThermocoupleGroupChart(
                     firstThermocoupleGroupPaneController.getFirstThermocoupleGroupChartController().getFirstThermocoupleGroupChart(), (UnheatedSurfaceReport) getReport());
         });
@@ -48,8 +48,8 @@ public class FirstThermocoupleGroupParamsController extends AbstractController i
 
     @Override
     protected void initialize() {
-        firstThermocoupleGroupNumberOfThermocouplesSpinner.focusedProperty().addListener((observable, oldValue, newValue) ->
-                handleFirstThermocoupleGroupNumberOfThermocouplesSpinnerFocusChanged(newValue));
+        firstGroupThermocouplesCountSpinner.focusedProperty().addListener((observable, oldValue, newValue) ->
+                handleThermocouplesCountSpinnerFocusChanged(newValue));
     }
 
     @Override

@@ -38,7 +38,7 @@
 
                 <Label prefHeight="16.0" prefWidth="150.0" text="Количество термопар:"/>
 
-                <Spinner fx:id="thirdThermocoupleGroupNumberOfThermocouplesSpinner" editable="true" prefHeight="26.0"
+                <Spinner fx:id="thirdGroupThermocouplesCountSpinner" editable="true" prefHeight="26.0"
                          prefWidth="80.0" GridPane.columnIndex="1"/>
 
                 <Label prefWidth="24.0" text="шт." GridPane.columnIndex="2" GridPane.rowIndex="0">
@@ -54,7 +54,7 @@
                     </GridPane.margin>
                 </Label>
 
-                <Spinner fx:id="thirdThermocoupleGroupBoundSpinner" editable="true" prefHeight="26.0" prefWidth="80.0"
+                <Spinner fx:id="thirdGroupBoundSpinner" editable="true" prefHeight="26.0" prefWidth="80.0"
                          GridPane.columnIndex="1" GridPane.rowIndex="1">
                     <GridPane.margin>
                         <Insets top="15.0"/>

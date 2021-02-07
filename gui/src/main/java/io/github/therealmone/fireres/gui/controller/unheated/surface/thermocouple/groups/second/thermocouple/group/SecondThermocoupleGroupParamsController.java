@@ -25,10 +25,10 @@ public class SecondThermocoupleGroupParamsController extends AbstractController 
     private SecondThermocoupleGroupPaneController secondThermocoupleGroupPaneController;
 
     @FXML
-    private Spinner<Integer> secondThermocoupleGroupNumberOfThermocouplesSpinner;
+    private Spinner<Integer> secondGroupThermocouplesCountSpinner;
 
     @FXML
-    private Spinner<Integer> secondThermocoupleGroupBoundSpinner;
+    private Spinner<Integer> secondGroupBoundSpinner;
 
     @Inject
     private ResetSettingsService resetSettingsService;
@@ -41,11 +41,11 @@ public class SecondThermocoupleGroupParamsController extends AbstractController 
 
     @Override
     protected void initialize() {
-        secondThermocoupleGroupNumberOfThermocouplesSpinner.focusedProperty().addListener((observable, oldValue, newValue) ->
-                handleSecondThermocoupleGroupNumberOfThermocouplesSpinnerFocusChanged(newValue));
+        secondGroupThermocouplesCountSpinner.focusedProperty().addListener((observable, oldValue, newValue) ->
+                handleThermocouplesCountSpinnerFocusChanged(newValue));
 
-        secondThermocoupleGroupBoundSpinner.focusedProperty().addListener((observable, oldValue, newValue) ->
-                handleSecondThermocoupleGroupBoundSpinnerFocusChanged(newValue));
+        secondGroupBoundSpinner.focusedProperty().addListener((observable, oldValue, newValue) ->
+                handleThermocouplesBoundSpinnerFocusChanged(newValue));
     }
 
     @Override
@@ -53,17 +53,17 @@ public class SecondThermocoupleGroupParamsController extends AbstractController 
         resetSettingsService.resetSecondThermocoupleGroupParameters(this);
     }
 
-    private void handleSecondThermocoupleGroupNumberOfThermocouplesSpinnerFocusChanged(Boolean focusValue) {
-        handleSpinnerLostFocus(focusValue, secondThermocoupleGroupNumberOfThermocouplesSpinner, () -> {
-            unheatedSurfaceSecondGroupService.updateThermocoupleCount((UnheatedSurfaceReport) getReport(), secondThermocoupleGroupNumberOfThermocouplesSpinner.getValue());
+    private void handleThermocouplesCountSpinnerFocusChanged(Boolean focusValue) {
+        handleSpinnerLostFocus(focusValue, secondGroupThermocouplesCountSpinner, () -> {
+            unheatedSurfaceSecondGroupService.updateThermocoupleCount((UnheatedSurfaceReport) getReport(), secondGroupThermocouplesCountSpinner.getValue());
             chartsSynchronizationService.syncSecondThermocoupleGroupChart(
                     secondThermocoupleGroupPaneController.getSecondThermocoupleGroupChartController().getSecondThermocoupleGroupChart(), (UnheatedSurfaceReport) getReport());
         });
     }
 
-    private void handleSecondThermocoupleGroupBoundSpinnerFocusChanged(Boolean focusValue) {
-        handleSpinnerLostFocus(focusValue, secondThermocoupleGroupBoundSpinner, () -> {
-            unheatedSurfaceSecondGroupService.updateBound((UnheatedSurfaceReport) getReport(), secondThermocoupleGroupBoundSpinner.getValue());
+    private void handleThermocouplesBoundSpinnerFocusChanged(Boolean focusValue) {
+        handleSpinnerLostFocus(focusValue, secondGroupBoundSpinner, () -> {
+            unheatedSurfaceSecondGroupService.updateBound((UnheatedSurfaceReport) getReport(), secondGroupBoundSpinner.getValue());
             chartsSynchronizationService.syncSecondThermocoupleGroupChart(
                     secondThermocoupleGroupPaneController.getSecondThermocoupleGroupChartController().getSecondThermocoupleGroupChart(), (UnheatedSurfaceReport) getReport());
         });

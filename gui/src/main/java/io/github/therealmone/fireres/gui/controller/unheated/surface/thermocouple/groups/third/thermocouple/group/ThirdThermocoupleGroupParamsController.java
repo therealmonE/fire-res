@@ -25,10 +25,10 @@ public class ThirdThermocoupleGroupParamsController extends AbstractController i
     private ThirdThermocoupleGroupPaneController thirdThermocoupleGroupPaneController;
 
     @FXML
-    private Spinner<Integer> thirdThermocoupleGroupNumberOfThermocouplesSpinner;
+    private Spinner<Integer> thirdGroupThermocouplesCountSpinner;
 
     @FXML
-    private Spinner<Integer> thirdThermocoupleGroupBoundSpinner;
+    private Spinner<Integer> thirdGroupBoundSpinner;
 
     @Inject
     private ResetSettingsService resetSettingsService;
@@ -41,24 +41,24 @@ public class ThirdThermocoupleGroupParamsController extends AbstractController i
 
     @Override
     protected void initialize() {
-        thirdThermocoupleGroupNumberOfThermocouplesSpinner.focusedProperty().addListener((observable, oldValue, newValue) ->
-                handleThirdThermocoupleGroupNumberOfThermocouplesSpinnerFocusChanged(newValue));
+        thirdGroupThermocouplesCountSpinner.focusedProperty().addListener((observable, oldValue, newValue) ->
+                handleThermocouplesCountSpinnerFocusChanged(newValue));
 
-        thirdThermocoupleGroupBoundSpinner.focusedProperty().addListener((observable, oldValue, newValue) ->
-                handleThirdThermocoupleGroupBoundSpinnerFocusChanged(newValue));
+        thirdGroupBoundSpinner.focusedProperty().addListener((observable, oldValue, newValue) ->
+                handleThermocouplesBoundSpinnerFocusChanged(newValue));
     }
 
-    private void handleThirdThermocoupleGroupNumberOfThermocouplesSpinnerFocusChanged(Boolean focusValue) {
-        handleSpinnerLostFocus(focusValue, thirdThermocoupleGroupNumberOfThermocouplesSpinner, () -> {
-            unheatedSurfaceThirdGroupService.updateThermocoupleCount((UnheatedSurfaceReport) getReport(), thirdThermocoupleGroupNumberOfThermocouplesSpinner.getValue());
+    private void handleThermocouplesCountSpinnerFocusChanged(Boolean focusValue) {
+        handleSpinnerLostFocus(focusValue, thirdGroupThermocouplesCountSpinner, () -> {
+            unheatedSurfaceThirdGroupService.updateThermocoupleCount((UnheatedSurfaceReport) getReport(), thirdGroupThermocouplesCountSpinner.getValue());
             chartsSynchronizationService.syncThirdThermocoupleGroupChart(
                     thirdThermocoupleGroupPaneController.getThirdThermocoupleGroupChartController().getThirdThermocoupleGroupChart(), (UnheatedSurfaceReport) getReport());
         });
     }
 
-    private void handleThirdThermocoupleGroupBoundSpinnerFocusChanged(Boolean focusValue) {
-        handleSpinnerLostFocus(focusValue, thirdThermocoupleGroupBoundSpinner, () -> {
-            unheatedSurfaceThirdGroupService.updateBound((UnheatedSurfaceReport) getReport(), thirdThermocoupleGroupBoundSpinner.getValue());
+    private void handleThermocouplesBoundSpinnerFocusChanged(Boolean focusValue) {
+        handleSpinnerLostFocus(focusValue, thirdGroupBoundSpinner, () -> {
+            unheatedSurfaceThirdGroupService.updateBound((UnheatedSurfaceReport) getReport(), thirdGroupBoundSpinner.getValue());
             chartsSynchronizationService.syncThirdThermocoupleGroupChart(
                     thirdThermocoupleGroupPaneController.getThirdThermocoupleGroupChartController().getThirdThermocoupleGroupChart(), (UnheatedSurfaceReport) getReport());
         });
