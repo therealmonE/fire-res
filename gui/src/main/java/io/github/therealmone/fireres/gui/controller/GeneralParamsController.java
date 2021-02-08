@@ -1,6 +1,7 @@
 package io.github.therealmone.fireres.gui.controller;
 
 import com.google.inject.Inject;
+import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.service.ResetSettingsService;
 import javafx.event.Event;
@@ -30,9 +31,38 @@ public class GeneralParamsController extends AbstractController {
     @Inject
     private ResetSettingsService resetSettingsService;
 
+    @Inject
+    private GenerationProperties generationProperties;
+
     @Override
     public void postConstruct() {
         resetSettingsService.resetGeneralParameters(this);
+
+        timeSpinner.focusedProperty().addListener((observable, oldValue, newValue) ->
+                handleTimeSpinnerLostFocus(newValue));
+
+        environmentTemperatureSpinner.focusedProperty().addListener((observable, oldValue, newValue) ->
+                handleEnvironmentTemperatureSpinnerLostFocus(newValue));
+    }
+
+    private void handleTimeSpinnerLostFocus(Boolean focusValue) {
+        handleSpinnerLostFocus(focusValue, timeSpinner, () -> {
+            generationProperties.getGeneral().setTime(timeSpinner.getValue());
+
+            mainSceneController.getSamplesTabPaneController()
+                    .getSampleTabControllers()
+                    .forEach(SampleTabController::generateReports);
+        });
+    }
+
+    private void handleEnvironmentTemperatureSpinnerLostFocus(Boolean focusValue) {
+        handleSpinnerLostFocus(focusValue, environmentTemperatureSpinner, () -> {
+            generationProperties.getGeneral().setEnvironmentTemperature(environmentTemperatureSpinner.getValue());
+
+            mainSceneController.getSamplesTabPaneController()
+                    .getSampleTabControllers()
+                    .forEach(SampleTabController::generateReports);
+        });
     }
 
     public void changeFireModeInclusion(Event event) {

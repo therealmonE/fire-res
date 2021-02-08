@@ -19,7 +19,6 @@ import javafx.fxml.FXML;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import static io.github.therealmone.fireres.core.config.ReportType.EXCESS_PRESSURE;
 import static io.github.therealmone.fireres.core.config.ReportType.HEAT_FLOW;
 import static io.github.therealmone.fireres.gui.util.TabUtils.disableTab;
 import static io.github.therealmone.fireres.gui.util.TabUtils.enableTab;
@@ -75,17 +74,17 @@ public class HeatFlowPaneController extends AbstractController implements Report
     public void postConstruct() {
         heatFlowParamsController.postConstruct();
         functionParamsController.postConstruct();
-
-        createReport();
-        chartsSynchronizationService.syncHeatFlowChart(heatFlowChartController.getHeatFlowChart(), report);
     }
 
-    private void createReport() {
+    @Override
+    public void createReport() {
         this.report = heatFlowService.createReport(getSample());
 
         if (!generationProperties.getGeneral().getIncludedReports().contains(HEAT_FLOW)) {
             excludeReport();
         }
+
+        chartsSynchronizationService.syncHeatFlowChart(heatFlowChartController.getHeatFlowChart(), report);
     }
 
     @Override
