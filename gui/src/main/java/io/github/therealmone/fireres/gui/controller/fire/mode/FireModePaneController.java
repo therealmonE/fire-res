@@ -75,17 +75,17 @@ public class FireModePaneController extends AbstractController implements Report
         fireModeParamsController.postConstruct();
         functionParamsController.postConstruct();
         fireModeChartController.postConstruct();
-
-        createReport();
-        chartsSynchronizationService.syncFireModeChart(fireModeChartController.getFireModeChart(), report);
     }
 
-    private void createReport() {
+    @Override
+    public void createReport() {
         this.report = fireModeService.createReport(getSample());
 
         if (!generationProperties.getGeneral().getIncludedReports().contains(FIRE_MODE)) {
             excludeReport();
         }
+
+        chartsSynchronizationService.syncFireModeChart(fireModeChartController.getFireModeChart(), report);
     }
 
     @Override

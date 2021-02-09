@@ -35,10 +35,6 @@ public class SampleTabController extends AbstractController implements SampleCon
     private SampleService sampleService;
 
     @FXML
-    @ChildController
-    private HeatFlowPaneController heatFlowPaneController;
-
-    @FXML
     private Tab sampleTab;
 
     @FXML
@@ -67,6 +63,10 @@ public class SampleTabController extends AbstractController implements SampleCon
     @FXML
     private UnheatedSurfacePaneController unheatedSurfacePaneController;
 
+    @FXML
+    @ChildController
+    private HeatFlowPaneController heatFlowPaneController;
+
     @Override
     public void initialize() {
         excessPressurePaneController.setSampleTabController(this);
@@ -81,6 +81,8 @@ public class SampleTabController extends AbstractController implements SampleCon
         heatFlowPaneController.postConstruct();
         fireModePaneController.postConstruct();
         unheatedSurfacePaneController.postConstruct();
+
+        generateReports();
     }
 
     @FXML
@@ -99,4 +101,11 @@ public class SampleTabController extends AbstractController implements SampleCon
         return sampleService.getSample(sampleTab);
     }
 
+    @Override
+    public void generateReports() {
+        fireModePaneController.createReport();
+        excessPressurePaneController.createReport();
+        heatFlowPaneController.createReport();
+        unheatedSurfacePaneController.createReport();
+    }
 }

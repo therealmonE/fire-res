@@ -6,4 +6,7 @@ public interface ReportContainer extends SampleContainer {
 
     Report getReport();
 
+    default void createReport() {
+    }
+
 }

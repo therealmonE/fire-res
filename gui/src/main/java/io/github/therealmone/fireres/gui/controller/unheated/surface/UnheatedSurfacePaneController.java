@@ -70,8 +70,15 @@ public class UnheatedSurfacePaneController extends AbstractController implements
         firstThermocoupleGroupPaneController.postConstruct();
         secondThermocoupleGroupPaneController.postConstruct();
         thirdThermocoupleGroupPaneController.postConstruct();
+    }
 
-        createReport();
+    @Override
+    public void createReport() {
+        this.report = unheatedSurfaceService.createReport(getSample());
+
+        if (!generationProperties.getGeneral().getIncludedReports().contains(UNHEATED_SURFACE)) {
+            excludeReport();
+        }
 
         chartsSynchronizationService.syncFirstThermocoupleGroupChart(
                 firstThermocoupleGroupPaneController
@@ -87,14 +94,6 @@ public class UnheatedSurfacePaneController extends AbstractController implements
                 thirdThermocoupleGroupPaneController
                         .getThirdThermocoupleGroupChartController()
                         .getThirdThermocoupleGroupChart(), report);
-    }
-
-    private void createReport() {
-        this.report = unheatedSurfaceService.createReport(getSample());
-
-        if (!generationProperties.getGeneral().getIncludedReports().contains(UNHEATED_SURFACE)) {
-            excludeReport();
-        }
     }
 
     @Override

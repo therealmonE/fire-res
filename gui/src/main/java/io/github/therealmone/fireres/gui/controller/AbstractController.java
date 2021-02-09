@@ -152,7 +152,7 @@ public abstract class AbstractController implements Controller {
 
     protected void handleSpinnerLostFocus(Boolean focusValue, Spinner<?> spinner, Runnable action) {
         if (!focusValue) {
-            log.info("Spinner {} lost focus", spinner.getId());
+            log.info("Spinner {} lost focus, new value: {}", spinner.getId(), spinner.getValue());
 
             commitSpinner(spinner);
             action.run();

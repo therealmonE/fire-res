@@ -61,17 +61,17 @@ public class ExcessPressurePaneController extends AbstractController implements 
     @Override
     public void postConstruct() {
         excessPressureParamsController.postConstruct();
-
-        createReport();
-        chartsSynchronizationService.syncExcessPressureChart(excessPressureChartController.getExcessPressureChart(), report);
     }
 
-    private void createReport() {
+    @Override
+    public void createReport() {
         this.report = excessPressureService.createReport(getSample());
 
         if (!generationProperties.getGeneral().getIncludedReports().contains(EXCESS_PRESSURE)) {
             excludeReport();
         }
+
+        chartsSynchronizationService.syncExcessPressureChart(excessPressureChartController.getExcessPressureChart(), report);
     }
 
     @Override
