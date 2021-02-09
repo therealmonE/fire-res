@@ -69,7 +69,7 @@
                     <TableView fx:id="interpolationPointsTableView" focusTraversable="false" prefHeight="300.0"
                                prefWidth="275.0">
                         <placeholder>
-                            <Label text="Нет точек инерполяции"/>
+                            <Label text="Нет точек интерполяции"/>
                         </placeholder>
                         <columns>
                             <TableColumn fx:id="timeColumn" editable="false" prefWidth="130.0" resizable="false"
