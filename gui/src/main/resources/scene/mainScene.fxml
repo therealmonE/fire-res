@@ -20,7 +20,7 @@
     </top>
 
     <center>
-        <AnchorPane maxHeight="1080.0" maxWidth="5000.0" prefHeight="800.0" prefWidth="1200.0"
+        <AnchorPane maxHeight="5000" maxWidth="5000.0" prefHeight="800.0" prefWidth="1200.0"
                     BorderPane.alignment="CENTER">
             <VBox fx:id="centerPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
                   AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
