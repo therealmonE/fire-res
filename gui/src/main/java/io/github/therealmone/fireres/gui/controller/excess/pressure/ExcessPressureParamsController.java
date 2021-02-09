@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ExcessPressureParamsController extends AbstractController implements ReportContainer {
 
     @ParentController
-    private ExcessPressurePaneController excessPressurePaneController;
+    private ExcessPressureController excessPressureController;
 
     @FXML
     private Spinner<Double> basePressureSpinner;
@@ -63,7 +63,7 @@ public class ExcessPressureParamsController extends AbstractController implement
         handleSpinnerLostFocus(focusValue, basePressureSpinner, () -> {
             excessPressureService.updateBasePressure((ExcessPressureReport) getReport(), basePressureSpinner.getValue());
             chartsSynchronizationService.syncExcessPressureChart(
-                    excessPressurePaneController.getExcessPressureChartController().getExcessPressureChart(),
+                    excessPressureController.getExcessPressureChartController().getExcessPressureChart(),
                     (ExcessPressureReport) getReport());
         });
     }
@@ -71,7 +71,7 @@ public class ExcessPressureParamsController extends AbstractController implement
         handleSpinnerLostFocus(focusValue, dispersionCoefficientSpinner, () -> {
             excessPressureService.updateDispersionCoefficient((ExcessPressureReport) getReport(), dispersionCoefficientSpinner.getValue());
             chartsSynchronizationService.syncExcessPressureChart(
-                    excessPressurePaneController.getExcessPressureChartController().getExcessPressureChart(),
+                    excessPressureController.getExcessPressureChartController().getExcessPressureChart(),
                     (ExcessPressureReport) getReport());
         });
     }
@@ -80,18 +80,18 @@ public class ExcessPressureParamsController extends AbstractController implement
         handleSpinnerLostFocus(focusValue, deltaSpinner, () -> {
             excessPressureService.updateDelta((ExcessPressureReport) getReport(), deltaSpinner.getValue());
             chartsSynchronizationService.syncExcessPressureChart(
-                    excessPressurePaneController.getExcessPressureChartController().getExcessPressureChart(),
+                    excessPressureController.getExcessPressureChartController().getExcessPressureChart(),
                     (ExcessPressureReport) getReport());
         });
     }
 
     @Override
     public Sample getSample() {
-        return excessPressurePaneController.getSample();
+        return excessPressureController.getSample();
     }
 
     @Override
     public Report getReport() {
-        return excessPressurePaneController.getReport();
+        return excessPressureController.getReport();
     }
 }

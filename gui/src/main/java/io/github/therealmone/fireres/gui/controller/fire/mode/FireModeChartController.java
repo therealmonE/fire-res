@@ -15,7 +15,7 @@ import lombok.EqualsAndHashCode;
 public class FireModeChartController extends AbstractController implements ReportContainer {
 
     @ParentController
-    private FireModePaneController fireModePaneController;
+    private FireModeController fireModeController;
 
     @FXML
     private LineChart<Number, Number> fireModeChart;
@@ -26,12 +26,12 @@ public class FireModeChartController extends AbstractController implements Repor
 
     @Override
     public Report getReport() {
-        return fireModePaneController.getReport();
+        return fireModeController.getReport();
     }
 
     @Override
     public Sample getSample() {
-        return fireModePaneController.getSample();
+        return fireModeController.getSample();
     }
 
 }

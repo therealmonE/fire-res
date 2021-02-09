@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox focusTraversable="true" prefHeight="5000.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="io.github.therealmone.fireres.gui.controller.excess.pressure.ExcessPressureController">
+    <VBox focusTraversable="true">
+        <fx:include fx:id="excessPressureParams" source="excessPressureParams.fxml"/>
+        <HBox.margin>
+            <Insets left="15.0"/>
+        </HBox.margin>
+    </VBox>
+    <fx:include fx:id="excessPressureChart" source="excessPressureChart.fxml"/>
+</HBox>
+

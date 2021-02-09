@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 public class HeatFlowParamsController extends AbstractController implements ReportContainer {
 
     @ParentController
-    private HeatFlowPaneController heatFlowPaneController;
+    private HeatFlowController heatFlowController;
 
     @FXML
     private Spinner<Integer> sensorSpinner;
@@ -57,7 +57,7 @@ public class HeatFlowParamsController extends AbstractController implements Repo
         handleSpinnerLostFocus(focusValue, sensorSpinner, () -> {
             heatFlowService.updateSensorsCount((HeatFlowReport) getReport(), sensorSpinner.getValue());
             chartsSynchronizationService.syncHeatFlowChart(
-                    heatFlowPaneController.getHeatFlowChartController().getHeatFlowChart(),
+                    heatFlowController.getHeatFlowChartController().getHeatFlowChart(),
                     (HeatFlowReport) getReport());
         });
     }
@@ -65,7 +65,7 @@ public class HeatFlowParamsController extends AbstractController implements Repo
         handleSpinnerLostFocus(focusValue, heatFlowBoundSpinner, () -> {
             heatFlowService.updateBound((HeatFlowReport) getReport(), heatFlowBoundSpinner.getValue());
             chartsSynchronizationService.syncHeatFlowChart(
-                    heatFlowPaneController.getHeatFlowChartController().getHeatFlowChart(),
+                    heatFlowController.getHeatFlowChartController().getHeatFlowChart(),
                     (HeatFlowReport) getReport());
         });
     }
@@ -73,11 +73,11 @@ public class HeatFlowParamsController extends AbstractController implements Repo
 
     @Override
     public Sample getSample() {
-        return heatFlowPaneController.getSample();
+        return heatFlowController.getSample();
     }
 
     @Override
     public Report getReport() {
-        return heatFlowPaneController.getReport();
+        return heatFlowController.getReport();
     }
 }

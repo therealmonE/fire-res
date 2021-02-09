@@ -18,15 +18,15 @@ public class ExcessPressureChartController extends AbstractController implements
     private LineChart<Number, Number> excessPressureChart;
 
     @ParentController
-    private ExcessPressurePaneController excessPressurePaneController;
+    private ExcessPressureController excessPressureController;
 
     @Override
     public Report getReport() {
-        return excessPressurePaneController.getReport();
+        return excessPressureController.getReport();
     }
 
     @Override
     public Sample getSample() {
-        return excessPressurePaneController.getSample();
+        return excessPressureController.getSample();
     }
 }

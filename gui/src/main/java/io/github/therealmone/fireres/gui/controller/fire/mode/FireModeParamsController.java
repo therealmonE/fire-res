@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 public class FireModeParamsController extends AbstractController implements ReportContainer {
 
     @ParentController
-    private FireModePaneController fireModePaneController;
+    private FireModeController fireModeController;
 
     @FXML
     private Spinner<Integer> thermocoupleSpinner;
@@ -46,13 +46,13 @@ public class FireModeParamsController extends AbstractController implements Repo
         handleSpinnerLostFocus(focusValue, thermocoupleSpinner, () -> {
             fireModeService.updateThermocoupleCount((FireModeReport) getReport(), thermocoupleSpinner.getValue());
             chartsSynchronizationService.syncFireModeChart(
-                    fireModePaneController.getFireModeChartController().getFireModeChart(), (FireModeReport) getReport());
+                    fireModeController.getFireModeChartController().getFireModeChart(), (FireModeReport) getReport());
         });
     }
 
     @Override
     public Sample getSample() {
-        return fireModePaneController.getSample();
+        return fireModeController.getSample();
     }
 
     @Override
@@ -68,6 +68,6 @@ public class FireModeParamsController extends AbstractController implements Repo
 
     @Override
     public Report getReport() {
-        return fireModePaneController.getReport();
+        return fireModeController.getReport();
     }
 }

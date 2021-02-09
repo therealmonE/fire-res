@@ -14,11 +14,9 @@
             fx:controller="io.github.therealmone.fireres.gui.controller.heat.flow.HeatFlowParamsController">
 
     <VBox>
-
         <padding>
             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
         </padding>
-
         <GridPane>
 
             <columnConstraints>
@@ -63,11 +61,8 @@
             </Label>
 
         </GridPane>
-
     </VBox>
-
     <padding>
         <Insets top="15.0"/>
     </padding>
-
 </TitledPane>

@@ -2,12 +2,12 @@ package io.github.therealmone.fireres.gui.config.thermocouple.groups;
 
 import io.github.therealmone.fireres.core.config.SampleProperties;
 import io.github.therealmone.fireres.gui.config.Configurer;
-import io.github.therealmone.fireres.gui.controller.unheated.surface.thermocouple.groups.third.thermocouple.group.ThirdThermocoupleGroupParamsController;
+import io.github.therealmone.fireres.gui.controller.unheated.surface.groups.third.ThirdGroupParamsController;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import lombok.val;
 
-public class ThirdThermocoupleGroupParametersConfigurer implements Configurer<ThirdThermocoupleGroupParamsController> {
+public class ThirdThermocoupleGroupParametersConfigurer implements Configurer<ThirdGroupParamsController> {
 
     private static final Integer DEFAULT_THERMOCOUPLES_NUMBER = 1;
     private static final Integer DEFAULT_THERMOCOUPLES_NUMBER_MIN = 1;
@@ -19,7 +19,7 @@ public class ThirdThermocoupleGroupParametersConfigurer implements Configurer<Th
     private static final Integer DEFAULT_BOUND_INCREMENT = 100;
 
     @Override
-    public void config(ThirdThermocoupleGroupParamsController controller) {
+    public void config(ThirdGroupParamsController controller) {
         val sampleProperties = controller.getSample().getSampleProperties();
 
         resetThermocouplesNumber(controller.getThirdGroupThermocouplesCountSpinner(), sampleProperties);

@@ -15,7 +15,6 @@ import javafx.scene.control.Tab;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import lombok.SneakyThrows;
 import lombok.val;
 
@@ -71,7 +70,6 @@ public class FxmlLoadServiceImpl implements FxmlLoadService {
         modalWindow.setScene(new Scene(modalWindowPane));
         modalWindow.setTitle("Добавление точек интерполяции");
         modalWindow.setResizable(false);
-        modalWindow.initStyle(StageStyle.UTILITY);
         modalWindow.initModality(Modality.APPLICATION_MODAL);
 
         controller.setModalWindow(modalWindow);
