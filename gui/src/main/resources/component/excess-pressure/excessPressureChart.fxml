@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.layout.Pane?>
 
-<Pane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="io.github.therealmone.fireres.gui.controller.excess.pressure.ExcessPressureChartController">
-    <LineChart fx:id="excessPressureChart" prefHeight="600.0" prefWidth="950.0" legendSide="RIGHT">
-        <xAxis>
-            <NumberAxis label="Время, мин." side="BOTTOM"/>
-        </xAxis>
+<LineChart fx:id="excessPressureChart" focusTraversable="true" legendSide="RIGHT" maxHeight="1.7976931348623157E308"
+           maxWidth="1.7976931348623157E308" prefWidth="5000.0"
+           xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="io.github.therealmone.fireres.gui.controller.excess.pressure.ExcessPressureChartController">
+    <xAxis>
+        <NumberAxis focusTraversable="true" label="Время, мин." side="BOTTOM"/>
+    </xAxis>
 
-        <yAxis>
-            <NumberAxis side="LEFT"/>
-        </yAxis>
-    </LineChart>
-</Pane>
+    <yAxis>
+        <NumberAxis side="LEFT"/>
+    </yAxis>
+</LineChart>

@@ -4,10 +4,10 @@ import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.gui.annotation.ChildController;
 import io.github.therealmone.fireres.gui.annotation.ParentController;
-import io.github.therealmone.fireres.gui.controller.excess.pressure.ExcessPressurePaneController;
-import io.github.therealmone.fireres.gui.controller.fire.mode.FireModePaneController;
-import io.github.therealmone.fireres.gui.controller.heat.flow.HeatFlowPaneController;
-import io.github.therealmone.fireres.gui.controller.unheated.surface.UnheatedSurfacePaneController;
+import io.github.therealmone.fireres.gui.controller.excess.pressure.ExcessPressureController;
+import io.github.therealmone.fireres.gui.controller.fire.mode.FireModeController;
+import io.github.therealmone.fireres.gui.controller.heat.flow.HeatFlowController;
+import io.github.therealmone.fireres.gui.controller.unheated.surface.UnheatedSurfaceController;
 import io.github.therealmone.fireres.gui.service.SampleService;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -54,33 +54,33 @@ public class SampleTabController extends AbstractController implements SampleCon
 
     @FXML
     @ChildController
-    private ExcessPressurePaneController excessPressurePaneController;
+    private ExcessPressureController excessPressureController;
 
     @FXML
     @ChildController
-    private FireModePaneController fireModePaneController;
+    private FireModeController fireModeController;
 
     @FXML
-    private UnheatedSurfacePaneController unheatedSurfacePaneController;
+    private UnheatedSurfaceController unheatedSurfaceController;
 
     @FXML
     @ChildController
-    private HeatFlowPaneController heatFlowPaneController;
+    private HeatFlowController heatFlowController;
 
     @Override
     public void initialize() {
-        excessPressurePaneController.setSampleTabController(this);
-        heatFlowPaneController.setSampleTabController(this);
-        fireModePaneController.setSampleTabController(this);
-        unheatedSurfacePaneController.setSampleTabController(this);
+        excessPressureController.setSampleTabController(this);
+        heatFlowController.setSampleTabController(this);
+        fireModeController.setSampleTabController(this);
+        unheatedSurfaceController.setSampleTabController(this);
     }
 
     @Override
     public void postConstruct() {
-        excessPressurePaneController.postConstruct();
-        heatFlowPaneController.postConstruct();
-        fireModePaneController.postConstruct();
-        unheatedSurfacePaneController.postConstruct();
+        excessPressureController.postConstruct();
+        heatFlowController.postConstruct();
+        fireModeController.postConstruct();
+        unheatedSurfaceController.postConstruct();
 
         generateReports();
     }
@@ -103,9 +103,9 @@ public class SampleTabController extends AbstractController implements SampleCon
 
     @Override
     public void generateReports() {
-        fireModePaneController.createReport();
-        excessPressurePaneController.createReport();
-        heatFlowPaneController.createReport();
-        unheatedSurfacePaneController.createReport();
+        fireModeController.createReport();
+        excessPressureController.createReport();
+        heatFlowController.createReport();
+        unheatedSurfaceController.createReport();
     }
 }

@@ -16,9 +16,9 @@ import io.github.therealmone.fireres.gui.controller.common.FunctionParamsControl
 import io.github.therealmone.fireres.gui.controller.excess.pressure.ExcessPressureParamsController;
 import io.github.therealmone.fireres.gui.controller.fire.mode.FireModeParamsController;
 import io.github.therealmone.fireres.gui.controller.heat.flow.HeatFlowParamsController;
-import io.github.therealmone.fireres.gui.controller.unheated.surface.thermocouple.groups.first.thermocouple.group.FirstThermocoupleGroupParamsController;
-import io.github.therealmone.fireres.gui.controller.unheated.surface.thermocouple.groups.second.thermocouple.group.SecondThermocoupleGroupParamsController;
-import io.github.therealmone.fireres.gui.controller.unheated.surface.thermocouple.groups.third.thermocouple.group.ThirdThermocoupleGroupParamsController;
+import io.github.therealmone.fireres.gui.controller.unheated.surface.groups.first.FirstGroupParamsController;
+import io.github.therealmone.fireres.gui.controller.unheated.surface.groups.second.SecondGroupParamsController;
+import io.github.therealmone.fireres.gui.controller.unheated.surface.groups.third.ThirdGroupParamsController;
 import io.github.therealmone.fireres.gui.service.ResetSettingsService;
 
 public class ResetSettingsServiceImpl implements ResetSettingsService {
@@ -81,18 +81,18 @@ public class ResetSettingsServiceImpl implements ResetSettingsService {
     }
 
     @Override
-    public void resetFirstThermocoupleGroupParameters(FirstThermocoupleGroupParamsController firstThermocoupleGroupParamsController) {
-        firstThermocoupleGroupParametersConfigurer.config(firstThermocoupleGroupParamsController);
+    public void resetFirstThermocoupleGroupParameters(FirstGroupParamsController firstGroupParamsController) {
+        firstThermocoupleGroupParametersConfigurer.config(firstGroupParamsController);
     }
 
     @Override
-    public void resetSecondThermocoupleGroupParameters(SecondThermocoupleGroupParamsController secondThermocoupleGroupParamsController) {
-        secondThermocoupleGroupParametersConfigurer.config(secondThermocoupleGroupParamsController);
+    public void resetSecondThermocoupleGroupParameters(SecondGroupParamsController secondGroupParamsController) {
+        secondThermocoupleGroupParametersConfigurer.config(secondGroupParamsController);
     }
 
     @Override
-    public void resetThirdThermocoupleGroupParameters(ThirdThermocoupleGroupParamsController thirdThermocoupleGroupParamsController) {
-        thirdThermocoupleGroupParametersConfigurer.config(thirdThermocoupleGroupParamsController);
+    public void resetThirdThermocoupleGroupParameters(ThirdGroupParamsController thirdGroupParamsController) {
+        thirdThermocoupleGroupParametersConfigurer.config(thirdGroupParamsController);
     }
 
 }

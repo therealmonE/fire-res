@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<TitledPane prefWidth="307.0" text="Параметры избыточного давления" xmlns="http://javafx.com/javafx/10.0.2-internal"
+<TitledPane minWidth="307.0" text="Параметры избыточного давления" xmlns="http://javafx.com/javafx/10.0.2-internal"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="io.github.therealmone.fireres.gui.controller.excess.pressure.ExcessPressureParamsController">
 

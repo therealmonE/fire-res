@@ -17,15 +17,28 @@
     -fx-block-increment: 50;
 }
 
+.label{
+    -fx-smooth: true;
+}
+
+#footerPane{
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #C1C1C1;
+}
+
+#mainSceneSeparator{
+    -fx-background-color: #dddddd;
+    -fx-effect: innershadow( two-pass-box , rgba(0,0,0,0.05) , 2, 0.0 , 0 , 3 );
+}
+
+#generalParamsPane{
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #C1C1C1;
+}
+
 /* ====== LINE CHART =========================================================== */
 .chart {
     -fx-create-symbols: false;
-}
-
-.chart-line-symbol {
-    -fx-background-insets: 0, 2;
-    -fx-background-radius: 5px;
-    -fx-padding: 5px;
 }
 
 .chart-series-line {
@@ -36,6 +49,7 @@
     -fx-stroke: rgba(128, 128, 128, 0.7);
     -fx-stroke-width: 1px;
     -fx-stroke-dash-array: 2 12 12 2;
+    -fx-background-color: gray;
 }
 
 #heatFlowSensorsLine {

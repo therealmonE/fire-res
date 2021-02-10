@@ -18,16 +18,16 @@ public class HeatFlowChartController extends AbstractController implements Repor
     private LineChart<Number, Number> heatFlowChart;
 
     @ParentController
-    private HeatFlowPaneController heatFlowPaneController;
+    private HeatFlowController heatFlowController;
 
     @Override
     public Report getReport() {
-        return heatFlowPaneController.getReport();
+        return heatFlowController.getReport();
     }
 
     @Override
     public Sample getSample() {
-        return heatFlowPaneController.getSample();
+        return heatFlowController.getSample();
     }
 
 }

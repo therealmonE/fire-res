@@ -66,19 +66,19 @@ public class GeneralParamsController extends AbstractController {
     }
 
     public void changeFireModeInclusion(Event event) {
-        changeReportInclusion((CheckMenuItem) event.getTarget(), SampleTabController::getFireModePaneController);
+        changeReportInclusion((CheckMenuItem) event.getTarget(), SampleTabController::getFireModeController);
     }
 
     public void changeExcessPressureInclusion(Event event) {
-        changeReportInclusion((CheckMenuItem) event.getTarget(), SampleTabController::getExcessPressurePaneController);
+        changeReportInclusion((CheckMenuItem) event.getTarget(), SampleTabController::getExcessPressureController);
     }
 
     public void changeHeatFlowInclusion(Event event) {
-        changeReportInclusion((CheckMenuItem) event.getTarget(), SampleTabController::getHeatFlowPaneController);
+        changeReportInclusion((CheckMenuItem) event.getTarget(), SampleTabController::getHeatFlowController);
     }
 
     public void changeUnheatedSurfaceInclusion(Event event) {
-        changeReportInclusion((CheckMenuItem) event.getTarget(), SampleTabController::getUnheatedSurfacePaneController);
+        changeReportInclusion((CheckMenuItem) event.getTarget(), SampleTabController::getUnheatedSurfaceController);
     }
 
     public void changeReportInclusion(CheckMenuItem menuItem, Function<SampleTabController, ReportInclusionChanger> mapper) {

@@ -32,22 +32,17 @@ public class MainSceneController extends AbstractController {
     @ChildController
     private SamplesTabPaneController samplesTabPaneController;
 
-    @FXML
-    @ChildController
-    private BottomButtonBarController bottomButtonBarController;
 
     @Override
     protected void initialize() {
         topMenuBarController.setMainSceneController(this);
         generalParamsController.setMainSceneController(this);
         samplesTabPaneController.setMainSceneController(this);
-        bottomButtonBarController.setMainSceneController(this);
 
         generationProperties.getGeneral().getIncludedReports().addAll(Arrays.asList(ReportType.values()));
 
         topMenuBarController.postConstruct();
         generalParamsController.postConstruct();
         samplesTabPaneController.postConstruct();
-        bottomButtonBarController.postConstruct();
     }
 }

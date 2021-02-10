@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.layout.VBox?>
 
 <?import io.github.therealmone.fireres.gui.component.SmoothedLineChart?>
-<VBox xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="io.github.therealmone.fireres.gui.controller.heat.flow.HeatFlowChartController">
-    <SmoothedLineChart fx:id="heatFlowChart" prefHeight="600.0" prefWidth="950.0">
-        <xAxis>
-            <NumberAxis label="Время, мин." side="BOTTOM"/>
-        </xAxis>
+<?import javafx.scene.chart.NumberAxis?>
 
-        <yAxis>
-            <NumberAxis label="Тепловой поток, Вт/м^2" side="LEFT"/>
-        </yAxis>
-    </SmoothedLineChart>
-</VBox>
+<SmoothedLineChart fx:id="heatFlowChart" focusTraversable="true" legendSide="RIGHT" maxHeight="1.7976931348623157E308"
+                   maxWidth="1.7976931348623157E308" prefWidth="5000.0"
+                   xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+                   fx:controller="io.github.therealmone.fireres.gui.controller.heat.flow.HeatFlowChartController">
+    <xAxis>
+        <NumberAxis label="Время, мин." side="BOTTOM"/>
+    </xAxis>
+
+    <yAxis>
+        <NumberAxis label="Тепловой поток, Вт/м^2" side="LEFT"/>
+    </yAxis>
+</SmoothedLineChart>
+
