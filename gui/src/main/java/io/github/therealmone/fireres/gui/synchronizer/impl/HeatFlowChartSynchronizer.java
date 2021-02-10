@@ -6,26 +6,35 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import lombok.val;
 
+import static io.github.therealmone.fireres.gui.model.ElementIds.DEFAULT_MEAN_LINE;
+import static io.github.therealmone.fireres.gui.model.ElementIds.DEFAULT_MEAN_LINE_LEGEND_SYMBOL;
 import static io.github.therealmone.fireres.gui.model.ElementIds.HEAT_FLOW_MAX_ALLOWED_FLOW_LINE;
-import static io.github.therealmone.fireres.gui.model.ElementIds.HEAT_FLOW_MEAN_FLOW_LINE;
 import static io.github.therealmone.fireres.gui.model.ElementIds.HEAT_FLOW_SENSORS_LINE;
+import static io.github.therealmone.fireres.gui.util.ChartUtils.addLegendSymbolId;
 import static io.github.therealmone.fireres.gui.util.ChartUtils.addPointsToSeries;
+import static io.github.therealmone.fireres.gui.util.ChartUtils.randomizeColor;
 
 public class HeatFlowChartSynchronizer implements ChartSynchronizer<HeatFlowReport> {
+
+    public static final String MAX_ALLOWED_FLOW_TEXT = "Предельное значение теплового потока";
+    public static final String MEAN_FLOW_TEXT = "Среднее значение теплового потока";
+    public static final String SENSOR_TEMPERATURE_TEXT = "Приемник теплового потока - ";
 
     @Override
     public void synchronize(LineChart<Number, Number> chart, HeatFlowReport report) {
         chart.getData().clear();
 
-        addMaxAllowedHeatFlowLine(chart, report);
         addMeanHeatFlowLine(chart, report);
+        addMaxAllowedHeatFlowLine(chart, report);
         addSensorsLine(chart, report);
+
+        addLegendSymbolId(chart, MEAN_FLOW_TEXT, DEFAULT_MEAN_LINE_LEGEND_SYMBOL);
     }
 
     private void addMaxAllowedHeatFlowLine(LineChart<Number, Number> chart, HeatFlowReport report) {
         val series = new XYChart.Series<Number, Number>();
 
-        series.setName("Предельное значение теплового потока");
+        series.setName(MAX_ALLOWED_FLOW_TEXT);
         addPointsToSeries(series, report.getBound());
         chart.getData().add(series);
         series.getNode().setId(HEAT_FLOW_MAX_ALLOWED_FLOW_LINE);
@@ -34,10 +43,10 @@ public class HeatFlowChartSynchronizer implements ChartSynchronizer<HeatFlowRepo
     private void addMeanHeatFlowLine(LineChart<Number, Number> chart, HeatFlowReport report) {
         val series = new XYChart.Series<Number, Number>();
 
-        series.setName("Среднее значение теплового потока");
+        series.setName(MEAN_FLOW_TEXT);
         addPointsToSeries(series, report.getMeanTemperature());
         chart.getData().add(series);
-        series.getNode().setId(HEAT_FLOW_MEAN_FLOW_LINE);
+        series.getNode().setId(DEFAULT_MEAN_LINE);
     }
 
     private void addSensorsLine(LineChart<Number, Number> chart, HeatFlowReport report) {
@@ -45,11 +54,11 @@ public class HeatFlowChartSynchronizer implements ChartSynchronizer<HeatFlowRepo
             val sensorSeries = new XYChart.Series<Number, Number>();
             val sensorTemperature = report.getSensorTemperatures().get(i);
 
-            sensorSeries.setName("Приемник теплового потока - " + (i + 1));
+            sensorSeries.setName(SENSOR_TEMPERATURE_TEXT + (i + 1));
             addPointsToSeries(sensorSeries, sensorTemperature);
             chart.getData().add(sensorSeries);
+            randomizeColor(sensorSeries.getNode(), 0.4);
             sensorSeries.getNode().setId(HEAT_FLOW_SENSORS_LINE);
-
         }
     }
 
