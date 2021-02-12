@@ -26,9 +26,6 @@ public class SampleRenameModalWindowController extends AbstractController implem
     @FXML
     private TextField renameTextField;
 
-    @Inject
-    private SampleService sampleService;
-
     private Stage modalWindow;
 
     @Override
