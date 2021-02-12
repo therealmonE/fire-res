@@ -8,9 +8,12 @@ import io.github.therealmone.fireres.gui.controller.excess.pressure.ExcessPressu
 import io.github.therealmone.fireres.gui.controller.fire.mode.FireModeController;
 import io.github.therealmone.fireres.gui.controller.heat.flow.HeatFlowController;
 import io.github.therealmone.fireres.gui.controller.unheated.surface.UnheatedSurfaceController;
+import io.github.therealmone.fireres.gui.service.FxmlLoadService;
 import io.github.therealmone.fireres.gui.service.SampleService;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import lombok.Data;
@@ -33,6 +36,9 @@ public class SampleTabController extends AbstractController implements SampleCon
 
     @Inject
     private SampleService sampleService;
+
+    @Inject
+    private FxmlLoadService fxmlLoadService;
 
     @FXML
     private Tab sampleTab;
@@ -73,6 +79,7 @@ public class SampleTabController extends AbstractController implements SampleCon
         heatFlowController.setSampleTabController(this);
         fireModeController.setSampleTabController(this);
         unheatedSurfaceController.setSampleTabController(this);
+
     }
 
     @Override
@@ -82,7 +89,10 @@ public class SampleTabController extends AbstractController implements SampleCon
         fireModeController.postConstruct();
         unheatedSurfaceController.postConstruct();
 
+        initializeSampleTabContextMenu();
+
         generateReports();
+
     }
 
     @FXML
@@ -107,5 +117,25 @@ public class SampleTabController extends AbstractController implements SampleCon
         excessPressureController.createReport();
         heatFlowController.createReport();
         unheatedSurfaceController.createReport();
+    }
+
+    private void initializeSampleTabContextMenu() {
+        val contextMenu = createSampleTabContextMenu();
+
+        sampleTab.setContextMenu(contextMenu);
+    }
+
+    private ContextMenu createSampleTabContextMenu() {
+        val contextMenu = new ContextMenu();
+        val addPointMenuItem = new MenuItem("Переименовать образец");
+
+        addPointMenuItem.setOnAction(this::handleRenameEvent);
+        contextMenu.getItems().add(addPointMenuItem);
+
+        return contextMenu;
+    }
+
+    private void handleRenameEvent(Event event) {
+        fxmlLoadService.loadRenameSampleModalWindow(this).show();
     }
 }
