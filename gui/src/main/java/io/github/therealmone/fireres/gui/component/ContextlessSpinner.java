@@ -3,6 +3,7 @@ package io.github.therealmone.fireres.gui.component;
 import javafx.beans.NamedArg;
 import javafx.event.Event;
 import javafx.scene.control.Spinner;
+import javafx.scene.input.KeyCode;
 
 import static javafx.scene.input.ContextMenuEvent.CONTEXT_MENU_REQUESTED;
 
@@ -13,7 +14,7 @@ public class ContextlessSpinner<N extends Number> extends Spinner<N> {
                               @NamedArg("initialValue") int initialValue) {
         super(min, max, initialValue);
 
-        this.addEventFilter(CONTEXT_MENU_REQUESTED, Event::consume);
+        initialize();
     }
 
     public ContextlessSpinner(@NamedArg("min") int min,
@@ -22,7 +23,7 @@ public class ContextlessSpinner<N extends Number> extends Spinner<N> {
                               @NamedArg("amountToStepBy") int amountToStepBy) {
         super(min, max, initialValue, amountToStepBy);
 
-        this.addEventFilter(CONTEXT_MENU_REQUESTED, Event::consume);
+        initialize();
     }
 
     public ContextlessSpinner(@NamedArg("min") double min,
@@ -30,7 +31,7 @@ public class ContextlessSpinner<N extends Number> extends Spinner<N> {
                               @NamedArg("initialValue") double initialValue) {
         super(min, max, initialValue);
 
-        this.addEventFilter(CONTEXT_MENU_REQUESTED, Event::consume);
+        initialize();
     }
 
     public ContextlessSpinner(@NamedArg("min") double min,
@@ -45,6 +46,15 @@ public class ContextlessSpinner<N extends Number> extends Spinner<N> {
     public ContextlessSpinner() {
         super();
 
+        initialize();
+    }
+
+    private void initialize() {
         this.addEventFilter(CONTEXT_MENU_REQUESTED, Event::consume);
+        this.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                this.getParent().requestFocus();
+            }
+        });
     }
 }

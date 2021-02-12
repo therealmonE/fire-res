@@ -1,14 +1,13 @@
 package io.github.therealmone.fireres.gui.controller.common;
 
-import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.controller.AbstractController;
 import io.github.therealmone.fireres.gui.controller.SampleContainer;
 import io.github.therealmone.fireres.gui.controller.SampleTabController;
-import io.github.therealmone.fireres.gui.service.SampleService;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -27,6 +26,15 @@ public class SampleRenameModalWindowController extends AbstractController implem
     private TextField renameTextField;
 
     private Stage modalWindow;
+
+    @Override
+    protected void initialize() {
+        renameTextField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                renameSample();
+            }
+        });
+    }
 
     @Override
     public void postConstruct() {

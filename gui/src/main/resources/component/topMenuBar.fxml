@@ -9,7 +9,7 @@
     <menus>
         <Menu mnemonicParsing="false" text="Файл">
             <items>
-                <MenuItem mnemonicParsing="false" text="Выгрузить" onAction="#exportSamples"/>
+                <MenuItem mnemonicParsing="false" text="Экспорт" onAction="#exportSamples"/>
             </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Помощь">
