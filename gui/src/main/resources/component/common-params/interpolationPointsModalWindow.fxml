@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import io.github.therealmone.fireres.gui.component.ContextlessSpinner?>
 
 <Pane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="io.github.therealmone.fireres.gui.controller.common.InterpolationPointsModalWindowController">
@@ -29,7 +30,7 @@
 
             <Label prefHeight="16.0" prefWidth="150.0" text="Время:"/>
 
-            <Spinner fx:id="interpolationPointTimeSpinner" amountToStepBy="1" editable="true" initialValue="0"
+            <ContextlessSpinner fx:id="interpolationPointTimeSpinner" amountToStepBy="1" editable="true" initialValue="0"
                      max="10000" min="0" prefHeight="26.0" prefWidth="100.0" GridPane.columnIndex="1"/>
 
             <Label prefHeight="16.0" prefWidth="150.0" text="Значение:" GridPane.rowIndex="1">
@@ -38,13 +39,14 @@
                 </GridPane.margin>
             </Label>
 
-            <Spinner fx:id="interpolationPointValueSpinner" amountToStepBy="1" editable="true" initialValue="0"
-                     max="100000" min="0" prefHeight="26.0" prefWidth="100.0" GridPane.columnIndex="1"
-                     GridPane.rowIndex="1">
+            <ContextlessSpinner fx:id="interpolationPointValueSpinner" amountToStepBy="1" editable="true" initialValue="0"
+                                max="100000" min="0" prefHeight="26.0" prefWidth="100.0" GridPane.columnIndex="1"
+                                GridPane.rowIndex="1">
                 <GridPane.margin>
                     <Insets top="15.0"/>
                 </GridPane.margin>
-            </Spinner>
+            </ContextlessSpinner>
+
             <Button prefWidth="100.0" GridPane.columnIndex="0" GridPane.rowIndex="2" text="Добавить" onAction="#addInterpolationPoint">
                 <GridPane.margin>
                     <Insets top="15.0"/>

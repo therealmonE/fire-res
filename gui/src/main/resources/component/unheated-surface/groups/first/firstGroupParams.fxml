@@ -3,6 +3,7 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import io.github.therealmone.fireres.gui.component.ContextlessSpinner?>
 
 <TitledPane contentDisplay="RIGHT" prefWidth="307.0" text="Общие параметры" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.github.therealmone.fireres.gui.controller.unheated.surface.groups.first.FirstGroupParamsController">
 
@@ -24,7 +25,7 @@
 
                 <Label prefHeight="16.0" prefWidth="150.0" text="Количество термопар:" />
 
-                <Spinner fx:id="firstGroupThermocouplesCountSpinner" editable="true" prefHeight="26.0" prefWidth="80.0" GridPane.columnIndex="1" />
+                <ContextlessSpinner fx:id="firstGroupThermocouplesCountSpinner" editable="true" prefHeight="26.0" prefWidth="80.0" GridPane.columnIndex="1" />
 
                 <Label prefWidth="24.0" text="шт." GridPane.columnIndex="2" GridPane.rowIndex="0">
                     <padding>

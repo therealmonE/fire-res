@@ -2,12 +2,12 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import io.github.therealmone.fireres.gui.component.ContextlessSpinner?>
 
 <TitledPane prefWidth="307.0" text="Параметры режима пожара" xmlns="http://javafx.com/javafx/10.0.2-internal"
             xmlns:fx="http://javafx.com/fxml/1"
@@ -31,8 +31,8 @@
 
             <Label prefHeight="16.0" prefWidth="150.0" text="Количество термопар:" GridPane.rowIndex="0"/>
 
-            <Spinner fx:id="thermocoupleSpinner" editable="true" prefHeight="26.0" prefWidth="80.0"
-                     GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+            <ContextlessSpinner fx:id="thermocoupleSpinner" editable="true" prefHeight="26.0" prefWidth="80.0"
+                                GridPane.columnIndex="1" GridPane.rowIndex="0"/>
 
             <Label prefWidth="24.0" text="шт." GridPane.columnIndex="2" GridPane.rowIndex="0">
                 <padding>
