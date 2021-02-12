@@ -7,6 +7,7 @@ import io.github.therealmone.fireres.gui.controller.SampleTabController;
 import io.github.therealmone.fireres.gui.controller.SamplesTabPaneController;
 import io.github.therealmone.fireres.gui.controller.common.FunctionParamsController;
 import io.github.therealmone.fireres.gui.controller.common.InterpolationPointsModalWindowController;
+import io.github.therealmone.fireres.gui.controller.common.SampleRenameModalWindowController;
 import io.github.therealmone.fireres.gui.service.FxmlLoadService;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -73,6 +74,30 @@ public class FxmlLoadServiceImpl implements FxmlLoadService {
         modalWindow.initModality(Modality.APPLICATION_MODAL);
 
         controller.setModalWindow(modalWindow);
+
+        return modalWindow;
+    }
+
+    @Override
+    @SneakyThrows
+    public Stage loadRenameSampleModalWindow(SampleTabController sampleTabController) {
+        val renameResource = getClass().getResource("/component/common-params/sampleRenameModalWindow.fxml");
+        val loader = createLoader(renameResource);
+
+        val renameModalWindowPane = (Pane) loader.load();
+        val controller = (SampleRenameModalWindowController) loader.getController();
+
+        controller.setSampleTabController(sampleTabController);
+
+        val modalWindow = new Stage();
+
+        modalWindow.setScene(new Scene(renameModalWindowPane));
+        modalWindow.setTitle("Переимеование образца");
+        modalWindow.setResizable(false);
+        modalWindow.initModality(Modality.APPLICATION_MODAL);
+
+        controller.setModalWindow(modalWindow);
+        controller.postConstruct();
 
         return modalWindow;
     }

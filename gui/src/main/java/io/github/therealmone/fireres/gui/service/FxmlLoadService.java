@@ -1,5 +1,6 @@
 package io.github.therealmone.fireres.gui.service;
 
+import io.github.therealmone.fireres.gui.controller.SampleTabController;
 import io.github.therealmone.fireres.gui.controller.SamplesTabPaneController;
 import io.github.therealmone.fireres.gui.controller.common.FunctionParamsController;
 import javafx.scene.Scene;
@@ -13,5 +14,7 @@ public interface FxmlLoadService {
     Tab loadSampleTab(SamplesTabPaneController samplesTabPaneController, Object userData);
 
     Stage loadInterpolationPointModalWindow(FunctionParamsController functionParamsController);
+
+    Stage loadRenameSampleModalWindow(SampleTabController sampleTabController);
 
 }
