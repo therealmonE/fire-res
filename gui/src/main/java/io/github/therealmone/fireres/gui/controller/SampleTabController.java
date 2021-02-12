@@ -127,7 +127,7 @@ public class SampleTabController extends AbstractController implements SampleCon
 
     private ContextMenu createSampleTabContextMenu() {
         val contextMenu = new ContextMenu();
-        val addPointMenuItem = new MenuItem("Переименовать образец");
+        val addPointMenuItem = new MenuItem("Переименовать");
 
         addPointMenuItem.setOnAction(this::handleRenameEvent);
         contextMenu.getItems().add(addPointMenuItem);
