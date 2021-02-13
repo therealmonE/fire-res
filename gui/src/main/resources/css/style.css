@@ -1,3 +1,12 @@
+@font-face {
+    src: url('../font/OpenSans-Regular.ttf');
+}
+
+.root {
+    -fx-font-size: 12px;
+    -fx-font-family: "Open Sans";
+}
+
 .addSampleTab {
     -fx-background-color: #dddddd;
     -fx-font-size: 18;

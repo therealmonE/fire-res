@@ -30,7 +30,7 @@
 
         <Label prefHeight="16.0" prefWidth="60.0" text="Время:"/>
 
-        <ContextlessSpinner fx:id="timeSpinner" editable="true" max="1000" min="1" prefHeight="26.0" prefWidth="80.0"
+        <ContextlessSpinner fx:id="timeSpinner" editable="true" prefHeight="26.0" prefWidth="80.0"
                             GridPane.columnIndex="1"/>
 
         <Label prefHeight="16.0" prefWidth="183.0" text="Температура окружения:" GridPane.rowIndex="1">
@@ -45,7 +45,7 @@
             </padding>
         </Label>
 
-        <ContextlessSpinner fx:id="environmentTemperatureSpinner" editable="true" max="50" min="0" prefHeight="26.0"
+        <ContextlessSpinner fx:id="environmentTemperatureSpinner" editable="true" prefHeight="26.0"
                  prefWidth="80.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
             <GridPane.margin>
                 <Insets top="15.0"/>

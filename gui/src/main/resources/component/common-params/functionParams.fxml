@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import io.github.therealmone.fireres.gui.component.ContextlessSpinner?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
@@ -10,9 +11,8 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<?import io.github.therealmone.fireres.gui.component.ContextlessSpinner?>
 
-<TitledPane contentDisplay="RIGHT" prefWidth="307.0" text="Параметры функции"
+<TitledPane contentDisplay="RIGHT" prefWidth="305.0" text="Параметры функции"
             xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="io.github.therealmone.fireres.gui.controller.common.FunctionParamsController">
 
@@ -20,7 +20,7 @@
         <Insets top="15.0"/>
     </padding>
     <AnchorPane>
-        <VBox>
+        <VBox prefWidth="305.0">
             <GridPane>
 
                 <columnConstraints>
@@ -34,19 +34,19 @@
                     <RowConstraints/>
                 </rowConstraints>
 
-                <Label prefHeight="16.0" prefWidth="150.0" text="Коэффициент линейности:"/>
+                <Label prefHeight="16.0" prefWidth="165.0" text="Коэффициент линейности:"/>
 
-                <ContextlessSpinner fx:id="linearityCoefficientSpinner" editable="true" prefHeight="26.0" prefWidth="80.0"
-                         GridPane.columnIndex="1"/>
+                <ContextlessSpinner fx:id="linearityCoefficientSpinner" editable="true" prefHeight="26.0"
+                                    prefWidth="80.0" GridPane.columnIndex="1"/>
 
-                <Label prefHeight="16.0" prefWidth="150.0" text="Коэффициент дисперции:" GridPane.rowIndex="1">
+                <Label prefHeight="16.0" prefWidth="165.0" text="Коэффициент дисперсии:" GridPane.rowIndex="1">
                     <GridPane.margin>
                         <Insets top="15.0"/>
                     </GridPane.margin>
                 </Label>
 
-                <ContextlessSpinner fx:id="dispersionCoefficientSpinner" editable="true" prefHeight="26.0" prefWidth="80.0"
-                         GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <ContextlessSpinner fx:id="dispersionCoefficientSpinner" editable="true" prefHeight="26.0"
+                                    prefWidth="80.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                     <GridPane.margin>
                         <Insets top="15.0"/>
                     </GridPane.margin>
@@ -57,7 +57,7 @@
                 </VBox.margin>
 
                 <padding>
-                    <Insets bottom="15.0"/>
+                    <Insets bottom="15.0" right="15.0"/>
                 </padding>
 
             </GridPane>
@@ -67,14 +67,14 @@
             <AnchorPane prefWidth="250.0">
                 <children>
                     <TableView fx:id="interpolationPointsTableView" focusTraversable="false" prefHeight="300.0"
-                               prefWidth="275.0">
+                               prefWidth="290.0">
                         <placeholder>
                             <Label text="Нет точек интерполяции"/>
                         </placeholder>
                         <columns>
-                            <TableColumn fx:id="timeColumn" editable="false" prefWidth="130.0" resizable="false"
+                            <TableColumn fx:id="timeColumn" editable="false" prefWidth="138.0" resizable="false"
                                          text="Время"/>
-                            <TableColumn fx:id="valueColumn" editable="false" prefWidth="129.0" resizable="false"
+                            <TableColumn fx:id="valueColumn" editable="false" prefWidth="137.0" resizable="false"
                                          text="Значение"/>
                         </columns>
 
