@@ -12,7 +12,6 @@
     <modules>
         <module>gui</module>
         <module>core</module>
-        <module>cli</module>
         <module>excel</module>
         <module>fire-mode</module>
         <module>excess-pressure</module>
