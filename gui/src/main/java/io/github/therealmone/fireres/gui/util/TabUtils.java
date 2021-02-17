@@ -24,7 +24,10 @@ public class TabUtils {
 
     public static void disableTab(Tab tab) {
         tab.setDisable(true);
-        tab.getTabPane().getTabs().removeIf(tab::equals);
+
+        if (tab.getTabPane() != null) {
+            tab.getTabPane().getTabs().removeIf(tab::equals);
+        }
     }
 
     public static void enableTab(Tab tab, TabPane reportsTabPane) {
