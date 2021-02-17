@@ -13,17 +13,20 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+
 @Slf4j
 public class SampleServiceImpl implements SampleService {
 
+    public static final String SAMPLE_NAME_TEMPLATE = "Образец №%d";
     @Inject
     private GenerationProperties generationProperties;
 
     @Inject
     private FxmlLoadService fxmlLoadService;
 
-    @Inject
-    private SampleService sampleService;
+    private final AtomicInteger sampleCounter = new AtomicInteger(0);
 
     @Override
     public void createNewSample(SamplesTabPaneController samplesTabPaneController) {
@@ -34,7 +37,7 @@ public class SampleServiceImpl implements SampleService {
 
         samplesProperties.add(newSampleProperties);
 
-        val sampleName = String.format("Образец №%d", samplesProperties.size());
+        val sampleName = createSampleName(samplesProperties);
         val newTab = createSampleTab(samplesTabPaneController, newSampleProperties, sampleName);
 
         newSampleProperties.setName(sampleName);
@@ -42,13 +45,25 @@ public class SampleServiceImpl implements SampleService {
         samplesTabPane.getSelectionModel().select(newTab);
     }
 
+    private String createSampleName(List<SampleProperties> samples) {
+        var name = String.format(SAMPLE_NAME_TEMPLATE, sampleCounter.incrementAndGet());
+
+        while (sampleNameAlreadyExists(name, samples)) {
+            name = String.format(SAMPLE_NAME_TEMPLATE, sampleCounter.incrementAndGet());
+        }
+
+        return name;
+    }
+
+    private boolean sampleNameAlreadyExists(String name, List<SampleProperties> samples) {
+        return samples.stream().anyMatch(sample -> name.equals(sample.getName()));
+    }
+
     @Override
     public void closeSample(TabPane samplesTabPane, Tab closedSampleTab) {
         val sampleId = ((Sample) closedSampleTab.getUserData()).getId();
 
-        if (generationProperties.getSamples().removeIf(sample -> sample.getId().equals(sampleId))) {
-            renameSamples(samplesTabPane);
-        }
+        generationProperties.getSamples().removeIf(sample -> sample.getId().equals(sampleId));
 
         if (samplesTabPane.getTabs().size() == 2) {
             samplesTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
@@ -74,34 +89,6 @@ public class SampleServiceImpl implements SampleService {
         tab.setText(tabName);
 
         return tab;
-    }
-
-    private void renameSamples(TabPane samplesTabPane) {
-        val samplesTabs = samplesTabPane.getTabs();
-
-        for (int i = 0; i < generationProperties.getSamples().size(); i++) {
-            val sampleProperties = generationProperties.getSamples().get(i);
-            val sampleTab = samplesTabs.stream()
-                    .filter(tab ->
-                            ((Sample) tab.getUserData()).getId().equals(sampleProperties.getId()))
-                    .findFirst()
-                    .orElseThrow();
-
-            val sampleName = "Образец №" + (i + 1);
-
-            sampleService.getSample(sampleTab).getSampleProperties().setName(sampleName);
-            sampleTab.setText(sampleName);
-        }
-
-        samplesTabs.sort((t1, t2) -> {
-            if (t1.getId() != null && t1.getId().equals("addSampleTab")) {
-                return 1;
-            } else if (t2.getId() != null && t2.getId().equals("addSampleTab")) {
-                return -1;
-            } else {
-                return t1.getText().compareTo(t2.getText());
-            }
-        });
     }
 
 }
