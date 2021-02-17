@@ -7,6 +7,7 @@ import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.excel.ExcelModule;
 import io.github.therealmone.fireres.excess.pressure.ExcessPressureModule;
 import io.github.therealmone.fireres.firemode.FireModeModule;
+import io.github.therealmone.fireres.gui.model.Logos;
 import io.github.therealmone.fireres.gui.service.ChartsSynchronizationService;
 import io.github.therealmone.fireres.gui.service.ExportService;
 import io.github.therealmone.fireres.gui.service.FxmlLoadService;
@@ -19,10 +20,17 @@ import io.github.therealmone.fireres.gui.service.impl.ResetSettingsServiceImpl;
 import io.github.therealmone.fireres.gui.service.impl.SampleServiceImpl;
 import io.github.therealmone.fireres.heatflow.HeatFlowModule;
 import io.github.therealmone.fireres.unheated.surface.UnheatedSurfaceModule;
+import javafx.application.HostServices;
+import javafx.scene.image.Image;
+import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 
+@RequiredArgsConstructor
 public class GuiModule extends AbstractModule {
 
     private final GenerationProperties generationProperties = new GenerationProperties();
+
+    private final Application application;
 
     @Override
     protected void configure() {
@@ -39,6 +47,16 @@ public class GuiModule extends AbstractModule {
         bind(FxmlLoadService.class).to(FxmlLoadServiceImpl.class).in(Singleton.class);
         bind(ChartsSynchronizationService.class).to(ChartsSynchronizationServiceImpl.class).in(Singleton.class);
         bind(ExportService.class).to(ExportServiceImpl.class).in(Singleton.class);
+        bind(HostServices.class).toInstance(application.getHostServices());
+        bind(Logos.class).toInstance(loadLogos());
+    }
+
+    @SneakyThrows
+    private Logos loadLogos() {
+        return new Logos(
+                new Image(getClass().getResource("/image/logo-512.png").openStream()),
+                new Image(getClass().getResource("/image/logo-50.png").openStream())
+        );
     }
 
 }

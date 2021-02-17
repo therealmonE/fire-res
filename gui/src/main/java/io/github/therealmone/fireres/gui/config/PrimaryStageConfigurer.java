@@ -1,12 +1,16 @@
 package io.github.therealmone.fireres.gui.config;
 
-import javafx.scene.image.Image;
+import com.google.inject.Inject;
+import io.github.therealmone.fireres.gui.model.Logos;
 import javafx.stage.Stage;
 import lombok.SneakyThrows;
 
 public class PrimaryStageConfigurer implements Configurer<Stage> {
 
     private static final String TITLE = "Генератор отчетов о тестировании на огнестойкость";
+
+    @Inject
+    private Logos logos;
 
     @SneakyThrows
     @Override
@@ -17,7 +21,7 @@ public class PrimaryStageConfigurer implements Configurer<Stage> {
         stage.setResizable(true);
         stage.setMaximized(true);
         stage.requestFocus();
-        stage.getIcons().add(new Image(getClass().getResource("/image/logo.png").openStream()));
+        stage.getIcons().add(logos.getLogo512());
     }
 
 }
