@@ -50,15 +50,12 @@ public class TopMenuBarController extends AbstractController {
         }
     }
 
-    @Override
-    public void postConstruct() {
-        aboutProgramMenuItem.setOnAction(this::handleAboutProgramEvent);
-    }
-
-    private void handleAboutProgramEvent(Event event) {
+    @FXML
+    public void openAboutProgramModalWindow() {
         fxmlLoadService.loadAboutProgramModalWindow(this).show();
     }
 
+    @FXML
     public void openUserGuideLink() {
         hostServices.showDocument(USER_GUIDE_LINK);
     }

@@ -14,7 +14,7 @@
         </Menu>
         <Menu mnemonicParsing="false" text="Помощь">
             <items>
-                <MenuItem fx:id="aboutProgramMenuItem" mnemonicParsing="false" text="О программе"/>
+                <MenuItem fx:id="aboutProgramMenuItem" onAction="#openAboutProgramModalWindow" mnemonicParsing="false" text="О программе"/>
                 <MenuItem fx:id="userGuideMenuItem" onAction="#openUserGuideLink" mnemonicParsing="false" text="Руководство пользователя"/>
             </items>
         </Menu>
