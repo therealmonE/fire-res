@@ -37,10 +37,10 @@ public class MeanWithSensorsTemperaturesEnricher implements ReportEnricher<HeatF
 
         val meanWithChildFunctions = meanFunctionFactory
                 .meanWithChildFunctions(MeanWithChildFunctionGenerationParameters.builder()
-                        .meanFunctionInterpolation(sampleProperties.getHeatFlow())
+                        .meanFunctionInterpolation(report.getProperties())
                         .meanLowerBound(zeroBound)
                         .meanUpperBound(bound)
-                        .childFunctionsCount(sampleProperties.getHeatFlow().getSensorCount())
+                        .childFunctionsCount(report.getProperties().getSensorCount())
                         .childLowerBound(zeroBound)
                         .childUpperBound(bound)
                         .strategy(new HeatFlowGeneratorStrategy())

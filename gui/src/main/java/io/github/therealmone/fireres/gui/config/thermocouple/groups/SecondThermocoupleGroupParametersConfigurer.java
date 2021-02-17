@@ -3,6 +3,7 @@ package io.github.therealmone.fireres.gui.config.thermocouple.groups;
 import io.github.therealmone.fireres.core.config.SampleProperties;
 import io.github.therealmone.fireres.gui.config.Configurer;
 import io.github.therealmone.fireres.gui.controller.unheated.surface.groups.second.SecondGroupParamsController;
+import io.github.therealmone.fireres.unheated.surface.config.UnheatedSurfaceProperties;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import lombok.val;
@@ -27,7 +28,10 @@ public class SecondThermocoupleGroupParametersConfigurer implements Configurer<S
     }
 
     private void resetThermocouplesNumber(Spinner<Integer> ThermocouplesNumber, SampleProperties sample) {
-        sample.getUnheatedSurface().getSecondGroup().setThermocoupleCount(DEFAULT_THERMOCOUPLES_NUMBER);
+        sample.getReportPropertiesByClass(UnheatedSurfaceProperties.class)
+                .orElseThrow()
+                .getSecondGroup()
+                .setThermocoupleCount(DEFAULT_THERMOCOUPLES_NUMBER);
 
         ThermocouplesNumber.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(
                 DEFAULT_THERMOCOUPLES_NUMBER_MIN,
@@ -37,7 +41,9 @@ public class SecondThermocoupleGroupParametersConfigurer implements Configurer<S
     }
 
     private void resetBound(Spinner<Integer> ThermocouplesBound, SampleProperties sample) {
-        sample.getUnheatedSurface().getSecondGroup().setBound(DEFAULT_BOUND);
+        sample.getReportPropertiesByClass(UnheatedSurfaceProperties.class)
+                .orElseThrow()
+                .getSecondGroup().setBound(DEFAULT_BOUND);
 
         ThermocouplesBound.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(
                 DEFAULT_BOUND_MIN,

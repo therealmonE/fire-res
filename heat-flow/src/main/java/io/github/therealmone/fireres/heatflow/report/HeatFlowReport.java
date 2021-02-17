@@ -2,6 +2,7 @@ package io.github.therealmone.fireres.heatflow.report;
 
 import io.github.therealmone.fireres.core.model.Report;
 import io.github.therealmone.fireres.core.model.Sample;
+import io.github.therealmone.fireres.heatflow.config.HeatFlowProperties;
 import io.github.therealmone.fireres.heatflow.model.HeatFlowBound;
 import io.github.therealmone.fireres.heatflow.model.HeatFlowMeanTemperature;
 import io.github.therealmone.fireres.heatflow.model.HeatFlowSensorTemperature;
@@ -13,7 +14,7 @@ import java.util.UUID;
 
 @Data
 @RequiredArgsConstructor
-public class HeatFlowReport implements Report {
+public class HeatFlowReport implements Report<HeatFlowProperties> {
 
     private final Sample sample;
     private final UUID id = UUID.randomUUID();
@@ -22,4 +23,10 @@ public class HeatFlowReport implements Report {
     private HeatFlowMeanTemperature meanTemperature;
     private List<HeatFlowSensorTemperature> sensorTemperatures;
 
+    @Override
+    public HeatFlowProperties getProperties() {
+        return sample.getSampleProperties()
+                .getReportPropertiesByClass(HeatFlowProperties.class)
+                .orElseThrow();
+    }
 }

@@ -4,7 +4,8 @@ import io.github.therealmone.fireres.core.config.GeneralProperties;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.config.InterpolationPoint;
 import io.github.therealmone.fireres.core.config.SampleProperties;
-import io.github.therealmone.fireres.core.config.firemode.FireModeProperties;
+import io.github.therealmone.fireres.firemode.config.FireModeProperties;
+import lombok.val;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,19 +28,19 @@ public class TestGenerationProperties extends GenerationProperties {
     }};
 
     public TestGenerationProperties() {
-
         setGeneral(GeneralProperties.builder()
                 .environmentTemperature(ENVIRONMENT_TEMPERATURE)
                 .time(TIME)
                 .build());
 
-        setSamples(List.of(SampleProperties.builder()
-                .fireMode(FireModeProperties.builder()
-                        .linearityCoefficient(LINEAR_COEFFICIENT)
-                        .interpolationPoints(INTERPOLATION_POINTS)
-                        .thermocoupleCount(6)
-                        .build())
-                .build()));
+        val props = new SampleProperties();
 
+        props.putReportProperties(FireModeProperties.builder()
+                .linearityCoefficient(LINEAR_COEFFICIENT)
+                .interpolationPoints(INTERPOLATION_POINTS)
+                .thermocoupleCount(6)
+                .build());
+
+        setSamples(List.of(props));
     }
 }

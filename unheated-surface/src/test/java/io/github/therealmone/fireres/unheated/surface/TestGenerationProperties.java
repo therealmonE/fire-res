@@ -3,9 +3,10 @@ package io.github.therealmone.fireres.unheated.surface;
 import io.github.therealmone.fireres.core.config.GeneralProperties;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.config.SampleProperties;
-import io.github.therealmone.fireres.core.config.unheated.surface.UnheatedSurfaceGroupProperties;
-import io.github.therealmone.fireres.core.config.unheated.surface.UnheatedSurfaceProperties;
-import io.github.therealmone.fireres.core.config.unheated.surface.UnheatedSurfaceSecondaryGroupProperties;
+import io.github.therealmone.fireres.unheated.surface.config.UnheatedSurfaceGroupProperties;
+import io.github.therealmone.fireres.unheated.surface.config.UnheatedSurfaceProperties;
+import io.github.therealmone.fireres.unheated.surface.config.UnheatedSurfaceSecondaryGroupProperties;
+import lombok.val;
 
 import java.util.List;
 
@@ -28,20 +29,23 @@ public class TestGenerationProperties extends GenerationProperties {
                 .time(TIME)
                 .build());
 
-        setSamples(List.of(SampleProperties.builder()
-                .unheatedSurface(UnheatedSurfaceProperties.builder()
-                        .firstGroup(UnheatedSurfaceGroupProperties.builder()
-                                .thermocoupleCount(FIRST_GROUP_THERMOCOUPLES_COUNT)
-                                .build())
-                        .secondGroup(UnheatedSurfaceSecondaryGroupProperties.builder()
-                                .thermocoupleCount(SECOND_GROUP_THERMOCOUPLES_COUNT)
-                                .bound(SECOND_GROUP_BOUND)
-                                .build())
-                        .thirdGroup(UnheatedSurfaceSecondaryGroupProperties.builder()
-                                .thermocoupleCount(THIRD_GROUP_THERMOCOUPLE_COUNT)
-                                .bound(THIRD_GROUP_BOUND)
-                                .build())
+        val props = new SampleProperties();
+
+        props.putReportProperties(UnheatedSurfaceProperties.builder()
+                .firstGroup(UnheatedSurfaceGroupProperties.builder()
+                        .thermocoupleCount(FIRST_GROUP_THERMOCOUPLES_COUNT)
                         .build())
-                .build()));
+                .secondGroup(UnheatedSurfaceSecondaryGroupProperties.builder()
+                        .thermocoupleCount(SECOND_GROUP_THERMOCOUPLES_COUNT)
+                        .bound(SECOND_GROUP_BOUND)
+                        .build())
+                .thirdGroup(UnheatedSurfaceSecondaryGroupProperties.builder()
+                        .thermocoupleCount(THIRD_GROUP_THERMOCOUPLE_COUNT)
+                        .bound(THIRD_GROUP_BOUND)
+                        .build())
+                .build());
+
+
+        setSamples(List.of(props));
     }
 }

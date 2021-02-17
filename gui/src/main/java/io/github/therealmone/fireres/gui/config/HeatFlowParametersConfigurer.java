@@ -2,6 +2,7 @@ package io.github.therealmone.fireres.gui.config;
 
 import io.github.therealmone.fireres.core.config.SampleProperties;
 import io.github.therealmone.fireres.gui.controller.heat.flow.HeatFlowParamsController;
+import io.github.therealmone.fireres.heatflow.config.HeatFlowProperties;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import lombok.val;
@@ -26,7 +27,9 @@ public class HeatFlowParametersConfigurer implements Configurer<HeatFlowParamsCo
     }
 
     private void resetSensorsCount(Spinner<Integer> sensorsCount, SampleProperties sample) {
-        sample.getHeatFlow().setSensorCount(DEFAULT_SENSORS_COUNT);
+        sample.getReportPropertiesByClass(HeatFlowProperties.class)
+                .orElseThrow()
+                .setSensorCount(DEFAULT_SENSORS_COUNT);
 
         sensorsCount.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(
                 DEFAULT_SENSORS_COUNT_MIN,
@@ -36,7 +39,9 @@ public class HeatFlowParametersConfigurer implements Configurer<HeatFlowParamsCo
     }
 
     private void resetHeatFlowBound(Spinner<Integer> heatFlow, SampleProperties sample) {
-        sample.getHeatFlow().setBound(DEFAULT_HEAT_FLOW_BOUND);
+        sample.getReportPropertiesByClass(HeatFlowProperties.class)
+                .orElseThrow()
+                .setBound(DEFAULT_HEAT_FLOW_BOUND);
 
         heatFlow.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(
                 DEFAULT_HEAT_FLOW_MIN_BOUND,

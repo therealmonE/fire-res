@@ -1,5 +1,6 @@
-package io.github.therealmone.fireres.core.config.unheated.surface;
+package io.github.therealmone.fireres.unheated.surface.config;
 
+import io.github.therealmone.fireres.core.config.ReportProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UnheatedSurfaceProperties {
+public class UnheatedSurfaceProperties implements ReportProperties {
 
     @Builder.Default
     private UnheatedSurfaceGroupProperties firstGroup = new UnheatedSurfaceGroupProperties();

@@ -30,9 +30,9 @@ public class StandardTemperatureEnrichTest {
         val sample = new Sample(generationProperties.getSamples().get(0));
         val report = fireModeService.createReport(sample);
 
-        generationProperties.getSamples().get(0).getFireMode().getInterpolationPoints().clear();
-
+        report.getProperties().getInterpolationPoints().clear();
         reportEnrichPipeline.accept(report);
+
         val oldMaxAllowedTemperature = report.getMaxAllowedTemperature();
         val oldMinAllowedTemperature = report.getMinAllowedTemperature();
         val oldFurnaceTemperature = report.getFurnaceTemperature();
@@ -41,8 +41,8 @@ public class StandardTemperatureEnrichTest {
         val oldThermocoupleTemperatures = report.getThermocoupleTemperatures();
 
         generationProperties.getGeneral().setEnvironmentTemperature(24);
-
         reportEnrichPipeline.accept(report, FireModeReportEnrichType.STANDARD_TEMPERATURE);
+
         val newMaxAllowedTemperature = report.getMaxAllowedTemperature();
         val newMinAllowedTemperature = report.getMinAllowedTemperature();
         val newFurnaceTemperature = report.getFurnaceTemperature();

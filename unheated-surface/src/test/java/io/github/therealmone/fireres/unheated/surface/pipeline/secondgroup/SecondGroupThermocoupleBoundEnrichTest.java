@@ -35,7 +35,7 @@ public class SecondGroupThermocoupleBoundEnrichTest {
         val oldSecondGroupMeanTemperature = report.getSecondGroup().getMeanTemperature();
         val oldSecondGroupThermocoupleTemperatures = report.getSecondGroup().getThermocoupleTemperatures();
 
-        generationProperties.getSampleById(sample.getId()).getUnheatedSurface().getSecondGroup().setBound(400);
+        report.getProperties().getSecondGroup().setBound(400);
         reportEnrichPipeline.accept(report, SECOND_GROUP_THERMOCOUPLE_BOUND);
 
         val newSecondGroupThermocoupleBound = report.getSecondGroup().getThermocoupleBound();

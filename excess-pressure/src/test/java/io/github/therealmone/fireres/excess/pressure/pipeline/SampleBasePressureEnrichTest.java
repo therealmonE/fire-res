@@ -33,9 +33,9 @@ public class SampleBasePressureEnrichTest {
 
         val oldBasePressure = report.getBasePressure();
 
-        sample.getSampleProperties().getExcessPressure().setBasePressure(10000.0);
-
+        report.getProperties().setBasePressure(10000.0);
         reportEnrichPipeline.accept(report, BASE_PRESSURE);
+
         val newBasePressure = report.getBasePressure();
 
         assertNotEquals(oldBasePressure, newBasePressure);

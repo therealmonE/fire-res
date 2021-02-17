@@ -1,6 +1,6 @@
 package io.github.therealmone.fireres.unheated.surface.pipeline.thirdgroup;
 
-import io.github.therealmone.fireres.core.config.unheated.surface.UnheatedSurfaceSecondaryGroupProperties;
+import io.github.therealmone.fireres.unheated.surface.config.UnheatedSurfaceSecondaryGroupProperties;
 import io.github.therealmone.fireres.core.pipeline.ReportEnrichType;
 import io.github.therealmone.fireres.unheated.surface.model.UnheatedSurfaceGroup;
 import io.github.therealmone.fireres.unheated.surface.pipeline.SecondaryThermocoupleBoundEnricher;
@@ -32,6 +32,6 @@ public class ThirdGroupThermocoupleBoundEnricher extends SecondaryThermocoupleBo
 
     @Override
     protected UnheatedSurfaceSecondaryGroupProperties getGroupProperties(UnheatedSurfaceReport report) {
-        return report.getSample().getSampleProperties().getUnheatedSurface().getThirdGroup();
+        return report.getProperties().getThirdGroup();
     }
 }

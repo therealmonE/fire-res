@@ -36,7 +36,7 @@ public abstract class PrimaryGroupMeanWithThermocoupleTemperaturesEnricher
         val zeroBound = constantFunction(time, 0);
 
         val sampleProperties = generationProperties.getSampleById(sample.getId());
-        val groupProperties = sampleProperties.getUnheatedSurface().getFirstGroup();
+        val groupProperties = report.getProperties().getFirstGroup();
 
         val meanWithChildFunctions = meanFunctionFactory
                 .meanWithChildFunctions(MeanWithChildFunctionGenerationParameters.builder()

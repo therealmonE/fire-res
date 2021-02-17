@@ -33,9 +33,9 @@ public class SampleMaxAllowedPressureEnrichTest {
 
         val oldMaxAllowedPressure = report.getMaxAllowedPressure();
 
-        sample.getSampleProperties().getExcessPressure().setDelta(1.0);
-
+        report.getProperties().setDelta(1.0);
         reportEnrichPipeline.accept(report, MAX_ALLOWED_PRESSURE);
+
         val newMaxAllowedPressure = report.getMaxAllowedPressure();
 
         assertNotEquals(oldMaxAllowedPressure, newMaxAllowedPressure);

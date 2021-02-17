@@ -1,23 +1,24 @@
 package io.github.therealmone.fireres.heatflow.service.impl;
 
 import com.google.inject.Inject;
-import io.github.therealmone.fireres.core.config.InterpolationPoint;
 import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.core.pipeline.ReportEnrichPipeline;
+import io.github.therealmone.fireres.core.service.impl.AbstractInterpolationService;
 import io.github.therealmone.fireres.heatflow.report.HeatFlowReport;
 import io.github.therealmone.fireres.heatflow.service.HeatFlowService;
 import lombok.val;
 
-import java.util.Comparator;
-import java.util.List;
-
 import static io.github.therealmone.fireres.heatflow.pipeline.HeatFlowReportEnrichType.BOUND;
 import static io.github.therealmone.fireres.heatflow.pipeline.HeatFlowReportEnrichType.MEAN_WITH_SENSORS_TEMPERATURES;
 
-public class HeatFlowServiceImpl implements HeatFlowService {
+public class HeatFlowServiceImpl extends AbstractInterpolationService<HeatFlowReport> implements HeatFlowService {
 
     @Inject
     private ReportEnrichPipeline<HeatFlowReport> reportPipeline;
+
+    public HeatFlowServiceImpl() {
+        super(HeatFlowReport::getProperties);
+    }
 
     @Override
     public HeatFlowReport createReport(Sample sample) {
@@ -31,55 +32,30 @@ public class HeatFlowServiceImpl implements HeatFlowService {
 
     @Override
     public void updateSensorsCount(HeatFlowReport report, Integer sensorsCount) {
-        report.getSample().getSampleProperties().getHeatFlow().setSensorCount(sensorsCount);
+        report.getProperties().setSensorCount(sensorsCount);
 
         reportPipeline.accept(report, MEAN_WITH_SENSORS_TEMPERATURES);
     }
 
     @Override
     public void updateBound(HeatFlowReport report, Integer bound) {
-        report.getSample().getSampleProperties().getHeatFlow().setBound(bound);
+        report.getProperties().setBound(bound);
 
         reportPipeline.accept(report, BOUND);
     }
 
     @Override
-    public void updateLinearityCoefficient(HeatFlowReport report, Double linearityCoefficient) {
-        report.getSample().getSampleProperties().getHeatFlow().setLinearityCoefficient(linearityCoefficient);
-
+    protected void postUpdateLinearityCoefficient(HeatFlowReport report) {
         reportPipeline.accept(report, MEAN_WITH_SENSORS_TEMPERATURES);
     }
 
     @Override
-    public void updateDispersionCoefficient(HeatFlowReport report, Double dispersionCoefficient) {
-        report.getSample().getSampleProperties().getHeatFlow().setDispersionCoefficient(dispersionCoefficient);
-
+    protected void postUpdateDispersionCoefficient(HeatFlowReport report) {
         reportPipeline.accept(report, MEAN_WITH_SENSORS_TEMPERATURES);
     }
 
     @Override
-    public void addInterpolationPoints(HeatFlowReport report, List<InterpolationPoint> pointsToAdd) {
-        val currentPoints = report.getSample().getSampleProperties().getHeatFlow().getInterpolationPoints();
-
-        if (!pointsToAdd.isEmpty()) {
-            currentPoints.addAll(pointsToAdd);
-            currentPoints.sort(Comparator.comparing(InterpolationPoint::getTime));
-
-            try {
-                reportPipeline.accept(report, MEAN_WITH_SENSORS_TEMPERATURES);
-            } catch (Exception e) {
-                currentPoints.removeAll(pointsToAdd);
-                throw e;
-            }
-        }
-    }
-
-    @Override
-    public void removeInterpolationPoints(HeatFlowReport report, List<InterpolationPoint> pointsToRemove) {
-        val currentPoints = report.getSample().getSampleProperties().getHeatFlow().getInterpolationPoints();
-
-        if (currentPoints.removeIf(pointsToRemove::contains)) {
-            reportPipeline.accept(report, MEAN_WITH_SENSORS_TEMPERATURES);
-        }
+    protected void postUpdateInterpolationPoints(HeatFlowReport report) {
+        reportPipeline.accept(report, MEAN_WITH_SENSORS_TEMPERATURES);
     }
 }

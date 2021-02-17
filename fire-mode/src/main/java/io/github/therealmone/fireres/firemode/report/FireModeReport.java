@@ -2,6 +2,7 @@ package io.github.therealmone.fireres.firemode.report;
 
 import io.github.therealmone.fireres.core.model.Report;
 import io.github.therealmone.fireres.core.model.Sample;
+import io.github.therealmone.fireres.firemode.config.FireModeProperties;
 import io.github.therealmone.fireres.firemode.model.FurnaceTemperature;
 import io.github.therealmone.fireres.firemode.model.MaxAllowedTemperature;
 import io.github.therealmone.fireres.firemode.model.MinAllowedTemperature;
@@ -16,7 +17,7 @@ import java.util.UUID;
 
 @Data
 @RequiredArgsConstructor
-public class FireModeReport implements Report {
+public class FireModeReport implements Report<FireModeProperties> {
 
     private final Sample sample;
     private final UUID id = UUID.randomUUID();
@@ -28,4 +29,10 @@ public class FireModeReport implements Report {
     private List<ThermocoupleTemperature> thermocoupleTemperatures;
     private ThermocoupleMeanTemperature thermocoupleMeanTemperature;
 
+    @Override
+    public FireModeProperties getProperties() {
+        return sample.getSampleProperties()
+                .getReportPropertiesByClass(FireModeProperties.class)
+                .orElseThrow();
+    }
 }

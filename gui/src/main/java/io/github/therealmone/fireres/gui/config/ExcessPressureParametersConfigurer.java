@@ -1,6 +1,7 @@
 package io.github.therealmone.fireres.gui.config;
 
 import io.github.therealmone.fireres.core.config.SampleProperties;
+import io.github.therealmone.fireres.excess.pressure.config.ExcessPressureProperties;
 import io.github.therealmone.fireres.gui.controller.excess.pressure.ExcessPressureParamsController;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory.DoubleSpinnerValueFactory;
@@ -31,7 +32,9 @@ public class ExcessPressureParametersConfigurer implements Configurer<ExcessPres
     }
 
     private void resetBasePressure(Spinner<Double> basePressure, SampleProperties sample) {
-        sample.getExcessPressure().setBasePressure(DEFAULT_BASE_PRESSURE);
+        sample.getReportPropertiesByClass(ExcessPressureProperties.class)
+                .orElseThrow()
+                .setBasePressure(DEFAULT_BASE_PRESSURE);
 
         basePressure.setValueFactory(new DoubleSpinnerValueFactory(
                 DEFAULT_BASE_PRESSURE_MIN,
@@ -41,7 +44,9 @@ public class ExcessPressureParametersConfigurer implements Configurer<ExcessPres
     }
 
     private void resetDispersionCoefficient(Spinner<Double> dispersionCoefficient, SampleProperties sample) {
-        sample.getExcessPressure().setDispersionCoefficient(DEFAULT_DISPERSION_COEFFICIENT);
+        sample.getReportPropertiesByClass(ExcessPressureProperties.class)
+                .orElseThrow()
+                .setDispersionCoefficient(DEFAULT_DISPERSION_COEFFICIENT);
 
         dispersionCoefficient.setValueFactory(new DoubleSpinnerValueFactory(
                 DEFAULT_DISPERSION_COEFFICIENT_MIN,
@@ -52,7 +57,9 @@ public class ExcessPressureParametersConfigurer implements Configurer<ExcessPres
     }
 
     private void resetDelta(Spinner<Double> delta, SampleProperties sample) {
-        sample.getExcessPressure().setDelta(DEFAULT_DELTA);
+        sample.getReportPropertiesByClass(ExcessPressureProperties.class)
+                .orElseThrow()
+                .setDelta(DEFAULT_DELTA);
 
         delta.setValueFactory(new DoubleSpinnerValueFactory(
                 DEFAULT_DELTA_MIN,

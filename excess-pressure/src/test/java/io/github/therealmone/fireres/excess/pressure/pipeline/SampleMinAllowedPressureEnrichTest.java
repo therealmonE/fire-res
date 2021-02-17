@@ -33,9 +33,9 @@ public class SampleMinAllowedPressureEnrichTest {
 
         val oldMinAllowedPressure = report.getMinAllowedPressure();
 
-        sample.getSampleProperties().getExcessPressure().setDelta(1.0);
-
+        report.getProperties().setDelta(1.0);
         reportEnrichPipeline.accept(report, MIN_ALLOWED_PRESSURE);
+
         val newMinAllowedPressure = report.getMinAllowedPressure();
 
         assertNotEquals(oldMinAllowedPressure, newMinAllowedPressure);

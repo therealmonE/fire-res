@@ -1,4 +1,4 @@
-package io.github.therealmone.fireres.core.config.firemode;
+package io.github.therealmone.fireres.firemode.config;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

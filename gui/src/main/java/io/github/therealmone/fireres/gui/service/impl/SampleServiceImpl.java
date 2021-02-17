@@ -4,9 +4,13 @@ import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.config.SampleProperties;
 import io.github.therealmone.fireres.core.model.Sample;
+import io.github.therealmone.fireres.excess.pressure.config.ExcessPressureProperties;
+import io.github.therealmone.fireres.firemode.config.FireModeProperties;
 import io.github.therealmone.fireres.gui.controller.SamplesTabPaneController;
 import io.github.therealmone.fireres.gui.service.FxmlLoadService;
 import io.github.therealmone.fireres.gui.service.SampleService;
+import io.github.therealmone.fireres.heatflow.config.HeatFlowProperties;
+import io.github.therealmone.fireres.unheated.surface.config.UnheatedSurfaceProperties;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import lombok.SneakyThrows;
@@ -33,7 +37,7 @@ public class SampleServiceImpl implements SampleService {
         val samplesProperties = generationProperties.getSamples();
         val samplesTabPane = samplesTabPaneController.getSamplesTabPane();
 
-        val newSampleProperties = new SampleProperties();
+        val newSampleProperties = initializeProperties();
 
         samplesProperties.add(newSampleProperties);
 
@@ -43,6 +47,17 @@ public class SampleServiceImpl implements SampleService {
         newSampleProperties.setName(sampleName);
         samplesTabPane.getTabs().add(samplesTabPane.getTabs().size() - 1, newTab);
         samplesTabPane.getSelectionModel().select(newTab);
+    }
+
+    private SampleProperties initializeProperties() {
+        val sampleProperties = new SampleProperties();
+
+        sampleProperties.putReportProperties(new FireModeProperties());
+        sampleProperties.putReportProperties(new ExcessPressureProperties());
+        sampleProperties.putReportProperties(new HeatFlowProperties());
+        sampleProperties.putReportProperties(new UnheatedSurfaceProperties());
+
+        return sampleProperties;
     }
 
     private String createSampleName(List<SampleProperties> samples) {

@@ -1,7 +1,7 @@
 package io.github.therealmone.fireres.firemode.generator;
 
-import io.github.therealmone.fireres.core.config.firemode.Coefficient;
-import io.github.therealmone.fireres.core.config.firemode.Coefficients;
+import io.github.therealmone.fireres.firemode.config.Coefficient;
+import io.github.therealmone.fireres.firemode.config.Coefficients;
 import io.github.therealmone.fireres.core.generator.PointSequenceGenerator;
 import io.github.therealmone.fireres.firemode.model.MinAllowedTemperature;
 import io.github.therealmone.fireres.firemode.model.StandardTemperature;

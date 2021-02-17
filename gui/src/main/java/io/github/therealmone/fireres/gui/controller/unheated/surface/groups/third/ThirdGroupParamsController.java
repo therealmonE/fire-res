@@ -1,11 +1,10 @@
 package io.github.therealmone.fireres.gui.controller.unheated.surface.groups.third;
 
 import com.google.inject.Inject;
-import io.github.therealmone.fireres.core.model.Report;
 import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.controller.AbstractController;
-import io.github.therealmone.fireres.gui.controller.ReportContainer;
+import io.github.therealmone.fireres.gui.controller.unheated.surface.UnheatedSurfaceReportContainer;
 import io.github.therealmone.fireres.gui.service.ChartsSynchronizationService;
 import io.github.therealmone.fireres.gui.service.ResetSettingsService;
 import io.github.therealmone.fireres.unheated.surface.report.UnheatedSurfaceReport;
@@ -19,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Slf4j
-public class ThirdGroupParamsController extends AbstractController implements ReportContainer {
+public class ThirdGroupParamsController extends AbstractController implements UnheatedSurfaceReportContainer {
 
     @ParentController
     private ThirdGroupController thirdGroupController;
@@ -50,17 +49,17 @@ public class ThirdGroupParamsController extends AbstractController implements Re
 
     private void handleThermocouplesCountSpinnerFocusChanged(Boolean focusValue) {
         handleSpinnerLostFocus(focusValue, thirdGroupThermocouplesCountSpinner, () -> {
-            unheatedSurfaceThirdGroupService.updateThermocoupleCount((UnheatedSurfaceReport) getReport(), thirdGroupThermocouplesCountSpinner.getValue());
+            unheatedSurfaceThirdGroupService.updateThermocoupleCount(getReport(), thirdGroupThermocouplesCountSpinner.getValue());
             chartsSynchronizationService.syncThirdThermocoupleGroupChart(
-                    thirdGroupController.getThirdGroupChartController().getThirdGroupChart(), (UnheatedSurfaceReport) getReport());
+                    thirdGroupController.getThirdGroupChartController().getThirdGroupChart(), getReport());
         });
     }
 
     private void handleThermocouplesBoundSpinnerFocusChanged(Boolean focusValue) {
         handleSpinnerLostFocus(focusValue, thirdGroupBoundSpinner, () -> {
-            unheatedSurfaceThirdGroupService.updateBound((UnheatedSurfaceReport) getReport(), thirdGroupBoundSpinner.getValue());
+            unheatedSurfaceThirdGroupService.updateBound(getReport(), thirdGroupBoundSpinner.getValue());
             chartsSynchronizationService.syncThirdThermocoupleGroupChart(
-                    thirdGroupController.getThirdGroupChartController().getThirdGroupChart(), (UnheatedSurfaceReport) getReport());
+                    thirdGroupController.getThirdGroupChartController().getThirdGroupChart(), getReport());
         });
     }
 
@@ -76,7 +75,7 @@ public class ThirdGroupParamsController extends AbstractController implements Re
     }
 
     @Override
-    public Report getReport() {
+    public UnheatedSurfaceReport getReport() {
         return thirdGroupController.getReport();
     }
 }

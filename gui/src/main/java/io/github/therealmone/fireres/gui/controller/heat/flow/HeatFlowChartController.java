@@ -1,10 +1,9 @@
 package io.github.therealmone.fireres.gui.controller.heat.flow;
 
-import io.github.therealmone.fireres.core.model.Report;
 import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.controller.AbstractController;
-import io.github.therealmone.fireres.gui.controller.ReportContainer;
+import io.github.therealmone.fireres.heatflow.report.HeatFlowReport;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import lombok.Data;
@@ -12,7 +11,7 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class HeatFlowChartController extends AbstractController implements ReportContainer {
+public class HeatFlowChartController extends AbstractController implements HeatFlowReportContainer {
 
     @FXML
     private LineChart<Number, Number> heatFlowChart;
@@ -21,7 +20,7 @@ public class HeatFlowChartController extends AbstractController implements Repor
     private HeatFlowController heatFlowController;
 
     @Override
-    public Report getReport() {
+    public HeatFlowReport getReport() {
         return heatFlowController.getReport();
     }
 

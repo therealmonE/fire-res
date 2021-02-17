@@ -1,4 +1,4 @@
-package io.github.therealmone.fireres.core.config.unheated.surface;
+package io.github.therealmone.fireres.unheated.surface.config;
 
 import com.typesafe.config.Optional;
 import lombok.AllArgsConstructor;
@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-
 
 @EqualsAndHashCode(callSuper = true)
 @Data

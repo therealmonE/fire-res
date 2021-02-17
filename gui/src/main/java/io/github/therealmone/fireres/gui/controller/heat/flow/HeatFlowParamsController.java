@@ -1,11 +1,9 @@
 package io.github.therealmone.fireres.gui.controller.heat.flow;
 
 import com.google.inject.Inject;
-import io.github.therealmone.fireres.core.model.Report;
 import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.controller.AbstractController;
-import io.github.therealmone.fireres.gui.controller.ReportContainer;
 import io.github.therealmone.fireres.gui.service.ChartsSynchronizationService;
 import io.github.therealmone.fireres.gui.service.ResetSettingsService;
 import io.github.therealmone.fireres.heatflow.report.HeatFlowReport;
@@ -19,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Slf4j
-public class HeatFlowParamsController extends AbstractController implements ReportContainer {
+public class HeatFlowParamsController extends AbstractController implements HeatFlowReportContainer {
 
     @ParentController
     private HeatFlowController heatFlowController;
@@ -55,21 +53,20 @@ public class HeatFlowParamsController extends AbstractController implements Repo
 
     private void handleSensorSpinnerLostFocus(Boolean focusValue) {
         handleSpinnerLostFocus(focusValue, sensorSpinner, () -> {
-            heatFlowService.updateSensorsCount((HeatFlowReport) getReport(), sensorSpinner.getValue());
+            heatFlowService.updateSensorsCount(getReport(), sensorSpinner.getValue());
             chartsSynchronizationService.syncHeatFlowChart(
                     heatFlowController.getHeatFlowChartController().getHeatFlowChart(),
-                    (HeatFlowReport) getReport());
+                    getReport());
         });
     }
     private void handleHeatFlowBoundSpinnerLostFocus(Boolean focusValue) {
         handleSpinnerLostFocus(focusValue, heatFlowBoundSpinner, () -> {
-            heatFlowService.updateBound((HeatFlowReport) getReport(), heatFlowBoundSpinner.getValue());
+            heatFlowService.updateBound(getReport(), heatFlowBoundSpinner.getValue());
             chartsSynchronizationService.syncHeatFlowChart(
                     heatFlowController.getHeatFlowChartController().getHeatFlowChart(),
-                    (HeatFlowReport) getReport());
+                    getReport());
         });
     }
-
 
     @Override
     public Sample getSample() {
@@ -77,7 +74,7 @@ public class HeatFlowParamsController extends AbstractController implements Repo
     }
 
     @Override
-    public Report getReport() {
+    public HeatFlowReport getReport() {
         return heatFlowController.getReport();
     }
 }
