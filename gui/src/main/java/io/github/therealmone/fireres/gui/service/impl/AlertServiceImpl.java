@@ -2,13 +2,12 @@ package io.github.therealmone.fireres.gui.service.impl;
 
 import io.github.therealmone.fireres.gui.service.AlertService;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import lombok.val;
 
 public class AlertServiceImpl implements AlertService {
 
-    public static final ButtonType OK = new ButtonType("ОК", ButtonBar.ButtonData.OK_DONE);
+    public static final ButtonType OK = new ButtonType("ОК");
 
     @Override
     public void showError(String text) {
