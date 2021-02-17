@@ -5,9 +5,12 @@ import com.google.inject.Injector;
 import io.github.therealmone.fireres.gui.controller.MainSceneController;
 import io.github.therealmone.fireres.gui.controller.SampleTabController;
 import io.github.therealmone.fireres.gui.controller.SamplesTabPaneController;
+import io.github.therealmone.fireres.gui.controller.TopMenuBarController;
 import io.github.therealmone.fireres.gui.controller.common.FunctionParamsController;
 import io.github.therealmone.fireres.gui.controller.common.InterpolationPointsModalWindowController;
 import io.github.therealmone.fireres.gui.controller.common.SampleRenameModalWindowController;
+import io.github.therealmone.fireres.gui.controller.menu.help.AboutProgramController;
+import io.github.therealmone.fireres.gui.model.Logos;
 import io.github.therealmone.fireres.gui.service.FxmlLoadService;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -25,6 +28,9 @@ public class FxmlLoadServiceImpl implements FxmlLoadService {
 
     @Inject
     private Injector injector;
+
+    @Inject
+    private Logos logos;
 
     @Override
     @SneakyThrows
@@ -75,6 +81,8 @@ public class FxmlLoadServiceImpl implements FxmlLoadService {
 
         controller.setModalWindow(modalWindow);
 
+        modalWindow.getIcons().add(logos.getLogo512());
+
         return modalWindow;
     }
 
@@ -98,6 +106,33 @@ public class FxmlLoadServiceImpl implements FxmlLoadService {
 
         controller.setModalWindow(modalWindow);
         controller.postConstruct();
+
+        modalWindow.getIcons().add(logos.getLogo512());
+
+        return modalWindow;
+    }
+
+    @Override
+    @SneakyThrows
+    public Stage loadAboutProgramModalWindow(TopMenuBarController topMenuBarController) {
+        val aboutProgramResource = getClass().getResource("/component/menu-help/aboutProgram.fxml");
+        val loader = createLoader(aboutProgramResource);
+
+        val aboutProgramModalWindowPane = (Pane) loader.load();
+        val controller = (AboutProgramController) loader.getController();
+
+        controller.setTopMenuBarController(topMenuBarController);
+
+        val modalWindow = new Stage();
+
+        modalWindow.setScene(new Scene(aboutProgramModalWindowPane));
+        modalWindow.setTitle("О программе");
+        modalWindow.setResizable(false);
+        modalWindow.initModality(Modality.APPLICATION_MODAL);
+
+        controller.setModalWindow(modalWindow);
+
+        modalWindow.getIcons().add(logos.getLogo512());
 
         return modalWindow;
     }

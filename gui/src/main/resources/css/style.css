@@ -1,10 +1,21 @@
 @font-face {
+    font-family: 'Open Sans', sans-serif;
     src: url('../font/OpenSans-Regular.ttf');
+}
+@font-face {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
+    src: url('../font/OpenSans-Bold.ttf');
 }
 
 .root {
     -fx-font-size: 12px;
-    -fx-font-family: "Open Sans";
+    -fx-font-family: 'Open Sans', sans-serif;
+}
+
+.aboutProgramHeaderFont{
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
 }
 
 .addSampleTab {
@@ -26,6 +37,7 @@
     -fx-block-increment: 50;
 }
 
+
 .label {
     -fx-smooth: true;
 }
@@ -33,6 +45,19 @@
 #footerPane {
     -fx-background-color: #FFFFFF;
     -fx-border-color: #C1C1C1;
+}
+
+#aboutProgramAnchorPane{
+    -fx-background-color: #FFFFFF;
+}
+
+.aboutProgramSeparator {
+    -fx-background-color: #dddddd;
+    -fx-effect: innershadow(two-pass-box, rgba(0, 0, 0, 0.05), 2, 0.0, 0, 3);
+}
+#aboutProgramFooter{
+    -fx-background-color: #dddddd;
+    -fx-effect: innershadow(two-pass-box, rgba(0, 0, 0, 0.05), 2, 0.0, 0, 3);
 }
 
 #mainSceneSeparator {

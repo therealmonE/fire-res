@@ -8,7 +8,7 @@ public class Application extends javafx.application.Application {
 
     @Override
     public void start(Stage stage) {
-        val injector = Guice.createInjector(new GuiModule());
+        val injector = Guice.createInjector(new GuiModule(this));
         val gui = injector.getInstance(GraphicalInterface.class);
 
         gui.start(stage);
