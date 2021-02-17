@@ -100,7 +100,7 @@ public class FxmlLoadServiceImpl implements FxmlLoadService {
         val modalWindow = new Stage();
 
         modalWindow.setScene(new Scene(renameModalWindowPane));
-        modalWindow.setTitle("Переимеование образца");
+        modalWindow.setTitle("Переименование образца");
         modalWindow.setResizable(false);
         modalWindow.initModality(Modality.APPLICATION_MODAL);
 
