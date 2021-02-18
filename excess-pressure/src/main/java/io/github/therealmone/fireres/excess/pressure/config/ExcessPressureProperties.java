@@ -1,6 +1,7 @@
-package io.github.therealmone.fireres.core.config.excess.pressure;
+package io.github.therealmone.fireres.excess.pressure.config;
 
 import com.typesafe.config.Optional;
+import io.github.therealmone.fireres.core.config.ReportProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ExcessPressureProperties {
+public class ExcessPressureProperties implements ReportProperties {
 
     private Double delta;
     private Double basePressure;

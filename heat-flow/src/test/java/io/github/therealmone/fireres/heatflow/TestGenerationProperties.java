@@ -3,7 +3,8 @@ package io.github.therealmone.fireres.heatflow;
 import io.github.therealmone.fireres.core.config.GeneralProperties;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.config.SampleProperties;
-import io.github.therealmone.fireres.core.config.heatflow.HeatFlowProperties;
+import io.github.therealmone.fireres.heatflow.config.HeatFlowProperties;
+import lombok.val;
 
 import java.util.List;
 
@@ -15,18 +16,18 @@ public class TestGenerationProperties extends GenerationProperties {
     public static final int BOUND = 3500;
 
     public TestGenerationProperties() {
-
         setGeneral(GeneralProperties.builder()
                 .environmentTemperature(ENVIRONMENT_TEMPERATURE)
                 .time(TIME)
                 .build());
 
-        setSamples(List.of(SampleProperties.builder()
-                .heatFlow(HeatFlowProperties.builder()
-                        .sensorCount(SENSOR_COUNT)
-                        .bound(BOUND)
-                        .build())
-                .build()));
+        val props = new SampleProperties();
 
+        props.putReportProperties(HeatFlowProperties.builder()
+                .sensorCount(SENSOR_COUNT)
+                .bound(BOUND)
+                .build());
+
+        setSamples(List.of(props));
     }
 }

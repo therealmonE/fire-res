@@ -2,7 +2,7 @@ package io.github.therealmone.fireres.unheated.surface.pipeline;
 
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
-import io.github.therealmone.fireres.core.config.unheated.surface.UnheatedSurfaceGroupProperties;
+import io.github.therealmone.fireres.unheated.surface.config.UnheatedSurfaceGroupProperties;
 import io.github.therealmone.fireres.core.factory.MeanFunctionFactory;
 import io.github.therealmone.fireres.core.generator.MeanWithChildFunctionGenerationParameters;
 import io.github.therealmone.fireres.core.pipeline.ReportEnricher;

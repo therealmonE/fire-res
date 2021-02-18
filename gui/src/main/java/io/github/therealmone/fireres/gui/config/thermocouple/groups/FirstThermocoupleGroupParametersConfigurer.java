@@ -3,6 +3,7 @@ package io.github.therealmone.fireres.gui.config.thermocouple.groups;
 import io.github.therealmone.fireres.core.config.SampleProperties;
 import io.github.therealmone.fireres.gui.config.Configurer;
 import io.github.therealmone.fireres.gui.controller.unheated.surface.groups.first.FirstGroupParamsController;
+import io.github.therealmone.fireres.unheated.surface.config.UnheatedSurfaceProperties;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
 import lombok.val;
@@ -20,7 +21,10 @@ public class FirstThermocoupleGroupParametersConfigurer implements Configurer<Fi
     }
 
     private void resetThermocouplesNumber(Spinner<Integer> ThermocouplesNumber, SampleProperties sample) {
-        sample.getUnheatedSurface().getFirstGroup().setThermocoupleCount(DEFAULT_THERMOCOUPLES_NUMBER);
+        sample.getReportPropertiesByClass(UnheatedSurfaceProperties.class)
+                .orElseThrow()
+                .getFirstGroup()
+                .setThermocoupleCount(DEFAULT_THERMOCOUPLES_NUMBER);
 
         ThermocouplesNumber.setValueFactory(new IntegerSpinnerValueFactory(
                 DEFAULT_THERMOCOUPLES_NUMBER_MIN,

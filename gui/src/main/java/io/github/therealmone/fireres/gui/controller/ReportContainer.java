@@ -1,10 +1,11 @@
 package io.github.therealmone.fireres.gui.controller;
 
+import io.github.therealmone.fireres.core.config.ReportProperties;
 import io.github.therealmone.fireres.core.model.Report;
 
-public interface ReportContainer extends SampleContainer {
+public interface ReportContainer<P extends ReportProperties, R extends Report<P>> extends SampleContainer {
 
-    Report getReport();
+    R getReport();
 
     default void createReport() {
     }

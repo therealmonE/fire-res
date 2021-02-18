@@ -22,10 +22,9 @@ public class BoundEnricher implements ReportEnricher<HeatFlowReport> {
 
     @Override
     public void enrich(HeatFlowReport report) {
-        val sampleProperties = report.getSample().getSampleProperties();
         val time = generationProperties.getGeneral().getTime();
 
-        val bound = new HeatFlowBoundGenerator(time, sampleProperties.getHeatFlow().getBound())
+        val bound = new HeatFlowBoundGenerator(time, report.getProperties().getBound())
                 .generate();
 
         report.setBound(bound);

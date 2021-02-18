@@ -33,9 +33,9 @@ public class BoundEnrichTest {
 
         val oldBound = report.getBound();
 
-        generationProperties.getSamples().get(0).getHeatFlow().setBound(500);
-
+        report.getProperties().setBound(500);
         reportEnrichPipeline.accept(report, BOUND);
+
         val newBound = report.getBound();
 
         assertNotEquals(oldBound, newBound);

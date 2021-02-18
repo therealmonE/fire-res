@@ -1,7 +1,6 @@
 package io.github.therealmone.fireres.firemode.pipeline;
 
 import com.google.inject.Inject;
-import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.factory.MeanFunctionFactory;
 import io.github.therealmone.fireres.core.generator.MeanWithChildFunctionGenerationParameters;
 import io.github.therealmone.fireres.core.model.IntegerPointSequence;
@@ -22,26 +21,21 @@ import static io.github.therealmone.fireres.firemode.pipeline.FireModeReportEnri
 public class MeanWithThermocoupleTemperaturesEnricher implements ReportEnricher<FireModeReport> {
 
     @Inject
-    private GenerationProperties generationProperties;
-
-    @Inject
     private MeanFunctionFactory meanFunctionFactory;
 
     @Override
     public void enrich(FireModeReport report) {
-        val sample = report.getSample();
         val lowerBound = new IntegerPointSequence(report.getMinAllowedTemperature().getSmoothedValue());
         val upperBound = new IntegerPointSequence(report.getMaxAllowedTemperature().getSmoothedValue());
-        val sampleProperties = generationProperties.getSampleById(sample.getId());
 
         val meanWithChildFunctions = meanFunctionFactory
                 .meanWithChildFunctions(MeanWithChildFunctionGenerationParameters.builder()
-                        .meanFunctionInterpolation(sampleProperties.getFireMode())
+                        .meanFunctionInterpolation(report.getProperties())
                         .meanLowerBound(lowerBound)
                         .meanUpperBound(upperBound)
                         .childLowerBound(lowerBound)
                         .childUpperBound(upperBound)
-                        .childFunctionsCount(sampleProperties.getFireMode().getThermocoupleCount())
+                        .childFunctionsCount(report.getProperties().getThermocoupleCount())
                         .strategy(new FireModeGeneratorStrategy())
                         .build());
 

@@ -22,10 +22,8 @@ public class MinAllowedPressureEnricher implements ReportEnricher<ExcessPressure
 
     @Override
     public void enrich(ExcessPressureReport report) {
-        val sample = report.getSample();
         val time = generationProperties.getGeneral().getTime();
-        val sampleProperties = generationProperties.getSampleById(sample.getId());
-        val delta = sampleProperties.getExcessPressure().getDelta();
+        val delta = report.getProperties().getDelta();
 
         val minAllowedPressure = new MinAllowedPressureGenerator(time, delta)
                 .generate();

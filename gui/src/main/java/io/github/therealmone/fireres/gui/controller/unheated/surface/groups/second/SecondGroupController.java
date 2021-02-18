@@ -1,15 +1,15 @@
 package io.github.therealmone.fireres.gui.controller.unheated.surface.groups.second;
 
 import com.google.inject.Inject;
-import io.github.therealmone.fireres.core.model.Report;
 import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.gui.annotation.ChildController;
 import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.controller.AbstractController;
-import io.github.therealmone.fireres.gui.controller.ReportContainer;
 import io.github.therealmone.fireres.gui.controller.common.FunctionParamsController;
 import io.github.therealmone.fireres.gui.controller.unheated.surface.UnheatedSurfaceController;
+import io.github.therealmone.fireres.gui.controller.unheated.surface.UnheatedSurfaceReportContainer;
 import io.github.therealmone.fireres.gui.service.ChartsSynchronizationService;
+import io.github.therealmone.fireres.unheated.surface.config.UnheatedSurfaceProperties;
 import io.github.therealmone.fireres.unheated.surface.report.UnheatedSurfaceReport;
 import io.github.therealmone.fireres.unheated.surface.service.UnheatedSurfaceSecondGroupService;
 import javafx.fxml.FXML;
@@ -18,7 +18,7 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class SecondGroupController extends AbstractController implements ReportContainer {
+public class SecondGroupController extends AbstractController implements UnheatedSurfaceReportContainer {
 
     @FXML
     @ChildController
@@ -53,10 +53,13 @@ public class SecondGroupController extends AbstractController implements ReportC
 
         functionParamsController.setParentController(this);
         functionParamsController.setInterpolationService(unheatedSurfaceSecondGroupService);
-        functionParamsController.setPropertiesMapper(sampleProperties -> sampleProperties.getUnheatedSurface().getSecondGroup());
+
+        functionParamsController.setPropertiesMapper(props ->
+                props.getReportPropertiesByClass(UnheatedSurfaceProperties.class).orElseThrow().getSecondGroup());
+
         functionParamsController.setPostReportUpdateAction(() ->
                 chartsSynchronizationService.syncSecondThermocoupleGroupChart(
-                        secondGroupChartController.getSecondGroupChart(), (UnheatedSurfaceReport) getReport()));
+                        secondGroupChartController.getSecondGroupChart(), getReport()));
     }
 
     @Override
@@ -66,7 +69,7 @@ public class SecondGroupController extends AbstractController implements ReportC
     }
 
     @Override
-    public Report getReport() {
+    public UnheatedSurfaceReport getReport() {
         return unheatedSurfaceController.getReport();
     }
 }

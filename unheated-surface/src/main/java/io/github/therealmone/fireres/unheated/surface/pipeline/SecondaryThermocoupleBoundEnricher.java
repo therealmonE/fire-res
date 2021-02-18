@@ -2,7 +2,7 @@ package io.github.therealmone.fireres.unheated.surface.pipeline;
 
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
-import io.github.therealmone.fireres.core.config.unheated.surface.UnheatedSurfaceSecondaryGroupProperties;
+import io.github.therealmone.fireres.unheated.surface.config.UnheatedSurfaceSecondaryGroupProperties;
 import io.github.therealmone.fireres.core.pipeline.ReportEnricher;
 import io.github.therealmone.fireres.unheated.surface.model.UnheatedSurfaceGroup;
 import io.github.therealmone.fireres.unheated.surface.model.UnheatedSurfaceThermocoupleBound;

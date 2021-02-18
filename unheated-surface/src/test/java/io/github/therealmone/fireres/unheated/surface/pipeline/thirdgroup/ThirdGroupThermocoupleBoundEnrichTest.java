@@ -35,7 +35,7 @@ public class ThirdGroupThermocoupleBoundEnrichTest {
         val oldThirdGroupMeanTemperature = report.getThirdGroup().getMeanTemperature();
         val oldThirdGroupThermocoupleTemperatures = report.getThirdGroup().getThermocoupleTemperatures();
 
-        generationProperties.getSampleById(sample.getId()).getUnheatedSurface().getThirdGroup().setBound(400);
+        report.getProperties().getThirdGroup().setBound(400);
         reportEnrichPipeline.accept(report, THIRD_GROUP_THERMOCOUPLE_BOUND);
 
         val newThirdGroupThermocoupleBound = report.getThirdGroup().getThermocoupleBound();

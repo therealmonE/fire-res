@@ -3,7 +3,8 @@ package io.github.therealmone.fireres.excess.pressure;
 import io.github.therealmone.fireres.core.config.GeneralProperties;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.config.SampleProperties;
-import io.github.therealmone.fireres.core.config.excess.pressure.ExcessPressureProperties;
+import io.github.therealmone.fireres.excess.pressure.config.ExcessPressureProperties;
+import lombok.val;
 
 import java.util.List;
 
@@ -21,12 +22,14 @@ public class TestGenerationProperties extends GenerationProperties {
                 .time(TIME)
                 .build());
 
-        setSamples(List.of(SampleProperties.builder()
-                .excessPressure(ExcessPressureProperties.builder()
-                        .basePressure(BASE_PRESSURE)
-                        .delta(PRESSURE_DELTA)
-                        .dispersionCoefficient(DISPERSION_COEFFICIENT)
-                        .build())
-                .build()));
+        val props = new SampleProperties();
+
+        props.putReportProperties(ExcessPressureProperties.builder()
+                .basePressure(BASE_PRESSURE)
+                .delta(PRESSURE_DELTA)
+                .dispersionCoefficient(DISPERSION_COEFFICIENT)
+                .build());
+
+        setSamples(List.of(props));
     }
 }

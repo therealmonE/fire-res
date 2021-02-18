@@ -1,13 +1,11 @@
 package io.github.therealmone.fireres.gui.controller.excess.pressure;
 
 import com.google.inject.Inject;
-import io.github.therealmone.fireres.core.model.Report;
 import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.excess.pressure.report.ExcessPressureReport;
 import io.github.therealmone.fireres.excess.pressure.service.ExcessPressureService;
 import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.controller.AbstractController;
-import io.github.therealmone.fireres.gui.controller.ReportContainer;
 import io.github.therealmone.fireres.gui.service.ChartsSynchronizationService;
 import io.github.therealmone.fireres.gui.service.ResetSettingsService;
 import javafx.fxml.FXML;
@@ -19,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Slf4j
-public class ExcessPressureParamsController extends AbstractController implements ReportContainer {
+public class ExcessPressureParamsController extends AbstractController implements ExcessPressureReportContainer {
 
     @ParentController
     private ExcessPressureController excessPressureController;
@@ -61,27 +59,27 @@ public class ExcessPressureParamsController extends AbstractController implement
 
     private void handleBasePressureSpinnerLostFocus(Boolean focusValue) {
         handleSpinnerLostFocus(focusValue, basePressureSpinner, () -> {
-            excessPressureService.updateBasePressure((ExcessPressureReport) getReport(), basePressureSpinner.getValue());
+            excessPressureService.updateBasePressure(getReport(), basePressureSpinner.getValue());
             chartsSynchronizationService.syncExcessPressureChart(
                     excessPressureController.getExcessPressureChartController().getExcessPressureChart(),
-                    (ExcessPressureReport) getReport());
+                    getReport());
         });
     }
     private void handleDispersionCoefficientLostFocus(Boolean focusValue) {
         handleSpinnerLostFocus(focusValue, dispersionCoefficientSpinner, () -> {
-            excessPressureService.updateDispersionCoefficient((ExcessPressureReport) getReport(), dispersionCoefficientSpinner.getValue());
+            excessPressureService.updateDispersionCoefficient(getReport(), dispersionCoefficientSpinner.getValue());
             chartsSynchronizationService.syncExcessPressureChart(
                     excessPressureController.getExcessPressureChartController().getExcessPressureChart(),
-                    (ExcessPressureReport) getReport());
+                    getReport());
         });
     }
 
     private void handleDeltaSpinnerLostFocus(Boolean focusValue) {
         handleSpinnerLostFocus(focusValue, deltaSpinner, () -> {
-            excessPressureService.updateDelta((ExcessPressureReport) getReport(), deltaSpinner.getValue());
+            excessPressureService.updateDelta(getReport(), deltaSpinner.getValue());
             chartsSynchronizationService.syncExcessPressureChart(
                     excessPressureController.getExcessPressureChartController().getExcessPressureChart(),
-                    (ExcessPressureReport) getReport());
+                    getReport());
         });
     }
 
@@ -91,7 +89,7 @@ public class ExcessPressureParamsController extends AbstractController implement
     }
 
     @Override
-    public Report getReport() {
+    public ExcessPressureReport getReport() {
         return excessPressureController.getReport();
     }
 }

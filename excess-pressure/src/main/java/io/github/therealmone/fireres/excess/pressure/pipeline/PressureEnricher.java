@@ -19,11 +19,10 @@ public class PressureEnricher implements ReportEnricher<ExcessPressureReport> {
 
     @Override
     public void enrich(ExcessPressureReport report) {
-        val sample = report.getSample();
         val time = generationProperties.getGeneral().getTime();
         val minAllowedPressure = report.getMinAllowedPressure();
         val maxAllowedPressure = report.getMaxAllowedPressure();
-        val dispersion = sample.getSampleProperties().getExcessPressure().getDispersionCoefficient();
+        val dispersion = report.getProperties().getDispersionCoefficient();
 
         val pressure = new PressureGenerator(
                 time, minAllowedPressure, maxAllowedPressure, dispersion)

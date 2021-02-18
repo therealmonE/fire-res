@@ -2,17 +2,15 @@ package io.github.therealmone.fireres.gui.controller.heat.flow;
 
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
-import io.github.therealmone.fireres.core.config.SampleProperties;
-import io.github.therealmone.fireres.core.model.Report;
 import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.gui.annotation.ChildController;
 import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.controller.AbstractController;
-import io.github.therealmone.fireres.gui.controller.ReportContainer;
 import io.github.therealmone.fireres.gui.controller.ReportInclusionChanger;
 import io.github.therealmone.fireres.gui.controller.SampleTabController;
 import io.github.therealmone.fireres.gui.controller.common.FunctionParamsController;
 import io.github.therealmone.fireres.gui.service.ChartsSynchronizationService;
+import io.github.therealmone.fireres.heatflow.config.HeatFlowProperties;
 import io.github.therealmone.fireres.heatflow.report.HeatFlowReport;
 import io.github.therealmone.fireres.heatflow.service.HeatFlowService;
 import javafx.fxml.FXML;
@@ -25,7 +23,7 @@ import static io.github.therealmone.fireres.gui.util.TabUtils.enableTab;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class HeatFlowController extends AbstractController implements ReportContainer, ReportInclusionChanger {
+public class HeatFlowController extends AbstractController implements HeatFlowReportContainer, ReportInclusionChanger {
 
     private HeatFlowReport report;
 
@@ -65,7 +63,10 @@ public class HeatFlowController extends AbstractController implements ReportCont
 
         functionParamsController.setParentController(this);
         functionParamsController.setInterpolationService(heatFlowService);
-        functionParamsController.setPropertiesMapper(SampleProperties::getHeatFlow);
+
+        functionParamsController.setPropertiesMapper(props ->
+                props.getReportPropertiesByClass(HeatFlowProperties.class).orElseThrow());
+
         functionParamsController.setPostReportUpdateAction(() ->
                 chartsSynchronizationService.syncHeatFlowChart(heatFlowChartController.getHeatFlowChart(), report));
     }
@@ -85,11 +86,6 @@ public class HeatFlowController extends AbstractController implements ReportCont
         }
 
         chartsSynchronizationService.syncHeatFlowChart(heatFlowChartController.getHeatFlowChart(), report);
-    }
-
-    @Override
-    public Report getReport() {
-        return report;
     }
 
     @Override

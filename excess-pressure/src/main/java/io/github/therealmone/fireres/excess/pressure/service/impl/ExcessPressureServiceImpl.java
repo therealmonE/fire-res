@@ -29,14 +29,14 @@ public class ExcessPressureServiceImpl implements ExcessPressureService {
 
     @Override
     public void updateBasePressure(ExcessPressureReport report, Double basePressure) {
-        report.getSample().getSampleProperties().getExcessPressure().setBasePressure(basePressure);
+        report.getProperties().setBasePressure(basePressure);
 
         reportPipeline.accept(report, BASE_PRESSURE);
     }
 
     @Override
     public void updateDelta(ExcessPressureReport report, Double delta) {
-        report.getSample().getSampleProperties().getExcessPressure().setDelta(delta);
+        report.getProperties().setDelta(delta);
 
         reportPipeline.accept(report, MIN_ALLOWED_PRESSURE);
         reportPipeline.accept(report, MAX_ALLOWED_PRESSURE);
@@ -44,7 +44,7 @@ public class ExcessPressureServiceImpl implements ExcessPressureService {
 
     @Override
     public void updateDispersionCoefficient(ExcessPressureReport report, Double dispersionCoefficient) {
-        report.getSample().getSampleProperties().getExcessPressure().setDispersionCoefficient(dispersionCoefficient);
+        report.getProperties().setDispersionCoefficient(dispersionCoefficient);
 
         reportPipeline.accept(report, PRESSURE);
     }

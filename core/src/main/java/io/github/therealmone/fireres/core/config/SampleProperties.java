@@ -1,15 +1,14 @@
 package io.github.therealmone.fireres.core.config;
 
-import com.typesafe.config.Optional;
-import io.github.therealmone.fireres.core.config.excess.pressure.ExcessPressureProperties;
-import io.github.therealmone.fireres.core.config.firemode.FireModeProperties;
-import io.github.therealmone.fireres.core.config.unheated.surface.UnheatedSurfaceProperties;
-import io.github.therealmone.fireres.core.config.heatflow.HeatFlowProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @Data
@@ -22,20 +21,23 @@ public class SampleProperties {
 
     private String name;
 
-    @Optional
-    @Builder.Default
-    private FireModeProperties fireMode = new FireModeProperties();
+    private final Map<Class<? extends ReportProperties>, ReportProperties> propertiesMap = new HashMap<>();
 
-    @Optional
-    @Builder.Default
-    private ExcessPressureProperties excessPressure = new ExcessPressureProperties();
+    public <T extends ReportProperties> Optional<T> getReportPropertiesByClass(Class<T> propertiesClass) {
+        //noinspection unchecked
+        return Optional.of((T) propertiesMap.get(propertiesClass));
+    }
 
-    @Optional
-    @Builder.Default
-    private UnheatedSurfaceProperties unheatedSurface = new UnheatedSurfaceProperties();
+    public void putReportProperties(ReportProperties properties) {
+        propertiesMap.put(properties.getClass(), properties);
+    }
 
-    @Optional
-    @Builder.Default
-    private HeatFlowProperties heatFlow = new HeatFlowProperties();
+    public void removeReport(ReportProperties properties) {
+        propertiesMap.remove(properties.getClass());
+    }
+
+    public Collection<ReportProperties> getAllProperties() {
+        return propertiesMap.values();
+    }
 
 }

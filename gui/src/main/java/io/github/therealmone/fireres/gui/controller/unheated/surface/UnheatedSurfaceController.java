@@ -6,7 +6,6 @@ import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.gui.annotation.ChildController;
 import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.controller.AbstractController;
-import io.github.therealmone.fireres.gui.controller.ReportContainer;
 import io.github.therealmone.fireres.gui.controller.ReportInclusionChanger;
 import io.github.therealmone.fireres.gui.controller.SampleTabController;
 import io.github.therealmone.fireres.gui.controller.unheated.surface.groups.first.FirstGroupController;
@@ -25,7 +24,7 @@ import static io.github.therealmone.fireres.gui.util.TabUtils.enableTab;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class UnheatedSurfaceController extends AbstractController implements ReportContainer, ReportInclusionChanger {
+public class UnheatedSurfaceController extends AbstractController implements UnheatedSurfaceReportContainer, ReportInclusionChanger {
 
     private static final Double SCROLL_VEL = 2d;
 
