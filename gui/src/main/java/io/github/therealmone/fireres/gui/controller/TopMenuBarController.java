@@ -5,7 +5,6 @@ import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.service.ExportService;
 import io.github.therealmone.fireres.gui.service.FxmlLoadService;
 import javafx.application.HostServices;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
 import javafx.stage.DirectoryChooser;
@@ -48,6 +47,11 @@ public class TopMenuBarController extends AbstractController {
                     chosenDir.toPath(),
                     mainSceneController.getSamplesTabPaneController().getSampleTabControllers());
         }
+    }
+
+    @FXML
+    public void openExportModalWindow() {
+        fxmlLoadService.loadExportModalWindow(this).show();
     }
 
     @FXML

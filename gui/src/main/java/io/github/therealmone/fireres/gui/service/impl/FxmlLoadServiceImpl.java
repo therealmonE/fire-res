@@ -115,7 +115,7 @@ public class FxmlLoadServiceImpl implements FxmlLoadService {
     @Override
     @SneakyThrows
     public Stage loadAboutProgramModalWindow(TopMenuBarController topMenuBarController) {
-        val aboutProgramResource = getClass().getResource("/component/menu-help/aboutProgram.fxml");
+        val aboutProgramResource = getClass().getResource("/component/top-menu/aboutProgram.fxml");
         val loader = createLoader(aboutProgramResource);
 
         val aboutProgramModalWindowPane = (Pane) loader.load();
@@ -135,6 +135,27 @@ public class FxmlLoadServiceImpl implements FxmlLoadService {
         modalWindow.getIcons().add(logos.getLogo512());
 
         return modalWindow;
+    }
+
+    @Override
+    @SneakyThrows
+    public Stage loadExportModalWindow(TopMenuBarController topMenuBarController) {
+        val exportResource = getClass().getResource("/component/top-menu/exportModalWindow.fxml");
+        val loader = createLoader(exportResource);
+
+        val exportModalWindowPane = (Pane) loader.load();
+
+        val modalWindow = new Stage();
+
+        modalWindow.setScene(new Scene(exportModalWindowPane));
+        modalWindow.setTitle("Экспорт");
+        modalWindow.setResizable(false);
+        modalWindow.initModality(Modality.APPLICATION_MODAL);
+
+        modalWindow.getIcons().add(logos.getLogo512());
+
+        return modalWindow;
+
     }
 
     private FXMLLoader createLoader(URL resource) {

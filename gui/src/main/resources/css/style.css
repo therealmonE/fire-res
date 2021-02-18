@@ -12,6 +12,9 @@
     -fx-font-size: 12px;
     -fx-font-family: 'Open Sans', sans-serif;
 }
+.check-box > .box {
+    -fx-padding: 7px;
+}
 
 .aboutProgramHeaderFont{
     -fx-font-size: 14px;

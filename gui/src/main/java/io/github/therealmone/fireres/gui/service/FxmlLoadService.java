@@ -20,4 +20,6 @@ public interface FxmlLoadService {
 
     Stage loadAboutProgramModalWindow(TopMenuBarController topMenuBarController);
 
+    Stage loadExportModalWindow(TopMenuBarController topMenuBarController);
+
 }
