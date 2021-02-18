@@ -10,17 +10,19 @@
 <?import javafx.scene.layout.VBox?>
 
 <CheckBox alignment="TOP_CENTER" contentDisplay="CENTER" mnemonicParsing="false" selected="true"
-          xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+          xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="io.github.therealmone.fireres.gui.controller.top.menu.SampleExportCheckboxController"
+          onAction="#changeSampleInclusion"
+          fx:id="sampleExportCheckbox">
     <graphic>
-        <TitledPane expanded="false" text="Образец 1">
-
+        <TitledPane fx:id="sampleExportTitledPane" expanded="false" text="Образец 1">
             <VBox>
                 <Label alignment="CENTER" text="Имя файла">
                     <VBox.margin>
                         <Insets/>
                     </VBox.margin>
                 </Label>
-                <TextField prefHeight="25.0" prefWidth="224.0" text="Образец 1">
+                <TextField fx:id="fileNameTextField" prefHeight="25.0" prefWidth="224.0" text="Образец 1">
                     <VBox.margin>
                         <Insets top="2.0"/>
                     </VBox.margin>
@@ -41,7 +43,7 @@
             </padding>
         </TitledPane>
     </graphic>
-    <padding>
-        <Insets left="15.0" right="15.0" top="15.0"/>
-    </padding>
+    <VBox.margin>
+        <Insets left="15" right="15" top="15"/>
+    </VBox.margin>
 </CheckBox>

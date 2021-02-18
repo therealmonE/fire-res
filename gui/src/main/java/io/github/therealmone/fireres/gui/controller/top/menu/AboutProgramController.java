@@ -1,4 +1,4 @@
-package io.github.therealmone.fireres.gui.controller.menu.help;
+package io.github.therealmone.fireres.gui.controller.top.menu;
 
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.gui.annotation.ParentController;

@@ -6,31 +6,22 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" stylesheets="/css/style.css"
-            xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+            xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="io.github.therealmone.fireres.gui.controller.top.menu.ExportModalWindowController">
     <VBox>
         <ScrollPane fitToWidth="true">
-            <VBox prefHeight="500.0">
-                <fx:include source="sampleExportComponent.fxml"/>
-                <fx:include source="sampleExportComponent.fxml"/>
-                <fx:include source="sampleExportComponent.fxml"/>
-                <fx:include source="sampleExportComponent.fxml"/>
-                <fx:include source="sampleExportComponent.fxml"/>
+            <VBox fx:id="samplesExportVbox" prefHeight="500.0">
             </VBox>
         </ScrollPane>
         <ButtonBar>
             <buttons>
-                <Button text="Экспорт">
-
-                </Button>
+                <Button text="Экспортировать" onAction="#exportSamples"/>
             </buttons>
-            <VBox.margin>
-                <Insets/>
-            </VBox.margin>
             <padding>
                 <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
             </padding>
         </ButtonBar>
     </VBox>
-
 </AnchorPane>

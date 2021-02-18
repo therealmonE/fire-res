@@ -7,10 +7,8 @@ import io.github.therealmone.fireres.gui.service.FxmlLoadService;
 import javafx.application.HostServices;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
-import javafx.stage.DirectoryChooser;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.val;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -37,21 +35,8 @@ public class TopMenuBarController extends AbstractController {
     private HostServices hostServices;
 
     @FXML
-    public void exportSamples() {
-        val dirChooser = new DirectoryChooser();
-
-        val chosenDir = dirChooser.showDialog(mainSceneController.getPrimaryStage());
-
-        if (chosenDir != null) {
-            exportService.exportReports(
-                    chosenDir.toPath(),
-                    mainSceneController.getSamplesTabPaneController().getSampleTabControllers());
-        }
-    }
-
-    @FXML
     public void openExportModalWindow() {
-        fxmlLoadService.loadExportModalWindow(this).show();
+        fxmlLoadService.loadExportModalWindow(mainSceneController.getSamplesTabPaneController()).show();
     }
 
     @FXML
