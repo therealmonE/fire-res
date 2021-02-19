@@ -3,7 +3,7 @@ package io.github.therealmone.fireres.firemode.report;
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.model.Sample;
-import io.github.therealmone.fireres.firemode.GuiceRunner;
+import io.github.therealmone.fireres.firemode.FireModeGuiceRunner;
 import io.github.therealmone.fireres.firemode.service.FireModeService;
 import lombok.val;
 import org.junit.Test;
@@ -11,13 +11,13 @@ import org.junit.runner.RunWith;
 
 import java.util.List;
 
-import static io.github.therealmone.fireres.firemode.TestUtils.assertFunctionConstantlyGrowing;
-import static io.github.therealmone.fireres.firemode.TestUtils.assertFunctionNotHigher;
-import static io.github.therealmone.fireres.firemode.TestUtils.assertFunctionNotLower;
-import static io.github.therealmone.fireres.firemode.TestUtils.toPointList;
+import static io.github.therealmone.fireres.core.test.TestUtils.assertFunctionConstantlyGrowing;
+import static io.github.therealmone.fireres.core.test.TestUtils.assertFunctionNotHigher;
+import static io.github.therealmone.fireres.core.test.TestUtils.assertFunctionNotLower;
+import static io.github.therealmone.fireres.core.test.TestUtils.toPointList;
 import static org.junit.Assert.assertEquals;
 
-@RunWith(GuiceRunner.class)
+@RunWith(FireModeGuiceRunner.class)
 public class FireModeReportTest {
 
     @Inject

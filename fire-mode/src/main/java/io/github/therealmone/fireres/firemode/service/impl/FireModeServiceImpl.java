@@ -10,7 +10,7 @@ import lombok.val;
 
 import static io.github.therealmone.fireres.firemode.pipeline.FireModeReportEnrichType.MEAN_WITH_THERMOCOUPLE_TEMPERATURES;
 
-public class FireModeServiceImpl extends AbstractInterpolationService<FireModeReport> implements FireModeService {
+public class FireModeServiceImpl extends AbstractInterpolationService<FireModeReport, Integer> implements FireModeService {
 
     @Inject
     private ReportEnrichPipeline<FireModeReport> reportPipeline;

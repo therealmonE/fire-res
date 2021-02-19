@@ -1,8 +1,8 @@
-package io.github.therealmone.fireres.heatflow;
+package io.github.therealmone.fireres.core.test;
 
 import io.github.therealmone.fireres.core.model.IntegerPoint;
-import io.github.therealmone.fireres.core.model.IntegerPointSequence;
 import io.github.therealmone.fireres.core.model.Point;
+import io.github.therealmone.fireres.core.model.PointSequence;
 import lombok.val;
 
 import java.util.List;
@@ -20,35 +20,44 @@ public class TestUtils {
                 assertEquals(expectedValue.doubleValue(), p.getValue().doubleValue(), 0));
     }
 
-    public static void assertFunctionConstantlyGrowing(List<IntegerPoint> function) {
+    public static void assertFunctionConstantlyGrowing(List<? extends Point<?>> function) {
         for (int i = 1; i < function.size(); i++) {
             val point = function.get(i);
             val prevPoint = function.get(i - 1);
 
             assertTrue("Comparing " + prevPoint + " and " + point,
-                    point.getValue() >= prevPoint.getValue());
+                    point.getValue().doubleValue() >= prevPoint.getValue().doubleValue());
         }
     }
 
-    public static void assertThermocouplesTemperaturesEqualsMean(List<? extends IntegerPointSequence> thermocouplesTemp,
-                                                                 IntegerPointSequence meanTemp) {
-        val meanTempValue = meanTemp.getValue();
+    public static void assertChildTemperaturesEqualsMean(List<? extends PointSequence<?>> thermocouplesTemp,
+                                                         PointSequence<?> meanTemp) {
+        val meanTempValue = (List<Point>) meanTemp.getValue();
 
         assertSizesEquals(thermocouplesTemp, meanTempValue);
-        IntStream.range(0, meanTempValue.size()).forEach(i -> assertEquals(
-                meanTempValue.get(i).getValue(),
-                calculatePointsMeanValue(thermocouplesTemp.stream()
-                        .map(t -> t.getValue().get(i))
-                        .collect(Collectors.toList()))));
+
+        for (int i = 0; i < meanTempValue.size(); i++) {
+            val thermocouplePointIndex = i;
+
+            val calculatedMean = calculatePointsMeanValue(thermocouplesTemp.stream()
+                    .map(t -> t.getValue().get(thermocouplePointIndex))
+                    .collect(Collectors.toList()));
+
+            assertEquals(meanTempValue.get(i).getValue().doubleValue(), calculatedMean, 0.5);
+        }
     }
 
-    private static void assertSizesEquals(List<? extends IntegerPointSequence> thermocouplesTemp,
-                                          List<IntegerPoint> meanTemp) {
-
+    public static void assertSizesEquals(List<? extends PointSequence<?>> thermocouplesTemp, List<Point> meanTemp) {
         thermocouplesTemp.forEach(thermocoupleTemperature -> {
             val thermocoupleTemperatureValue = thermocoupleTemperature.getValue();
             assertEquals(meanTemp.size(), thermocoupleTemperatureValue.size());
         });
+    }
+
+    public static void assertSizesEquals(int size, List<? extends Point<?>>... functions) {
+        for (List<? extends Point<?>> function : functions) {
+            assertEquals(size, function.size());
+        }
     }
 
     public static void assertFunctionNotHigher(List<? extends Point<?>> lowerFunction,
@@ -69,5 +78,11 @@ public class TestUtils {
                                               List<? extends Point<?>> lowerFunction) {
 
         assertFunctionNotHigher(lowerFunction, upperFunction);
+    }
+
+    public static List<IntegerPoint> toPointList(List<Integer> list) {
+        return IntStream.range(0, list.size())
+                .mapToObj(i -> new IntegerPoint(i, list.get(i)))
+                .collect(Collectors.toList());
     }
 }

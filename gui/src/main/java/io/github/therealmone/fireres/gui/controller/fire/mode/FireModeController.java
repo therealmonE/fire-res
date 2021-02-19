@@ -2,7 +2,7 @@ package io.github.therealmone.fireres.gui.controller.fire.mode;
 
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
-import io.github.therealmone.fireres.core.config.Interpolation;
+import io.github.therealmone.fireres.core.model.IntegerPoint;
 import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.firemode.config.FireModeProperties;
 import io.github.therealmone.fireres.firemode.report.FireModeReport;
@@ -70,6 +70,8 @@ public class FireModeController extends AbstractController implements FireModeRe
 
         functionParamsController.setPostReportUpdateAction(() ->
                 chartsSynchronizationService.syncFireModeChart(fireModeChartController.getFireModeChart(), report));
+
+        functionParamsController.setInterpolationPointConstructor((time, value) -> new IntegerPoint(time, value.intValue()));
     }
 
     @Override

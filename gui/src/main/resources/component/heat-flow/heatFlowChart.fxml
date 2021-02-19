@@ -13,7 +13,7 @@
     </xAxis>
 
     <yAxis>
-        <NumberAxis label="Тепловой поток, Вт/㎡" side="LEFT"/>
+        <NumberAxis label="Тепловой поток, КВт/㎡" side="LEFT"/>
     </yAxis>
 </SmoothedLineChart>
 

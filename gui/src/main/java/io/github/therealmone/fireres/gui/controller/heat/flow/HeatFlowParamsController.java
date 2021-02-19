@@ -26,7 +26,7 @@ public class HeatFlowParamsController extends AbstractController implements Heat
     private Spinner<Integer> sensorSpinner;
 
     @FXML
-    private Spinner<Integer> heatFlowBoundSpinner;
+    private Spinner<Double> heatFlowBoundSpinner;
 
     @Inject
     private ResetSettingsService resetSettingsService;

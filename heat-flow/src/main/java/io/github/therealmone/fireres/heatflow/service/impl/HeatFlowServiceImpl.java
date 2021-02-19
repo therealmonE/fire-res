@@ -11,7 +11,7 @@ import lombok.val;
 import static io.github.therealmone.fireres.heatflow.pipeline.HeatFlowReportEnrichType.BOUND;
 import static io.github.therealmone.fireres.heatflow.pipeline.HeatFlowReportEnrichType.MEAN_WITH_SENSORS_TEMPERATURES;
 
-public class HeatFlowServiceImpl extends AbstractInterpolationService<HeatFlowReport> implements HeatFlowService {
+public class HeatFlowServiceImpl extends AbstractInterpolationService<HeatFlowReport, Double> implements HeatFlowService {
 
     @Inject
     private ReportEnrichPipeline<HeatFlowReport> reportPipeline;
@@ -38,7 +38,7 @@ public class HeatFlowServiceImpl extends AbstractInterpolationService<HeatFlowRe
     }
 
     @Override
-    public void updateBound(HeatFlowReport report, Integer bound) {
+    public void updateBound(HeatFlowReport report, Double bound) {
         report.getProperties().setBound(bound);
 
         reportPipeline.accept(report, BOUND);

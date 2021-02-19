@@ -14,4 +14,8 @@ public abstract class Point<T extends Number> {
 
     public abstract T getNormalizedValue();
 
+    public Integer getIntValue() {
+        return value.intValue();
+    }
+
 }

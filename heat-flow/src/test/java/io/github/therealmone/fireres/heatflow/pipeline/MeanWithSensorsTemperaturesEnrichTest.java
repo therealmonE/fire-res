@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.core.pipeline.ReportEnrichPipeline;
-import io.github.therealmone.fireres.heatflow.GuiceRunner;
+import io.github.therealmone.fireres.heatflow.HeatFlowGuiceRunner;
 import io.github.therealmone.fireres.heatflow.report.HeatFlowReport;
 import io.github.therealmone.fireres.heatflow.service.HeatFlowService;
 import lombok.val;
@@ -14,7 +14,7 @@ import org.junit.runner.RunWith;
 import static io.github.therealmone.fireres.heatflow.pipeline.HeatFlowReportEnrichType.MEAN_WITH_SENSORS_TEMPERATURES;
 import static org.junit.Assert.assertNotEquals;
 
-@RunWith(GuiceRunner.class)
+@RunWith(HeatFlowGuiceRunner.class)
 public class MeanWithSensorsTemperaturesEnrichTest {
 
     @Inject
@@ -34,7 +34,7 @@ public class MeanWithSensorsTemperaturesEnrichTest {
         val oldMeanTemperature = report.getMeanTemperature();
         val oldSensorsTemperatures = report.getSensorTemperatures();
 
-        report.getProperties().setBound(500);
+        report.getProperties().setBound(0.5);
         reportEnrichPipeline.accept(report, MEAN_WITH_SENSORS_TEMPERATURES);
 
         val newSampleMeanTemperature = report.getMeanTemperature();

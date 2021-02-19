@@ -9,7 +9,9 @@ import io.github.therealmone.fireres.heatflow.pipeline.BoundEnricher;
 import io.github.therealmone.fireres.heatflow.pipeline.MeanWithSensorsTemperaturesEnricher;
 import io.github.therealmone.fireres.heatflow.report.HeatFlowReport;
 import io.github.therealmone.fireres.heatflow.service.HeatFlowService;
+import io.github.therealmone.fireres.heatflow.service.NormalizationService;
 import io.github.therealmone.fireres.heatflow.service.impl.HeatFlowServiceImpl;
+import io.github.therealmone.fireres.heatflow.service.impl.NormalizationServiceImpl;
 
 import java.util.List;
 
@@ -20,7 +22,8 @@ public class HeatFlowModule extends AbstractModule {
         bind(BoundEnricher.class).in(Singleton.class);
         bind(MeanWithSensorsTemperaturesEnricher.class).in(Singleton.class);
 
-        bind(HeatFlowService.class).to(HeatFlowServiceImpl.class);
+        bind(HeatFlowService.class).to(HeatFlowServiceImpl.class).in(Singleton.class);
+        bind(NormalizationService.class).to(NormalizationServiceImpl.class).in(Singleton.class);
     }
 
     @Provides

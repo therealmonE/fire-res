@@ -3,21 +3,21 @@ package io.github.therealmone.fireres.firemode.report;
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.model.Sample;
-import io.github.therealmone.fireres.firemode.GuiceRunner;
+import io.github.therealmone.fireres.firemode.FireModeGuiceRunner;
 import io.github.therealmone.fireres.firemode.service.FireModeService;
 import lombok.val;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static io.github.therealmone.fireres.core.test.TestUtils.assertFunctionConstantlyGrowing;
+import static io.github.therealmone.fireres.core.test.TestUtils.assertFunctionNotHigher;
+import static io.github.therealmone.fireres.core.test.TestUtils.assertFunctionNotLower;
+import static io.github.therealmone.fireres.core.test.TestUtils.assertSizesEquals;
+import static io.github.therealmone.fireres.core.test.TestUtils.assertChildTemperaturesEqualsMean;
 import static io.github.therealmone.fireres.firemode.TestGenerationProperties.TIME;
-import static io.github.therealmone.fireres.firemode.TestUtils.assertFunctionConstantlyGrowing;
-import static io.github.therealmone.fireres.firemode.TestUtils.assertFunctionNotHigher;
-import static io.github.therealmone.fireres.firemode.TestUtils.assertFunctionNotLower;
-import static io.github.therealmone.fireres.firemode.TestUtils.assertSizesEquals;
-import static io.github.therealmone.fireres.firemode.TestUtils.assertThermocouplesTemperaturesEqualsMean;
 import static org.junit.Assert.assertEquals;
 
-@RunWith(GuiceRunner.class)
+@RunWith(FireModeGuiceRunner.class)
 public class FireModeReportRepeatingTest {
 
     private static final Integer ATTEMPTS = 100;
@@ -62,7 +62,7 @@ public class FireModeReportRepeatingTest {
             val thermocouplesTemps = report.getThermocoupleTemperatures();
 
             assertEquals(6, thermocouplesTemps.size());
-            assertThermocouplesTemperaturesEqualsMean(thermocouplesTemps, meanTemp);
+            assertChildTemperaturesEqualsMean(thermocouplesTemps, meanTemp);
 
             thermocouplesTemps.forEach(thermocouplesTemp -> {
 

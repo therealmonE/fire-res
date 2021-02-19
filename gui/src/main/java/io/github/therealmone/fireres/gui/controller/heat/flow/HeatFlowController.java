@@ -11,6 +11,7 @@ import io.github.therealmone.fireres.gui.controller.SampleTabController;
 import io.github.therealmone.fireres.gui.controller.common.FunctionParamsController;
 import io.github.therealmone.fireres.gui.service.ChartsSynchronizationService;
 import io.github.therealmone.fireres.heatflow.config.HeatFlowProperties;
+import io.github.therealmone.fireres.heatflow.model.HeatFlowPoint;
 import io.github.therealmone.fireres.heatflow.report.HeatFlowReport;
 import io.github.therealmone.fireres.heatflow.service.HeatFlowService;
 import javafx.fxml.FXML;
@@ -69,6 +70,8 @@ public class HeatFlowController extends AbstractController implements HeatFlowRe
 
         functionParamsController.setPostReportUpdateAction(() ->
                 chartsSynchronizationService.syncHeatFlowChart(heatFlowChartController.getHeatFlowChart(), report));
+
+        functionParamsController.setInterpolationPointConstructor((time, value) -> new HeatFlowPoint(time, value.doubleValue()));
     }
 
     @Override

@@ -8,7 +8,7 @@ import io.github.therealmone.fireres.unheated.surface.service.UnheatedSurfaceFir
 
 import static io.github.therealmone.fireres.unheated.surface.pipeline.UnheatedSurfaceReportEnrichType.FIRST_GROUP_MEAN_WITH_THERMOCOUPLE_TEMPERATURES;
 
-public class UnheatedSurfaceFirstGroupServiceImpl extends AbstractInterpolationService<UnheatedSurfaceReport>
+public class UnheatedSurfaceFirstGroupServiceImpl extends AbstractInterpolationService<UnheatedSurfaceReport, Integer>
         implements UnheatedSurfaceFirstGroupService {
 
     @Inject

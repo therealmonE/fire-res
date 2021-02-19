@@ -3,9 +3,12 @@ package io.github.therealmone.fireres.heatflow;
 import io.github.therealmone.fireres.core.config.GeneralProperties;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.config.SampleProperties;
+import io.github.therealmone.fireres.core.model.Point;
 import io.github.therealmone.fireres.heatflow.config.HeatFlowProperties;
+import io.github.therealmone.fireres.heatflow.model.HeatFlowPoint;
 import lombok.val;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TestGenerationProperties extends GenerationProperties {
@@ -13,7 +16,13 @@ public class TestGenerationProperties extends GenerationProperties {
     public static final int ENVIRONMENT_TEMPERATURE = 21;
     public static final int TIME = 71;
     public static final int SENSOR_COUNT = 3;
-    public static final int BOUND = 3500;
+    public static final double BOUND = 3.5000;
+
+    public static final List<Point<Double>> INTERPOLATION_POINTS = new ArrayList<>() {{
+        add(new HeatFlowPoint(10, 1.000));
+        add(new HeatFlowPoint(50, 2.000));
+        add(new HeatFlowPoint(70, 3.333));
+    }};
 
     public TestGenerationProperties() {
         setGeneral(GeneralProperties.builder()
@@ -26,6 +35,7 @@ public class TestGenerationProperties extends GenerationProperties {
         props.putReportProperties(HeatFlowProperties.builder()
                 .sensorCount(SENSOR_COUNT)
                 .bound(BOUND)
+                .interpolationPoints(INTERPOLATION_POINTS)
                 .build());
 
         setSamples(List.of(props));

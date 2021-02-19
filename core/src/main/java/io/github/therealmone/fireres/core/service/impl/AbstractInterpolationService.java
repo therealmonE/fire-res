@@ -1,7 +1,7 @@
 package io.github.therealmone.fireres.core.service.impl;
 
 import io.github.therealmone.fireres.core.config.Interpolation;
-import io.github.therealmone.fireres.core.config.InterpolationPoint;
+import io.github.therealmone.fireres.core.model.Point;
 import io.github.therealmone.fireres.core.model.Report;
 import io.github.therealmone.fireres.core.service.InterpolationService;
 import lombok.RequiredArgsConstructor;
@@ -12,9 +12,10 @@ import java.util.List;
 import java.util.function.Function;
 
 @RequiredArgsConstructor
-public abstract class AbstractInterpolationService<R extends Report<?>> implements InterpolationService<R> {
+public abstract class AbstractInterpolationService<R extends Report<?>, N extends Number>
+        implements InterpolationService<R, N> {
 
-    private final Function<R, Interpolation> propertiesMapper;
+    private final Function<R, Interpolation<N>> propertiesMapper;
 
     @Override
     public void updateLinearityCoefficient(R report, Double linearityCoefficient) {
@@ -31,12 +32,12 @@ public abstract class AbstractInterpolationService<R extends Report<?>> implemen
     }
 
     @Override
-    public void addInterpolationPoints(R report, List<InterpolationPoint> pointsToAdd) {
+    public void addInterpolationPoints(R report, List<Point<N>> pointsToAdd) {
         val currentPoints = propertiesMapper.apply(report).getInterpolationPoints();
 
         if (!pointsToAdd.isEmpty()) {
             currentPoints.addAll(pointsToAdd);
-            currentPoints.sort(Comparator.comparing(InterpolationPoint::getTime));
+            currentPoints.sort(Comparator.comparing(Point::getTime));
 
             try {
                 postUpdateInterpolationPoints(report);
@@ -48,7 +49,7 @@ public abstract class AbstractInterpolationService<R extends Report<?>> implemen
     }
 
     @Override
-    public void removeInterpolationPoints(R report, List<InterpolationPoint> pointsToRemove) {
+    public void removeInterpolationPoints(R report, List<Point<N>> pointsToRemove) {
         val currentPoints = propertiesMapper.apply(report).getInterpolationPoints();
 
         if (currentPoints.removeIf(pointsToRemove::contains)) {
