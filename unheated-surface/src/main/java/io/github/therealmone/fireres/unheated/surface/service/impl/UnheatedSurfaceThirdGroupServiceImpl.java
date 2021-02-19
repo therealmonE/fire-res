@@ -1,19 +1,15 @@
 package io.github.therealmone.fireres.unheated.surface.service.impl;
 
 import com.google.inject.Inject;
-import io.github.therealmone.fireres.core.config.InterpolationPoint;
 import io.github.therealmone.fireres.core.pipeline.ReportEnrichPipeline;
 import io.github.therealmone.fireres.core.service.impl.AbstractInterpolationService;
 import io.github.therealmone.fireres.unheated.surface.report.UnheatedSurfaceReport;
 import io.github.therealmone.fireres.unheated.surface.service.UnheatedSurfaceThirdGroupService;
-import lombok.val;
-
-import java.util.List;
 
 import static io.github.therealmone.fireres.unheated.surface.pipeline.UnheatedSurfaceReportEnrichType.THIRD_GROUP_MEAN_WITH_THERMOCOUPLE_TEMPERATURES;
 import static io.github.therealmone.fireres.unheated.surface.pipeline.UnheatedSurfaceReportEnrichType.THIRD_GROUP_THERMOCOUPLE_BOUND;
 
-public class UnheatedSurfaceThirdGroupServiceImpl extends AbstractInterpolationService<UnheatedSurfaceReport>
+public class UnheatedSurfaceThirdGroupServiceImpl extends AbstractInterpolationService<UnheatedSurfaceReport, Integer>
         implements UnheatedSurfaceThirdGroupService {
 
     @Inject
@@ -35,15 +31,6 @@ public class UnheatedSurfaceThirdGroupServiceImpl extends AbstractInterpolationS
         report.getProperties().getThirdGroup().setBound(bound);
 
         reportPipeline.accept(report, THIRD_GROUP_THERMOCOUPLE_BOUND);
-    }
-
-    @Override
-    public void removeInterpolationPoints(UnheatedSurfaceReport report, List<InterpolationPoint> pointsToRemove) {
-        val currentPoints = report.getProperties().getThirdGroup().getInterpolationPoints();
-
-        if (currentPoints.removeIf(pointsToRemove::contains)) {
-            reportPipeline.accept(report, THIRD_GROUP_MEAN_WITH_THERMOCOUPLE_TEMPERATURES);
-        }
     }
 
     @Override

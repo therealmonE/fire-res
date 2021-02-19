@@ -1,6 +1,7 @@
 package io.github.therealmone.fireres.gui.controller.unheated.surface.groups.third;
 
 import com.google.inject.Inject;
+import io.github.therealmone.fireres.core.model.IntegerPoint;
 import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.gui.annotation.ChildController;
 import io.github.therealmone.fireres.gui.annotation.ParentController;
@@ -60,6 +61,8 @@ public class ThirdGroupController extends AbstractController implements Unheated
         functionParamsController.setPostReportUpdateAction(() ->
                 chartsSynchronizationService.syncThirdThermocoupleGroupChart(
                         thirdGroupChartController.getThirdGroupChart(), getReport()));
+
+        functionParamsController.setInterpolationPointConstructor((time, value) -> new IntegerPoint(time, value.intValue()));
     }
 
     @Override

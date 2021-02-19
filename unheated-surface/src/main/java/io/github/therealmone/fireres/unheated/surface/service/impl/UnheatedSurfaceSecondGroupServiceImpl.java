@@ -9,7 +9,7 @@ import io.github.therealmone.fireres.unheated.surface.service.UnheatedSurfaceSec
 import static io.github.therealmone.fireres.unheated.surface.pipeline.UnheatedSurfaceReportEnrichType.SECOND_GROUP_MEAN_WITH_THERMOCOUPLE_TEMPERATURES;
 import static io.github.therealmone.fireres.unheated.surface.pipeline.UnheatedSurfaceReportEnrichType.SECOND_GROUP_THERMOCOUPLE_BOUND;
 
-public class UnheatedSurfaceSecondGroupServiceImpl extends AbstractInterpolationService<UnheatedSurfaceReport>
+public class UnheatedSurfaceSecondGroupServiceImpl extends AbstractInterpolationService<UnheatedSurfaceReport, Integer>
         implements UnheatedSurfaceSecondGroupService {
 
     @Inject

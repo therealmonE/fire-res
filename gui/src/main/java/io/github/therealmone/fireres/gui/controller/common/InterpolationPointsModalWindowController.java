@@ -1,7 +1,6 @@
 package io.github.therealmone.fireres.gui.controller.common;
 
 import com.google.inject.Inject;
-import io.github.therealmone.fireres.core.config.InterpolationPoint;
 import io.github.therealmone.fireres.core.model.Report;
 import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.gui.annotation.ParentController;
@@ -29,7 +28,7 @@ public class InterpolationPointsModalWindowController extends AbstractController
     private Spinner<Integer> interpolationPointTimeSpinner;
 
     @FXML
-    private Spinner<Integer> interpolationPointValueSpinner;
+    private Spinner<Number> interpolationPointValueSpinner;
 
     private Stage modalWindow;
 
@@ -37,7 +36,8 @@ public class InterpolationPointsModalWindowController extends AbstractController
     private AlertService alertService;
 
     public void addInterpolationPoint() {
-        val newPoint = new InterpolationPoint(interpolationPointTimeSpinner.getValue(), interpolationPointValueSpinner.getValue());
+        val newPoint = functionParamsController.getInterpolationPointConstructor()
+                .apply(interpolationPointTimeSpinner.getValue(), interpolationPointValueSpinner.getValue());
 
         try {
             functionParamsController.getInterpolationService().addInterpolationPoints(getReport(), Collections.singletonList(newPoint));

@@ -13,9 +13,9 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public class HeatFlowProperties extends Interpolation implements ReportProperties {
+public class HeatFlowProperties extends Interpolation<Double> implements ReportProperties {
 
     private Integer sensorCount;
-    private Integer bound;
+    private Double bound;
 
 }

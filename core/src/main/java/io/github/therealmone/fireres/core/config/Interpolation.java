@@ -1,6 +1,7 @@
 package io.github.therealmone.fireres.core.config;
 
 import com.typesafe.config.Optional;
+import io.github.therealmone.fireres.core.model.Point;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,7 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -16,11 +16,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public class Interpolation {
+public class Interpolation<N extends Number> {
 
     @Optional
     @Builder.Default
-    private List<InterpolationPoint> interpolationPoints = new ArrayList<>();
+    private List<Point<N>> interpolationPoints = new ArrayList<>();
 
     @Optional
     @Builder.Default
@@ -30,8 +30,8 @@ public class Interpolation {
     @Builder.Default
     private Double dispersionCoefficient = 1d;
 
-    public void setInterpolationPoints(List<InterpolationPoint> interpolationPoints) {
-        interpolationPoints.sort(Comparator.comparing(InterpolationPoint::getTime));
+    public void setInterpolationPoints(List<Point<N>> interpolationPoints) {
+        interpolationPoints.sort(Comparator.comparing(Point::getTime));
         this.interpolationPoints = interpolationPoints;
     }
 

@@ -12,7 +12,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public class UnheatedSurfaceGroupProperties extends Interpolation {
+public class UnheatedSurfaceGroupProperties extends Interpolation<Integer> {
 
     private Integer thermocoupleCount;
 

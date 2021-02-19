@@ -34,7 +34,7 @@ public class MeanWithSensorsTemperaturesEnrichTest {
         val oldMeanTemperature = report.getMeanTemperature();
         val oldSensorsTemperatures = report.getSensorTemperatures();
 
-        report.getProperties().setBound(500);
+        report.getProperties().setBound(0.5);
         reportEnrichPipeline.accept(report, MEAN_WITH_SENSORS_TEMPERATURES);
 
         val newSampleMeanTemperature = report.getMeanTemperature();

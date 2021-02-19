@@ -14,7 +14,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public class FireModeProperties extends Interpolation implements ReportProperties {
+public class FireModeProperties extends Interpolation<Integer> implements ReportProperties {
 
     private Integer thermocoupleCount;
 

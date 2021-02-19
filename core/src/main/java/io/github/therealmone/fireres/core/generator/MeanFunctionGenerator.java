@@ -33,12 +33,12 @@ public class MeanFunctionGenerator implements PointSequenceGenerator<IntegerPoin
     private final IntegerPointSequence upperBound;
     private final IntegerPointSequence lowerBound;
 
-    private final Interpolation interpolation;
+    private final Interpolation<?> interpolation;
 
     @Override
     public IntegerPointSequence generate() {
         val points = interpolation.getInterpolationPoints().stream()
-                .map(p -> new IntegerPoint(p.getTime(), p.getValue()))
+                .map(p -> new IntegerPoint(p.getTime(), p.getIntValue()))
                 .collect(Collectors.toCollection(ArrayList::new));
 
         adjustInterpolationPoints(points);

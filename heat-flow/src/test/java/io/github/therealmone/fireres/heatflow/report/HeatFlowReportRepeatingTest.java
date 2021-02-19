@@ -37,7 +37,7 @@ public class HeatFlowReportRepeatingTest {
 
             val bound = report.getBound();
 
-            assertFunctionIsConstant(BOUND, bound.getValue());
+            assertFunctionIsConstant(BOUND * 1000, bound.getValue());
 
             val mean = report.getMeanTemperature();
 

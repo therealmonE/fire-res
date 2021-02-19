@@ -2,8 +2,8 @@ package io.github.therealmone.fireres.gui.controller.common;
 
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.Interpolation;
-import io.github.therealmone.fireres.core.config.InterpolationPoint;
 import io.github.therealmone.fireres.core.config.SampleProperties;
+import io.github.therealmone.fireres.core.model.Point;
 import io.github.therealmone.fireres.core.model.Report;
 import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.core.service.InterpolationService;
@@ -28,6 +28,7 @@ import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import static java.util.Collections.singletonList;
@@ -54,17 +55,19 @@ public class FunctionParamsController extends AbstractController implements Samp
     private Spinner<Double> dispersionCoefficientSpinner;
 
     @FXML
-    private TableView<InterpolationPoint> interpolationPointsTableView;
+    private TableView<Point<?>> interpolationPointsTableView;
 
     @FXML
-    private TableColumn<InterpolationPoint, Integer> timeColumn;
+    private TableColumn<Point<?>, Integer> timeColumn;
 
     @FXML
-    private TableColumn<InterpolationPoint, Integer> valueColumn;
+    private TableColumn<Point<?>, Integer> valueColumn;
 
     private InterpolationService interpolationService;
 
     private Function<SampleProperties, Interpolation> propertiesMapper;
+
+    private BiFunction<Integer, Number, Point<?>> interpolationPointConstructor;
 
     private Runnable postReportUpdateAction;
 
@@ -112,7 +115,7 @@ public class FunctionParamsController extends AbstractController implements Samp
     private void initializeRowContextMenu() {
         interpolationPointsTableView.setRowFactory(
                 tableView -> {
-                    val row = new TableRow<InterpolationPoint>();
+                    val row = new TableRow<Point<?>>();
                     val contextMenu = createRowContextMenu(row);
 
                     row.contextMenuProperty().bind(
@@ -124,7 +127,7 @@ public class FunctionParamsController extends AbstractController implements Samp
                 });
     }
 
-    private ContextMenu createRowContextMenu(TableRow<InterpolationPoint> row) {
+    private ContextMenu createRowContextMenu(TableRow<Point<?>> row) {
         val rowMenu = new ContextMenu();
         val addPointMenuItem = new MenuItem("Добавить");
         val removePointMenuItem = new MenuItem("Удалить");
@@ -136,7 +139,7 @@ public class FunctionParamsController extends AbstractController implements Samp
         return rowMenu;
     }
 
-    private void handleRowDeletedEvent(TableRow<InterpolationPoint> affectedRow) {
+    private void handleRowDeletedEvent(TableRow<Point<?>> affectedRow) {
         interpolationService.removeInterpolationPoints(getReport(), singletonList(affectedRow.getItem()));
         interpolationPointsTableView.getItems().remove(affectedRow.getItem());
         postReportUpdateAction.run();

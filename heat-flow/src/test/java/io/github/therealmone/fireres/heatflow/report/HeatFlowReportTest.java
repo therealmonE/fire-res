@@ -30,7 +30,7 @@ public class HeatFlowReportTest {
 
         val bound = report.getBound();
 
-        assertFunctionIsConstant(BOUND, bound.getValue());
+        assertFunctionIsConstant(BOUND * 1000, bound.getValue());
     }
 
     @Test

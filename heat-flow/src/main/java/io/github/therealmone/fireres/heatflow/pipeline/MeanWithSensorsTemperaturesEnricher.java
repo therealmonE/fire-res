@@ -33,8 +33,6 @@ public class MeanWithSensorsTemperaturesEnricher implements ReportEnricher<HeatF
         val bound = report.getBound();
         val zeroBound = constantFunction(time, 0);
 
-        val sampleProperties = report.getSample().getSampleProperties();
-
         val meanWithChildFunctions = meanFunctionFactory
                 .meanWithChildFunctions(MeanWithChildFunctionGenerationParameters.builder()
                         .meanFunctionInterpolation(report.getProperties())

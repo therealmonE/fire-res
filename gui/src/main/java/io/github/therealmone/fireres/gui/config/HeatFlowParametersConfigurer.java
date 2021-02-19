@@ -13,10 +13,10 @@ public class HeatFlowParametersConfigurer implements Configurer<HeatFlowParamsCo
     private static final Integer DEFAULT_SENSORS_COUNT_MIN = 1;
     private static final Integer DEFAULT_SENSORS_COUNT_MAX = 100;
 
-    private static final Integer DEFAULT_HEAT_FLOW_BOUND = 3500;
-    private static final Integer DEFAULT_HEAT_FLOW_MIN_BOUND = 1000;
-    private static final Integer DEFAULT_HEAT_FLOW_MAX_BOUND = 100000;
-    private static final Integer DEFAULT_HEAT_FLOW_BOUND_INCREMENT = 100;
+    private static final Double DEFAULT_HEAT_FLOW_BOUND = 3.5;
+    private static final Double DEFAULT_HEAT_FLOW_MIN_BOUND = 0.1;
+    private static final Double DEFAULT_HEAT_FLOW_MAX_BOUND = 100d;
+    private static final Double DEFAULT_HEAT_FLOW_BOUND_INCREMENT = 0.1;
 
     @Override
     public void config(HeatFlowParamsController controller) {
@@ -38,12 +38,12 @@ public class HeatFlowParametersConfigurer implements Configurer<HeatFlowParamsCo
         ));
     }
 
-    private void resetHeatFlowBound(Spinner<Integer> heatFlow, SampleProperties sample) {
+    private void resetHeatFlowBound(Spinner<Double> heatFlow, SampleProperties sample) {
         sample.getReportPropertiesByClass(HeatFlowProperties.class)
                 .orElseThrow()
                 .setBound(DEFAULT_HEAT_FLOW_BOUND);
 
-        heatFlow.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(
+        heatFlow.setValueFactory(new SpinnerValueFactory.DoubleSpinnerValueFactory(
                 DEFAULT_HEAT_FLOW_MIN_BOUND,
                 DEFAULT_HEAT_FLOW_MAX_BOUND,
                 DEFAULT_HEAT_FLOW_BOUND,
