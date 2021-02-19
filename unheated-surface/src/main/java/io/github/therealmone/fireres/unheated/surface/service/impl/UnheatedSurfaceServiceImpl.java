@@ -8,14 +8,16 @@ import io.github.therealmone.fireres.unheated.surface.report.UnheatedSurfaceRepo
 import io.github.therealmone.fireres.unheated.surface.service.UnheatedSurfaceService;
 import lombok.val;
 
+import java.util.UUID;
+
 public class UnheatedSurfaceServiceImpl implements UnheatedSurfaceService {
 
     @Inject
     private ReportEnrichPipeline<UnheatedSurfaceReport> reportPipeline;
 
     @Override
-    public UnheatedSurfaceReport createReport(Sample sample) {
-        val report = new UnheatedSurfaceReport(sample);
+    public UnheatedSurfaceReport createReport(UUID reportId, Sample sample) {
+        val report = new UnheatedSurfaceReport(reportId, sample);
 
         report.setFirstGroup(new UnheatedSurfaceGroup());
         report.setSecondGroup(new UnheatedSurfaceGroup());

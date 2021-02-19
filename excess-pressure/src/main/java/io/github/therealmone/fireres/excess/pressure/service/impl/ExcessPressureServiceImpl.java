@@ -7,6 +7,8 @@ import io.github.therealmone.fireres.excess.pressure.report.ExcessPressureReport
 import io.github.therealmone.fireres.excess.pressure.service.ExcessPressureService;
 import lombok.val;
 
+import java.util.UUID;
+
 import static io.github.therealmone.fireres.excess.pressure.pipeline.ExcessPressureReportEnrichType.BASE_PRESSURE;
 import static io.github.therealmone.fireres.excess.pressure.pipeline.ExcessPressureReportEnrichType.MAX_ALLOWED_PRESSURE;
 import static io.github.therealmone.fireres.excess.pressure.pipeline.ExcessPressureReportEnrichType.MIN_ALLOWED_PRESSURE;
@@ -18,8 +20,8 @@ public class ExcessPressureServiceImpl implements ExcessPressureService {
     private ReportEnrichPipeline<ExcessPressureReport> reportPipeline;
 
     @Override
-    public ExcessPressureReport createReport(Sample sample) {
-        val report = new ExcessPressureReport(sample);
+    public ExcessPressureReport createReport(UUID reportId, Sample sample) {
+        val report = new ExcessPressureReport(reportId, sample);
         sample.putReport(report);
 
         reportPipeline.accept(report);

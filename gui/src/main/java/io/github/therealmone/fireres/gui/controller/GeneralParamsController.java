@@ -7,6 +7,7 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Spinner;
+import javafx.scene.control.TitledPane;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,9 @@ import java.util.function.Function;
 @Slf4j
 @Data
 public class GeneralParamsController extends AbstractController {
+
+    @FXML
+    private TitledPane generalParamsTitledPane;
 
     private MainSceneController mainSceneController;
 

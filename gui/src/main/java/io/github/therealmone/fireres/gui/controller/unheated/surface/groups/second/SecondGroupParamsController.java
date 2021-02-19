@@ -50,17 +50,23 @@ public class SecondGroupParamsController extends AbstractReportUpdaterController
     }
 
     private void handleThermocouplesCountSpinnerFocusChanged(Boolean focusValue) {
-        handleSpinnerLostFocus(focusValue, secondGroupThermocouplesCountSpinner, () ->
-                updateReport(() -> unheatedSurfaceSecondGroupService.updateThermocoupleCount(
+        Runnable action = () ->
+                unheatedSurfaceSecondGroupService.updateThermocoupleCount(
                         getReport(),
-                        secondGroupThermocouplesCountSpinner.getValue())));
+                        secondGroupThermocouplesCountSpinner.getValue());
+
+        handleSpinnerLostFocus(focusValue, secondGroupThermocouplesCountSpinner, () ->
+                updateReport(action, secondGroupController.getSecondGroupParamsVbox()));
     }
 
     private void handleThermocouplesBoundSpinnerFocusChanged(Boolean focusValue) {
-        handleSpinnerLostFocus(focusValue, secondGroupBoundSpinner, () ->
-                updateReport(() -> unheatedSurfaceSecondGroupService.updateBound(
+        Runnable action = () ->
+                unheatedSurfaceSecondGroupService.updateBound(
                         getReport(),
-                        secondGroupBoundSpinner.getValue())));
+                        secondGroupBoundSpinner.getValue());
+
+        handleSpinnerLostFocus(focusValue, secondGroupBoundSpinner, () ->
+                updateReport(action, secondGroupController.getSecondGroupParamsVbox()));
     }
 
     @Override
@@ -80,7 +86,7 @@ public class SecondGroupParamsController extends AbstractReportUpdaterController
 
     @Override
     protected UUID getReportId() {
-        return getReport().getId();
+        return getReport().getSecondGroup().getId();
     }
 
 }

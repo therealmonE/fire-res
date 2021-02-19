@@ -12,18 +12,28 @@ import io.github.therealmone.fireres.gui.controller.ChartContainer;
 import io.github.therealmone.fireres.gui.controller.ReportInclusionChanger;
 import io.github.therealmone.fireres.gui.controller.SampleTabController;
 import io.github.therealmone.fireres.gui.controller.common.FunctionParamsController;
+import io.github.therealmone.fireres.gui.model.ReportTask;
 import io.github.therealmone.fireres.gui.service.ChartsSynchronizationService;
+import io.github.therealmone.fireres.gui.service.ReportExecutorService;
 import javafx.fxml.FXML;
+import javafx.scene.layout.VBox;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.val;
+
+import java.util.UUID;
 
 import static io.github.therealmone.fireres.core.config.ReportType.FIRE_MODE;
 import static io.github.therealmone.fireres.gui.util.TabUtils.disableTab;
 import static io.github.therealmone.fireres.gui.util.TabUtils.enableTab;
+import static java.util.Collections.singletonList;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class FireModeController extends AbstractController implements FireModeReportContainer, ReportInclusionChanger {
+
+    @FXML
+    private VBox fireModeParamsVbox;
 
     private FireModeReport report;
 
@@ -47,6 +57,9 @@ public class FireModeController extends AbstractController implements FireModeRe
     @Inject
     private GenerationProperties generationProperties;
 
+    @Inject
+    private ReportExecutorService reportExecutorService;
+
     @Override
     public Sample getSample() {
         return sampleTabController.getSample();
@@ -62,6 +75,8 @@ public class FireModeController extends AbstractController implements FireModeRe
 
         functionParamsController.setPropertiesMapper(props ->
                 props.getReportPropertiesByClass(FireModeProperties.class).orElseThrow());
+
+        functionParamsController.setNodesToBlockOnUpdate(singletonList(fireModeParamsVbox));
 
         functionParamsController.setInterpolationPointConstructor((time, value) -> new IntegerPoint(time, value.intValue()));
     }
@@ -80,13 +95,22 @@ public class FireModeController extends AbstractController implements FireModeRe
 
     @Override
     public void createReport() {
-        this.report = fireModeService.createReport(getSample());
+        val reportId = UUID.randomUUID();
 
-        if (!generationProperties.getGeneral().getIncludedReports().contains(FIRE_MODE)) {
-            excludeReport();
-        }
+        val task = ReportTask.builder()
+                .reportId(reportId)
+                .chartContainers(singletonList(fireModeChartController))
+                .nodesToLock(singletonList(fireModeParamsVbox))
+                .action(() -> {
+                    this.report = fireModeService.createReport(reportId, getSample());
 
-        chartsSynchronizationService.syncFireModeChart(fireModeChartController.getFireModeChart(), report);
+                    if (!generationProperties.getGeneral().getIncludedReports().contains(FIRE_MODE)) {
+                        excludeReport();
+                    }
+                })
+                .build();
+
+        reportExecutorService.runTask(task);
     }
 
     @Override

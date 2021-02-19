@@ -49,12 +49,18 @@ public class HeatFlowParamsController extends AbstractReportUpdaterController im
     }
 
     private void handleSensorSpinnerLostFocus(Boolean focusValue) {
+        Runnable action = () ->
+                heatFlowService.updateSensorsCount(getReport(), sensorSpinner.getValue());
+
         handleSpinnerLostFocus(focusValue, sensorSpinner, () ->
-                updateReport(() -> heatFlowService.updateSensorsCount(getReport(), sensorSpinner.getValue())));
+                updateReport(action, heatFlowController.getHeatFlowParamsVbox()));
     }
     private void handleHeatFlowBoundSpinnerLostFocus(Boolean focusValue) {
+        Runnable action = () ->
+                heatFlowService.updateBound(getReport(), heatFlowBoundSpinner.getValue());
+
         handleSpinnerLostFocus(focusValue, heatFlowBoundSpinner, () ->
-                updateReport(() -> heatFlowService.updateBound(getReport(), heatFlowBoundSpinner.getValue())));
+                updateReport(action, heatFlowController.getHeatFlowParamsVbox()));
     }
 
     @Override

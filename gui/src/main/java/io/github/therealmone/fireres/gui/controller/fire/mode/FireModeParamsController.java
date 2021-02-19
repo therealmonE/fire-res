@@ -42,8 +42,11 @@ public class FireModeParamsController extends AbstractReportUpdaterController im
 
     @SneakyThrows
     private void handleThermocoupleSpinnerFocusChanged(Boolean focusValue) {
+        Runnable action = () ->
+                fireModeService.updateThermocoupleCount(getReport(), thermocoupleSpinner.getValue());
+
         handleSpinnerLostFocus(focusValue, thermocoupleSpinner, () ->
-                updateReport(() -> fireModeService.updateThermocoupleCount(getReport(), thermocoupleSpinner.getValue())));
+                updateReport(action, fireModeController.getFireModeParamsVbox()));
     }
 
     @Override

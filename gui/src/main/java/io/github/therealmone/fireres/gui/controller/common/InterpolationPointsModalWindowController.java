@@ -49,7 +49,7 @@ public class InterpolationPointsModalWindowController extends AbstractReportUpda
             }
 
             Platform.runLater(() -> functionParamsController.getInterpolationPointsTableView().getItems().add(newPoint));
-        });
+        }, functionParamsController.getNodesToBlockOnUpdate());
     }
 
     @FXML

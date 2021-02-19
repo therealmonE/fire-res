@@ -35,10 +35,13 @@ public class FirstGroupParamsController extends AbstractReportUpdaterController 
 
     @SneakyThrows
     private void handleThermocouplesCountSpinnerFocusChanged(Boolean focusValue) {
-        handleSpinnerLostFocus(focusValue, firstGroupThermocouplesCountSpinner, () ->
-                updateReport(() -> unheatedSurfaceFirstGroupService.updateThermocoupleCount(
+        Runnable action = () ->
+                unheatedSurfaceFirstGroupService.updateThermocoupleCount(
                         getReport(),
-                        firstGroupThermocouplesCountSpinner.getValue())));
+                        firstGroupThermocouplesCountSpinner.getValue());
+
+        handleSpinnerLostFocus(focusValue, firstGroupThermocouplesCountSpinner, () ->
+                updateReport(action, firstGroupController.getFirstGroupParamsVbox()));
     }
 
     @Override
@@ -69,7 +72,7 @@ public class FirstGroupParamsController extends AbstractReportUpdaterController 
 
     @Override
     protected UUID getReportId() {
-        return getReport().getId();
+        return getReport().getFirstGroup().getId();
     }
 
 }

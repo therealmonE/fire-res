@@ -7,6 +7,7 @@ import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.excel.ExcelModule;
 import io.github.therealmone.fireres.excess.pressure.ExcessPressureModule;
 import io.github.therealmone.fireres.firemode.FireModeModule;
+import io.github.therealmone.fireres.gui.controller.GeneralParamsController;
 import io.github.therealmone.fireres.gui.model.Logos;
 import io.github.therealmone.fireres.gui.service.AlertService;
 import io.github.therealmone.fireres.gui.service.ChartsSynchronizationService;
@@ -47,6 +48,8 @@ public class GuiModule extends AbstractModule {
         install(new UnheatedSurfaceModule());
         install(new HeatFlowModule());
         install(new ExcelModule());
+
+        bind(GeneralParamsController.class).toInstance(new GeneralParamsController());
 
         bind(GraphicalInterface.class).in(Singleton.class);
         bind(SampleService.class).to(SampleServiceImpl.class).in(Singleton.class);

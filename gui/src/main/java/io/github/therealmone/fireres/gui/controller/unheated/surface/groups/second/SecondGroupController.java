@@ -12,12 +12,20 @@ import io.github.therealmone.fireres.unheated.surface.config.UnheatedSurfaceProp
 import io.github.therealmone.fireres.unheated.surface.report.UnheatedSurfaceReport;
 import io.github.therealmone.fireres.unheated.surface.service.UnheatedSurfaceSecondGroupService;
 import javafx.fxml.FXML;
+import javafx.scene.layout.VBox;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.Collections;
+
+import static java.util.Collections.singletonList;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class SecondGroupController extends AbstractController implements UnheatedSurfaceReportContainer {
+
+    @FXML
+    private VBox secondGroupParamsVbox;
 
     @FXML
     private SecondGroupParamsController secondGroupParamsController;
@@ -44,6 +52,8 @@ public class SecondGroupController extends AbstractController implements Unheate
 
         functionParamsController.setPropertiesMapper(props ->
                 props.getReportPropertiesByClass(UnheatedSurfaceProperties.class).orElseThrow().getSecondGroup());
+
+        functionParamsController.setNodesToBlockOnUpdate(singletonList(secondGroupParamsVbox));
 
         functionParamsController.setInterpolationPointConstructor((time, value) -> new IntegerPoint(time, value.intValue()));
     }

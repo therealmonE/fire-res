@@ -15,8 +15,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ExcessPressureReport implements Report<ExcessPressureProperties> {
 
+    private final UUID id;
     private final Sample sample;
-    private final UUID id = UUID.randomUUID();
 
     private Pressure pressure;
     private Double basePressure;

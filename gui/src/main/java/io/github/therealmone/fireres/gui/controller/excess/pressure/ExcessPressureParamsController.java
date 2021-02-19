@@ -55,17 +55,27 @@ public class ExcessPressureParamsController extends AbstractReportUpdaterControl
     }
 
     private void handleBasePressureSpinnerLostFocus(Boolean focusValue) {
+        Runnable action = () ->
+                excessPressureService.updateBasePressure(getReport(), basePressureSpinner.getValue());
+
         handleSpinnerLostFocus(focusValue, basePressureSpinner, () ->
-                updateReport(() -> excessPressureService.updateBasePressure(getReport(), basePressureSpinner.getValue())));
+                updateReport(action, excessPressureController.getExcessPressureParamsVbox()));
     }
+
     private void handleDispersionCoefficientLostFocus(Boolean focusValue) {
+        Runnable action = () ->
+                excessPressureService.updateDispersionCoefficient(getReport(), dispersionCoefficientSpinner.getValue());
+
         handleSpinnerLostFocus(focusValue, dispersionCoefficientSpinner, () ->
-                updateReport(() -> excessPressureService.updateDispersionCoefficient(getReport(), dispersionCoefficientSpinner.getValue())));
+                updateReport(action, excessPressureController.getExcessPressureParamsVbox()));
     }
 
     private void handleDeltaSpinnerLostFocus(Boolean focusValue) {
+        Runnable action = () ->
+                excessPressureService.updateDelta(getReport(), deltaSpinner.getValue());
+
         handleSpinnerLostFocus(focusValue, deltaSpinner, () ->
-                updateReport(() -> excessPressureService.updateDelta(getReport(), deltaSpinner.getValue())));
+                updateReport(action, excessPressureController.getExcessPressureParamsVbox()));
     }
 
     @Override

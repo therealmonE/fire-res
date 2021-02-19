@@ -45,17 +45,23 @@ public class ThirdGroupParamsController extends AbstractReportUpdaterController 
     }
 
     private void handleThermocouplesCountSpinnerFocusChanged(Boolean focusValue) {
-        handleSpinnerLostFocus(focusValue, thirdGroupThermocouplesCountSpinner, () ->
-                updateReport(() -> unheatedSurfaceThirdGroupService.updateThermocoupleCount(
+        Runnable action = () ->
+                unheatedSurfaceThirdGroupService.updateThermocoupleCount(
                         getReport(),
-                        thirdGroupThermocouplesCountSpinner.getValue())));
+                        thirdGroupThermocouplesCountSpinner.getValue());
+
+        handleSpinnerLostFocus(focusValue, thirdGroupThermocouplesCountSpinner, () ->
+                updateReport(action, thirdGroupController.getThirdGroupParamsVbox()));
     }
 
     private void handleThermocouplesBoundSpinnerFocusChanged(Boolean focusValue) {
-        handleSpinnerLostFocus(focusValue, thirdGroupBoundSpinner, () ->
-                updateReport(() -> unheatedSurfaceThirdGroupService.updateBound(
+        Runnable action = () ->
+                unheatedSurfaceThirdGroupService.updateBound(
                         getReport(),
-                        thirdGroupBoundSpinner.getValue())));
+                        thirdGroupBoundSpinner.getValue());
+
+        handleSpinnerLostFocus(focusValue, thirdGroupBoundSpinner, () ->
+                updateReport(action, thirdGroupController.getThirdGroupParamsVbox()));
     }
 
     @Override
@@ -80,6 +86,6 @@ public class ThirdGroupParamsController extends AbstractReportUpdaterController 
 
     @Override
     protected UUID getReportId() {
-        return getReport().getId();
+        return getReport().getThirdGroup().getId();
     }
 }

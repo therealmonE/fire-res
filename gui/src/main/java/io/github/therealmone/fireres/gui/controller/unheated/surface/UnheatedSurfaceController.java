@@ -10,16 +10,23 @@ import io.github.therealmone.fireres.gui.controller.SampleTabController;
 import io.github.therealmone.fireres.gui.controller.unheated.surface.groups.first.FirstGroupController;
 import io.github.therealmone.fireres.gui.controller.unheated.surface.groups.second.SecondGroupController;
 import io.github.therealmone.fireres.gui.controller.unheated.surface.groups.third.ThirdGroupController;
+import io.github.therealmone.fireres.gui.model.ReportTask;
 import io.github.therealmone.fireres.gui.service.ChartsSynchronizationService;
+import io.github.therealmone.fireres.gui.service.ReportExecutorService;
 import io.github.therealmone.fireres.unheated.surface.report.UnheatedSurfaceReport;
 import io.github.therealmone.fireres.unheated.surface.service.UnheatedSurfaceService;
 import javafx.fxml.FXML;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.val;
+
+import java.util.List;
+import java.util.UUID;
 
 import static io.github.therealmone.fireres.core.config.ReportType.UNHEATED_SURFACE;
 import static io.github.therealmone.fireres.gui.util.TabUtils.disableTab;
 import static io.github.therealmone.fireres.gui.util.TabUtils.enableTab;
+import static java.util.Collections.singletonList;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -49,6 +56,9 @@ public class UnheatedSurfaceController extends AbstractController implements Unh
     @Inject
     private GenerationProperties generationProperties;
 
+    @Inject
+    private ReportExecutorService reportExecutorService;
+
     @Override
     public Sample getSample() {
         return sampleTabController.getSample();
@@ -75,26 +85,28 @@ public class UnheatedSurfaceController extends AbstractController implements Unh
 
     @Override
     public void createReport() {
-        this.report = unheatedSurfaceService.createReport(getSample());
+        val reportId = UUID.randomUUID();
 
-        if (!generationProperties.getGeneral().getIncludedReports().contains(UNHEATED_SURFACE)) {
-            excludeReport();
-        }
+        val task = ReportTask.builder()
+                .reportId(reportId)
+                .chartContainers(List.of(
+                        firstGroupController.getChartContainer(),
+                        secondGroupController.getChartContainer(),
+                        thirdGroupController.getChartContainer()))
+                .nodesToLock(List.of(
+                        firstGroupController.getFirstGroupParamsVbox(),
+                        secondGroupController.getSecondGroupParamsVbox(),
+                        thirdGroupController.getThirdGroupParamsVbox()))
+                .action(() -> {
+                    this.report = unheatedSurfaceService.createReport(reportId, getSample());
 
-        chartsSynchronizationService.syncFirstThermocoupleGroupChart(
-                firstGroupController
-                        .getFirstGroupChartController()
-                        .getFirstGroupChart(), report);
+                    if (!generationProperties.getGeneral().getIncludedReports().contains(UNHEATED_SURFACE)) {
+                        excludeReport();
+                    }
+                })
+                .build();
 
-        chartsSynchronizationService.syncSecondThermocoupleGroupChart(
-                secondGroupController
-                        .getSecondGroupChartController()
-                        .getSecondGroupChart(), report);
-
-        chartsSynchronizationService.syncThirdThermocoupleGroupChart(
-                thirdGroupController
-                        .getThirdGroupChartController()
-                        .getThirdGroupChart(), report);
+        reportExecutorService.runTask(task);
     }
 
     @Override

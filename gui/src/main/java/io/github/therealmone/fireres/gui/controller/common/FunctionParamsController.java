@@ -17,6 +17,7 @@ import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Spinner;
@@ -29,6 +30,7 @@ import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -67,6 +69,8 @@ public class FunctionParamsController extends AbstractReportUpdaterController im
     private Function<SampleProperties, Interpolation> propertiesMapper;
 
     private BiFunction<Integer, Number, Point<?>> interpolationPointConstructor;
+
+    private List<Node> nodesToBlockOnUpdate;
 
     @Override
     public Sample getSample() {
@@ -137,10 +141,12 @@ public class FunctionParamsController extends AbstractReportUpdaterController im
     }
 
     private void handleRowDeletedEvent(TableRow<Point<?>> affectedRow) {
-        updateReport(() -> {
+        Runnable action = () -> {
             interpolationService.removeInterpolationPoint(getReport(), affectedRow.getItem());
             Platform.runLater(() -> interpolationPointsTableView.getItems().remove(affectedRow.getItem()));
-        });
+        };
+
+        updateReport(action, nodesToBlockOnUpdate);
     }
 
     private void handleRowAddedEvent(Event event) {
@@ -148,13 +154,19 @@ public class FunctionParamsController extends AbstractReportUpdaterController im
     }
 
     private void handleLinearityCoefficientFocusChanged(Boolean focusValue) {
+        Runnable action = () ->
+                interpolationService.updateLinearityCoefficient(getReport(), linearityCoefficientSpinner.getValue());
+
         handleSpinnerLostFocus(focusValue, linearityCoefficientSpinner, () ->
-                updateReport(() -> interpolationService.updateLinearityCoefficient(getReport(), linearityCoefficientSpinner.getValue())));
+                updateReport(action, nodesToBlockOnUpdate));
     }
 
     private void handleDispersionCoefficientFocusChanged(Boolean focusValue) {
+        Runnable action = () ->
+                interpolationService.updateDispersionCoefficient(getReport(), dispersionCoefficientSpinner.getValue());
+
         handleSpinnerLostFocus(focusValue, dispersionCoefficientSpinner, () ->
-                updateReport(() -> interpolationService.updateDispersionCoefficient(getReport(), dispersionCoefficientSpinner.getValue())));
+                updateReport(action, nodesToBlockOnUpdate));
     }
 
     @Override
