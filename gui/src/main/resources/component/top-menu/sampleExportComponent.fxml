@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.VBox?>
+
+<CheckBox alignment="TOP_CENTER" contentDisplay="CENTER" mnemonicParsing="false" selected="true"
+          xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="io.github.therealmone.fireres.gui.controller.top.menu.SampleExportCheckboxController"
+          onAction="#changeSampleInclusion"
+          fx:id="sampleExportCheckbox">
+    <graphic>
+        <TitledPane fx:id="sampleExportTitledPane" expanded="false" text="Образец 1">
+            <VBox>
+                <Label alignment="CENTER" text="Имя файла">
+                    <VBox.margin>
+                        <Insets/>
+                    </VBox.margin>
+                </Label>
+                <TextField fx:id="fileNameTextField" prefHeight="25.0" prefWidth="224.0" text="Образец 1">
+                    <VBox.margin>
+                        <Insets top="2.0"/>
+                    </VBox.margin>
+                </TextField>
+                <MenuButton mnemonicParsing="false" text="Добавить в группу">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Группа 1"/>
+                        <MenuItem mnemonicParsing="false" text="Группа 2"/>
+                    </items>
+                    <VBox.margin>
+                        <Insets top="15.0"/>
+                    </VBox.margin>
+                </MenuButton>
+            </VBox>
+
+            <padding>
+                <Insets left="15.0"/>
+            </padding>
+        </TitledPane>
+    </graphic>
+    <VBox.margin>
+        <Insets left="15" right="15" top="15"/>
+    </VBox.margin>
+</CheckBox>
