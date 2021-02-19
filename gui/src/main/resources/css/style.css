@@ -18,6 +18,11 @@
     -fx-padding: 7px;
 }
 
+.exportHeaderFont{
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
 .aboutProgramHeaderFont {
     -fx-font-size: 14px;
     -fx-font-weight: bold;

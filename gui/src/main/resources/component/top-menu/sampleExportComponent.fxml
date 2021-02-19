@@ -8,12 +8,15 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.VBox?>
+
 <CheckBox alignment="TOP_CENTER" contentDisplay="CENTER" mnemonicParsing="false" selected="true"
           xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
           fx:id="component"
           fx:controller="io.github.therealmone.fireres.gui.controller.modal.export.ExportSample"
           onAction="#changeSampleInclusion">
     <graphic>
+        <TitledPane fx:id="sampleExportTitledPane" expanded="false" text="Образец 1">
+            <VBox prefWidth="250.0">
         <TitledPane fx:id="titledPane" expanded="false" text="Образец 1">
             <VBox>
                 <Label alignment="CENTER" text="Имя файла">
