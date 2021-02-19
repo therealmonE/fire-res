@@ -10,6 +10,7 @@ import io.github.therealmone.fireres.heatflow.generator.HeatFlowGeneratorStrateg
 import io.github.therealmone.fireres.heatflow.model.HeatFlowMeanTemperature;
 import io.github.therealmone.fireres.heatflow.model.HeatFlowSensorTemperature;
 import io.github.therealmone.fireres.heatflow.report.HeatFlowReport;
+import io.github.therealmone.fireres.heatflow.service.NormalizationService;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
@@ -27,10 +28,13 @@ public class MeanWithSensorsTemperaturesEnricher implements ReportEnricher<HeatF
     @Inject
     private MeanFunctionFactory meanFunctionFactory;
 
+    @Inject
+    private NormalizationService normalizationService;
+
     @Override
     public void enrich(HeatFlowReport report) {
         val time = generationProperties.getGeneral().getTime();
-        val bound = report.getBound();
+        val bound = normalizationService.disnormalize(report.getBound());
         val zeroBound = constantFunction(time, 0);
 
         val meanWithChildFunctions = meanFunctionFactory
@@ -44,10 +48,12 @@ public class MeanWithSensorsTemperaturesEnricher implements ReportEnricher<HeatF
                         .strategy(new HeatFlowGeneratorStrategy())
                         .build());
 
-        report.setMeanTemperature(new HeatFlowMeanTemperature(meanWithChildFunctions.getFirst().getValue()));
+        report.setMeanTemperature(new HeatFlowMeanTemperature(
+                normalizationService.normalize(meanWithChildFunctions.getFirst()).getValue()));
 
         report.setSensorTemperatures(meanWithChildFunctions.getSecond().stream()
-                .map(child -> new HeatFlowSensorTemperature(child.getValue()))
+                .map(child -> new HeatFlowSensorTemperature(
+                        normalizationService.normalize(child).getValue()))
                 .collect(Collectors.toList()));
     }
 

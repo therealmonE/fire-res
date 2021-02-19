@@ -3,25 +3,25 @@ package io.github.therealmone.fireres.unheated.surface.report;
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.model.Sample;
-import io.github.therealmone.fireres.unheated.surface.GuiceRunner;
+import io.github.therealmone.fireres.unheated.surface.UnheatedSurfaceGuiceRunner;
 import io.github.therealmone.fireres.unheated.surface.service.UnheatedSurfaceService;
 import lombok.val;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static io.github.therealmone.fireres.core.test.TestUtils.assertChildTemperaturesEqualsMean;
+import static io.github.therealmone.fireres.core.test.TestUtils.assertFunctionConstantlyGrowing;
+import static io.github.therealmone.fireres.core.test.TestUtils.assertFunctionIsConstant;
+import static io.github.therealmone.fireres.core.test.TestUtils.assertFunctionNotHigher;
+import static io.github.therealmone.fireres.core.test.TestUtils.assertFunctionNotLower;
 import static io.github.therealmone.fireres.core.utils.FunctionUtils.constantFunction;
 import static io.github.therealmone.fireres.unheated.surface.TestGenerationProperties.ENVIRONMENT_TEMPERATURE;
 import static io.github.therealmone.fireres.unheated.surface.TestGenerationProperties.SECOND_GROUP_BOUND;
 import static io.github.therealmone.fireres.unheated.surface.TestGenerationProperties.THIRD_GROUP_BOUND;
 import static io.github.therealmone.fireres.unheated.surface.TestGenerationProperties.TIME;
-import static io.github.therealmone.fireres.unheated.surface.TestUtils.assertFunctionConstantlyGrowing;
-import static io.github.therealmone.fireres.unheated.surface.TestUtils.assertFunctionIsConstant;
-import static io.github.therealmone.fireres.unheated.surface.TestUtils.assertFunctionNotHigher;
-import static io.github.therealmone.fireres.unheated.surface.TestUtils.assertFunctionNotLower;
-import static io.github.therealmone.fireres.unheated.surface.TestUtils.assertThermocouplesTemperaturesEqualsMean;
 import static org.junit.Assert.assertNull;
 
-@RunWith(GuiceRunner.class)
+@RunWith(UnheatedSurfaceGuiceRunner.class)
 public class UnheatedSurfaceReportTest {
 
     @Inject
@@ -111,7 +111,7 @@ public class UnheatedSurfaceReportTest {
 
         val thermocouples = firstGroup.getThermocoupleTemperatures();
 
-        assertThermocouplesTemperaturesEqualsMean(thermocouples, meanTemperature);
+        assertChildTemperaturesEqualsMean(thermocouples, meanTemperature);
 
         for (val thermocouple : thermocouples) {
             assertFunctionConstantlyGrowing(thermocouple.getValue());
@@ -143,7 +143,7 @@ public class UnheatedSurfaceReportTest {
 
         val thermocouples = secondGroup.getThermocoupleTemperatures();
 
-        assertThermocouplesTemperaturesEqualsMean(thermocouples, meanTemperature);
+        assertChildTemperaturesEqualsMean(thermocouples, meanTemperature);
 
         for (val thermocouple : thermocouples) {
             assertFunctionConstantlyGrowing(thermocouple.getValue());
@@ -176,7 +176,7 @@ public class UnheatedSurfaceReportTest {
 
         val thermocouples = thirdGroup.getThermocoupleTemperatures();
 
-        assertThermocouplesTemperaturesEqualsMean(thermocouples, meanTemperature);
+        assertChildTemperaturesEqualsMean(thermocouples, meanTemperature);
 
         for (val thermocouple : thermocouples) {
             assertFunctionConstantlyGrowing(thermocouple.getValue());

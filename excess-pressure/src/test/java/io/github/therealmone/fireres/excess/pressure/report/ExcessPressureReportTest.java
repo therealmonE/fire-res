@@ -3,18 +3,18 @@ package io.github.therealmone.fireres.excess.pressure.report;
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.model.Sample;
-import io.github.therealmone.fireres.excess.pressure.GuiceRunner;
+import io.github.therealmone.fireres.excess.pressure.ExcessPressureGuiceRunner;
 import io.github.therealmone.fireres.excess.pressure.service.ExcessPressureService;
 import lombok.val;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static io.github.therealmone.fireres.core.test.TestUtils.assertFunctionIsConstant;
+import static io.github.therealmone.fireres.core.test.TestUtils.assertFunctionNotHigher;
+import static io.github.therealmone.fireres.core.test.TestUtils.assertFunctionNotLower;
 import static io.github.therealmone.fireres.excess.pressure.TestGenerationProperties.PRESSURE_DELTA;
-import static io.github.therealmone.fireres.excess.pressure.TestUtils.assertFunctionIsConstant;
-import static io.github.therealmone.fireres.excess.pressure.TestUtils.assertFunctionNotHigher;
-import static io.github.therealmone.fireres.excess.pressure.TestUtils.assertFunctionNotLower;
 
-@RunWith(GuiceRunner.class)
+@RunWith(ExcessPressureGuiceRunner.class)
 public class ExcessPressureReportTest {
 
     @Inject

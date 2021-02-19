@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.core.pipeline.ReportEnrichPipeline;
-import io.github.therealmone.fireres.unheated.surface.GuiceRunner;
+import io.github.therealmone.fireres.unheated.surface.UnheatedSurfaceGuiceRunner;
 import io.github.therealmone.fireres.unheated.surface.report.UnheatedSurfaceReport;
 import io.github.therealmone.fireres.unheated.surface.service.UnheatedSurfaceService;
 import lombok.val;
@@ -14,7 +14,7 @@ import org.junit.runner.RunWith;
 import static io.github.therealmone.fireres.unheated.surface.pipeline.UnheatedSurfaceReportEnrichType.FIRST_GROUP_MEAN_WITH_THERMOCOUPLE_TEMPERATURES;
 import static org.junit.Assert.assertNotEquals;
 
-@RunWith(GuiceRunner.class)
+@RunWith(UnheatedSurfaceGuiceRunner.class)
 public class FirstGroupTemperaturesEnrichTest {
 
     @Inject

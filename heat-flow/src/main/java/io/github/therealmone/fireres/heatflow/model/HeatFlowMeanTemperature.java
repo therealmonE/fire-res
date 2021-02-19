@@ -1,12 +1,9 @@
 package io.github.therealmone.fireres.heatflow.model;
 
-import io.github.therealmone.fireres.core.model.IntegerPoint;
-import io.github.therealmone.fireres.core.model.IntegerPointSequence;
-
 import java.util.List;
 
-public class HeatFlowMeanTemperature extends IntegerPointSequence {
-    public HeatFlowMeanTemperature(List<IntegerPoint> value) {
+public class HeatFlowMeanTemperature extends HeatFlowPointSequence {
+    public HeatFlowMeanTemperature(List<HeatFlowPoint> value) {
         super(value);
     }
 }

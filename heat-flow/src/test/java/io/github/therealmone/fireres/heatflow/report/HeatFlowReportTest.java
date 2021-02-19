@@ -3,18 +3,22 @@ package io.github.therealmone.fireres.heatflow.report;
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.model.Sample;
-import io.github.therealmone.fireres.heatflow.GuiceRunner;
+import io.github.therealmone.fireres.heatflow.HeatFlowGuiceRunner;
 import io.github.therealmone.fireres.heatflow.service.HeatFlowService;
 import lombok.val;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static io.github.therealmone.fireres.core.test.TestUtils.assertChildTemperaturesEqualsMean;
+import static io.github.therealmone.fireres.core.test.TestUtils.assertFunctionConstantlyGrowing;
+import static io.github.therealmone.fireres.core.test.TestUtils.assertFunctionIsConstant;
+import static io.github.therealmone.fireres.core.test.TestUtils.assertFunctionNotHigher;
+import static io.github.therealmone.fireres.core.test.TestUtils.assertFunctionNotLower;
 import static io.github.therealmone.fireres.core.utils.FunctionUtils.constantFunction;
 import static io.github.therealmone.fireres.heatflow.TestGenerationProperties.BOUND;
 import static io.github.therealmone.fireres.heatflow.TestGenerationProperties.TIME;
-import static io.github.therealmone.fireres.heatflow.TestUtils.*;
 
-@RunWith(GuiceRunner.class)
+@RunWith(HeatFlowGuiceRunner.class)
 public class HeatFlowReportTest {
 
     @Inject
@@ -30,7 +34,7 @@ public class HeatFlowReportTest {
 
         val bound = report.getBound();
 
-        assertFunctionIsConstant(BOUND * 1000, bound.getValue());
+        assertFunctionIsConstant(BOUND, bound.getValue());
     }
 
     @Test
@@ -55,7 +59,7 @@ public class HeatFlowReportTest {
         val mean = report.getMeanTemperature();
         val sensors = report.getSensorTemperatures();
 
-        assertThermocouplesTemperaturesEqualsMean(sensors, mean);
+        assertChildTemperaturesEqualsMean(sensors, mean);
 
         sensors.forEach(sensor -> {
             assertFunctionConstantlyGrowing(sensor.getValue());
