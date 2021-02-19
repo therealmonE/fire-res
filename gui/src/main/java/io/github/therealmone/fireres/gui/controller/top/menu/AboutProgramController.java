@@ -1,7 +1,6 @@
 package io.github.therealmone.fireres.gui.controller.top.menu;
 
 import com.google.inject.Inject;
-import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.controller.AbstractController;
 import io.github.therealmone.fireres.gui.controller.TopMenuBarController;
 import javafx.application.HostServices;
@@ -17,7 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 @Data
 public class AboutProgramController extends AbstractController {
 
-    @ParentController
     private TopMenuBarController topMenuBarController;
 
     private Stage modalWindow;

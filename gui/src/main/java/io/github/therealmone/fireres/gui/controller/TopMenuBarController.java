@@ -1,7 +1,6 @@
 package io.github.therealmone.fireres.gui.controller;
 
 import com.google.inject.Inject;
-import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.service.ExportService;
 import io.github.therealmone.fireres.gui.service.FxmlLoadService;
 import javafx.application.HostServices;
@@ -16,7 +15,6 @@ public class TopMenuBarController extends AbstractController {
 
     public static final String USER_GUIDE_LINK = "https://github.com/therealmonE/fire-res/wiki";
 
-    @ParentController
     private MainSceneController mainSceneController;
 
     @Inject

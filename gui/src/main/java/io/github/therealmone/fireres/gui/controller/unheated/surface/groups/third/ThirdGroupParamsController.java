@@ -2,10 +2,9 @@ package io.github.therealmone.fireres.gui.controller.unheated.surface.groups.thi
 
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.model.Sample;
-import io.github.therealmone.fireres.gui.annotation.ParentController;
-import io.github.therealmone.fireres.gui.controller.AbstractController;
+import io.github.therealmone.fireres.gui.controller.AbstractReportUpdaterController;
+import io.github.therealmone.fireres.gui.controller.ChartContainer;
 import io.github.therealmone.fireres.gui.controller.unheated.surface.UnheatedSurfaceReportContainer;
-import io.github.therealmone.fireres.gui.service.ChartsSynchronizationService;
 import io.github.therealmone.fireres.gui.service.ResetSettingsService;
 import io.github.therealmone.fireres.unheated.surface.report.UnheatedSurfaceReport;
 import io.github.therealmone.fireres.unheated.surface.service.UnheatedSurfaceThirdGroupService;
@@ -15,12 +14,13 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.UUID;
+
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Slf4j
-public class ThirdGroupParamsController extends AbstractController implements UnheatedSurfaceReportContainer {
+public class ThirdGroupParamsController extends AbstractReportUpdaterController implements UnheatedSurfaceReportContainer {
 
-    @ParentController
     private ThirdGroupController thirdGroupController;
 
     @FXML
@@ -35,9 +35,6 @@ public class ThirdGroupParamsController extends AbstractController implements Un
     @Inject
     private UnheatedSurfaceThirdGroupService unheatedSurfaceThirdGroupService;
 
-    @Inject
-    private ChartsSynchronizationService chartsSynchronizationService;
-
     @Override
     protected void initialize() {
         thirdGroupThermocouplesCountSpinner.focusedProperty().addListener((observable, oldValue, newValue) ->
@@ -48,26 +45,23 @@ public class ThirdGroupParamsController extends AbstractController implements Un
     }
 
     private void handleThermocouplesCountSpinnerFocusChanged(Boolean focusValue) {
-        handleSpinnerLostFocus(focusValue, thirdGroupThermocouplesCountSpinner, () -> {
-            unheatedSurfaceThirdGroupService.updateThermocoupleCount(getReport(), thirdGroupThermocouplesCountSpinner.getValue());
-            chartsSynchronizationService.syncThirdThermocoupleGroupChart(
-                    thirdGroupController.getThirdGroupChartController().getThirdGroupChart(), getReport());
-        });
+        handleSpinnerLostFocus(focusValue, thirdGroupThermocouplesCountSpinner, () ->
+                updateReport(() -> unheatedSurfaceThirdGroupService.updateThermocoupleCount(
+                        getReport(),
+                        thirdGroupThermocouplesCountSpinner.getValue())));
     }
 
     private void handleThermocouplesBoundSpinnerFocusChanged(Boolean focusValue) {
-        handleSpinnerLostFocus(focusValue, thirdGroupBoundSpinner, () -> {
-            unheatedSurfaceThirdGroupService.updateBound(getReport(), thirdGroupBoundSpinner.getValue());
-            chartsSynchronizationService.syncThirdThermocoupleGroupChart(
-                    thirdGroupController.getThirdGroupChartController().getThirdGroupChart(), getReport());
-        });
+        handleSpinnerLostFocus(focusValue, thirdGroupBoundSpinner, () ->
+                updateReport(() -> unheatedSurfaceThirdGroupService.updateBound(
+                        getReport(),
+                        thirdGroupBoundSpinner.getValue())));
     }
 
     @Override
     public void postConstruct() {
         resetSettingsService.resetThirdThermocoupleGroupParameters(this);
     }
-
 
     @Override
     public Sample getSample() {
@@ -77,5 +71,15 @@ public class ThirdGroupParamsController extends AbstractController implements Un
     @Override
     public UnheatedSurfaceReport getReport() {
         return thirdGroupController.getReport();
+    }
+
+    @Override
+    public ChartContainer getChartContainer() {
+        return thirdGroupController.getChartContainer();
+    }
+
+    @Override
+    protected UUID getReportId() {
+        return getReport().getId();
     }
 }

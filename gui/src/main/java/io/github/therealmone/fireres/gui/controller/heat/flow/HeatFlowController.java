@@ -3,9 +3,8 @@ package io.github.therealmone.fireres.gui.controller.heat.flow;
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.model.Sample;
-import io.github.therealmone.fireres.gui.annotation.ChildController;
-import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.controller.AbstractController;
+import io.github.therealmone.fireres.gui.controller.ChartContainer;
 import io.github.therealmone.fireres.gui.controller.ReportInclusionChanger;
 import io.github.therealmone.fireres.gui.controller.SampleTabController;
 import io.github.therealmone.fireres.gui.controller.common.FunctionParamsController;
@@ -29,18 +28,14 @@ public class HeatFlowController extends AbstractController implements HeatFlowRe
     private HeatFlowReport report;
 
     @FXML
-    @ChildController
     private HeatFlowParamsController heatFlowParamsController;
 
     @FXML
-    @ChildController
     private HeatFlowChartController heatFlowChartController;
 
     @FXML
-    @ChildController
     private FunctionParamsController functionParamsController;
 
-    @ParentController
     private SampleTabController sampleTabController;
 
     @Inject
@@ -68,9 +63,6 @@ public class HeatFlowController extends AbstractController implements HeatFlowRe
         functionParamsController.setPropertiesMapper(props ->
                 props.getReportPropertiesByClass(HeatFlowProperties.class).orElseThrow());
 
-        functionParamsController.setPostReportUpdateAction(() ->
-                chartsSynchronizationService.syncHeatFlowChart(heatFlowChartController.getHeatFlowChart(), report));
-
         functionParamsController.setInterpolationPointConstructor((time, value) -> new HeatFlowPoint(time, value.doubleValue()));
     }
 
@@ -78,6 +70,11 @@ public class HeatFlowController extends AbstractController implements HeatFlowRe
     public void postConstruct() {
         heatFlowParamsController.postConstruct();
         functionParamsController.postConstruct();
+    }
+
+    @Override
+    public ChartContainer getChartContainer() {
+        return heatFlowChartController;
     }
 
     @Override

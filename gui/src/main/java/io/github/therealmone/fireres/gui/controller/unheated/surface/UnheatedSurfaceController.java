@@ -3,9 +3,8 @@ package io.github.therealmone.fireres.gui.controller.unheated.surface;
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.model.Sample;
-import io.github.therealmone.fireres.gui.annotation.ChildController;
-import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.controller.AbstractController;
+import io.github.therealmone.fireres.gui.controller.ChartContainer;
 import io.github.therealmone.fireres.gui.controller.ReportInclusionChanger;
 import io.github.therealmone.fireres.gui.controller.SampleTabController;
 import io.github.therealmone.fireres.gui.controller.unheated.surface.groups.first.FirstGroupController;
@@ -31,18 +30,14 @@ public class UnheatedSurfaceController extends AbstractController implements Unh
     private UnheatedSurfaceReport report;
 
     @FXML
-    @ChildController
     private FirstGroupController firstGroupController;
 
     @FXML
-    @ChildController
     private SecondGroupController secondGroupController;
 
     @FXML
-    @ChildController
     private ThirdGroupController thirdGroupController;
 
-    @ParentController
     private SampleTabController sampleTabController;
 
     @Inject
@@ -71,6 +66,11 @@ public class UnheatedSurfaceController extends AbstractController implements Unh
         firstGroupController.postConstruct();
         secondGroupController.postConstruct();
         thirdGroupController.postConstruct();
+    }
+
+    @Override
+    public ChartContainer getChartContainer() {
+        throw new UnsupportedOperationException();
     }
 
     @Override

@@ -2,7 +2,6 @@ package io.github.therealmone.fireres.gui.controller.common;
 
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.model.Sample;
-import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.controller.AbstractController;
 import io.github.therealmone.fireres.gui.controller.SampleContainer;
 import io.github.therealmone.fireres.gui.controller.SampleTabController;
@@ -21,7 +20,6 @@ import lombok.val;
 @Data
 public class SampleRenameModalWindowController extends AbstractController implements SampleContainer {
 
-    @ParentController
     private SampleTabController sampleTabController;
 
     @FXML

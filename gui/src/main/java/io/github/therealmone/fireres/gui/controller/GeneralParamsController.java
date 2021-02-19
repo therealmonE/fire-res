@@ -2,7 +2,6 @@ package io.github.therealmone.fireres.gui.controller;
 
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
-import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.service.ResetSettingsService;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -19,7 +18,6 @@ import java.util.function.Function;
 @Data
 public class GeneralParamsController extends AbstractController {
 
-    @ParentController
     private MainSceneController mainSceneController;
 
     @FXML

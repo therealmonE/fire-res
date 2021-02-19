@@ -4,9 +4,8 @@ import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.excess.pressure.report.ExcessPressureReport;
 import io.github.therealmone.fireres.excess.pressure.service.ExcessPressureService;
-import io.github.therealmone.fireres.gui.annotation.ParentController;
-import io.github.therealmone.fireres.gui.controller.AbstractController;
-import io.github.therealmone.fireres.gui.service.ChartsSynchronizationService;
+import io.github.therealmone.fireres.gui.controller.AbstractReportUpdaterController;
+import io.github.therealmone.fireres.gui.controller.ChartContainer;
 import io.github.therealmone.fireres.gui.service.ResetSettingsService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Spinner;
@@ -14,12 +13,13 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.UUID;
+
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Slf4j
-public class ExcessPressureParamsController extends AbstractController implements ExcessPressureReportContainer {
+public class ExcessPressureParamsController extends AbstractReportUpdaterController implements ExcessPressureReportContainer {
 
-    @ParentController
     private ExcessPressureController excessPressureController;
 
     @FXML
@@ -36,9 +36,6 @@ public class ExcessPressureParamsController extends AbstractController implement
 
     @Inject
     private ExcessPressureService excessPressureService;
-
-    @Inject
-    private ChartsSynchronizationService chartsSynchronizationService;
 
     @Override
     protected void initialize() {
@@ -58,29 +55,17 @@ public class ExcessPressureParamsController extends AbstractController implement
     }
 
     private void handleBasePressureSpinnerLostFocus(Boolean focusValue) {
-        handleSpinnerLostFocus(focusValue, basePressureSpinner, () -> {
-            excessPressureService.updateBasePressure(getReport(), basePressureSpinner.getValue());
-            chartsSynchronizationService.syncExcessPressureChart(
-                    excessPressureController.getExcessPressureChartController().getExcessPressureChart(),
-                    getReport());
-        });
+        handleSpinnerLostFocus(focusValue, basePressureSpinner, () ->
+                updateReport(() -> excessPressureService.updateBasePressure(getReport(), basePressureSpinner.getValue())));
     }
     private void handleDispersionCoefficientLostFocus(Boolean focusValue) {
-        handleSpinnerLostFocus(focusValue, dispersionCoefficientSpinner, () -> {
-            excessPressureService.updateDispersionCoefficient(getReport(), dispersionCoefficientSpinner.getValue());
-            chartsSynchronizationService.syncExcessPressureChart(
-                    excessPressureController.getExcessPressureChartController().getExcessPressureChart(),
-                    getReport());
-        });
+        handleSpinnerLostFocus(focusValue, dispersionCoefficientSpinner, () ->
+                updateReport(() -> excessPressureService.updateDispersionCoefficient(getReport(), dispersionCoefficientSpinner.getValue())));
     }
 
     private void handleDeltaSpinnerLostFocus(Boolean focusValue) {
-        handleSpinnerLostFocus(focusValue, deltaSpinner, () -> {
-            excessPressureService.updateDelta(getReport(), deltaSpinner.getValue());
-            chartsSynchronizationService.syncExcessPressureChart(
-                    excessPressureController.getExcessPressureChartController().getExcessPressureChart(),
-                    getReport());
-        });
+        handleSpinnerLostFocus(focusValue, deltaSpinner, () ->
+                updateReport(() -> excessPressureService.updateDelta(getReport(), deltaSpinner.getValue())));
     }
 
     @Override
@@ -91,5 +76,15 @@ public class ExcessPressureParamsController extends AbstractController implement
     @Override
     public ExcessPressureReport getReport() {
         return excessPressureController.getReport();
+    }
+
+    @Override
+    public ChartContainer getChartContainer() {
+        return excessPressureController.getChartContainer();
+    }
+
+    @Override
+    protected UUID getReportId() {
+        return getReport().getId();
     }
 }

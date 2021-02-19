@@ -3,10 +3,11 @@ package io.github.therealmone.fireres.gui.controller.common;
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.model.Report;
 import io.github.therealmone.fireres.core.model.Sample;
-import io.github.therealmone.fireres.gui.annotation.ParentController;
-import io.github.therealmone.fireres.gui.controller.AbstractController;
+import io.github.therealmone.fireres.gui.controller.AbstractReportUpdaterController;
+import io.github.therealmone.fireres.gui.controller.ChartContainer;
 import io.github.therealmone.fireres.gui.controller.ReportContainer;
 import io.github.therealmone.fireres.gui.service.AlertService;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Spinner;
 import javafx.stage.Stage;
@@ -14,14 +15,13 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.val;
 
-import java.util.Collections;
+import java.util.UUID;
 
 @SuppressWarnings("unchecked")
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class InterpolationPointsModalWindowController extends AbstractController implements ReportContainer {
+public class InterpolationPointsModalWindowController extends AbstractReportUpdaterController implements ReportContainer {
 
-    @ParentController
     private FunctionParamsController functionParamsController;
 
     @FXML
@@ -35,21 +35,24 @@ public class InterpolationPointsModalWindowController extends AbstractController
     @Inject
     private AlertService alertService;
 
+    @FXML
     public void addInterpolationPoint() {
-        val newPoint = functionParamsController.getInterpolationPointConstructor()
-                .apply(interpolationPointTimeSpinner.getValue(), interpolationPointValueSpinner.getValue());
+        updateReport(() -> {
+            val newPoint = functionParamsController.getInterpolationPointConstructor()
+                    .apply(interpolationPointTimeSpinner.getValue(), interpolationPointValueSpinner.getValue());
 
-        try {
-            functionParamsController.getInterpolationService().addInterpolationPoints(getReport(), Collections.singletonList(newPoint));
-        } catch (Exception e) {
-            alertService.showError("Невозможно добавить данную точку");
-            throw e;
-        }
+            try {
+                functionParamsController.getInterpolationService().addInterpolationPoint(getReport(), newPoint);
+            } catch (Exception e) {
+                Platform.runLater(() -> alertService.showError("Невозможно добавить данную точку"));
+                throw e;
+            }
 
-        functionParamsController.getInterpolationPointsTableView().getItems().add(newPoint);
-        functionParamsController.getPostReportUpdateAction().run();
+            Platform.runLater(() -> functionParamsController.getInterpolationPointsTableView().getItems().add(newPoint));
+        });
     }
 
+    @FXML
     public void closeWindow() {
         modalWindow.close();
     }
@@ -57,6 +60,16 @@ public class InterpolationPointsModalWindowController extends AbstractController
     @Override
     public Report getReport() {
         return functionParamsController.getReport();
+    }
+
+    @Override
+    public ChartContainer getChartContainer() {
+        return functionParamsController.getChartContainer();
+    }
+
+    @Override
+    protected UUID getReportId() {
+        return getReport().getId();
     }
 
     @Override

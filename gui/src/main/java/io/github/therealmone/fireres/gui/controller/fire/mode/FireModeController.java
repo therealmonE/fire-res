@@ -7,9 +7,8 @@ import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.firemode.config.FireModeProperties;
 import io.github.therealmone.fireres.firemode.report.FireModeReport;
 import io.github.therealmone.fireres.firemode.service.FireModeService;
-import io.github.therealmone.fireres.gui.annotation.ChildController;
-import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.controller.AbstractController;
+import io.github.therealmone.fireres.gui.controller.ChartContainer;
 import io.github.therealmone.fireres.gui.controller.ReportInclusionChanger;
 import io.github.therealmone.fireres.gui.controller.SampleTabController;
 import io.github.therealmone.fireres.gui.controller.common.FunctionParamsController;
@@ -31,19 +30,15 @@ public class FireModeController extends AbstractController implements FireModeRe
     @Inject
     private FireModeService fireModeService;
 
-    @ParentController
     private SampleTabController sampleTabController;
 
     @FXML
-    @ChildController
     private FireModeParamsController fireModeParamsController;
 
     @FXML
-    @ChildController
     private FunctionParamsController functionParamsController;
 
     @FXML
-    @ChildController
     private FireModeChartController fireModeChartController;
 
     @Inject
@@ -68,9 +63,6 @@ public class FireModeController extends AbstractController implements FireModeRe
         functionParamsController.setPropertiesMapper(props ->
                 props.getReportPropertiesByClass(FireModeProperties.class).orElseThrow());
 
-        functionParamsController.setPostReportUpdateAction(() ->
-                chartsSynchronizationService.syncFireModeChart(fireModeChartController.getFireModeChart(), report));
-
         functionParamsController.setInterpolationPointConstructor((time, value) -> new IntegerPoint(time, value.intValue()));
     }
 
@@ -79,6 +71,11 @@ public class FireModeController extends AbstractController implements FireModeRe
         fireModeParamsController.postConstruct();
         functionParamsController.postConstruct();
         fireModeChartController.postConstruct();
+    }
+
+    @Override
+    public ChartContainer getChartContainer() {
+        return fireModeChartController;
     }
 
     @Override

@@ -9,7 +9,7 @@ import lombok.val;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static io.github.therealmone.fireres.unheated.surface.UnheatedSurfaceTestUrils.assertUnheatedSurfaceReportIsValid;
+import static io.github.therealmone.fireres.unheated.surface.UnheatedSurfaceTestUtils.assertUnheatedSurfaceReportIsValid;
 
 @RunWith(UnheatedSurfaceGuiceRunner.class)
 public class UnheatedSurfaceReportRepeatingTest {

@@ -2,8 +2,6 @@ package io.github.therealmone.fireres.gui.controller;
 
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.model.Sample;
-import io.github.therealmone.fireres.gui.annotation.ChildController;
-import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.controller.excess.pressure.ExcessPressureController;
 import io.github.therealmone.fireres.gui.controller.fire.mode.FireModeController;
 import io.github.therealmone.fireres.gui.controller.heat.flow.HeatFlowController;
@@ -31,7 +29,6 @@ public class SampleTabController extends AbstractController implements SampleCon
      *
      * @see io.github.therealmone.fireres.gui.service.FxmlLoadService#loadSampleTab(SamplesTabPaneController, Object)
      */
-    @ParentController
     private SamplesTabPaneController samplesTabPaneController;
 
     @Inject
@@ -59,18 +56,15 @@ public class SampleTabController extends AbstractController implements SampleCon
     private TabPane reportsTabPane;
 
     @FXML
-    @ChildController
     private ExcessPressureController excessPressureController;
 
     @FXML
-    @ChildController
     private FireModeController fireModeController;
 
     @FXML
     private UnheatedSurfaceController unheatedSurfaceController;
 
     @FXML
-    @ChildController
     private HeatFlowController heatFlowController;
 
     @Override
