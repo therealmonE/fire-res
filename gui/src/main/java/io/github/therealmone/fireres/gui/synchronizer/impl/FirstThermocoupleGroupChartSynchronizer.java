@@ -13,7 +13,6 @@ import static io.github.therealmone.fireres.gui.model.ElementIds.FIRST_THERMOCOU
 import static io.github.therealmone.fireres.gui.model.ElementIds.FIRST_THERMOCOUPLE_GROUP_THERMOCOUPLE_TEMPERATURE_LINE;
 import static io.github.therealmone.fireres.gui.util.ChartUtils.addLegendSymbolId;
 import static io.github.therealmone.fireres.gui.util.ChartUtils.addPointsToSeries;
-import static io.github.therealmone.fireres.gui.util.ChartUtils.randomizeColor;
 
 public class FirstThermocoupleGroupChartSynchronizer implements ChartSynchronizer<UnheatedSurfaceReport> {
 
@@ -26,10 +25,10 @@ public class FirstThermocoupleGroupChartSynchronizer implements ChartSynchronize
     public void synchronize(LineChart<Number, Number> chart, UnheatedSurfaceReport report) {
         chart.getData().clear();
 
+        addThermocoupleTemperatureLines(chart, report);
         addMeanTemperatureLine(chart, report);
         addMeanBoundLine(chart, report);
         addThermocoupleBoundLine(chart, report);
-        addThermocoupleTemperatureLines(chart, report);
 
         addLegendSymbolId(chart, MEAN_TEMPERATURE_TEXT, DEFAULT_MEAN_LINE_LEGEND_SYMBOL);
     }
@@ -44,7 +43,6 @@ public class FirstThermocoupleGroupChartSynchronizer implements ChartSynchronize
             addPointsToSeries(thermocoupleSeries, thermocoupleTemperature);
             chart.getData().add(thermocoupleSeries);
             thermocoupleSeries.getNode().setId(FIRST_THERMOCOUPLE_GROUP_THERMOCOUPLE_TEMPERATURE_LINE);
-            randomizeColor(thermocoupleSeries.getNode(), 0.4);
         }
     }
 

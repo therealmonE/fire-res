@@ -12,7 +12,6 @@ import static io.github.therealmone.fireres.gui.model.ElementIds.HEAT_FLOW_MAX_A
 import static io.github.therealmone.fireres.gui.model.ElementIds.HEAT_FLOW_SENSORS_LINE;
 import static io.github.therealmone.fireres.gui.util.ChartUtils.addLegendSymbolId;
 import static io.github.therealmone.fireres.gui.util.ChartUtils.addPointsToSeries;
-import static io.github.therealmone.fireres.gui.util.ChartUtils.randomizeColor;
 
 public class HeatFlowChartSynchronizer implements ChartSynchronizer<HeatFlowReport> {
 
@@ -24,9 +23,9 @@ public class HeatFlowChartSynchronizer implements ChartSynchronizer<HeatFlowRepo
     public void synchronize(LineChart<Number, Number> chart, HeatFlowReport report) {
         chart.getData().clear();
 
+        addSensorsLine(chart, report);
         addMeanHeatFlowLine(chart, report);
         addMaxAllowedHeatFlowLine(chart, report);
-        addSensorsLine(chart, report);
 
         addLegendSymbolId(chart, MEAN_FLOW_TEXT, DEFAULT_MEAN_LINE_LEGEND_SYMBOL);
     }
@@ -57,7 +56,6 @@ public class HeatFlowChartSynchronizer implements ChartSynchronizer<HeatFlowRepo
             sensorSeries.setName(SENSOR_TEMPERATURE_TEXT + (i + 1));
             addPointsToSeries(sensorSeries, sensorTemperature);
             chart.getData().add(sensorSeries);
-            randomizeColor(sensorSeries.getNode(), 0.4);
             sensorSeries.getNode().setId(HEAT_FLOW_SENSORS_LINE);
         }
     }
