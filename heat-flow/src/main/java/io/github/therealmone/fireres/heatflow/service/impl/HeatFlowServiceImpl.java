@@ -8,6 +8,8 @@ import io.github.therealmone.fireres.heatflow.report.HeatFlowReport;
 import io.github.therealmone.fireres.heatflow.service.HeatFlowService;
 import lombok.val;
 
+import java.util.UUID;
+
 import static io.github.therealmone.fireres.heatflow.pipeline.HeatFlowReportEnrichType.BOUND;
 import static io.github.therealmone.fireres.heatflow.pipeline.HeatFlowReportEnrichType.MEAN_WITH_SENSORS_TEMPERATURES;
 
@@ -21,8 +23,8 @@ public class HeatFlowServiceImpl extends AbstractInterpolationService<HeatFlowRe
     }
 
     @Override
-    public HeatFlowReport createReport(Sample sample) {
-        val report = new HeatFlowReport(sample);
+    public HeatFlowReport createReport(UUID reportId, Sample sample) {
+        val report = new HeatFlowReport(reportId, sample);
         sample.putReport(report);
 
         reportPipeline.accept(report);

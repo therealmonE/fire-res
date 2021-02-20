@@ -3,49 +3,44 @@ package io.github.therealmone.fireres.gui.controller.unheated.surface.groups.sec
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.model.IntegerPoint;
 import io.github.therealmone.fireres.core.model.Sample;
-import io.github.therealmone.fireres.gui.annotation.ChildController;
-import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.controller.AbstractController;
+import io.github.therealmone.fireres.gui.controller.ChartContainer;
 import io.github.therealmone.fireres.gui.controller.common.FunctionParamsController;
 import io.github.therealmone.fireres.gui.controller.unheated.surface.UnheatedSurfaceController;
 import io.github.therealmone.fireres.gui.controller.unheated.surface.UnheatedSurfaceReportContainer;
-import io.github.therealmone.fireres.gui.service.ChartsSynchronizationService;
 import io.github.therealmone.fireres.unheated.surface.config.UnheatedSurfaceProperties;
 import io.github.therealmone.fireres.unheated.surface.report.UnheatedSurfaceReport;
 import io.github.therealmone.fireres.unheated.surface.service.UnheatedSurfaceSecondGroupService;
 import javafx.fxml.FXML;
+import javafx.scene.layout.VBox;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.Collections;
+
+import static java.util.Collections.singletonList;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class SecondGroupController extends AbstractController implements UnheatedSurfaceReportContainer {
 
     @FXML
-    @ChildController
+    private VBox secondGroupParamsVbox;
+
+    @FXML
     private SecondGroupParamsController secondGroupParamsController;
 
     @FXML
-    @ChildController
     private FunctionParamsController functionParamsController;
 
     @FXML
-    @ChildController
     private SecondGroupChartController secondGroupChartController;
 
-    @ParentController
+    @Inject
     private UnheatedSurfaceController unheatedSurfaceController;
 
     @Inject
     private UnheatedSurfaceSecondGroupService unheatedSurfaceSecondGroupService;
-
-    @Inject
-    private ChartsSynchronizationService chartsSynchronizationService;
-
-    @Override
-    public Sample getSample() {
-        return unheatedSurfaceController.getSample();
-    }
 
     @Override
     protected void initialize() {
@@ -58,9 +53,7 @@ public class SecondGroupController extends AbstractController implements Unheate
         functionParamsController.setPropertiesMapper(props ->
                 props.getReportPropertiesByClass(UnheatedSurfaceProperties.class).orElseThrow().getSecondGroup());
 
-        functionParamsController.setPostReportUpdateAction(() ->
-                chartsSynchronizationService.syncSecondThermocoupleGroupChart(
-                        secondGroupChartController.getSecondGroupChart(), getReport()));
+        functionParamsController.setNodesToBlockOnUpdate(singletonList(secondGroupParamsVbox));
 
         functionParamsController.setInterpolationPointConstructor((time, value) -> new IntegerPoint(time, value.intValue()));
     }
@@ -72,7 +65,17 @@ public class SecondGroupController extends AbstractController implements Unheate
     }
 
     @Override
+    public Sample getSample() {
+        return unheatedSurfaceController.getSample();
+    }
+
+    @Override
     public UnheatedSurfaceReport getReport() {
         return unheatedSurfaceController.getReport();
+    }
+
+    @Override
+    public ChartContainer getChartContainer() {
+        return secondGroupChartController;
     }
 }

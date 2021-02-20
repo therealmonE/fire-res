@@ -16,8 +16,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class HeatFlowReport implements Report<HeatFlowProperties> {
 
+    private final UUID id;
     private final Sample sample;
-    private final UUID id = UUID.randomUUID();
 
     private HeatFlowBound bound;
     private HeatFlowMeanTemperature meanTemperature;

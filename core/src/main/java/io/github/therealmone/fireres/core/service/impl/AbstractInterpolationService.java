@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.val;
 
 import java.util.Comparator;
-import java.util.List;
 import java.util.function.Function;
 
 @RequiredArgsConstructor
@@ -32,27 +31,26 @@ public abstract class AbstractInterpolationService<R extends Report<?>, N extend
     }
 
     @Override
-    public void addInterpolationPoints(R report, List<Point<N>> pointsToAdd) {
+    public void addInterpolationPoint(R report, Point<N> pointToAdd) {
         val currentPoints = propertiesMapper.apply(report).getInterpolationPoints();
 
-        if (!pointsToAdd.isEmpty()) {
-            currentPoints.addAll(pointsToAdd);
-            currentPoints.sort(Comparator.comparing(Point::getTime));
+        currentPoints.add(pointToAdd);
+        currentPoints.sort(Comparator.comparing(Point::getTime));
 
-            try {
-                postUpdateInterpolationPoints(report);
-            } catch (Exception e) {
-                currentPoints.removeAll(pointsToAdd);
-                throw e;
-            }
+        try {
+            postUpdateInterpolationPoints(report);
+        } catch (Exception e) {
+            val indexToRemove = currentPoints.indexOf(pointToAdd);
+            currentPoints.remove(indexToRemove);
+            throw e;
         }
     }
 
     @Override
-    public void removeInterpolationPoints(R report, List<Point<N>> pointsToRemove) {
+    public void removeInterpolationPoint(R report, Point<N> pointToRemove) {
         val currentPoints = propertiesMapper.apply(report).getInterpolationPoints();
 
-        if (currentPoints.removeIf(pointsToRemove::contains)) {
+        if (currentPoints.remove(pointToRemove)) {
             postUpdateInterpolationPoints(report);
         }
     }

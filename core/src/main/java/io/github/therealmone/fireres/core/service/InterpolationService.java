@@ -11,8 +11,8 @@ public interface InterpolationService<R extends Report, N extends Number> {
 
     void updateDispersionCoefficient(R report, Double dispersionCoefficient);
 
-    void addInterpolationPoints(R report, List<Point<N>> pointsToAdd);
+    void addInterpolationPoint(R report, Point<N> pointToAdd);
 
-    void removeInterpolationPoints(R report, List<Point<N>> pointsToRemove);
+    void removeInterpolationPoint(R report, Point<N> pointToRemove);
 
 }

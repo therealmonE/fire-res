@@ -5,9 +5,9 @@ import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.firemode.report.FireModeReport;
 import io.github.therealmone.fireres.firemode.service.FireModeService;
-import io.github.therealmone.fireres.gui.annotation.ParentController;
-import io.github.therealmone.fireres.gui.controller.AbstractController;
-import io.github.therealmone.fireres.gui.service.ChartsSynchronizationService;
+import io.github.therealmone.fireres.gui.controller.AbstractReportUpdaterController;
+import io.github.therealmone.fireres.gui.controller.ChartContainer;
+import io.github.therealmone.fireres.gui.service.ReportExecutorService;
 import io.github.therealmone.fireres.gui.service.ResetSettingsService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Spinner;
@@ -16,12 +16,13 @@ import lombok.EqualsAndHashCode;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.UUID;
+
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Slf4j
-public class FireModeParamsController extends AbstractController implements FireModeReportContainer {
+public class FireModeParamsController extends AbstractReportUpdaterController implements FireModeReportContainer {
 
-    @ParentController
     private FireModeController fireModeController;
 
     @FXML
@@ -37,15 +38,15 @@ public class FireModeParamsController extends AbstractController implements Fire
     private FireModeService fireModeService;
 
     @Inject
-    private ChartsSynchronizationService chartsSynchronizationService;
+    private ReportExecutorService reportExecutorService;
 
     @SneakyThrows
     private void handleThermocoupleSpinnerFocusChanged(Boolean focusValue) {
-        handleSpinnerLostFocus(focusValue, thermocoupleSpinner, () -> {
-            fireModeService.updateThermocoupleCount(getReport(), thermocoupleSpinner.getValue());
-            chartsSynchronizationService.syncFireModeChart(
-                    fireModeController.getFireModeChartController().getFireModeChart(), getReport());
-        });
+        Runnable action = () ->
+                fireModeService.updateThermocoupleCount(getReport(), thermocoupleSpinner.getValue());
+
+        handleSpinnerLostFocus(focusValue, thermocoupleSpinner, () ->
+                updateReport(action, fireModeController.getFireModeParamsVbox()));
     }
 
     @Override
@@ -67,5 +68,15 @@ public class FireModeParamsController extends AbstractController implements Fire
     @Override
     public FireModeReport getReport() {
         return fireModeController.getReport();
+    }
+
+    @Override
+    public ChartContainer getChartContainer() {
+        return getFireModeController().getFireModeChartController();
+    }
+
+    @Override
+    protected UUID getReportId() {
+        return getReport().getId();
     }
 }

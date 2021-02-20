@@ -19,8 +19,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class FireModeReport implements Report<FireModeProperties> {
 
+    private final UUID id;
     private final Sample sample;
-    private final UUID id = UUID.randomUUID();
 
     private StandardTemperature standardTemperature;
     private MinAllowedTemperature minAllowedTemperature;

@@ -7,6 +7,8 @@ public interface ReportContainer<P extends ReportProperties, R extends Report<P>
 
     R getReport();
 
+    ChartContainer getChartContainer();
+
     default void createReport() {
     }
 

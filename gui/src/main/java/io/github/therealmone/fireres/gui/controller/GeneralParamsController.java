@@ -2,12 +2,12 @@ package io.github.therealmone.fireres.gui.controller;
 
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
-import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.service.ResetSettingsService;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Spinner;
+import javafx.scene.control.TitledPane;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,9 @@ import java.util.function.Function;
 @Data
 public class GeneralParamsController extends AbstractController {
 
-    @ParentController
+    @FXML
+    private TitledPane generalParamsTitledPane;
+
     private MainSceneController mainSceneController;
 
     @FXML

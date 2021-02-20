@@ -1,12 +1,10 @@
 package io.github.therealmone.fireres.gui.controller.unheated.surface.groups.first;
 
 import com.google.inject.Inject;
-import io.github.therealmone.fireres.core.model.Report;
 import io.github.therealmone.fireres.core.model.Sample;
-import io.github.therealmone.fireres.gui.annotation.ParentController;
-import io.github.therealmone.fireres.gui.controller.AbstractController;
-import io.github.therealmone.fireres.gui.controller.ReportContainer;
-import io.github.therealmone.fireres.gui.service.ChartsSynchronizationService;
+import io.github.therealmone.fireres.gui.controller.AbstractReportUpdaterController;
+import io.github.therealmone.fireres.gui.controller.ChartContainer;
+import io.github.therealmone.fireres.gui.controller.unheated.surface.UnheatedSurfaceReportContainer;
 import io.github.therealmone.fireres.gui.service.ResetSettingsService;
 import io.github.therealmone.fireres.unheated.surface.report.UnheatedSurfaceReport;
 import io.github.therealmone.fireres.unheated.surface.service.UnheatedSurfaceFirstGroupService;
@@ -17,12 +15,13 @@ import lombok.EqualsAndHashCode;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.UUID;
+
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Slf4j
-public class FirstGroupParamsController extends AbstractController implements ReportContainer {
+public class FirstGroupParamsController extends AbstractReportUpdaterController implements UnheatedSurfaceReportContainer {
 
-    @ParentController
     private FirstGroupController firstGroupController;
 
     @FXML
@@ -34,16 +33,15 @@ public class FirstGroupParamsController extends AbstractController implements Re
     @Inject
     private UnheatedSurfaceFirstGroupService unheatedSurfaceFirstGroupService;
 
-    @Inject
-    private ChartsSynchronizationService chartsSynchronizationService;
-
     @SneakyThrows
     private void handleThermocouplesCountSpinnerFocusChanged(Boolean focusValue) {
-        handleSpinnerLostFocus(focusValue, firstGroupThermocouplesCountSpinner, () -> {
-            unheatedSurfaceFirstGroupService.updateThermocoupleCount((UnheatedSurfaceReport) getReport(), firstGroupThermocouplesCountSpinner.getValue());
-            chartsSynchronizationService.syncFirstThermocoupleGroupChart(
-                    firstGroupController.getFirstGroupChartController().getFirstGroupChart(), (UnheatedSurfaceReport) getReport());
-        });
+        Runnable action = () ->
+                unheatedSurfaceFirstGroupService.updateThermocoupleCount(
+                        getReport(),
+                        firstGroupThermocouplesCountSpinner.getValue());
+
+        handleSpinnerLostFocus(focusValue, firstGroupThermocouplesCountSpinner, () ->
+                updateReport(action, firstGroupController.getFirstGroupParamsVbox()));
     }
 
     @Override
@@ -63,8 +61,18 @@ public class FirstGroupParamsController extends AbstractController implements Re
     }
 
     @Override
-    public Report getReport() {
+    public UnheatedSurfaceReport getReport() {
         return firstGroupController.getReport();
+    }
+
+    @Override
+    public ChartContainer getChartContainer() {
+        return firstGroupController.getChartContainer();
+    }
+
+    @Override
+    protected UUID getReportId() {
+        return getReport().getFirstGroup().getId();
     }
 
 }

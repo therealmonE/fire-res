@@ -2,16 +2,20 @@
 
 <?import io.github.therealmone.fireres.gui.component.SmoothedLineChart?>
 <?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.layout.StackPane?>
 
-<SmoothedLineChart fx:id="firstGroupChart" focusTraversable="true" legendSide="RIGHT" maxHeight="1.7976931348623157E308"
-                   maxWidth="1.7976931348623157E308" prefWidth="5000.0"
-                   xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
-                   fx:controller="io.github.therealmone.fireres.gui.controller.unheated.surface.groups.first.FirstGroupChartController">
-    <xAxis>
-        <NumberAxis label="Время, мин." side="BOTTOM"/>
-    </xAxis>
+<StackPane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+           fx:id="firstGroupChartStackPane"
+           fx:controller="io.github.therealmone.fireres.gui.controller.unheated.surface.groups.first.FirstGroupChartController">
+    <SmoothedLineChart fx:id="firstGroupChart" focusTraversable="true" legendSide="RIGHT"
+                       maxHeight="1.7976931348623157E308"
+                       maxWidth="1.7976931348623157E308" prefWidth="5000.0">
+        <xAxis>
+            <NumberAxis label="Время, мин." side="BOTTOM"/>
+        </xAxis>
 
-    <yAxis>
-        <NumberAxis label="Температура °C" side="LEFT"/>
-    </yAxis>
-</SmoothedLineChart>
+        <yAxis>
+            <NumberAxis label="Температура °C" side="LEFT"/>
+        </yAxis>
+    </SmoothedLineChart>
+</StackPane>

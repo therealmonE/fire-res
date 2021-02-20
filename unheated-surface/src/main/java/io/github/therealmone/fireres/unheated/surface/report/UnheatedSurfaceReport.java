@@ -13,8 +13,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UnheatedSurfaceReport implements Report<UnheatedSurfaceProperties> {
 
+    private final UUID id;
     private final Sample sample;
-    private final UUID id = UUID.randomUUID();
 
     private UnheatedSurfaceGroup firstGroup;
     private UnheatedSurfaceGroup secondGroup;

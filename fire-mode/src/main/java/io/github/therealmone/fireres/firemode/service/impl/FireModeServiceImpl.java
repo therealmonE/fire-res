@@ -8,6 +8,8 @@ import io.github.therealmone.fireres.firemode.report.FireModeReport;
 import io.github.therealmone.fireres.firemode.service.FireModeService;
 import lombok.val;
 
+import java.util.UUID;
+
 import static io.github.therealmone.fireres.firemode.pipeline.FireModeReportEnrichType.MEAN_WITH_THERMOCOUPLE_TEMPERATURES;
 
 public class FireModeServiceImpl extends AbstractInterpolationService<FireModeReport, Integer> implements FireModeService {
@@ -20,8 +22,8 @@ public class FireModeServiceImpl extends AbstractInterpolationService<FireModeRe
     }
 
     @Override
-    public FireModeReport createReport(Sample sample) {
-        val report = new FireModeReport(sample);
+    public FireModeReport createReport(UUID reportId, Sample sample) {
+        val report = new FireModeReport(reportId, sample);
         sample.putReport(report);
 
         reportPipeline.accept(report);

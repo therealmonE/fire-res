@@ -3,7 +3,6 @@ package io.github.therealmone.fireres.gui.controller;
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.config.ReportType;
-import io.github.therealmone.fireres.gui.annotation.ChildController;
 import javafx.fxml.FXML;
 import javafx.stage.Stage;
 import lombok.Data;
@@ -21,15 +20,12 @@ public class MainSceneController extends AbstractController {
     private GenerationProperties generationProperties;
 
     @FXML
-    @ChildController
     private TopMenuBarController topMenuBarController;
 
     @FXML
-    @ChildController
     private GeneralParamsController generalParamsController;
 
     @FXML
-    @ChildController
     private SamplesTabPaneController samplesTabPaneController;
 
 

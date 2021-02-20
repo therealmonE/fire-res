@@ -8,7 +8,7 @@
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="io.github.therealmone.fireres.gui.controller.excess.pressure.ExcessPressureController">
 
-    <VBox focusTraversable="true">
+    <VBox fx:id="excessPressureParamsVbox" focusTraversable="true">
         <fx:include fx:id="excessPressureParams" source="excessPressureParams.fxml"/>
         <HBox.margin>
             <Insets left="15.0"/>

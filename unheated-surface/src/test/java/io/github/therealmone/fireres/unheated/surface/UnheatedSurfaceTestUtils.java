@@ -12,7 +12,7 @@ import static io.github.therealmone.fireres.core.utils.FunctionUtils.constantFun
 import static io.github.therealmone.fireres.unheated.surface.TestGenerationProperties.TIME;
 import static org.junit.Assert.assertEquals;
 
-public class UnheatedSurfaceTestUrils {
+public class UnheatedSurfaceTestUtils {
 
     public static void assertUnheatedSurfaceReportIsValid(UnheatedSurfaceReport report) {
         assertUnheatedSurfaceGroup(report.getFirstGroup());

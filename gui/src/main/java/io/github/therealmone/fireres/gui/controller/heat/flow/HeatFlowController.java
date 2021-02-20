@@ -3,44 +3,49 @@ package io.github.therealmone.fireres.gui.controller.heat.flow;
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.model.Sample;
-import io.github.therealmone.fireres.gui.annotation.ChildController;
-import io.github.therealmone.fireres.gui.annotation.ParentController;
 import io.github.therealmone.fireres.gui.controller.AbstractController;
+import io.github.therealmone.fireres.gui.controller.ChartContainer;
 import io.github.therealmone.fireres.gui.controller.ReportInclusionChanger;
 import io.github.therealmone.fireres.gui.controller.SampleTabController;
 import io.github.therealmone.fireres.gui.controller.common.FunctionParamsController;
+import io.github.therealmone.fireres.gui.model.ReportTask;
 import io.github.therealmone.fireres.gui.service.ChartsSynchronizationService;
+import io.github.therealmone.fireres.gui.service.ReportExecutorService;
 import io.github.therealmone.fireres.heatflow.config.HeatFlowProperties;
 import io.github.therealmone.fireres.heatflow.model.HeatFlowPoint;
 import io.github.therealmone.fireres.heatflow.report.HeatFlowReport;
 import io.github.therealmone.fireres.heatflow.service.HeatFlowService;
 import javafx.fxml.FXML;
+import javafx.scene.layout.VBox;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.val;
+
+import java.util.UUID;
 
 import static io.github.therealmone.fireres.core.config.ReportType.HEAT_FLOW;
 import static io.github.therealmone.fireres.gui.util.TabUtils.disableTab;
 import static io.github.therealmone.fireres.gui.util.TabUtils.enableTab;
+import static java.util.Collections.singletonList;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class HeatFlowController extends AbstractController implements HeatFlowReportContainer, ReportInclusionChanger {
 
+    @FXML
+    private VBox heatFlowParamsVbox;
+
     private HeatFlowReport report;
 
     @FXML
-    @ChildController
     private HeatFlowParamsController heatFlowParamsController;
 
     @FXML
-    @ChildController
     private HeatFlowChartController heatFlowChartController;
 
     @FXML
-    @ChildController
     private FunctionParamsController functionParamsController;
 
-    @ParentController
     private SampleTabController sampleTabController;
 
     @Inject
@@ -51,6 +56,9 @@ public class HeatFlowController extends AbstractController implements HeatFlowRe
 
     @Inject
     private GenerationProperties generationProperties;
+
+    @Inject
+    private ReportExecutorService reportExecutorService;
 
     @Override
     public Sample getSample() {
@@ -68,8 +76,7 @@ public class HeatFlowController extends AbstractController implements HeatFlowRe
         functionParamsController.setPropertiesMapper(props ->
                 props.getReportPropertiesByClass(HeatFlowProperties.class).orElseThrow());
 
-        functionParamsController.setPostReportUpdateAction(() ->
-                chartsSynchronizationService.syncHeatFlowChart(heatFlowChartController.getHeatFlowChart(), report));
+        functionParamsController.setNodesToBlockOnUpdate(singletonList(heatFlowParamsVbox));
 
         functionParamsController.setInterpolationPointConstructor((time, value) -> new HeatFlowPoint(time, value.doubleValue()));
     }
@@ -81,14 +88,28 @@ public class HeatFlowController extends AbstractController implements HeatFlowRe
     }
 
     @Override
+    public ChartContainer getChartContainer() {
+        return heatFlowChartController;
+    }
+
+    @Override
     public void createReport() {
-        this.report = heatFlowService.createReport(getSample());
+        val reportId = UUID.randomUUID();
 
-        if (!generationProperties.getGeneral().getIncludedReports().contains(HEAT_FLOW)) {
-            excludeReport();
-        }
+        val task = ReportTask.builder()
+                .reportId(reportId)
+                .chartContainers(singletonList(heatFlowChartController))
+                .nodesToLock(singletonList(heatFlowParamsVbox))
+                .action(() -> {
+                    this.report = heatFlowService.createReport(reportId, getSample());
 
-        chartsSynchronizationService.syncHeatFlowChart(heatFlowChartController.getHeatFlowChart(), report);
+                    if (!generationProperties.getGeneral().getIncludedReports().contains(HEAT_FLOW)) {
+                        excludeReport();
+                    }
+                })
+                .build();
+
+        reportExecutorService.runTask(task);
     }
 
     @Override

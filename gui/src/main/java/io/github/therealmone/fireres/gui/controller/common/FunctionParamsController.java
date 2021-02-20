@@ -7,15 +7,17 @@ import io.github.therealmone.fireres.core.model.Point;
 import io.github.therealmone.fireres.core.model.Report;
 import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.core.service.InterpolationService;
-import io.github.therealmone.fireres.gui.annotation.ParentController;
-import io.github.therealmone.fireres.gui.controller.AbstractController;
+import io.github.therealmone.fireres.gui.controller.AbstractReportUpdaterController;
+import io.github.therealmone.fireres.gui.controller.ChartContainer;
 import io.github.therealmone.fireres.gui.controller.ReportContainer;
 import io.github.therealmone.fireres.gui.controller.SampleContainer;
 import io.github.therealmone.fireres.gui.service.FxmlLoadService;
 import io.github.therealmone.fireres.gui.service.ResetSettingsService;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Spinner;
@@ -28,18 +30,17 @@ import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
+import java.util.List;
+import java.util.UUID;
 import java.util.function.BiFunction;
 import java.util.function.Function;
-
-import static java.util.Collections.singletonList;
 
 @SuppressWarnings({"unchecked", "rawtypes"})
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Slf4j
-public class FunctionParamsController extends AbstractController implements SampleContainer, ReportContainer {
+public class FunctionParamsController extends AbstractReportUpdaterController implements SampleContainer, ReportContainer {
 
-    @ParentController
     private ReportContainer parentController;
 
     @Inject
@@ -69,7 +70,7 @@ public class FunctionParamsController extends AbstractController implements Samp
 
     private BiFunction<Integer, Number, Point<?>> interpolationPointConstructor;
 
-    private Runnable postReportUpdateAction;
+    private List<Node> nodesToBlockOnUpdate;
 
     @Override
     public Sample getSample() {
@@ -140,9 +141,12 @@ public class FunctionParamsController extends AbstractController implements Samp
     }
 
     private void handleRowDeletedEvent(TableRow<Point<?>> affectedRow) {
-        interpolationService.removeInterpolationPoints(getReport(), singletonList(affectedRow.getItem()));
-        interpolationPointsTableView.getItems().remove(affectedRow.getItem());
-        postReportUpdateAction.run();
+        Runnable action = () -> {
+            interpolationService.removeInterpolationPoint(getReport(), affectedRow.getItem());
+            Platform.runLater(() -> interpolationPointsTableView.getItems().remove(affectedRow.getItem()));
+        };
+
+        updateReport(action, nodesToBlockOnUpdate);
     }
 
     private void handleRowAddedEvent(Event event) {
@@ -150,21 +154,33 @@ public class FunctionParamsController extends AbstractController implements Samp
     }
 
     private void handleLinearityCoefficientFocusChanged(Boolean focusValue) {
-        handleSpinnerLostFocus(focusValue, linearityCoefficientSpinner, () -> {
-            interpolationService.updateLinearityCoefficient(getReport(), linearityCoefficientSpinner.getValue());
-            postReportUpdateAction.run();
-        });
+        Runnable action = () ->
+                interpolationService.updateLinearityCoefficient(getReport(), linearityCoefficientSpinner.getValue());
+
+        handleSpinnerLostFocus(focusValue, linearityCoefficientSpinner, () ->
+                updateReport(action, nodesToBlockOnUpdate));
     }
 
     private void handleDispersionCoefficientFocusChanged(Boolean focusValue) {
-        handleSpinnerLostFocus(focusValue, dispersionCoefficientSpinner, () -> {
-            interpolationService.updateDispersionCoefficient(getReport(), dispersionCoefficientSpinner.getValue());
-            postReportUpdateAction.run();
-        });
+        Runnable action = () ->
+                interpolationService.updateDispersionCoefficient(getReport(), dispersionCoefficientSpinner.getValue());
+
+        handleSpinnerLostFocus(focusValue, dispersionCoefficientSpinner, () ->
+                updateReport(action, nodesToBlockOnUpdate));
     }
 
     @Override
     public Report getReport() {
         return parentController.getReport();
+    }
+
+    @Override
+    public ChartContainer getChartContainer() {
+        return parentController.getChartContainer();
+    }
+
+    @Override
+    protected UUID getReportId() {
+        return getReport().getId();
     }
 }

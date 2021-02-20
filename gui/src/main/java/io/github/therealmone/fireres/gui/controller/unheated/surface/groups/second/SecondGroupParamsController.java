@@ -1,12 +1,10 @@
 package io.github.therealmone.fireres.gui.controller.unheated.surface.groups.second;
 
 import com.google.inject.Inject;
-import io.github.therealmone.fireres.core.model.Report;
 import io.github.therealmone.fireres.core.model.Sample;
-import io.github.therealmone.fireres.gui.annotation.ParentController;
-import io.github.therealmone.fireres.gui.controller.AbstractController;
-import io.github.therealmone.fireres.gui.controller.ReportContainer;
-import io.github.therealmone.fireres.gui.service.ChartsSynchronizationService;
+import io.github.therealmone.fireres.gui.controller.AbstractReportUpdaterController;
+import io.github.therealmone.fireres.gui.controller.ChartContainer;
+import io.github.therealmone.fireres.gui.controller.unheated.surface.UnheatedSurfaceReportContainer;
 import io.github.therealmone.fireres.gui.service.ResetSettingsService;
 import io.github.therealmone.fireres.unheated.surface.report.UnheatedSurfaceReport;
 import io.github.therealmone.fireres.unheated.surface.service.UnheatedSurfaceSecondGroupService;
@@ -16,12 +14,13 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.UUID;
+
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Slf4j
-public class SecondGroupParamsController extends AbstractController implements ReportContainer {
+public class SecondGroupParamsController extends AbstractReportUpdaterController implements UnheatedSurfaceReportContainer {
 
-    @ParentController
     private SecondGroupController secondGroupController;
 
     @FXML
@@ -35,9 +34,6 @@ public class SecondGroupParamsController extends AbstractController implements R
 
     @Inject
     private UnheatedSurfaceSecondGroupService unheatedSurfaceSecondGroupService;
-
-    @Inject
-    private ChartsSynchronizationService chartsSynchronizationService;
 
     @Override
     protected void initialize() {
@@ -54,19 +50,23 @@ public class SecondGroupParamsController extends AbstractController implements R
     }
 
     private void handleThermocouplesCountSpinnerFocusChanged(Boolean focusValue) {
-        handleSpinnerLostFocus(focusValue, secondGroupThermocouplesCountSpinner, () -> {
-            unheatedSurfaceSecondGroupService.updateThermocoupleCount((UnheatedSurfaceReport) getReport(), secondGroupThermocouplesCountSpinner.getValue());
-            chartsSynchronizationService.syncSecondThermocoupleGroupChart(
-                    secondGroupController.getSecondGroupChartController().getSecondGroupChart(), (UnheatedSurfaceReport) getReport());
-        });
+        Runnable action = () ->
+                unheatedSurfaceSecondGroupService.updateThermocoupleCount(
+                        getReport(),
+                        secondGroupThermocouplesCountSpinner.getValue());
+
+        handleSpinnerLostFocus(focusValue, secondGroupThermocouplesCountSpinner, () ->
+                updateReport(action, secondGroupController.getSecondGroupParamsVbox()));
     }
 
     private void handleThermocouplesBoundSpinnerFocusChanged(Boolean focusValue) {
-        handleSpinnerLostFocus(focusValue, secondGroupBoundSpinner, () -> {
-            unheatedSurfaceSecondGroupService.updateBound((UnheatedSurfaceReport) getReport(), secondGroupBoundSpinner.getValue());
-            chartsSynchronizationService.syncSecondThermocoupleGroupChart(
-                    secondGroupController.getSecondGroupChartController().getSecondGroupChart(), (UnheatedSurfaceReport) getReport());
-        });
+        Runnable action = () ->
+                unheatedSurfaceSecondGroupService.updateBound(
+                        getReport(),
+                        secondGroupBoundSpinner.getValue());
+
+        handleSpinnerLostFocus(focusValue, secondGroupBoundSpinner, () ->
+                updateReport(action, secondGroupController.getSecondGroupParamsVbox()));
     }
 
     @Override
@@ -75,8 +75,18 @@ public class SecondGroupParamsController extends AbstractController implements R
     }
 
     @Override
-    public Report getReport() {
+    public UnheatedSurfaceReport getReport() {
         return secondGroupController.getReport();
+    }
+
+    @Override
+    public ChartContainer getChartContainer() {
+        return secondGroupController.getChartContainer();
+    }
+
+    @Override
+    protected UUID getReportId() {
+        return getReport().getSecondGroup().getId();
     }
 
 }
