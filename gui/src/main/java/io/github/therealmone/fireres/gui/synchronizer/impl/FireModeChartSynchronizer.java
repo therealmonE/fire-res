@@ -2,7 +2,6 @@ package io.github.therealmone.fireres.gui.synchronizer.impl;
 
 import io.github.therealmone.fireres.firemode.report.FireModeReport;
 import io.github.therealmone.fireres.gui.synchronizer.ChartSynchronizer;
-import io.github.therealmone.fireres.unheated.surface.report.UnheatedSurfaceReport;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import lombok.val;
@@ -14,7 +13,6 @@ import static io.github.therealmone.fireres.gui.model.ElementIds.FIREMODE_MIN_TE
 import static io.github.therealmone.fireres.gui.model.ElementIds.FIREMODE_STANDARD_TEMPERATURE_LEGEND_SYMBOL;
 import static io.github.therealmone.fireres.gui.model.ElementIds.FIREMODE_STANDARD_TEMPERATURE_LINE;
 import static io.github.therealmone.fireres.gui.model.ElementIds.FIREMODE_THERMOCOUPLE_TEMPERATURE_LINE;
-import static io.github.therealmone.fireres.gui.model.ElementIds.FIRST_THERMOCOUPLE_GROUP_THERMOCOUPLE_TEMPERATURE_LINE;
 import static io.github.therealmone.fireres.gui.util.ChartUtils.addLegendSymbolId;
 import static io.github.therealmone.fireres.gui.util.ChartUtils.addPointsToSeries;
 import static io.github.therealmone.fireres.gui.util.ChartUtils.randomizeColor;
