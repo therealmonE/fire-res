@@ -9,17 +9,19 @@ import javafx.scene.chart.XYChart;
 import lombok.experimental.UtilityClass;
 import lombok.val;
 
+import java.util.Locale;
+
 @UtilityClass
 public class ChartUtils {
 
-    public static final String RANDOM_COLOR_TEMPLATE = "-fx-stroke: rgba(%d, %d, %d, %f);";
+    public static final String RANDOM_COLOR_TEMPLATE = "-fx-stroke: rgba(%d, %d, %d, %.2f);";
 
     public static void addPointsToSeries(XYChart.Series<Number, Number> series, PointSequence<? extends Point<? extends Number>> points) {
         points.getValue().forEach(point -> series.getData().add(new XYChart.Data<>(point.getTime(), point.getValue())));
     }
 
     public static void randomizeColor(Node node, Double alpha) {
-        node.setStyle(String.format(RANDOM_COLOR_TEMPLATE,
+        node.setStyle(String.format(Locale.US, RANDOM_COLOR_TEMPLATE,
                 (int) (Math.random() * 255),
                 (int) (Math.random() * 255),
                 (int) (Math.random() * 255),

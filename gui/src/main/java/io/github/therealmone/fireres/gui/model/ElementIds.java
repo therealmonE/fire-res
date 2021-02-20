@@ -15,6 +15,7 @@ public final class ElementIds {
     public static final String FIREMODE_STANDARD_TEMPERATURE_LEGEND_SYMBOL = "fireModeStandardTemperatureLegendSymbol";
     public static final String FIREMODE_MIN_TEMPERATURE_LINE = "fireModeMinTemperatureLine";
     public static final String FIREMODE_MAX_TEMPERATURE_LINE = "fireModeMaxTemperatureLine";
+    public static final String FIREMODE_THERMOCOUPLE_TEMPERATURE_LINE = "fireModeThermocoupleTemperatureLine";
 
     public static final String EXCESS_PRESSURE_MIN_ALLOWED_PRESSURE_LINE = "excessPressureMinAllowedPressureLine";
     public static final String EXCESS_PRESSURE_MAX_ALLOWED_PRESSURE_LINE = "excessPressureMaxAllowedPressureLine";

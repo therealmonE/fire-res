@@ -107,6 +107,10 @@
     -fx-background-color: gray, white;
 }
 
+#fireModeThermocoupleTemperatureLine{
+    -fx-stroke-width: 1px;
+}
+
 #heatFlowSensorsLine {
     -fx-stroke-width: 1px;
 }
