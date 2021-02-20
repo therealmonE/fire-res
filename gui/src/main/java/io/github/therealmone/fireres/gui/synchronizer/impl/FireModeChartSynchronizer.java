@@ -15,7 +15,7 @@ import static io.github.therealmone.fireres.gui.model.ElementIds.FIREMODE_STANDA
 import static io.github.therealmone.fireres.gui.model.ElementIds.FIREMODE_THERMOCOUPLE_TEMPERATURE_LINE;
 import static io.github.therealmone.fireres.gui.util.ChartUtils.addLegendSymbolId;
 import static io.github.therealmone.fireres.gui.util.ChartUtils.addPointsToSeries;
-import static io.github.therealmone.fireres.gui.util.ChartUtils.randomizeColor;
+
 
 public class FireModeChartSynchronizer implements ChartSynchronizer<FireModeReport> {
 
@@ -29,11 +29,12 @@ public class FireModeChartSynchronizer implements ChartSynchronizer<FireModeRepo
     public void synchronize(LineChart<Number, Number> chart, FireModeReport report) {
         chart.getData().clear();
 
+
+        addThermocoupleTemperatureLines(chart, report);
+        addStandardTemperatureLine(chart, report);
         addThermocoupleMeanTemperatureLine(chart, report);
         addMinAllowedTemperatureLine(chart, report);
         addMaxAllowedTemperatureLine(chart, report);
-        addStandardTemperatureLine(chart, report);
-        addThermocoupleTemperatureLines(chart, report);
 
         addLegendSymbolId(chart, STANDARD_TEMPERATURE_TEXT, FIREMODE_STANDARD_TEMPERATURE_LEGEND_SYMBOL);
         addLegendSymbolId(chart, MEAN_TEMPERATURE_TEXT, DEFAULT_MEAN_LINE_LEGEND_SYMBOL);
@@ -85,7 +86,6 @@ public class FireModeChartSynchronizer implements ChartSynchronizer<FireModeRepo
             addPointsToSeries(thermocoupleSeries, thermocoupleTemperature);
             chart.getData().add(thermocoupleSeries);
             thermocoupleSeries.getNode().setId(FIREMODE_THERMOCOUPLE_TEMPERATURE_LINE);
-            randomizeColor(thermocoupleSeries.getNode(), 0.4);
         }
     }
 
