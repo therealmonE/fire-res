@@ -2,6 +2,7 @@
     font-family: 'Open Sans', sans-serif;
     src: url('../font/OpenSans-Regular.ttf');
 }
+
 @font-face {
     font-family: 'Open Sans', sans-serif;
     font-weight: bold;
@@ -12,11 +13,12 @@
     -fx-font-size: 12px;
     -fx-font-family: 'Open Sans', sans-serif;
 }
+
 .check-box > .box {
     -fx-padding: 7px;
 }
 
-.aboutProgramHeaderFont{
+.aboutProgramHeaderFont {
     -fx-font-size: 14px;
     -fx-font-weight: bold;
 }
@@ -50,7 +52,7 @@
     -fx-border-color: #C1C1C1;
 }
 
-#aboutProgramAnchorPane{
+#aboutProgramAnchorPane {
     -fx-background-color: #FFFFFF;
 }
 
@@ -58,7 +60,8 @@
     -fx-background-color: #dddddd;
     -fx-effect: innershadow(two-pass-box, rgba(0, 0, 0, 0.05), 2, 0.0, 0, 3);
 }
-#aboutProgramFooter{
+
+#aboutProgramFooter {
     -fx-background-color: #dddddd;
     -fx-effect: innershadow(two-pass-box, rgba(0, 0, 0, 0.05), 2, 0.0, 0, 3);
 }
@@ -107,7 +110,7 @@
     -fx-background-color: gray, white;
 }
 
-#fireModeThermocoupleTemperatureLine{
+#fireModeThermocoupleTemperatureLine {
     -fx-stroke-width: 1px;
 }
 

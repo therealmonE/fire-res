@@ -12,6 +12,7 @@ import static io.github.therealmone.fireres.gui.model.ElementIds.THIRD_THERMOCOU
 import static io.github.therealmone.fireres.gui.model.ElementIds.THIRD_THERMOCOUPLE_GROUP_THERMOCOUPLE_TEMPERATURE_LINE;
 import static io.github.therealmone.fireres.gui.util.ChartUtils.addLegendSymbolId;
 import static io.github.therealmone.fireres.gui.util.ChartUtils.addPointsToSeries;
+
 public class ThirdThermocoupleGroupChartSynchronizer implements ChartSynchronizer<UnheatedSurfaceReport> {
 
     public static final String THERMOCOUPLE_TEXT = "Термопара - ";

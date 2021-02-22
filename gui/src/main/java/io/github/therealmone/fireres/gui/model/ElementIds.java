@@ -26,15 +26,13 @@ public final class ElementIds {
 
     public static final String FIRST_THERMOCOUPLE_GROUP_THERMOCOUPLE_TEMPERATURE_LINE = "firstThermocoupleGroupThermocoupleTemperatureLine";
     public static final String FIRST_THERMOCOUPLE_GROUP_THERMOCOUPLE_MAX_TEMPERATURE_LINE = "firstThermocoupleGroupThermocoupleMaxTemperatureLine";
-    public static final String FIRST_THERMOCOUPLE_GROUP_MEAN_BOUND_TEMPERATURE_LINE= "firstThermocoupleGroupMeanBoundTemperatureLine";
+    public static final String FIRST_THERMOCOUPLE_GROUP_MEAN_BOUND_TEMPERATURE_LINE = "firstThermocoupleGroupMeanBoundTemperatureLine";
 
     public static final String SECOND_THERMOCOUPLE_GROUP_THERMOCOUPLE_TEMPERATURE_LINE = "secondThermocoupleGroupThermocoupleTemperatureLine";
     public static final String SECOND_THERMOCOUPLE_GROUP_THERMOCOUPLE_MAX_TEMPERATURE_LINE = "secondThermocoupleGroupThermocoupleMaxTemperatureLine";
 
     public static final String THIRD_THERMOCOUPLE_GROUP_THERMOCOUPLE_TEMPERATURE_LINE = "thirdThermocoupleGroupThermocoupleTemperatureLine";
     public static final String THIRD_THERMOCOUPLE_GROUP_THERMOCOUPLE_MAX_TEMPERATURE_LINE = "thirdThermocoupleGroupThermocoupleMaxTemperatureLine";
-
-
 
 
 }

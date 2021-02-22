@@ -7,7 +7,8 @@
 
 <BorderPane stylesheets="/css/style.css" xmlns="http://javafx.com/javafx/10.0.2-internal"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="io.github.therealmone.fireres.gui.controller.MainSceneController">
+            fx:id="component"
+            fx:controller="io.github.therealmone.fireres.gui.controller.common.MainScene">
 
     <top>
         <AnchorPane prefWidth="200.0" BorderPane.alignment="TOP_LEFT">

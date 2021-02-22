@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
-
-<TabPane fx:id="samplesTabPane" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1"
+<TabPane tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1"
          xmlns:fx="http://javafx.com/fxml/1"
-         fx:controller="io.github.therealmone.fireres.gui.controller.SamplesTabPaneController">
+         fx:id="component"
+         fx:controller="io.github.therealmone.fireres.gui.controller.common.SamplesTabPane">
 
     <tabs>
         <Tab fx:id="addSampleTab" styleClass="addSampleTab" text="+"

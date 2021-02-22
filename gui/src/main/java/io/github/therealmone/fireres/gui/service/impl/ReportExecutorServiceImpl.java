@@ -2,7 +2,7 @@ package io.github.therealmone.fireres.gui.service.impl;
 
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
-import io.github.therealmone.fireres.gui.controller.GeneralParamsController;
+import io.github.therealmone.fireres.gui.controller.common.GeneralParams;
 import io.github.therealmone.fireres.gui.model.ReportTask;
 import io.github.therealmone.fireres.gui.service.ReportExecutorService;
 import javafx.application.Platform;
@@ -31,7 +31,7 @@ public class ReportExecutorServiceImpl implements ReportExecutorService {
     private final Map<UUID, AtomicInteger> tasksRunning = new ConcurrentHashMap<>();
 
     @Inject
-    private GeneralParamsController generalParamsController;
+    private GeneralParams generalParams;
 
     @Override
     public void runTask(ReportTask task) {
@@ -90,12 +90,11 @@ public class ReportExecutorServiceImpl implements ReportExecutorService {
     }
 
     private void lockGeneralParams() {
-        generalParamsController.getGeneralParamsTitledPane().setDisable(true);
+        generalParams.getComponent().setDisable(true);
     }
 
     private void unlockGeneralParams() {
-        Platform.runLater(() ->
-                generalParamsController.getGeneralParamsTitledPane().setDisable(false));
+        Platform.runLater(() -> generalParams.getComponent().setDisable(false));
     }
 
     private void showProgressIndicator(List<ChartContainer> chartContainers) {

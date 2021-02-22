@@ -2,14 +2,14 @@ package io.github.therealmone.fireres.gui.config;
 
 import io.github.therealmone.fireres.core.config.Interpolation;
 import io.github.therealmone.fireres.core.config.SampleProperties;
-import io.github.therealmone.fireres.gui.controller.common.FunctionParamsController;
+import io.github.therealmone.fireres.gui.controller.common.FunctionParams;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import lombok.val;
 
 import java.util.function.Function;
 
-public class FunctionParametersConfigurer implements Configurer<FunctionParamsController> {
+public class FunctionParametersConfigurer implements Configurer<FunctionParams> {
 
     private static final Double DEFAULT_LINEAR_COEFFICIENT = 0.5d;
     private static final Double DEFAULT_LINEAR_COEFFICIENT_MIN = 0d;
@@ -22,12 +22,12 @@ public class FunctionParametersConfigurer implements Configurer<FunctionParamsCo
     private static final Double DEFAULT_DISPERSION_COEFFICIENT_INCREMENT = 0.01;
 
     @Override
-    public void config(FunctionParamsController controller) {
-        val sampleProperties = controller.getSample().getSampleProperties();
-        val mapper = controller.getPropertiesMapper();
+    public void config(FunctionParams functionParams) {
+        val sampleProperties = functionParams.getSample().getSampleProperties();
+        val mapper = functionParams.getPropertiesMapper();
 
-        resetLinearCoefficient(controller.getLinearityCoefficientSpinner(), sampleProperties, mapper);
-        resetDispersionCoefficient(controller.getDispersionCoefficientSpinner(), sampleProperties, mapper);
+        resetLinearCoefficient(functionParams.getLinearityCoefficient(), sampleProperties, mapper);
+        resetDispersionCoefficient(functionParams.getDispersionCoefficient(), sampleProperties, mapper);
     }
 
     private void resetLinearCoefficient(Spinner<Double> LinearCoefficient, SampleProperties sample,

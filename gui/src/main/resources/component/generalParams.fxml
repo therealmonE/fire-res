@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import io.github.therealmone.fireres.gui.component.ContextlessSpinner?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.CheckMenuItem?>
 <?import javafx.scene.control.Label?>
@@ -9,13 +10,11 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<?import io.github.therealmone.fireres.gui.component.ContextlessSpinner?>
-
 <TitledPane collapsible="false" maxHeight="110.0" maxWidth="5000.0" minHeight="110.0" minWidth="500.0"
             prefWidth="5000.0"
             text="Общие параметры" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
-            fx:id="generalParamsTitledPane"
-            fx:controller="io.github.therealmone.fireres.gui.controller.GeneralParamsController">
+            fx:id="component"
+            fx:controller="io.github.therealmone.fireres.gui.controller.common.GeneralParams">
     <GridPane>
         <columnConstraints>
             <ColumnConstraints/>
@@ -31,7 +30,7 @@
 
         <Label prefHeight="16.0" prefWidth="60.0" text="Время:"/>
 
-        <ContextlessSpinner fx:id="timeSpinner" editable="true" prefHeight="26.0" prefWidth="80.0"
+        <ContextlessSpinner fx:id="time" editable="true" prefHeight="26.0" prefWidth="80.0"
                             GridPane.columnIndex="1"/>
 
         <Label prefHeight="16.0" prefWidth="183.0" text="Температура окружения:" GridPane.rowIndex="1">
@@ -46,8 +45,8 @@
             </padding>
         </Label>
 
-        <ContextlessSpinner fx:id="environmentTemperatureSpinner" editable="true" prefHeight="26.0"
-                 prefWidth="80.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+        <ContextlessSpinner fx:id="environmentTemperature" editable="true" prefHeight="26.0"
+                            prefWidth="80.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
             <GridPane.margin>
                 <Insets top="15.0"/>
             </GridPane.margin>

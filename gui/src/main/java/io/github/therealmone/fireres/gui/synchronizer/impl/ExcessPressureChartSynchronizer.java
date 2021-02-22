@@ -6,9 +6,9 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import lombok.val;
 
+import static io.github.therealmone.fireres.gui.model.ElementIds.EXCESS_PRESSURE_LINE;
 import static io.github.therealmone.fireres.gui.model.ElementIds.EXCESS_PRESSURE_MAX_ALLOWED_PRESSURE_LINE;
 import static io.github.therealmone.fireres.gui.model.ElementIds.EXCESS_PRESSURE_MIN_ALLOWED_PRESSURE_LINE;
-import static io.github.therealmone.fireres.gui.model.ElementIds.EXCESS_PRESSURE_LINE;
 import static io.github.therealmone.fireres.gui.util.ChartUtils.addPointsToSeries;
 
 public class ExcessPressureChartSynchronizer implements ChartSynchronizer<ExcessPressureReport> {

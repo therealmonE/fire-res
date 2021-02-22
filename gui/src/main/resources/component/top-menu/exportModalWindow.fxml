@@ -6,13 +6,13 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" stylesheets="/css/style.css"
             xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="io.github.therealmone.fireres.gui.controller.top.menu.ExportModalWindowController">
+            fx:id="component"
+            fx:controller="io.github.therealmone.fireres.gui.controller.modal.export.ExportModalWindow">
     <VBox>
         <ScrollPane fitToWidth="true">
-            <VBox fx:id="samplesExportVbox" prefHeight="500.0">
+            <VBox fx:id="exportSamplesVbox" prefHeight="500.0">
             </VBox>
         </ScrollPane>
         <ButtonBar>

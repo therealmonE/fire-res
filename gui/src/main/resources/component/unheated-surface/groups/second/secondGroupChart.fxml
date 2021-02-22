@@ -3,11 +3,10 @@
 <?import io.github.therealmone.fireres.gui.component.SmoothedLineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.layout.StackPane?>
-
 <StackPane xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
-           fx:id="secondGroupChartStackPane"
-           fx:controller="io.github.therealmone.fireres.gui.controller.unheated.surface.groups.second.SecondGroupChartController">
-    <SmoothedLineChart fx:id="secondGroupChart" focusTraversable="true" legendSide="RIGHT"
+           fx:id="component"
+           fx:controller="io.github.therealmone.fireres.gui.controller.unheated.surface.groups.second.SecondGroupChart">
+    <SmoothedLineChart fx:id="chart" focusTraversable="true" legendSide="RIGHT"
                        maxHeight="1.7976931348623157E308"
                        maxWidth="1.7976931348623157E308" prefWidth="5000.0">
         <xAxis>

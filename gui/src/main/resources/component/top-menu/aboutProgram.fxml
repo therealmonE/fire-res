@@ -12,9 +12,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-
-<AnchorPane fx:controller="io.github.therealmone.fireres.gui.controller.top.menu.AboutProgramController"
+<AnchorPane fx:controller="io.github.therealmone.fireres.gui.controller.modal.AboutProgramModalWindow"
             prefHeight="300.0" prefWidth="400.0" stylesheets="/css/style.css"
+            fx:id="component"
             xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <VBox alignment="CENTER" prefHeight="300.0" prefWidth="400.0">
