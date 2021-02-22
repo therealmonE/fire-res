@@ -9,10 +9,10 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-
 <Pane stylesheets="/css/style.css"
       xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="io.github.therealmone.fireres.gui.controller.common.SampleRenameModalWindowController">
+      fx:id="component"
+      fx:controller="io.github.therealmone.fireres.gui.controller.modal.SampleRenameModalWindow">
     <VBox>
         <GridPane>
 

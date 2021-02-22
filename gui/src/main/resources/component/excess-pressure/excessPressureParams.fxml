@@ -8,10 +8,10 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-
 <TitledPane minWidth="322.0" text="Параметры избыточного давления" xmlns="http://javafx.com/javafx/10.0.2-internal"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="io.github.therealmone.fireres.gui.controller.excess.pressure.ExcessPressureParamsController">
+            fx:id="component"
+            fx:controller="io.github.therealmone.fireres.gui.controller.excess.pressure.ExcessPressureParams">
 
     <VBox prefWidth="322.0">
         <GridPane>
@@ -30,7 +30,7 @@
 
             <Label prefHeight="16.0" prefWidth="165.0" text="Базовое давление:"/>
 
-            <ContextlessSpinner fx:id="basePressureSpinner" editable="true" prefHeight="26.0" prefWidth="80.0"
+            <ContextlessSpinner fx:id="basePressure" editable="true" prefHeight="26.0" prefWidth="80.0"
                                 GridPane.columnIndex="1"/>
 
             <Label prefWidth="30.0" text="Па" GridPane.columnIndex="2" GridPane.rowIndex="0">
@@ -45,7 +45,7 @@
                 </GridPane.margin>
             </Label>
 
-            <ContextlessSpinner fx:id="deltaSpinner" editable="true" prefHeight="26.0" prefWidth="80.0"
+            <ContextlessSpinner fx:id="delta" editable="true" prefHeight="26.0" prefWidth="80.0"
                                 GridPane.columnIndex="1" GridPane.rowIndex="1">
                 <GridPane.margin>
                     <Insets top="15.0"/>
@@ -64,7 +64,7 @@
                 </GridPane.margin>
             </Label>
 
-            <ContextlessSpinner fx:id="dispersionCoefficientSpinner" editable="true" prefHeight="26.0" prefWidth="80.0"
+            <ContextlessSpinner fx:id="dispersionCoefficient" editable="true" prefHeight="26.0" prefWidth="80.0"
                                 GridPane.columnIndex="1" GridPane.rowIndex="2">
                 <GridPane.margin>
                     <Insets top="15.0"/>

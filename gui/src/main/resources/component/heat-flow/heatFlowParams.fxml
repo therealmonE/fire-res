@@ -8,10 +8,10 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-
 <TitledPane prefWidth="335.0" text="Параметры теплового потока" xmlns="http://javafx.com/javafx/10.0.2-internal"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="io.github.therealmone.fireres.gui.controller.heat.flow.HeatFlowParamsController">
+            fx:id="component"
+            fx:controller="io.github.therealmone.fireres.gui.controller.heat.flow.HeatFlowParams">
 
     <VBox prefWidth="335.0">
         <GridPane prefWidth="335.0">
@@ -29,7 +29,7 @@
 
             <Label prefHeight="16.0" prefWidth="165.0" text="Количество сенсоров:" GridPane.rowIndex="0"/>
 
-            <ContextlessSpinner fx:id="sensorSpinner" editable="true" prefHeight="26.0" prefWidth="80.0"
+            <ContextlessSpinner fx:id="sensors" editable="true" prefHeight="26.0" prefWidth="80.0"
                                 GridPane.columnIndex="1" GridPane.rowIndex="0"/>
 
             <Label prefWidth="30.0" text="шт." GridPane.columnIndex="2" GridPane.rowIndex="0">
@@ -44,7 +44,7 @@
                 </GridPane.margin>
             </Label>
 
-            <ContextlessSpinner fx:id="heatFlowBoundSpinner" editable="true" prefHeight="26.0" prefWidth="80.0"
+            <ContextlessSpinner fx:id="bound" editable="true" prefHeight="26.0" prefWidth="80.0"
                                 GridPane.columnIndex="1" GridPane.rowIndex="1">
                 <GridPane.margin>
                     <Insets top="15.0"/>

@@ -6,7 +6,8 @@ import io.github.therealmone.fireres.core.config.SampleProperties;
 import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.excess.pressure.config.ExcessPressureProperties;
 import io.github.therealmone.fireres.firemode.config.FireModeProperties;
-import io.github.therealmone.fireres.gui.controller.SamplesTabPaneController;
+import io.github.therealmone.fireres.gui.controller.common.SampleTab;
+import io.github.therealmone.fireres.gui.controller.common.SamplesTabPane;
 import io.github.therealmone.fireres.gui.service.FxmlLoadService;
 import io.github.therealmone.fireres.gui.service.SampleService;
 import io.github.therealmone.fireres.heatflow.config.HeatFlowProperties;
@@ -33,9 +34,9 @@ public class SampleServiceImpl implements SampleService {
     private final AtomicInteger sampleCounter = new AtomicInteger(0);
 
     @Override
-    public void createNewSample(SamplesTabPaneController samplesTabPaneController) {
+    public void createNewSample(SamplesTabPane samplesTabPaneController) {
         val samplesProperties = generationProperties.getSamples();
-        val samplesTabPane = samplesTabPaneController.getSamplesTabPane();
+        val samplesTabPane = samplesTabPaneController.getComponent();
 
         val newSampleProperties = initializeProperties();
 
@@ -75,35 +76,30 @@ public class SampleServiceImpl implements SampleService {
     }
 
     @Override
-    public void closeSample(TabPane samplesTabPane, Tab closedSampleTab) {
-        val sampleId = ((Sample) closedSampleTab.getUserData()).getId();
+    public void closeSample(SamplesTabPane samplesTabPane, SampleTab closedSampleTab) {
+        val sampleId = closedSampleTab.getSample().getId();
 
+        samplesTabPane.getChildren().removeIf(tab -> tab.equals(closedSampleTab));
         generationProperties.getSamples().removeIf(sample -> sample.getId().equals(sampleId));
 
-        if (samplesTabPane.getTabs().size() == 2) {
-            samplesTabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
-        }
-    }
-
-    @Override
-    public Sample getSample(Tab sampleTab) {
-        if (sampleTab.getUserData() != null && sampleTab.getUserData() instanceof Sample) {
-            return (Sample) sampleTab.getUserData();
-        } else {
-            throw new IllegalStateException("Sample tab user data is not instance of " + Sample.class.getSimpleName());
+        if (samplesTabPane.getComponent().getTabs().size() == 2) {
+            samplesTabPane.getComponent().setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
         }
     }
 
     @SneakyThrows
-    private Tab createSampleTab(SamplesTabPaneController samplesTabPaneController,
+    private Tab createSampleTab(SamplesTabPane samplesTabPane,
                                 SampleProperties sampleProperties,
                                 String tabName) {
 
-        val tab = (Tab) fxmlLoadService.loadSampleTab(samplesTabPaneController, new Sample(sampleProperties));
+        val sample = (SampleTab) fxmlLoadService.loadComponent(
+                SampleTab.class,
+                samplesTabPane,
+                sampleTab -> sampleTab.setSample(new Sample(sampleProperties)));
 
-        tab.setText(tabName);
+        sample.getComponent().setText(tabName);
 
-        return tab;
+        return sample.getComponent();
     }
 
 }

@@ -2,10 +2,10 @@
 
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.VBox?>
-
 <ScrollPane fitToWidth="true" fitToHeight="true" hbarPolicy="NEVER" xmlns="http://javafx.com/javafx/10.0.2-internal"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="io.github.therealmone.fireres.gui.controller.unheated.surface.UnheatedSurfaceController">
+            fx:id="component"
+            fx:controller="io.github.therealmone.fireres.gui.controller.unheated.surface.UnheatedSurface">
 
     <VBox focusTraversable="true">
         <fx:include fx:id="firstGroup"

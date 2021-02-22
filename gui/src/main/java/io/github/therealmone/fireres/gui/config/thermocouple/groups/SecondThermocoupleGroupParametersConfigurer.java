@@ -2,13 +2,13 @@ package io.github.therealmone.fireres.gui.config.thermocouple.groups;
 
 import io.github.therealmone.fireres.core.config.SampleProperties;
 import io.github.therealmone.fireres.gui.config.Configurer;
-import io.github.therealmone.fireres.gui.controller.unheated.surface.groups.second.SecondGroupParamsController;
+import io.github.therealmone.fireres.gui.controller.unheated.surface.groups.second.SecondGroupParams;
 import io.github.therealmone.fireres.unheated.surface.config.UnheatedSurfaceProperties;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import lombok.val;
 
-public class SecondThermocoupleGroupParametersConfigurer implements Configurer<SecondGroupParamsController> {
+public class SecondThermocoupleGroupParametersConfigurer implements Configurer<SecondGroupParams> {
 
     private static final Integer DEFAULT_THERMOCOUPLES_NUMBER = 1;
     private static final Integer DEFAULT_THERMOCOUPLES_NUMBER_MIN = 1;
@@ -20,11 +20,11 @@ public class SecondThermocoupleGroupParametersConfigurer implements Configurer<S
     private static final Integer DEFAULT_BOUND_INCREMENT = 100;
 
     @Override
-    public void config(SecondGroupParamsController controller) {
+    public void config(SecondGroupParams controller) {
         val sampleProperties = controller.getSample().getSampleProperties();
 
-        resetThermocouplesNumber(controller.getSecondGroupThermocouplesCountSpinner(), sampleProperties);
-        resetBound(controller.getSecondGroupBoundSpinner(), sampleProperties);
+        resetThermocouplesNumber(controller.getThermocouples(), sampleProperties);
+        resetBound(controller.getBound(), sampleProperties);
     }
 
     private void resetThermocouplesNumber(Spinner<Integer> ThermocouplesNumber, SampleProperties sample) {

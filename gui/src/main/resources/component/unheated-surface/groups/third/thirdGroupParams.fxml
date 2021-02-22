@@ -8,10 +8,10 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-
 <TitledPane contentDisplay="RIGHT" prefWidth="307.0" text="Общие параметры"
             xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="io.github.therealmone.fireres.gui.controller.unheated.surface.groups.third.ThirdGroupParamsController">
+            fx:id="component"
+            fx:controller="io.github.therealmone.fireres.gui.controller.unheated.surface.groups.third.ThirdGroupParams">
 
     <padding>
         <Insets top="15.0"/>
@@ -32,7 +32,7 @@
 
             <Label prefHeight="16.0" prefWidth="165.0" text="Количество термопар:"/>
 
-            <ContextlessSpinner fx:id="thirdGroupThermocouplesCountSpinner" editable="true" prefHeight="26.0"
+            <ContextlessSpinner fx:id="thermocouples" editable="true" prefHeight="26.0"
                                 prefWidth="80.0" GridPane.columnIndex="1"/>
 
             <Label prefWidth="30.0" text="шт." GridPane.columnIndex="2" GridPane.rowIndex="0">
@@ -49,7 +49,7 @@
                 </GridPane.margin>
             </Label>
 
-            <ContextlessSpinner fx:id="thirdGroupBoundSpinner" editable="true" prefHeight="26.0" prefWidth="80.0"
+            <ContextlessSpinner fx:id="bound" editable="true" prefHeight="26.0" prefWidth="80.0"
                                 GridPane.columnIndex="1" GridPane.rowIndex="1">
                 <GridPane.margin>
                     <Insets top="15.0"/>

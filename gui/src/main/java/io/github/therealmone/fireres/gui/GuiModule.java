@@ -1,13 +1,16 @@
 package io.github.therealmone.fireres.gui;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import io.github.therealmone.fireres.core.CoreModule;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.excel.ExcelModule;
 import io.github.therealmone.fireres.excess.pressure.ExcessPressureModule;
 import io.github.therealmone.fireres.firemode.FireModeModule;
-import io.github.therealmone.fireres.gui.controller.GeneralParamsController;
+import io.github.therealmone.fireres.gui.annotation.processor.AnnotationProcessor;
+import io.github.therealmone.fireres.gui.annotation.processor.ModalWindowAnnotationProcessor;
+import io.github.therealmone.fireres.gui.controller.common.GeneralParams;
 import io.github.therealmone.fireres.gui.model.Logos;
 import io.github.therealmone.fireres.gui.service.AlertService;
 import io.github.therealmone.fireres.gui.service.ChartsSynchronizationService;
@@ -30,6 +33,7 @@ import javafx.scene.image.Image;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -49,7 +53,7 @@ public class GuiModule extends AbstractModule {
         install(new HeatFlowModule());
         install(new ExcelModule());
 
-        bind(GeneralParamsController.class).toInstance(new GeneralParamsController());
+        bind(GeneralParams.class).toInstance(new GeneralParams());
 
         bind(GraphicalInterface.class).in(Singleton.class);
         bind(SampleService.class).to(SampleServiceImpl.class).in(Singleton.class);
@@ -74,6 +78,14 @@ public class GuiModule extends AbstractModule {
                 new Image(getClass().getResource("/image/logo-512.png").openStream()),
                 new Image(getClass().getResource("/image/logo-50.png").openStream())
         );
+    }
+
+    @Provides
+    @Singleton
+    public List<AnnotationProcessor> annotationProcessors(
+            ModalWindowAnnotationProcessor modalWindowAnnotationProcessor
+    ) {
+        return List.of(modalWindowAnnotationProcessor);
     }
 
 }

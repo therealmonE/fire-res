@@ -2,11 +2,11 @@ package io.github.therealmone.fireres.gui.config;
 
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
-import io.github.therealmone.fireres.gui.controller.GeneralParamsController;
+import io.github.therealmone.fireres.gui.controller.common.GeneralParams;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory;
 
-public class GeneralParametersConfigurer implements Configurer<GeneralParamsController> {
+public class GeneralParametersConfigurer implements Configurer<GeneralParams> {
 
     @Inject
     private GenerationProperties generationProperties;
@@ -20,9 +20,9 @@ public class GeneralParametersConfigurer implements Configurer<GeneralParamsCont
     private static final Integer DEFAULT_TIME_MAX = 1000;
 
     @Override
-    public void config(GeneralParamsController controller) {
-        resetTime(controller.getTimeSpinner());
-        resetEnvironmentTemperature(controller.getEnvironmentTemperatureSpinner());
+    public void config(GeneralParams generalParams) {
+        resetTime(generalParams.getTime());
+        resetEnvironmentTemperature(generalParams.getEnvironmentTemperature());
     }
 
     private void resetEnvironmentTemperature(Spinner<Integer> environmentTemperature) {

@@ -1,13 +1,13 @@
 package io.github.therealmone.fireres.gui.config;
 
 import io.github.therealmone.fireres.core.config.SampleProperties;
-import io.github.therealmone.fireres.gui.controller.heat.flow.HeatFlowParamsController;
+import io.github.therealmone.fireres.gui.controller.heat.flow.HeatFlowParams;
 import io.github.therealmone.fireres.heatflow.config.HeatFlowProperties;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import lombok.val;
 
-public class HeatFlowParametersConfigurer implements Configurer<HeatFlowParamsController> {
+public class HeatFlowParametersConfigurer implements Configurer<HeatFlowParams> {
 
     private static final Integer DEFAULT_SENSORS_COUNT = 1;
     private static final Integer DEFAULT_SENSORS_COUNT_MIN = 1;
@@ -19,11 +19,11 @@ public class HeatFlowParametersConfigurer implements Configurer<HeatFlowParamsCo
     private static final Double DEFAULT_HEAT_FLOW_BOUND_INCREMENT = 0.1;
 
     @Override
-    public void config(HeatFlowParamsController controller) {
+    public void config(HeatFlowParams controller) {
         val sampleProperties = controller.getSample().getSampleProperties();
 
-        resetSensorsCount(controller.getSensorSpinner(), sampleProperties);
-        resetHeatFlowBound(controller.getHeatFlowBoundSpinner(), sampleProperties);
+        resetSensorsCount(controller.getSensors(), sampleProperties);
+        resetHeatFlowBound(controller.getBound(), sampleProperties);
     }
 
     private void resetSensorsCount(Spinner<Integer> sensorsCount, SampleProperties sample) {

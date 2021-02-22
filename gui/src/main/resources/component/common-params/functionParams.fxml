@@ -11,10 +11,10 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-
 <TitledPane contentDisplay="RIGHT" prefWidth="305.0" text="Параметры функции"
+            fx:id="component"
             xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="io.github.therealmone.fireres.gui.controller.common.FunctionParamsController">
+            fx:controller="io.github.therealmone.fireres.gui.controller.common.FunctionParams">
 
     <padding>
         <Insets top="15.0"/>
@@ -36,7 +36,7 @@
 
                 <Label prefHeight="16.0" prefWidth="165.0" text="Коэффициент линейности:"/>
 
-                <ContextlessSpinner fx:id="linearityCoefficientSpinner" editable="true" prefHeight="26.0"
+                <ContextlessSpinner fx:id="linearityCoefficient" editable="true" prefHeight="26.0"
                                     prefWidth="80.0" GridPane.columnIndex="1"/>
 
                 <Label prefHeight="16.0" prefWidth="165.0" text="Коэффициент дисперсии:" GridPane.rowIndex="1">
@@ -45,7 +45,7 @@
                     </GridPane.margin>
                 </Label>
 
-                <ContextlessSpinner fx:id="dispersionCoefficientSpinner" editable="true" prefHeight="26.0"
+                <ContextlessSpinner fx:id="dispersionCoefficient" editable="true" prefHeight="26.0"
                                     prefWidth="80.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                     <GridPane.margin>
                         <Insets top="15.0"/>
@@ -66,7 +66,7 @@
 
             <AnchorPane prefWidth="250.0">
                 <children>
-                    <TableView fx:id="interpolationPointsTableView" focusTraversable="false" prefHeight="300.0"
+                    <TableView fx:id="interpolationPoints" focusTraversable="false" prefHeight="300.0"
                                prefWidth="290.0">
                         <placeholder>
                             <Label text="Нет точек интерполяции"/>

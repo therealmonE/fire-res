@@ -15,7 +15,7 @@ import lombok.val;
 
 /**
  * Copy-pasted from:
- *
+ * <p>
  * https://stackoverflow.com/questions/33308877/fxml-custom-chart
  */
 public class SmoothedLineChart extends LineChart<Number, Number> {
