@@ -15,8 +15,6 @@
           fx:controller="io.github.therealmone.fireres.gui.controller.modal.export.ExportSample"
           onAction="#changeSampleInclusion">
     <graphic>
-        <TitledPane fx:id="sampleExportTitledPane" expanded="false" text="Образец 1">
-            <VBox prefWidth="250.0">
         <TitledPane fx:id="titledPane" expanded="false" text="Образец 1">
             <VBox>
                 <Label alignment="CENTER" text="Имя файла">

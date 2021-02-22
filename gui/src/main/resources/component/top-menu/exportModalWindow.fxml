@@ -22,7 +22,7 @@
                     </VBox.margin>
                 </Label>
                 <ScrollPane fitToWidth="true">
-                    <VBox fx:id="samplesExportVbox" prefHeight="500.0">
+                    <VBox fx:id="exportSamplesVbox" prefHeight="500.0">
                         <fx:include source="sampleExportComponent.fxml"/>
                     </VBox>
                 </ScrollPane>
@@ -31,10 +31,6 @@
                 <fx:include source="sampleGroupComponent.fxml"/>
             </VBox>
         </HBox>
-        <ScrollPane fitToWidth="true">
-            <VBox fx:id="exportSamplesVbox" prefHeight="500.0">
-            </VBox>
-        </ScrollPane>
         <ButtonBar>
             <buttons>
                 <Button text="Добавить группу"/>
