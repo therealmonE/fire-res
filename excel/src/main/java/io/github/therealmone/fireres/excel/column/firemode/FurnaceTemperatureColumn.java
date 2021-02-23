@@ -5,9 +5,9 @@ import io.github.therealmone.fireres.excel.column.PointSequenceColumn;
 
 public class FurnaceTemperatureColumn extends PointSequenceColumn {
 
-    private static final String HEADER = "Т";
+    private static final String HEADER = "Т - %s";
 
-    public FurnaceTemperatureColumn(FurnaceTemperature points) {
-        super(HEADER, false, points);
+    public FurnaceTemperatureColumn(String sampleName, FurnaceTemperature points) {
+        super(String.format(HEADER, sampleName), false, points);
     }
 }

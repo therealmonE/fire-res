@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface ExcelReportsBuilder {
 
-    List<ExcelReport> build(GeneralProperties generalProperties, Report report);
+    List<ExcelReport> build(GeneralProperties generalProperties, List<Report> reports);
 
 }

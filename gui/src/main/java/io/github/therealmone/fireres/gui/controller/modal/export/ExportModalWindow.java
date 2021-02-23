@@ -17,8 +17,8 @@ import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.val;
 
+import java.io.File;
 import java.util.Collections;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @ModalWindow(title = "Экспорт")
@@ -60,19 +60,34 @@ public class ExportModalWindow extends AbstractComponent<AnchorPane> {
         val chosenDir = dirChooser.showDialog(window);
 
         if (chosenDir != null) {
-            getExportSamples().forEach(controller -> {
-                if (controller.getComponent().isSelected()) {
-                    exportService.exportReports(
-                            chosenDir.toPath(),
-                            controller.getFileName().getText(),
-                            Collections.singletonList(controller.getSample()));
-                }
-            });
+            if (exportSampleColumn != null) {
+                exportSamples(chosenDir);
+            }
+
+            if (exportGroupColumn != null) {
+                exportGroups(chosenDir);
+            }
         }
     }
 
-    public List<ExportSample> getExportSamples() {
-        return getChildren(ExportSample.class);
+    private void exportSamples(File chosenDir) {
+        exportSampleColumn.getChildren(ExportSample.class).forEach(exportSample -> {
+            if (exportSample.getComponent().isSelected()) {
+                exportService.exportReports(
+                        chosenDir.toPath(),
+                        exportSample.getFileName().getText(),
+                        Collections.singletonList(exportSample.getSample()));
+            }
+        });
+    }
+
+    private void exportGroups(File chosenDir) {
+        exportGroupColumn.getChildren(ExportGroup.class).forEach(exportGroup -> {
+            exportService.exportReports(
+                    chosenDir.toPath(),
+                    exportGroup.getFileName(),
+                    exportGroup.getSamples());
+        });
     }
 
     public void addSample(Sample sample) {

@@ -22,10 +22,9 @@ import java.util.List;
 public class FireModeExcelReportsBuilder implements ExcelReportsBuilder {
 
     @Override
-    public List<ExcelReport> build(GeneralProperties generalProperties, Report report) {
-        val fireModeReport = (FireModeReport) report;
+    public List<ExcelReport> build(GeneralProperties generalProperties, List<Report> reports) {
         val time = generalProperties.getTime();
-        val data = createData(generalProperties, fireModeReport);
+        val data = createData(generalProperties, reports);
 
         return List.of(ExcelReport.builder()
                 .data(data)
@@ -33,28 +32,34 @@ public class FireModeExcelReportsBuilder implements ExcelReportsBuilder {
                 .build());
     }
 
-    protected List<Column> createData(GeneralProperties generalProperties, FireModeReport report) {
+    protected List<Column> createData(GeneralProperties generalProperties, List<Report> reports) {
         val columns = new ArrayList<Column>();
 
         val time = generalProperties.getTime();
         val environmentTemperature = generalProperties.getEnvironmentTemperature();
 
         columns.add(new TimeColumn(time));
-        columns.add(new EnvTempColumn(time, environmentTemperature));
-        columns.add(new FurnaceTemperatureColumn(report.getFurnaceTemperature()));
-        columns.add(new MinAllowedTemperatureColumn(report.getMinAllowedTemperature()));
-        columns.add(new MaxAllowedTemperatureColumn(report.getMaxAllowedTemperature()));
         columns.add(new EightTimeColumn(time));
-        columns.add(new StandardTemperatureColumn(report.getStandardTemperature()));
+        columns.add(new EnvTempColumn(time, environmentTemperature));
 
-        val thermocoupleTemperatures = report.getThermocoupleTemperatures();
+        for (Report report : reports) {
+            val fireModeReport = (FireModeReport) report;
+            val sampleName = report.getSample().getSampleProperties().getName();
 
-        for (int t = 0; t < thermocoupleTemperatures.size(); t++) {
-            val thermocoupleTemperature = thermocoupleTemperatures.get(t);
-            columns.add(new ThermocoupleTemperatureColumn(t + 1, thermocoupleTemperature));
+            columns.add(new FurnaceTemperatureColumn(sampleName, fireModeReport.getFurnaceTemperature()));
+            columns.add(new MinAllowedTemperatureColumn(sampleName, fireModeReport.getMinAllowedTemperature()));
+            columns.add(new MaxAllowedTemperatureColumn(sampleName, fireModeReport.getMaxAllowedTemperature()));
+            columns.add(new StandardTemperatureColumn(sampleName, fireModeReport.getStandardTemperature()));
+
+            val thermocoupleTemperatures = fireModeReport.getThermocoupleTemperatures();
+
+            for (int t = 0; t < thermocoupleTemperatures.size(); t++) {
+                val thermocoupleTemperature = thermocoupleTemperatures.get(t);
+                columns.add(new ThermocoupleTemperatureColumn(sampleName, t + 1, thermocoupleTemperature));
+            }
+
+            columns.add(new ThermocouplesMeanTemperatureColumn(sampleName, fireModeReport.getThermocoupleMeanTemperature()));
         }
-
-        columns.add(new ThermocouplesMeanTemperatureColumn(report.getThermocoupleMeanTemperature()));
 
         return columns;
     }

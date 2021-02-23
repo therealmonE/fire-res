@@ -9,21 +9,25 @@ public class ExcessPressureChart extends AbstractExcelChart {
     private static final Integer HEIGHT = 50;
     private static final Integer WIDTH = 25;
 
-    private final Double basePressure;
+    private final String title = "Избыточное давление";
+    private String valueAxisTitle = "Избыточное давление";
 
-    public ExcessPressureChart(Integer time, List<Column> columns, Double basePressure) {
+    public ExcessPressureChart(Integer time, List<Column> columns) {
         super(time, columns, HEIGHT, WIDTH);
-        this.basePressure = basePressure;
     }
 
     @Override
     protected String getTitle() {
-        return "Избыточное давление";
+        return title;
     }
 
     @Override
-    protected String getValueAxisTitle() {
-        return "Избыточное давление, " + basePressure + "±Δ";
+    public String getValueAxisTitle() {
+        return valueAxisTitle;
+    }
+
+    public void setValueAxisTitle(String valueAxisTitle) {
+        this.valueAxisTitle = valueAxisTitle;
     }
 
     @Override

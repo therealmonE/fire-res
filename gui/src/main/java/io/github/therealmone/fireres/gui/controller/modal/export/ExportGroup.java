@@ -11,6 +11,9 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.layout.VBox;
 import lombok.val;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @LoadableComponent("/component/modal/export/exportGroup.fxml")
 public class ExportGroup extends AbstractComponent<TitledPane> {
 
@@ -28,12 +31,22 @@ public class ExportGroup extends AbstractComponent<TitledPane> {
         setFileName(groupName);
     }
 
+    public String getGroupName() {
+        return this.getComponent().getText();
+    }
+
     public void setFileName(String fileName) {
         fileNameField.setText(fileName);
     }
 
-    public String getGroupName() {
-        return this.getComponent().getText();
+    public String getFileName() {
+        return fileNameField.getText();
+    }
+
+    public List<Sample> getSamples() {
+        return getChildren(GroupedSample.class).stream()
+                .map(GroupedSample::getSample)
+                .collect(Collectors.toList());
     }
 
     public void addSample(Sample sample) {

@@ -12,21 +12,25 @@ import io.github.therealmone.fireres.heatflow.report.HeatFlowReport;
 import lombok.val;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class HeatFlowExcelReportsBuilder implements ExcelReportsBuilder {
 
     @Override
-    public List<ExcelReport> build(GeneralProperties generalProperties, Report report) {
-        val heatFlowReport = (HeatFlowReport) report;
+    public List<ExcelReport> build(GeneralProperties generalProperties, List<Report> reports) {
         val time = generalProperties.getTime();
-        val data = createData(generalProperties, heatFlowReport);
 
-        return Collections.singletonList(ExcelReport.builder()
-                .data(data)
-                .chart(new HeatFlowChart(time, data))
-                .build());
+        return reports.stream()
+                .map(report -> {
+                    val data = createData(generalProperties, ((HeatFlowReport) report));
+
+                    return ExcelReport.builder()
+                            .data(data)
+                            .chart(new HeatFlowChart(time, data))
+                            .build();
+                })
+                .collect(Collectors.toList());
     }
 
     protected List<Column> createData(GeneralProperties generalProperties, HeatFlowReport report) {

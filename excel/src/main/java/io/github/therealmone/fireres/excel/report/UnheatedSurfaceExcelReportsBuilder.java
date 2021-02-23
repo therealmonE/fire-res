@@ -17,6 +17,7 @@ import lombok.val;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class UnheatedSurfaceExcelReportsBuilder implements ExcelReportsBuilder {
 
@@ -24,19 +25,24 @@ public class UnheatedSurfaceExcelReportsBuilder implements ExcelReportsBuilder {
     private GenerationProperties generationProperties;
 
     @Override
-    public List<ExcelReport> build(GeneralProperties generalProperties, Report report) {
-        val unheatedSurfaceReport = (UnheatedSurfaceReport) report;
+    public List<ExcelReport> build(GeneralProperties generalProperties, List<Report> reports) {
 
-        return List.of(
-                createReportForGroup(1, unheatedSurfaceReport.getFirstGroup(), 0),
+        return reports.stream()
+                .flatMap(report -> {
+                    val unheatedSurfaceReport = (UnheatedSurfaceReport) report;
 
-                createReportForGroup(2, unheatedSurfaceReport.getSecondGroup(),
-                        unheatedSurfaceReport.getFirstGroup().getThermocoupleTemperatures().size()),
+                    return List.of(
+                            createReportForGroup(1, unheatedSurfaceReport.getFirstGroup(), 0),
 
-                createReportForGroup(3, unheatedSurfaceReport.getThirdGroup(),
-                        unheatedSurfaceReport.getFirstGroup().getThermocoupleTemperatures().size() +
-                                unheatedSurfaceReport.getSecondGroup().getThermocoupleTemperatures().size())
-        );
+                            createReportForGroup(2, unheatedSurfaceReport.getSecondGroup(),
+                                    unheatedSurfaceReport.getFirstGroup().getThermocoupleTemperatures().size()),
+
+                            createReportForGroup(3, unheatedSurfaceReport.getThirdGroup(),
+                                    unheatedSurfaceReport.getFirstGroup().getThermocoupleTemperatures().size() +
+                                            unheatedSurfaceReport.getSecondGroup().getThermocoupleTemperatures().size())
+                    ).stream();
+                })
+                .collect(Collectors.toList());
     }
 
     private ExcelReport createReportForGroup(Integer groupIndex, UnheatedSurfaceGroup group,

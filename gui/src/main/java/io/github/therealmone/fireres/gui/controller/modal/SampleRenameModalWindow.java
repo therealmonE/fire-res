@@ -59,6 +59,7 @@ public class SampleRenameModalWindow extends AbstractComponent<Pane> implements 
         if (validateSampleName()) {
             getSample().getSampleProperties().setName(renameTextField.getText());
             ((SampleTab) getParent()).getComponent().setText(renameTextField.getText());
+            closeWindow();
         }
     }
 

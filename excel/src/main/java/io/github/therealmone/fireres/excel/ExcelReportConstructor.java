@@ -2,7 +2,6 @@ package io.github.therealmone.fireres.excel;
 
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GeneralProperties;
-import io.github.therealmone.fireres.core.model.Report;
 import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.excel.sheet.ExcelSheetsBuilder;
 import lombok.SneakyThrows;
@@ -13,40 +12,38 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.Comparator;
-import java.util.Map;
+import java.util.List;
 
+@SuppressWarnings("rawtypes")
 @Slf4j
 public class ExcelReportConstructor implements ReportConstructor {
 
     public static final String TIMES_NEW_ROMAN = "Times New Roman";
 
     @Inject
-    private Map<Class<? extends Report>, ExcelSheetsBuilder> builderMap;
-
-    @Inject
-    private Map<Class<? extends Report>, Integer> reportOrder;
+    private List<ExcelSheetsBuilder> sheetsBuilders;
 
     @Override
     @SneakyThrows
-    public void construct(GeneralProperties generalProperties, Sample sample, File outputFile) {
+    public void construct(GeneralProperties generalProperties, List<Sample> samples, File outputFile) {
         log.info("Writing excel report to: {}", outputFile.getAbsolutePath());
 
-        try (val excel = generateExcel(generalProperties, sample);
+        try (val excel = generateExcel(generalProperties, samples);
              val outputStream = new FileOutputStream(outputFile)) {
             excel.write(outputStream);
         }
     }
 
-    private Workbook generateExcel(GeneralProperties generalProperties, Sample sample) {
+    private Workbook generateExcel(GeneralProperties generalProperties, List<Sample> samples) {
         val workbook = new XSSFWorkbook();
 
-        sample.getReports().stream()
-                .sorted(Comparator.comparing(r -> reportOrder.get(r.getClass())))
-                .forEach(report ->
-                        builderMap.get(report.getClass()).build(generalProperties, report)
-                                .forEach(sheet -> sheet.create(workbook)));
+        sheetsBuilders.forEach(builder -> {
+            val sheets = builder.build(generalProperties, samples);
+
+            sheets.forEach(sheet -> sheet.create(workbook));
+        });
 
         return workbook;
     }
+
 }
