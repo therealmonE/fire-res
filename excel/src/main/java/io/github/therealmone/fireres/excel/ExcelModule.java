@@ -3,7 +3,6 @@ package io.github.therealmone.fireres.excel;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import io.github.therealmone.fireres.core.model.Report;
 import io.github.therealmone.fireres.excel.annotation.ExcessPressure;
 import io.github.therealmone.fireres.excel.annotation.FireMode;
 import io.github.therealmone.fireres.excel.annotation.HeatFlow;
@@ -18,12 +17,8 @@ import io.github.therealmone.fireres.excel.sheet.ExcessPressureSheetsBuilder;
 import io.github.therealmone.fireres.excel.sheet.FireModeSheetsBuilder;
 import io.github.therealmone.fireres.excel.sheet.HeatFlowSheetsBuilder;
 import io.github.therealmone.fireres.excel.sheet.UnheatedSurfaceSheetsBuilder;
-import io.github.therealmone.fireres.excess.pressure.report.ExcessPressureReport;
-import io.github.therealmone.fireres.firemode.report.FireModeReport;
-import io.github.therealmone.fireres.heatflow.report.HeatFlowReport;
-import io.github.therealmone.fireres.unheated.surface.report.UnheatedSurfaceReport;
 
-import java.util.Map;
+import java.util.List;
 
 public class ExcelModule extends AbstractModule {
 
@@ -44,28 +39,17 @@ public class ExcelModule extends AbstractModule {
 
     @Provides
     @Singleton
-    public Map<Class<? extends Report>, ExcelSheetsBuilder> builderMap(
-            @ExcessPressure ExcelSheetsBuilder excessPressureSheetsBuilder,
+    public List<ExcelSheetsBuilder> sheetBuilders(
             @FireMode ExcelSheetsBuilder fireModeSheetsBuilder,
+            @ExcessPressure ExcelSheetsBuilder excessPressureSheetsBuilder,
             @HeatFlow ExcelSheetsBuilder heatFlowSheetsBuilder,
             @UnheatedSurface ExcelSheetsBuilder unheatedSurfaceSheetsBuilder
     ) {
-        return Map.of(
-                ExcessPressureReport.class, excessPressureSheetsBuilder,
-                FireModeReport.class, fireModeSheetsBuilder,
-                HeatFlowReport.class, heatFlowSheetsBuilder,
-                UnheatedSurfaceReport.class, unheatedSurfaceSheetsBuilder
-        );
-    }
-
-    @Provides
-    @Singleton
-    public static Map<Class<? extends Report>, Integer> reportOrder() {
-        return Map.of(
-                FireModeReport.class, 0,
-                ExcessPressureReport.class, 1,
-                HeatFlowReport.class, 2,
-                UnheatedSurfaceReport.class, 3
+        return List.of(
+                fireModeSheetsBuilder,
+                excessPressureSheetsBuilder,
+                heatFlowSheetsBuilder,
+                unheatedSurfaceSheetsBuilder
         );
     }
 

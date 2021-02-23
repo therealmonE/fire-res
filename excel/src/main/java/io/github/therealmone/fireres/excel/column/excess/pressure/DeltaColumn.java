@@ -12,19 +12,23 @@ import java.util.stream.Collectors;
 
 public class DeltaColumn extends PointSequenceColumn implements ChartColumn {
 
-    private static final String HEADER = "Δ";
-    private static final String CHART_TITLE = "Избыточное давление";
+    private static final String HEADER = "Δ - %s";
+    private static final String CHART_TITLE = "Избыточное давление - %s";
 
-    public DeltaColumn(Pressure pressure) {
-        super(HEADER, false,
+    private final Object sampleName;
+
+    public DeltaColumn(String sampleName, Pressure pressure) {
+        super(String.format(HEADER, sampleName), true,
                 new DoublePointSequence(pressure.getValue().stream()
                         .map(p -> new DoublePoint(p.getTime(), p.getNormalizedValue()))
                         .collect(Collectors.toList())));
+
+        this.sampleName = sampleName;
     }
 
     @Override
     public String getChartLegendTitle() {
-        return CHART_TITLE;
+        return String.format(CHART_TITLE, sampleName);
     }
 
     @Override

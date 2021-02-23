@@ -20,11 +20,9 @@ public class ExportServiceImpl implements ExportService {
 
     @Override
     public void exportReports(Path path, String filename, List<Sample> samples) {
-        samples.forEach(sample -> {
-            val outputFile = path.resolve(filename + ".xlsx").toFile();
+        val outputFile = path.resolve(filename + ".xlsx").toFile();
 
-            reportConstructor.construct(generationProperties.getGeneral(), sample, outputFile);
-        });
+        reportConstructor.construct(generationProperties.getGeneral(), samples, outputFile);
     }
 
 }

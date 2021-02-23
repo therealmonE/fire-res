@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 import lombok.Getter;
 
 @ModalWindow(title = "О программе")
-@LoadableComponent("/component/top-menu/aboutProgram.fxml")
+@LoadableComponent("/component/modal/aboutProgramModalWindow.fxml")
 public class AboutProgramModalWindow extends AbstractComponent<AnchorPane> {
 
     @ModalWindow.Window

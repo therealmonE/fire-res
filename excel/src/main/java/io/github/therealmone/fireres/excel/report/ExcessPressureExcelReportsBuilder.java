@@ -15,32 +15,51 @@ import lombok.val;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 public class ExcessPressureExcelReportsBuilder implements ExcelReportsBuilder {
 
     @Override
-    public List<ExcelReport> build(GeneralProperties generalProperties, Report report) {
-        val excessPressureReport = (ExcessPressureReport) report;
+    public List<ExcelReport> build(GeneralProperties generalProperties, List<Report> reports) {
         val time = generalProperties.getTime();
-        val basePressure = excessPressureReport.getBasePressure();
-        val data = createData(generalProperties, excessPressureReport);
+        val data = createData(generalProperties, reports);
+        val chart = new ExcessPressureChart(time, data);
+
+        if (basePressuresAreSame(reports)) {
+            chart.setValueAxisTitle(String.format(Locale.US, "%s - %.1f±ΔПа",
+                    chart.getValueAxisTitle(),
+                    ((ExcessPressureReport) reports.get(0)).getBasePressure()));
+        }
 
         return Collections.singletonList(ExcelReport.builder()
                 .data(data)
-                .chart(new ExcessPressureChart(time, data, basePressure))
+                .chart(chart)
                 .build());
     }
 
-    private List<Column> createData(GeneralProperties generalProperties, ExcessPressureReport report) {
+    private boolean basePressuresAreSame(List<Report> reports) {
+        val basePressure = ((ExcessPressureReport) reports.get(0)).getBasePressure();
+
+        return reports.stream()
+                .allMatch(report -> ((ExcessPressureReport) report).getBasePressure().equals(basePressure));
+    }
+
+    private List<Column> createData(GeneralProperties generalProperties, List<Report> reports) {
         val time = generalProperties.getTime();
-        val basePressure = report.getBasePressure();
         val columns = new ArrayList<Column>();
 
         columns.add(new TimeColumn(time));
-        columns.add(new MaxAllowedPressureColumn(report.getMaxAllowedPressure()));
-        columns.add(new MinAllowedPressureColumn(report.getMinAllowedPressure()));
-        columns.add(new PressureColumn(report.getPressure(), basePressure));
-        columns.add(new DeltaColumn(report.getPressure()));
+
+        for (Report report : reports) {
+            val excessPressureReport = (ExcessPressureReport) report;
+            val basePressure = excessPressureReport.getBasePressure();
+            val sampleName = report.getSample().getSampleProperties().getName();
+
+            columns.add(new MaxAllowedPressureColumn(sampleName, excessPressureReport.getMaxAllowedPressure()));
+            columns.add(new MinAllowedPressureColumn(sampleName, excessPressureReport.getMinAllowedPressure()));
+            columns.add(new PressureColumn(sampleName, excessPressureReport.getPressure(), basePressure));
+            columns.add(new DeltaColumn(sampleName, excessPressureReport.getPressure()));
+        }
 
         return columns;
     }

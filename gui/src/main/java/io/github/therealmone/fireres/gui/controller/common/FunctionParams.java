@@ -38,7 +38,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 @SuppressWarnings({"unchecked", "rawtypes"})
-@LoadableComponent("/component/common-params/functionParams.fxml")
+@LoadableComponent("/component/common/functionParams.fxml")
 public class FunctionParams extends AbstractReportUpdaterComponent<TitledPane>
         implements SampleContainer, ReportContainer {
 

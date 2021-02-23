@@ -20,7 +20,7 @@ public class Sample {
 
     public <T extends Report> Optional<T> getReportByClass(Class<T> reportClass) {
         //noinspection unchecked
-        return Optional.of((T) reports.get(reportClass));
+        return Optional.ofNullable((T) reports.get(reportClass));
     }
 
     public void putReport(Report report) {

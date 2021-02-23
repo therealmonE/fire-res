@@ -5,13 +5,19 @@ import io.github.therealmone.fireres.gui.annotation.LoadableComponent;
 import io.github.therealmone.fireres.gui.controller.AbstractComponent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.val;
 
-@LoadableComponent("/component/top-menu/sampleExportComponent.fxml")
+@LoadableComponent("/component/modal/export/exportSample.fxml")
 public class ExportSample extends AbstractComponent<CheckBox> {
+
+    @FXML
+    private MenuButton groupSelector;
 
     @FXML
     private TitledPane titledPane;
@@ -38,5 +44,20 @@ public class ExportSample extends AbstractComponent<CheckBox> {
             titledPane.setDisable(true);
             titledPane.setExpanded(false);
         }
+    }
+
+    public void addGroupSelector(ExportGroup group) {
+        val groupItem = new MenuItem(group.getGroupName());
+
+        groupItem.setOnAction(event -> {
+            group.addSample(sample);
+            ((ExportSampleColumn) getParent()).removeSample(this);
+        });
+
+        groupSelector.getItems().add(groupItem);
+    }
+
+    public void removeGroupSelector(ExportGroup group) {
+        groupSelector.getItems().removeIf(menuItem -> menuItem.getText().equals(group.getGroupName()));
     }
 }

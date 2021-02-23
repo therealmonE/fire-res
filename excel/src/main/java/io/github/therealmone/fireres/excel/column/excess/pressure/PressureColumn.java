@@ -8,10 +8,10 @@ import java.util.stream.Collectors;
 
 public class PressureColumn extends PointSequenceColumn{
 
-    private static final String HEADER = "P";
+    private static final String HEADER = "P - %s";
 
-    public PressureColumn(Pressure pressure, Double basePressure) {
-        super(HEADER, false,
+    public PressureColumn(String sampleName, Pressure pressure, Double basePressure) {
+        super(String.format(HEADER, sampleName), true,
                 new DoublePointSequence(pressure.getValue().stream()
                         .map(p -> new DoublePoint(p.getTime(), basePressure + p.getNormalizedValue()))
                         .collect(Collectors.toList()))

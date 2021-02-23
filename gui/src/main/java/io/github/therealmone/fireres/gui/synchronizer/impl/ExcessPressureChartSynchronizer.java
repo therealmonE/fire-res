@@ -13,7 +13,7 @@ import static io.github.therealmone.fireres.gui.util.ChartUtils.addPointsToSerie
 
 public class ExcessPressureChartSynchronizer implements ChartSynchronizer<ExcessPressureReport> {
 
-    private static final String Y_AXIS_LABEL_TEMPLATE = "Избыточное давление, %s±Δ";
+    private static final String Y_AXIS_LABEL_TEMPLATE = "Избыточное давление, %s±ΔПа";
 
     @Override
     public void synchronize(LineChart<Number, Number> chart, ExcessPressureReport report) {

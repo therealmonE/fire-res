@@ -9,7 +9,7 @@
       fx:controller="io.github.therealmone.fireres.gui.controller.fire.mode.FireMode">
     <VBox fx:id="paramsVbox" focusTraversable="true">
         <fx:include fx:id="fireModeParams" source="fireModeParams.fxml"/>
-        <fx:include fx:id="functionParams" source="../common-params/functionParams.fxml"/>
+        <fx:include fx:id="functionParams" source="../common/functionParams.fxml"/>
         <HBox.margin>
             <Insets left="15.0"/>
         </HBox.margin>

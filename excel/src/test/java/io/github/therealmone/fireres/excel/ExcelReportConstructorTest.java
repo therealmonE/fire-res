@@ -14,6 +14,7 @@ import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 
 import java.io.IOException;
+import java.util.Collections;
 
 @RunWith(GuiceRunner.class)
 public class ExcelReportConstructorTest {
@@ -50,7 +51,7 @@ public class ExcelReportConstructorTest {
 
         val file = temporaryFolder.newFile("test.xls");
 
-        reportConstructor.construct(generationProperties.getGeneral(), sample, file);
+        reportConstructor.construct(generationProperties.getGeneral(), Collections.singletonList(sample), file);
     }
 
 }

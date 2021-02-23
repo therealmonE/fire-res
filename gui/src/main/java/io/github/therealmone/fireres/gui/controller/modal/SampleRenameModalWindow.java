@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 @Slf4j
-@LoadableComponent("/component/common-params/sampleRenameModalWindow.fxml")
+@LoadableComponent("/component/modal/sampleRenameModalWindow.fxml")
 @ModalWindow(title = "Переименование образца")
 public class SampleRenameModalWindow extends AbstractComponent<Pane> implements SampleContainer {
 
@@ -59,6 +59,7 @@ public class SampleRenameModalWindow extends AbstractComponent<Pane> implements 
         if (validateSampleName()) {
             getSample().getSampleProperties().setName(renameTextField.getText());
             ((SampleTab) getParent()).getComponent().setText(renameTextField.getText());
+            closeWindow();
         }
     }
 

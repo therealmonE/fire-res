@@ -12,7 +12,7 @@
     <HBox focusTraversable="true" prefHeight="5000.0">
         <VBox fx:id="paramsVbox" focusTraversable="true">
             <fx:include fx:id="thirdGroupParams" source="thirdGroupParams.fxml"/>
-            <fx:include fx:id="functionParams" source="../../../common-params/functionParams.fxml"/>
+            <fx:include fx:id="functionParams" source="../../../common/functionParams.fxml"/>
             <HBox.margin>
                 <Insets left="15.0"/>
             </HBox.margin>
