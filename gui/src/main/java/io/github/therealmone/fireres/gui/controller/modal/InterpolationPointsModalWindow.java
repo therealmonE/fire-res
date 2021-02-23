@@ -21,7 +21,7 @@ import lombok.val;
 import java.util.UUID;
 
 @SuppressWarnings("unchecked")
-@LoadableComponent("/component/common-params/interpolationPointsModalWindow.fxml")
+@LoadableComponent("/component/modal/interpolationPointsModalWindow.fxml")
 @ModalWindow(title = "Добавление точек интерполяции")
 public class InterpolationPointsModalWindow extends AbstractReportUpdaterComponent<Pane>
         implements ReportContainer {

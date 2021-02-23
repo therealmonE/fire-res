@@ -15,7 +15,7 @@ import lombok.val;
 import java.util.List;
 
 @Slf4j
-@LoadableComponent("/component/samplesTabPane.fxml")
+@LoadableComponent("/component/common/samplesTabPane.fxml")
 public class SamplesTabPane extends AbstractComponent<TabPane> {
 
     @Inject

@@ -15,7 +15,7 @@ import lombok.Getter;
 
 import java.util.function.Function;
 
-@LoadableComponent("/component/general-params.fxml")
+@LoadableComponent("/component/common/general-params.fxml")
 public class GeneralParams extends AbstractComponent<TitledPane> {
 
     @FXML

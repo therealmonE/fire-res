@@ -12,6 +12,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+
 <AnchorPane fx:controller="io.github.therealmone.fireres.gui.controller.modal.AboutProgramModalWindow"
             prefHeight="300.0" prefWidth="400.0" stylesheets="/css/style.css"
             fx:id="component"

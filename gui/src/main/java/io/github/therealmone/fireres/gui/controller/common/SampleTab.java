@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 @Slf4j
-@LoadableComponent("/component/sample.fxml")
+@LoadableComponent("/component/common/sample.fxml")
 public class SampleTab extends AbstractComponent<Tab> implements SampleContainer {
 
     @FXML

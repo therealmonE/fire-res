@@ -14,7 +14,7 @@
         <AnchorPane prefWidth="200.0" BorderPane.alignment="TOP_LEFT">
             <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                   AnchorPane.topAnchor="0.0">
-                <fx:include fx:id="topMenuBar" source="../component/topMenuBar.fxml"/>
+                <fx:include fx:id="topMenuBar" source="../component/top-menu/topMenuBar.fxml"/>
                 <Pane fx:id="mainSceneSeparator" prefHeight="7.0"/>
             </VBox>
         </AnchorPane>
@@ -25,8 +25,8 @@
                     BorderPane.alignment="CENTER">
             <VBox fx:id="centerPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
                   AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                <fx:include fx:id="generalParams" source="../component/generalParams.fxml"/>
-                <fx:include fx:id="samplesTabPane" source="../component/samplesTabPane.fxml"/>
+                <fx:include fx:id="generalParams" source="../component/common/generalParams.fxml"/>
+                <fx:include fx:id="samplesTabPane" source="../component/common/samplesTabPane.fxml"/>
             </VBox>
         </AnchorPane>
     </center>
