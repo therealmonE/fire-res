@@ -21,7 +21,7 @@ Fire-resistance report generator
 Чтобы начать работу с приложением, необходимо выполнить следующие шаги:
 
  1. Скачайте и установите [jre-11](https://www.oracle.com/java/technologies/javase/jdk11-archive-downloads.html)
- 2. Скачайте и распакуйте [актуальную версию приложения](https://github.com/therealmonE/fire-res/releases/tag/v0.0.3-prerelease)
+ 2. Скачайте и распакуйте [актуальную версию приложения](https://github.com/therealmonE/fire-res/releases/tag/v0.0.3-release)
  4. Запустите скрипт `run.bat` (Для пользователей Windows) или `run.sh` (Для пользователей Linux / MacOs)
  5. Для экспорта excel отчета нажмите `Файл` -> `Экспорт`
  
