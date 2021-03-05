@@ -1,6 +1,7 @@
 package io.github.therealmone.fireres.excess.pressure.service.impl;
 
 import com.google.inject.Inject;
+import io.github.therealmone.fireres.core.model.DoublePoint;
 import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.core.pipeline.ReportEnrichPipeline;
 import io.github.therealmone.fireres.excess.pressure.report.ExcessPressureReport;
@@ -51,4 +52,49 @@ public class ExcessPressureServiceImpl implements ExcessPressureService {
         reportPipeline.accept(report, PRESSURE);
     }
 
+    @Override
+    public void addMaxAllowedPressureShift(ExcessPressureReport report, DoublePoint shift) {
+        val currentShift = report.getProperties().getBoundsShift().getMaxAllowedPressureShift();
+
+        currentShift.add(shift);
+
+        try {
+            reportPipeline.accept(report, PRESSURE);
+        } catch (Exception e) {
+            currentShift.remove(shift);
+            throw e;
+        }
+    }
+
+    @Override
+    public void removeMaxAllowedPressureShift(ExcessPressureReport report, DoublePoint shift) {
+        val currentShift = report.getProperties().getBoundsShift().getMaxAllowedPressureShift();
+
+        if (currentShift.remove(shift)) {
+            reportPipeline.accept(report, PRESSURE);
+        }
+    }
+
+    @Override
+    public void addMinAllowedPressureShift(ExcessPressureReport report, DoublePoint shift) {
+        val currentShift = report.getProperties().getBoundsShift().getMinAllowedPressureShift();
+
+        currentShift.add(shift);
+
+        try {
+            reportPipeline.accept(report, PRESSURE);
+        } catch (Exception e) {
+            currentShift.remove(shift);
+            throw e;
+        }
+    }
+
+    @Override
+    public void removeMinAllowedPressureShift(ExcessPressureReport report, DoublePoint shift) {
+        val currentShift = report.getProperties().getBoundsShift().getMinAllowedPressureShift();
+
+        if (currentShift.remove(shift)) {
+            reportPipeline.accept(report, PRESSURE);
+        }
+    }
 }
