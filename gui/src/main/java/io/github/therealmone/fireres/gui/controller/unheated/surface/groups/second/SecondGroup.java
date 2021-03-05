@@ -43,7 +43,10 @@ public class SecondGroup extends AbstractComponent<TitledPane> implements Unheat
         getFunctionParams().setInterpolationService(unheatedSurfaceSecondGroupService);
 
         getFunctionParams().setPropertiesMapper(props ->
-                props.getReportPropertiesByClass(UnheatedSurfaceProperties.class).orElseThrow().getSecondGroup());
+                props.getReportPropertiesByClass(UnheatedSurfaceProperties.class)
+                        .orElseThrow()
+                        .getSecondGroup()
+                        .getFunctionForm());
 
         getFunctionParams().setNodesToBlockOnUpdate(singletonList(paramsVbox));
 

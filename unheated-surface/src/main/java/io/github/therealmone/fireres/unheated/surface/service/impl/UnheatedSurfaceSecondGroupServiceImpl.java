@@ -16,7 +16,7 @@ public class UnheatedSurfaceSecondGroupServiceImpl extends AbstractInterpolation
     private ReportEnrichPipeline<UnheatedSurfaceReport> reportPipeline;
 
     public UnheatedSurfaceSecondGroupServiceImpl() {
-        super(report -> report.getProperties().getSecondGroup());
+        super(report -> report.getProperties().getSecondGroup().getFunctionForm());
     }
 
     @Override

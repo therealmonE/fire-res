@@ -18,7 +18,7 @@ public class FireModeServiceImpl extends AbstractInterpolationService<FireModeRe
     private ReportEnrichPipeline<FireModeReport> reportPipeline;
 
     public FireModeServiceImpl() {
-        super(FireModeReport::getProperties);
+        super(report -> report.getProperties().getFunctionForm());
     }
 
     @Override

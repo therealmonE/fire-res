@@ -16,7 +16,7 @@ public class UnheatedSurfaceThirdGroupServiceImpl extends AbstractInterpolationS
     private ReportEnrichPipeline<UnheatedSurfaceReport> reportPipeline;
 
     public UnheatedSurfaceThirdGroupServiceImpl() {
-        super(report -> report.getProperties().getThirdGroup());
+        super(report -> report.getProperties().getThirdGroup().getFunctionForm());
     }
 
     @Override

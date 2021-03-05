@@ -34,7 +34,7 @@ public class BoundEnrichTest {
         val oldBound = report.getBound();
 
         report.getProperties().setBound(0.5);
-        report.getProperties().getInterpolationPoints().clear();
+        report.getProperties().getFunctionForm().getInterpolationPoints().clear();
         reportEnrichPipeline.accept(report, BOUND);
 
         val newBound = report.getBound();

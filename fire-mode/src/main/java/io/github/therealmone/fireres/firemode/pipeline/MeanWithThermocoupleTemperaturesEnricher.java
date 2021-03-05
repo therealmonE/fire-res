@@ -30,7 +30,7 @@ public class MeanWithThermocoupleTemperaturesEnricher implements ReportEnricher<
 
         val meanWithChildFunctions = meanFunctionFactory
                 .meanWithChildFunctions(MeanWithChildFunctionGenerationParameters.builder()
-                        .meanFunctionInterpolation(report.getProperties())
+                        .meanFunctionForm(report.getProperties().getFunctionForm())
                         .meanLowerBound(lowerBound)
                         .meanUpperBound(upperBound)
                         .childLowerBound(lowerBound)

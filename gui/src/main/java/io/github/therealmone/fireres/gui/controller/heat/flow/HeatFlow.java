@@ -67,7 +67,9 @@ public class HeatFlow extends AbstractComponent<HBox>
         getFunctionParams().setInterpolationService(heatFlowService);
 
         getFunctionParams().setPropertiesMapper(props ->
-                props.getReportPropertiesByClass(HeatFlowProperties.class).orElseThrow());
+                props.getReportPropertiesByClass(HeatFlowProperties.class)
+                        .orElseThrow()
+                        .getFunctionForm());
 
         getFunctionParams().setNodesToBlockOnUpdate(singletonList(paramsVbox));
 

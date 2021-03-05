@@ -1,6 +1,6 @@
 package io.github.therealmone.fireres.core.generator;
 
-import io.github.therealmone.fireres.core.config.Interpolation;
+import io.github.therealmone.fireres.core.config.FunctionForm;
 import io.github.therealmone.fireres.core.model.IntegerPoint;
 import io.github.therealmone.fireres.core.model.IntegerPointSequence;
 import lombok.RequiredArgsConstructor;
@@ -33,11 +33,11 @@ public class MeanFunctionGenerator implements PointSequenceGenerator<IntegerPoin
     private final IntegerPointSequence upperBound;
     private final IntegerPointSequence lowerBound;
 
-    private final Interpolation<?> interpolation;
+    private final FunctionForm<?> functionForm;
 
     @Override
     public IntegerPointSequence generate() {
-        val points = interpolation.getInterpolationPoints().stream()
+        val points = functionForm.getInterpolationPoints().stream()
                 .map(p -> new IntegerPoint(p.getTime(), p.getIntValue()))
                 .collect(Collectors.toCollection(ArrayList::new));
 
@@ -67,8 +67,8 @@ public class MeanFunctionGenerator implements PointSequenceGenerator<IntegerPoin
                 .flatMap(interval ->
                         raiseInterval(
                                 interval,
-                                interpolation.getNonLinearityCoefficient(),
-                                interpolation.getDispersionCoefficient(),
+                                functionForm.getNonLinearityCoefficient(),
+                                functionForm.getDispersionCoefficient(),
                                 i -> true
                         ).stream())
                 .collect(Collectors.toList());

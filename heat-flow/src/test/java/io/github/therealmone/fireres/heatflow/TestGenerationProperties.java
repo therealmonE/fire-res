@@ -1,5 +1,6 @@
 package io.github.therealmone.fireres.heatflow;
 
+import io.github.therealmone.fireres.core.config.FunctionForm;
 import io.github.therealmone.fireres.core.config.GeneralProperties;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.config.SampleProperties;
@@ -35,7 +36,9 @@ public class TestGenerationProperties extends GenerationProperties {
         props.putReportProperties(HeatFlowProperties.builder()
                 .sensorCount(SENSOR_COUNT)
                 .bound(BOUND)
-                .interpolationPoints(INTERPOLATION_POINTS)
+                .functionForm(FunctionForm.<Double>builder()
+                        .interpolationPoints(INTERPOLATION_POINTS)
+                        .build())
                 .build());
 
         setSamples(List.of(props));

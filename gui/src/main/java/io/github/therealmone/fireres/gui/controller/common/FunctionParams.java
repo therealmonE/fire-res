@@ -1,7 +1,7 @@
 package io.github.therealmone.fireres.gui.controller.common;
 
 import com.google.inject.Inject;
-import io.github.therealmone.fireres.core.config.Interpolation;
+import io.github.therealmone.fireres.core.config.FunctionForm;
 import io.github.therealmone.fireres.core.config.SampleProperties;
 import io.github.therealmone.fireres.core.model.Point;
 import io.github.therealmone.fireres.core.model.Report;
@@ -74,7 +74,7 @@ public class FunctionParams extends AbstractReportUpdaterComponent<TitledPane>
 
     @Getter
     @Setter
-    private Function<SampleProperties, Interpolation> propertiesMapper;
+    private Function<SampleProperties, FunctionForm> propertiesMapper;
 
     @Getter
     @Setter

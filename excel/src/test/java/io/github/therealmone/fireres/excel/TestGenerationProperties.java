@@ -1,5 +1,6 @@
 package io.github.therealmone.fireres.excel;
 
+import io.github.therealmone.fireres.core.config.FunctionForm;
 import io.github.therealmone.fireres.core.config.GeneralProperties;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.config.ReportType;
@@ -43,8 +44,10 @@ public class TestGenerationProperties extends GenerationProperties {
         val props = new SampleProperties();
 
         props.putReportProperties(FireModeProperties.builder()
-                .linearityCoefficient(0.3)
-                .interpolationPoints(FIREMODE_INTERPOLATION_POINTS)
+                .functionForm(FunctionForm.<Integer>builder()
+                        .linearityCoefficient(0.3)
+                        .interpolationPoints(FIREMODE_INTERPOLATION_POINTS)
+                        .build())
                 .thermocoupleCount(6)
                 .build());
 
@@ -55,19 +58,25 @@ public class TestGenerationProperties extends GenerationProperties {
 
         props.putReportProperties(UnheatedSurfaceProperties.builder()
                 .firstGroup(UnheatedSurfaceGroupProperties.builder()
-                        .interpolationPoints(UNHEATED_SURFACE_INTERPOLATION_POINTS)
-                        .linearityCoefficient(1d)
+                        .functionForm(FunctionForm.<Integer>builder()
+                                .interpolationPoints(UNHEATED_SURFACE_INTERPOLATION_POINTS)
+                                .linearityCoefficient(1d)
+                                .build())
                         .thermocoupleCount(5)
                         .build())
                 .secondGroup(UnheatedSurfaceSecondaryGroupProperties.builder()
+                        .functionForm(FunctionForm.<Integer>builder()
+                                .linearityCoefficient(1d)
+                                .build())
                         .thermocoupleCount(6)
                         .bound(300)
-                        .linearityCoefficient(1d)
                         .build())
                 .thirdGroup(UnheatedSurfaceSecondaryGroupProperties.builder()
+                        .functionForm(FunctionForm.<Integer>builder()
+                                .linearityCoefficient(1d)
+                                .build())
                         .thermocoupleCount(6)
                         .bound(300)
-                        .linearityCoefficient(1d)
                         .build())
                 .build());
 

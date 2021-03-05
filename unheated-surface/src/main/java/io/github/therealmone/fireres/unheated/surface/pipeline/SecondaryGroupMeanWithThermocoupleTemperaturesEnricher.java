@@ -36,7 +36,7 @@ public abstract class SecondaryGroupMeanWithThermocoupleTemperaturesEnricher
 
         val meanWithChildFunctions = meanFunctionFactory
                 .meanWithChildFunctions(MeanWithChildFunctionGenerationParameters.builder()
-                        .meanFunctionInterpolation(groupProperties)
+                        .meanFunctionForm(groupProperties.getFunctionForm())
                         .meanLowerBound(zeroBound)
                         .meanUpperBound(thermocoupleBound)
                         .childFunctionsCount(groupProperties.getThermocoupleCount())

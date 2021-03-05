@@ -43,7 +43,10 @@ public class FirstGroup extends AbstractComponent<TitledPane> implements Unheate
         getFunctionParams().setInterpolationService(unheatedSurfaceFirstGroupService);
 
         getFunctionParams().setPropertiesMapper(props ->
-                props.getReportPropertiesByClass(UnheatedSurfaceProperties.class).orElseThrow().getFirstGroup());
+                props.getReportPropertiesByClass(UnheatedSurfaceProperties.class)
+                        .orElseThrow()
+                        .getFirstGroup()
+                        .getFunctionForm());
 
         getFunctionParams().setNodesToBlockOnUpdate(singletonList(paramsVbox));
 

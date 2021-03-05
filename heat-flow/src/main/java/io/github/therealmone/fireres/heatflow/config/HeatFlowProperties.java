@@ -1,21 +1,22 @@
 package io.github.therealmone.fireres.heatflow.config;
 
-import io.github.therealmone.fireres.core.config.Interpolation;
+import io.github.therealmone.fireres.core.config.FunctionForm;
 import io.github.therealmone.fireres.core.config.ReportProperties;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@SuperBuilder
-public class HeatFlowProperties extends Interpolation<Double> implements ReportProperties {
+@Builder
+public class HeatFlowProperties implements ReportProperties {
 
     private Integer sensorCount;
     private Double bound;
+
+    @Builder.Default
+    private FunctionForm<Double> functionForm = new FunctionForm<>();
 
 }

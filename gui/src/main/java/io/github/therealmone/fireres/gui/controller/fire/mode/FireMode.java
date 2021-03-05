@@ -67,7 +67,9 @@ public class FireMode extends AbstractComponent<HBox>
         getFunctionParams().setInterpolationService(fireModeService);
 
         getFunctionParams().setPropertiesMapper(props ->
-                props.getReportPropertiesByClass(FireModeProperties.class).orElseThrow());
+                props.getReportPropertiesByClass(FireModeProperties.class)
+                        .orElseThrow()
+                        .getFunctionForm());
 
         getFunctionParams().setNodesToBlockOnUpdate(singletonList(paramsVbox));
 

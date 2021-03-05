@@ -19,7 +19,7 @@ public class HeatFlowServiceImpl extends AbstractInterpolationService<HeatFlowRe
     private ReportEnrichPipeline<HeatFlowReport> reportPipeline;
 
     public HeatFlowServiceImpl() {
-        super(HeatFlowReport::getProperties);
+        super(report -> report.getProperties().getFunctionForm());
     }
 
     @Override

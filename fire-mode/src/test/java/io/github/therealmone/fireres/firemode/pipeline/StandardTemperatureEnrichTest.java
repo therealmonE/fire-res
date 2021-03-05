@@ -30,7 +30,7 @@ public class StandardTemperatureEnrichTest {
         val sample = new Sample(generationProperties.getSamples().get(0));
         val report = fireModeService.createReport(sample);
 
-        report.getProperties().getInterpolationPoints().clear();
+        report.getProperties().getFunctionForm().getInterpolationPoints().clear();
         reportEnrichPipeline.accept(report);
 
         val oldMaxAllowedTemperature = report.getMaxAllowedTemperature();

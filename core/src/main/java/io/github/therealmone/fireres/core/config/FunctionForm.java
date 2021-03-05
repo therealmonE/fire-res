@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -15,8 +14,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@SuperBuilder
-public class Interpolation<N extends Number> {
+@Builder
+public class FunctionForm<N extends Number> {
 
     @Optional
     @Builder.Default

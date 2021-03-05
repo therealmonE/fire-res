@@ -48,7 +48,10 @@ public class ThirdGroup extends AbstractComponent<TitledPane> implements Unheate
         getFunctionParams().setInterpolationService(unheatedSurfaceThirdGroupService);
 
         getFunctionParams().setPropertiesMapper(props ->
-                props.getReportPropertiesByClass(UnheatedSurfaceProperties.class).orElseThrow().getThirdGroup());
+                props.getReportPropertiesByClass(UnheatedSurfaceProperties.class)
+                        .orElseThrow()
+                        .getThirdGroup()
+                        .getFunctionForm());
 
         getFunctionParams().setNodesToBlockOnUpdate(singletonList(paramsVbox));
 

@@ -13,7 +13,7 @@ import static io.github.therealmone.fireres.core.TestUtils.assertFunctionNotLowe
 import static io.github.therealmone.fireres.core.TestUtils.toPointList;
 import static org.junit.Assert.assertEquals;
 
-public class InterpolationUtilsTest {
+public class FunctionFormUtilsTest {
 
     @Test
     public void addZeroPoint() {

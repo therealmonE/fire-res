@@ -15,7 +15,7 @@ public class UnheatedSurfaceFirstGroupServiceImpl extends AbstractInterpolationS
     private ReportEnrichPipeline<UnheatedSurfaceReport> reportPipeline;
 
     public UnheatedSurfaceFirstGroupServiceImpl() {
-        super(report -> report.getProperties().getFirstGroup());
+        super(report -> report.getProperties().getFirstGroup().getFunctionForm());
     }
 
     @Override

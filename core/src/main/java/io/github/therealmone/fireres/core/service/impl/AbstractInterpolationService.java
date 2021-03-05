@@ -1,6 +1,6 @@
 package io.github.therealmone.fireres.core.service.impl;
 
-import io.github.therealmone.fireres.core.config.Interpolation;
+import io.github.therealmone.fireres.core.config.FunctionForm;
 import io.github.therealmone.fireres.core.model.Point;
 import io.github.therealmone.fireres.core.model.Report;
 import io.github.therealmone.fireres.core.service.InterpolationService;
@@ -14,7 +14,7 @@ import java.util.function.Function;
 public abstract class AbstractInterpolationService<R extends Report<?>, N extends Number>
         implements InterpolationService<R, N> {
 
-    private final Function<R, Interpolation<N>> propertiesMapper;
+    private final Function<R, FunctionForm<N>> propertiesMapper;
 
     @Override
     public void updateLinearityCoefficient(R report, Double linearityCoefficient) {
