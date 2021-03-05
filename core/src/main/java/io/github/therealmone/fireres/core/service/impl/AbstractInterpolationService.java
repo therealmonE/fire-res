@@ -34,14 +34,17 @@ public abstract class AbstractInterpolationService<R extends Report<?>, N extend
     public void addInterpolationPoint(R report, Point<N> pointToAdd) {
         val currentPoints = propertiesMapper.apply(report).getInterpolationPoints();
 
+        if (currentPoints.stream().anyMatch(p -> p.getTime().equals(pointToAdd.getTime()))) {
+            throw new IllegalArgumentException("Interpolation point already specified on time " + pointToAdd.getTime());
+        }
+
         currentPoints.add(pointToAdd);
         currentPoints.sort(Comparator.comparing(Point::getTime));
 
         try {
             postUpdateInterpolationPoints(report);
         } catch (Exception e) {
-            val indexToRemove = currentPoints.indexOf(pointToAdd);
-            currentPoints.remove(indexToRemove);
+            currentPoints.remove(pointToAdd);
             throw e;
         }
     }

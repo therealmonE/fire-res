@@ -1,6 +1,7 @@
 package io.github.therealmone.fireres.core.generator;
 
 import io.github.therealmone.fireres.core.config.FunctionForm;
+import io.github.therealmone.fireres.core.exception.InvalidMeanFunctionException;
 import io.github.therealmone.fireres.core.model.IntegerPoint;
 import io.github.therealmone.fireres.core.model.IntegerPointSequence;
 import lombok.RequiredArgsConstructor;
@@ -122,10 +123,14 @@ public class MeanFunctionGenerator implements PointSequenceGenerator<IntegerPoin
         val mean = (max + min) / 2;
 
         if (rollDice(newPointChance)) {
-            return new IntegerPoint(middleTime, generateValueInInterval(
-                    mean - (int) ((mean - min) * dispersion),
-                    mean + (int) ((max - mean) * dispersion)
-            ));
+            val lowerBound = mean - (int) ((mean - min) * dispersion);
+            val upperBound = mean + (int) ((max - mean) * dispersion);
+
+            if (lowerBound > upperBound) {
+                throw new InvalidMeanFunctionException();
+            }
+
+            return new IntegerPoint(middleTime, generateValueInInterval(lowerBound, upperBound));
         } else {
             if (middleTemperature < min) {
                 return new IntegerPoint(middleTime, min);

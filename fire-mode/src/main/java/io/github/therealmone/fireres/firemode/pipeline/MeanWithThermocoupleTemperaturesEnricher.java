@@ -25,8 +25,13 @@ public class MeanWithThermocoupleTemperaturesEnricher implements ReportEnricher<
 
     @Override
     public void enrich(FireModeReport report) {
-        val lowerBound = new IntegerPointSequence(report.getMinAllowedTemperature().getSmoothedValue());
-        val upperBound = new IntegerPointSequence(report.getMaxAllowedTemperature().getSmoothedValue());
+        val lowerBound = new IntegerPointSequence(
+                report.getMinAllowedTemperature()
+                        .getShiftedValue(report.getProperties().getBoundsShift().getMinAllowedTemperatureShift()));
+
+        val upperBound = new IntegerPointSequence(
+                report.getMaxAllowedTemperature()
+                        .getShiftedValue(report.getProperties().getBoundsShift().getMaxAllowedTemperatureShift()));
 
         val meanWithChildFunctions = meanFunctionFactory
                 .meanWithChildFunctions(MeanWithChildFunctionGenerationParameters.builder()

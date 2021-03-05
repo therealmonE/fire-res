@@ -3,11 +3,12 @@ package io.github.therealmone.fireres.core.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.SneakyThrows;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class Point<T extends Number> {
+public abstract class Point<T extends Number> implements Cloneable {
 
     private Integer time;
     private T value;
@@ -18,4 +19,9 @@ public abstract class Point<T extends Number> {
         return value.intValue();
     }
 
+    @Override
+    @SneakyThrows
+    public Object clone() {
+        return super.clone();
+    }
 }

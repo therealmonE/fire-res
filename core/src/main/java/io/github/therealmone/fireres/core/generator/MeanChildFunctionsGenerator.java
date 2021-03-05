@@ -105,7 +105,16 @@ public class MeanChildFunctionsGenerator implements MultiplePointSequencesGenera
                 || !validDeltas(availableDeltas, lowerBounds, upperBounds, mean)) {
 
             return IntStream.range(0, functionsCount)
-                    .mapToObj(i -> generateValueInInterval(lowerBounds.get(i), upperBounds.get(i)))
+                    .mapToObj(i -> {
+                        val lowerBound = lowerBounds.get(i);
+                        val upperBound = upperBounds.get(i);
+
+                        if (lowerBound > upperBound) {
+                            throw new MeanChildFunctionGenerationException();
+                        }
+
+                        return generateValueInInterval(lowerBound, upperBound);
+                    })
                     .collect(Collectors.toList());
         } else {
             return IntStream.range(0, functionsCount)

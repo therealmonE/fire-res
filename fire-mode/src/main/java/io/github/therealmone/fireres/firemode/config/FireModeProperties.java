@@ -1,5 +1,6 @@
 package io.github.therealmone.fireres.firemode.config;
 
+import io.github.therealmone.fireres.core.config.BoundsShiftModifier;
 import io.github.therealmone.fireres.core.config.FunctionFormModifier;
 import io.github.therealmone.fireres.core.config.FunctionForm;
 import io.github.therealmone.fireres.core.config.ReportProperties;
@@ -12,11 +13,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class FireModeProperties implements ReportProperties, FunctionFormModifier<Integer> {
+public class FireModeProperties implements
+        ReportProperties,
+        FunctionFormModifier<Integer>,
+        BoundsShiftModifier<FireModeBoundsShift> {
 
     private Integer thermocoupleCount;
 
     @Builder.Default
     private FunctionForm<Integer> functionForm = new FunctionForm<>();
+
+    @Builder.Default
+    private FireModeBoundsShift boundsShift = new FireModeBoundsShift();
 
 }
