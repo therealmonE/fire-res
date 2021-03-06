@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import io.github.therealmone.fireres.gui.component.ScrollPaneWithoutFocus?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.VBox?>
 
 <VBox alignment="CENTER" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
@@ -13,7 +13,7 @@
             <Insets bottom="5.0" top="5.0"/>
         </VBox.margin>
     </Label>
-    <ScrollPane fitToWidth="true">
+    <ScrollPaneWithoutFocus fitToWidth="true">
         <VBox prefHeight="500.0" fx:id="groupsVbox"/>
-    </ScrollPane>
+    </ScrollPaneWithoutFocus>
 </VBox>

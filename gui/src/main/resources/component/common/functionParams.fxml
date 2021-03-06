@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+
 <TitledPane contentDisplay="RIGHT" prefWidth="305.0" text="Параметры функции"
             fx:id="component"
             xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
@@ -66,7 +67,7 @@
 
             <AnchorPane prefWidth="250.0">
                 <children>
-                    <TableView fx:id="interpolationPoints" focusTraversable="false" prefHeight="300.0"
+                    <TableView fx:id="interpolationPoints" focusTraversable="false" prefHeight="150.0"
                                prefWidth="290.0">
                         <placeholder>
                             <Label text="Нет точек интерполяции"/>
