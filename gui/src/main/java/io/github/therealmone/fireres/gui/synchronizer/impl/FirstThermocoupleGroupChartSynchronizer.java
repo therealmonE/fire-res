@@ -11,6 +11,7 @@ import static io.github.therealmone.fireres.gui.model.ElementIds.DEFAULT_MEAN_LI
 import static io.github.therealmone.fireres.gui.model.ElementIds.FIRST_THERMOCOUPLE_GROUP_MEAN_BOUND_TEMPERATURE_LINE;
 import static io.github.therealmone.fireres.gui.model.ElementIds.FIRST_THERMOCOUPLE_GROUP_THERMOCOUPLE_MAX_TEMPERATURE_LINE;
 import static io.github.therealmone.fireres.gui.model.ElementIds.FIRST_THERMOCOUPLE_GROUP_THERMOCOUPLE_TEMPERATURE_LINE;
+import static io.github.therealmone.fireres.gui.model.ElementIds.SHIFTED_BOUND;
 import static io.github.therealmone.fireres.gui.util.ChartUtils.addLegendSymbolId;
 import static io.github.therealmone.fireres.gui.util.ChartUtils.addPointsToSeries;
 
@@ -18,7 +19,9 @@ public class FirstThermocoupleGroupChartSynchronizer implements ChartSynchronize
 
     public static final String THERMOCOUPLE_TEXT = "Термопара - ";
     public static final String MAX_THERMOCOUPLE_TEMPERATURE_TEXT = "Предельное значение температуры термопар";
+    public static final String SHIFTED_MAX_THERMOCOUPLE_TEMPERATURE_TEXT = "Предельное значение температуры термопар (со смещением)";
     public static final String MAX_MEAN_TEMPERATURE_TEXT = "Предельное значение средней температуры";
+    public static final String SHIFTED_MAX_MEAN_TEMPERATURE_TEXT = "Предельное значение средней температуры (со смещением)";
     public static final String MEAN_TEMPERATURE_TEXT = "Среднее значение температуры";
 
     @Override
@@ -28,7 +31,9 @@ public class FirstThermocoupleGroupChartSynchronizer implements ChartSynchronize
         addThermocoupleTemperatureLines(chart, report);
         addMeanTemperatureLine(chart, report);
         addMeanBoundLine(chart, report);
+        addShiftedMeanBoundLine(chart, report);
         addThermocoupleBoundLine(chart, report);
+        addShiftedThermocoupleBoundLine(chart, report);
 
         addLegendSymbolId(chart, MEAN_TEMPERATURE_TEXT, DEFAULT_MEAN_LINE_LEGEND_SYMBOL);
     }
@@ -55,6 +60,16 @@ public class FirstThermocoupleGroupChartSynchronizer implements ChartSynchronize
         series.getNode().setId(FIRST_THERMOCOUPLE_GROUP_THERMOCOUPLE_MAX_TEMPERATURE_LINE);
     }
 
+    private void addShiftedThermocoupleBoundLine(LineChart<Number, Number> chart, UnheatedSurfaceReport report) {
+        val series = new XYChart.Series<Number, Number>();
+
+        series.setName(SHIFTED_MAX_THERMOCOUPLE_TEMPERATURE_TEXT);
+        addPointsToSeries(series, report.getFirstGroup().getMaxAllowedThermocoupleTemperature()
+                .getShiftedValue(report.getProperties().getFirstGroup().getBoundsShift().getMaxAllowedThermocoupleTemperatureShift()));
+        chart.getData().add(series);
+        series.getNode().setId(SHIFTED_BOUND);
+    }
+
     private void addMeanBoundLine(LineChart<Number, Number> chart, UnheatedSurfaceReport report) {
         val series = new XYChart.Series<Number, Number>();
 
@@ -62,6 +77,16 @@ public class FirstThermocoupleGroupChartSynchronizer implements ChartSynchronize
         addPointsToSeries(series, report.getFirstGroup().getMaxAllowedMeanTemperature());
         chart.getData().add(series);
         series.getNode().setId(FIRST_THERMOCOUPLE_GROUP_MEAN_BOUND_TEMPERATURE_LINE);
+    }
+
+    private void addShiftedMeanBoundLine(LineChart<Number, Number> chart, UnheatedSurfaceReport report) {
+        val series = new XYChart.Series<Number, Number>();
+
+        series.setName(SHIFTED_MAX_MEAN_TEMPERATURE_TEXT);
+        addPointsToSeries(series, report.getFirstGroup().getMaxAllowedMeanTemperature()
+                .getShiftedValue(report.getProperties().getFirstGroup().getBoundsShift().getMaxAllowedMeanTemperatureShift()));
+        chart.getData().add(series);
+        series.getNode().setId(SHIFTED_BOUND);
     }
 
     private void addMeanTemperatureLine(LineChart<Number, Number> chart, UnheatedSurfaceReport report) {
