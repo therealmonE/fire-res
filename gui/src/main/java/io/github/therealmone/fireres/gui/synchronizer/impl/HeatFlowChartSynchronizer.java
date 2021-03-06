@@ -10,12 +10,14 @@ import static io.github.therealmone.fireres.gui.model.ElementIds.DEFAULT_MEAN_LI
 import static io.github.therealmone.fireres.gui.model.ElementIds.DEFAULT_MEAN_LINE_LEGEND_SYMBOL;
 import static io.github.therealmone.fireres.gui.model.ElementIds.HEAT_FLOW_MAX_ALLOWED_FLOW_LINE;
 import static io.github.therealmone.fireres.gui.model.ElementIds.HEAT_FLOW_SENSORS_LINE;
+import static io.github.therealmone.fireres.gui.model.ElementIds.SHIFTED_BOUND;
 import static io.github.therealmone.fireres.gui.util.ChartUtils.addLegendSymbolId;
 import static io.github.therealmone.fireres.gui.util.ChartUtils.addPointsToSeries;
 
 public class HeatFlowChartSynchronizer implements ChartSynchronizer<HeatFlowReport> {
 
     public static final String MAX_ALLOWED_FLOW_TEXT = "Предельное значение теплового потока";
+    public static final String SHIFTED_MAX_ALLOWED_FLOW_TEXT = "Предельное значение теплового потока (со смещением)";
     public static final String MEAN_FLOW_TEXT = "Среднее значение теплового потока";
     public static final String SENSOR_TEMPERATURE_TEXT = "Приемник теплового потока - ";
 
@@ -26,6 +28,7 @@ public class HeatFlowChartSynchronizer implements ChartSynchronizer<HeatFlowRepo
         addSensorsLine(chart, report);
         addMeanHeatFlowLine(chart, report);
         addMaxAllowedHeatFlowLine(chart, report);
+        addShiftedMaxAllowedHeatFlowLine(chart, report);
 
         addLegendSymbolId(chart, MEAN_FLOW_TEXT, DEFAULT_MEAN_LINE_LEGEND_SYMBOL);
     }
@@ -37,6 +40,16 @@ public class HeatFlowChartSynchronizer implements ChartSynchronizer<HeatFlowRepo
         addPointsToSeries(series, report.getBound());
         chart.getData().add(series);
         series.getNode().setId(HEAT_FLOW_MAX_ALLOWED_FLOW_LINE);
+    }
+
+    private void addShiftedMaxAllowedHeatFlowLine(LineChart<Number, Number> chart, HeatFlowReport report) {
+        val series = new XYChart.Series<Number, Number>();
+
+        series.setName(SHIFTED_MAX_ALLOWED_FLOW_TEXT);
+        addPointsToSeries(series, report.getBound()
+                .getShiftedValue(report.getProperties().getBoundsShift().getMaxAllowedFlowShift()));
+        chart.getData().add(series);
+        series.getNode().setId(SHIFTED_BOUND);
     }
 
     private void addMeanHeatFlowLine(LineChart<Number, Number> chart, HeatFlowReport report) {

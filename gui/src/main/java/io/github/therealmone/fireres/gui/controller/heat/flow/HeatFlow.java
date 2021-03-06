@@ -2,11 +2,13 @@ package io.github.therealmone.fireres.gui.controller.heat.flow;
 
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
+import io.github.therealmone.fireres.core.model.IntegerPoint;
 import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.gui.annotation.LoadableComponent;
 import io.github.therealmone.fireres.gui.controller.AbstractComponent;
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
 import io.github.therealmone.fireres.gui.controller.ReportInclusionChanger;
+import io.github.therealmone.fireres.gui.controller.common.BoundsShiftParams;
 import io.github.therealmone.fireres.gui.controller.common.FunctionParams;
 import io.github.therealmone.fireres.gui.controller.common.SampleTab;
 import io.github.therealmone.fireres.gui.model.ReportTask;
@@ -24,6 +26,7 @@ import lombok.val;
 import java.util.UUID;
 
 import static io.github.therealmone.fireres.core.config.ReportType.HEAT_FLOW;
+import static io.github.therealmone.fireres.gui.synchronizer.impl.HeatFlowChartSynchronizer.MAX_ALLOWED_FLOW_TEXT;
 import static io.github.therealmone.fireres.gui.util.TabUtils.disableTab;
 import static io.github.therealmone.fireres.gui.util.TabUtils.enableTab;
 import static java.util.Collections.singletonList;
@@ -57,6 +60,9 @@ public class HeatFlow extends AbstractComponent<HBox>
     @FXML
     private FunctionParams functionParamsController;
 
+    @FXML
+    private BoundsShiftParams boundsShiftParamsController;
+
     @Override
     public Sample getSample() {
         return ((SampleTab) getParent()).getSample();
@@ -64,6 +70,11 @@ public class HeatFlow extends AbstractComponent<HBox>
 
     @Override
     protected void initialize() {
+        initializeFunctionParams();
+        initializeBoundsShiftParams();
+    }
+
+    private void initializeFunctionParams() {
         getFunctionParams().setInterpolationService(heatFlowService);
 
         getFunctionParams().setPropertiesMapper(props ->
@@ -74,6 +85,16 @@ public class HeatFlow extends AbstractComponent<HBox>
         getFunctionParams().setNodesToBlockOnUpdate(singletonList(paramsVbox));
 
         getFunctionParams().setInterpolationPointConstructor((time, value) -> new HeatFlowPoint(time, value.doubleValue()));
+    }
+
+    private void initializeBoundsShiftParams() {
+        getBoundsShiftParams().addBoundShift(
+                MAX_ALLOWED_FLOW_TEXT,
+                singletonList(paramsVbox),
+                point -> heatFlowService.addMaxAllowedFlowShift(report, (HeatFlowPoint) point),
+                point -> heatFlowService.removeMaxAllowedFlowShift(report, (HeatFlowPoint) point),
+                (integer, number) -> new HeatFlowPoint(integer, number.doubleValue())
+        );
     }
 
     @Override
@@ -125,4 +146,7 @@ public class HeatFlow extends AbstractComponent<HBox>
         return functionParamsController;
     }
 
+    public BoundsShiftParams getBoundsShiftParams() {
+        return boundsShiftParamsController;
+    }
 }

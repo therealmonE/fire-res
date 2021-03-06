@@ -23,8 +23,8 @@ import lombok.val;
 import java.util.UUID;
 
 import static io.github.therealmone.fireres.core.config.ReportType.EXCESS_PRESSURE;
-import static io.github.therealmone.fireres.gui.synchronizer.impl.ExcessPressureChartSynchronizer.MAX_ALLOWED_PRESSURE;
-import static io.github.therealmone.fireres.gui.synchronizer.impl.ExcessPressureChartSynchronizer.MIN_ALLOWED_PRESSURE;
+import static io.github.therealmone.fireres.gui.synchronizer.impl.ExcessPressureChartSynchronizer.MAX_ALLOWED_PRESSURE_TEXT;
+import static io.github.therealmone.fireres.gui.synchronizer.impl.ExcessPressureChartSynchronizer.MIN_ALLOWED_PRESSURE_TEXT;
 import static io.github.therealmone.fireres.gui.util.TabUtils.disableTab;
 import static io.github.therealmone.fireres.gui.util.TabUtils.enableTab;
 import static java.util.Collections.singletonList;
@@ -66,7 +66,7 @@ public class ExcessPressure extends AbstractComponent<HBox>
     @Override
     protected void initialize() {
         getBoundsShiftParams().addBoundShift(
-                MAX_ALLOWED_PRESSURE,
+                MAX_ALLOWED_PRESSURE_TEXT,
                 singletonList(paramsVbox),
                 point -> excessPressureService.addMaxAllowedPressureShift(report, (DoublePoint) point),
                 point -> excessPressureService.removeMaxAllowedPressureShift(report, (DoublePoint) point),
@@ -74,7 +74,7 @@ public class ExcessPressure extends AbstractComponent<HBox>
         );
 
         getBoundsShiftParams().addBoundShift(
-                MIN_ALLOWED_PRESSURE,
+                MIN_ALLOWED_PRESSURE_TEXT,
                 singletonList(paramsVbox),
                 point -> excessPressureService.addMinAllowedPressureShift(report, (DoublePoint) point),
                 point -> excessPressureService.removeMinAllowedPressureShift(report, (DoublePoint) point),

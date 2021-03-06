@@ -15,11 +15,12 @@ import static io.github.therealmone.fireres.gui.util.ChartUtils.addPointsToSerie
 public class ExcessPressureChartSynchronizer implements ChartSynchronizer<ExcessPressureReport> {
 
     private static final String Y_AXIS_LABEL_TEMPLATE = "Избыточное давление, %s±ΔПа";
-    public static final String MIN_ALLOWED_PRESSURE = "Минимальный допуск избыточного давления";
-    public static final String SHIFTED_MIN_ALLOWED_PRESSURE = "Минимальный допуск избыточного давления (со смещением)";
-    public static final String MAX_ALLOWED_PRESSURE = "Максимальный допуск избыточного давления";
-    public static final String SHIFTED_MAX_ALLOWED_PRESSURE = "Максимальный допуск избыточного давления (со смещением)";
-    public static final String PRESSURE = "Избыточное давление";
+
+    public static final String MIN_ALLOWED_PRESSURE_TEXT = "Минимальный допуск избыточного давления";
+    public static final String SHIFTED_MIN_ALLOWED_PRESSURE_TEXT = "Минимальный допуск избыточного давления (со смещением)";
+    public static final String MAX_ALLOWED_PRESSURE_TEXT = "Максимальный допуск избыточного давления";
+    public static final String SHIFTED_MAX_ALLOWED_PRESSURE_TEXT = "Максимальный допуск избыточного давления (со смещением)";
+    public static final String PRESSURE_TEXT = "Избыточное давление";
 
     @Override
     public void synchronize(LineChart<Number, Number> chart, ExcessPressureReport report) {
@@ -36,7 +37,7 @@ public class ExcessPressureChartSynchronizer implements ChartSynchronizer<Excess
     private void addMinAllowedPressureLine(LineChart<Number, Number> chart, ExcessPressureReport report) {
         val series = new XYChart.Series<Number, Number>();
 
-        series.setName(MIN_ALLOWED_PRESSURE);
+        series.setName(MIN_ALLOWED_PRESSURE_TEXT);
         addPointsToSeries(series, report.getMinAllowedPressure());
         chart.getData().add(series);
         series.getNode().setId(EXCESS_PRESSURE_MIN_ALLOWED_PRESSURE_LINE);
@@ -45,7 +46,7 @@ public class ExcessPressureChartSynchronizer implements ChartSynchronizer<Excess
     private void addShiftedMinAllowedPressureLine(LineChart<Number, Number> chart, ExcessPressureReport report) {
         val series = new XYChart.Series<Number, Number>();
 
-        series.setName(SHIFTED_MIN_ALLOWED_PRESSURE);
+        series.setName(SHIFTED_MIN_ALLOWED_PRESSURE_TEXT);
         addPointsToSeries(series, report.getMinAllowedPressure()
                 .getShiftedValue(report.getProperties().getBoundsShift().getMinAllowedPressureShift()));
         chart.getData().add(series);
@@ -55,7 +56,7 @@ public class ExcessPressureChartSynchronizer implements ChartSynchronizer<Excess
     private void addMaxAllowedPressureLine(LineChart<Number, Number> chart, ExcessPressureReport report) {
         val series = new XYChart.Series<Number, Number>();
 
-        series.setName(MAX_ALLOWED_PRESSURE);
+        series.setName(MAX_ALLOWED_PRESSURE_TEXT);
         addPointsToSeries(series, report.getMaxAllowedPressure());
         chart.getData().add(series);
         series.getNode().setId(EXCESS_PRESSURE_MAX_ALLOWED_PRESSURE_LINE);
@@ -64,7 +65,7 @@ public class ExcessPressureChartSynchronizer implements ChartSynchronizer<Excess
     private void addShiftedMaxAllowedPressureLine(LineChart<Number, Number> chart, ExcessPressureReport report) {
         val series = new XYChart.Series<Number, Number>();
 
-        series.setName(SHIFTED_MAX_ALLOWED_PRESSURE);
+        series.setName(SHIFTED_MAX_ALLOWED_PRESSURE_TEXT);
         addPointsToSeries(series, report.getMaxAllowedPressure()
                 .getShiftedValue(report.getProperties().getBoundsShift().getMaxAllowedPressureShift()));
         chart.getData().add(series);
@@ -74,7 +75,7 @@ public class ExcessPressureChartSynchronizer implements ChartSynchronizer<Excess
     private void addPressureLine(LineChart<Number, Number> chart, ExcessPressureReport report) {
         val series = new XYChart.Series<Number, Number>();
 
-        series.setName(PRESSURE);
+        series.setName(PRESSURE_TEXT);
         addPointsToSeries(series, report.getPressure());
         chart.getData().add(series);
         series.getNode().setId(EXCESS_PRESSURE_LINE);
