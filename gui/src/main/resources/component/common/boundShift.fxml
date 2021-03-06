@@ -7,13 +7,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefWidth="250.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefWidth="250.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="component" fx:controller="io.github.therealmone.fireres.gui.controller.common.BoundShift">
     <children>
         <VBox>
             <Label prefHeight="16.0" prefWidth="150.0" text="Название смещения"/>
-            <TableView focusTraversable="false" prefHeight="150.0" prefWidth="290.0">
+            <TableView fx:id="boundShiftTable" focusTraversable="false" prefHeight="150.0" prefWidth="290.0">
                 <placeholder>
-                    <Label text="Смещение границ не задано"/>
+                    <Label text="Смещение границы не задано"/>
                 </placeholder>
                 <columns>
                     <TableColumn editable="false" prefWidth="138.0" resizable="false" text="Время"/>

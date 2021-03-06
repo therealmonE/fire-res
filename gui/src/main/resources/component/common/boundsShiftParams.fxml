@@ -6,16 +6,14 @@
 <?import javafx.scene.layout.VBox?>
 
 <TitledPane contentDisplay="RIGHT" prefWidth="305.0" text="Параметры смещения границ"
-            xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+            xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
+            fx:id="component" fx:controller="io.github.therealmone.fireres.gui.controller.common.BoundsShiftParams">
 
     <padding>
         <Insets top="15.0"/>
     </padding>
     <AnchorPane>
-        <VBox prefWidth="305.0">
-            <fx:include source="boundsTable.fxml"/>
-            <fx:include source="boundsTable.fxml"/>
-            <fx:include source="boundsTable.fxml"/>
+        <VBox fx:id="boundsShiftVbox" prefWidth="305.0">
             <padding>
                 <Insets left="15.0" top="15.0"/>
             </padding>

@@ -12,7 +12,7 @@
         <VBox fx:id="paramsVbox" focusTraversable="true">
             <fx:include fx:id="fireModeParams" source="fireModeParams.fxml"/>
             <fx:include fx:id="functionParams" source="../common/functionParams.fxml"/>
-            <fx:include source="../common/boundsPane.fxml"/>
+            <fx:include source="../common/boundsShiftParams.fxml"/>
             <padding>
                 <Insets left="15.0"/>
             </padding>
