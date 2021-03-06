@@ -13,6 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <TitledPane contentDisplay="RIGHT" prefWidth="305.0" text="Параметры функции"
+            expanded="false"
             fx:id="component"
             xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="io.github.therealmone.fireres.gui.controller.common.FunctionParams">

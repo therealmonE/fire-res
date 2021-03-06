@@ -109,6 +109,11 @@
     -fx-background-color: gray;
 }
 
+#shiftedBound {
+    -fx-stroke-width: 1px;
+    -fx-stroke-dash-array: 2 12 12 2;
+}
+
 #fireModeStandardTemperatureLegendSymbol {
     -fx-background-color: gray, white;
 }

@@ -8,6 +8,8 @@ public final class ElementIds {
     public static final String HEAT_FLOW_TAB = "heatFlowTab";
     public static final String UNHEATED_SURFACE_TAB = "unheatedSurfaceTab";
 
+    public static final String SHIFTED_BOUND = "shiftedBound";
+
     public static final String DEFAULT_MEAN_LINE = "defaultMeanLine";
     public static final String DEFAULT_MEAN_LINE_LEGEND_SYMBOL = "defaultMeanLineLegendSymbol";
 

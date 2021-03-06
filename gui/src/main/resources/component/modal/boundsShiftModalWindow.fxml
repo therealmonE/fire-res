@@ -12,7 +12,7 @@
 
 <Pane stylesheets="/css/style.css"
       xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
-      fx:id="component" fx:controller="io.github.therealmone.fireres.gui.controller.modal.BoundsShiftModalWindow">
+      fx:id="component" fx:controller="io.github.therealmone.fireres.gui.controller.modal.BoundShiftModalWindow">
     <VBox>
         <GridPane>
 
@@ -30,7 +30,7 @@
 
             <Label prefHeight="16.0" prefWidth="150.0" text="Время:"/>
 
-            <ContextlessSpinner amountToStepBy="1" editable="true" initialValue="0"
+            <ContextlessSpinner fx:id="time" amountToStepBy="1" editable="true" initialValue="0"
                                 max="10000" min="0" prefHeight="26.0" prefWidth="100.0" GridPane.columnIndex="1"/>
 
             <Label prefHeight="16.0" prefWidth="150.0" text="Смещение:" GridPane.rowIndex="1">
@@ -39,21 +39,21 @@
                 </GridPane.margin>
             </Label>
 
-            <ContextlessSpinner amountToStepBy="1" editable="true" initialValue="0"
-                                max="100000.0" min="0.0" prefHeight="26.0" prefWidth="100.0" GridPane.columnIndex="1"
+            <ContextlessSpinner fx:id="value" amountToStepBy="1" editable="true" initialValue="0"
+                                max="100000.0" min="-100000.0" prefHeight="26.0" prefWidth="100.0" GridPane.columnIndex="1"
                                 GridPane.rowIndex="1">
                 <GridPane.margin>
                     <Insets top="15.0"/>
                 </GridPane.margin>
             </ContextlessSpinner>
 
-            <Button prefWidth="100.0" GridPane.columnIndex="0" GridPane.rowIndex="2" text="Добавить">
+            <Button prefWidth="100.0" GridPane.columnIndex="0" GridPane.rowIndex="2" text="Добавить" onAction="#addShift">
                 <GridPane.margin>
                     <Insets top="15.0"/>
                 </GridPane.margin>
             </Button>
 
-            <Button prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2" text="Отменить">
+            <Button prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2" text="Отменить" onAction="#closeWindow">
                 <GridPane.margin>
                     <Insets top="15.0"/>
                 </GridPane.margin>

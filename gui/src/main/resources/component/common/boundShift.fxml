@@ -11,14 +11,14 @@
             fx:id="component" fx:controller="io.github.therealmone.fireres.gui.controller.common.BoundShift">
     <children>
         <VBox>
-            <Label prefHeight="16.0" prefWidth="150.0" text="Название смещения"/>
+            <Label fx:id="label" prefHeight="16.0"/>
             <TableView fx:id="boundShiftTable" focusTraversable="false" prefHeight="150.0" prefWidth="290.0">
                 <placeholder>
                     <Label text="Смещение границы не задано"/>
                 </placeholder>
                 <columns>
-                    <TableColumn editable="false" prefWidth="138.0" resizable="false" text="Время"/>
-                    <TableColumn editable="false" prefWidth="137.0" resizable="false" text="Смещение"/>
+                    <TableColumn fx:id="timeColumn" editable="false" prefWidth="138.0" resizable="false" text="Время"/>
+                    <TableColumn fx:id="valueColumn" editable="false" prefWidth="137.0" resizable="false" text="Смещение"/>
                 </columns>
 
                 <columnResizePolicy>

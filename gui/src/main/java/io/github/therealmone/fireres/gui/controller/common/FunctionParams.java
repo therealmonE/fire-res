@@ -85,11 +85,6 @@ public class FunctionParams extends AbstractReportUpdaterComponent<TitledPane>
     private List<Node> nodesToBlockOnUpdate;
 
     @Override
-    public Sample getSample() {
-        return ((ReportContainer) getParent()).getSample();
-    }
-
-    @Override
     protected void initialize() {
         linearityCoefficient.focusedProperty().addListener((observable, oldValue, newValue) ->
                 handleLinearityCoefficientFocusChanged(newValue));
@@ -194,5 +189,10 @@ public class FunctionParams extends AbstractReportUpdaterComponent<TitledPane>
     @Override
     protected UUID getReportId() {
         return getReport().getId();
+    }
+
+    @Override
+    public Sample getSample() {
+        return ((ReportContainer) getParent()).getSample();
     }
 }

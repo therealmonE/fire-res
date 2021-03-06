@@ -5,14 +5,14 @@ import io.github.therealmone.fireres.core.model.Report;
 import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.gui.annotation.LoadableComponent;
 import io.github.therealmone.fireres.gui.annotation.ModalWindow;
+import io.github.therealmone.fireres.gui.component.ContextlessSpinner;
 import io.github.therealmone.fireres.gui.controller.AbstractReportUpdaterComponent;
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
 import io.github.therealmone.fireres.gui.controller.ReportContainer;
-import io.github.therealmone.fireres.gui.controller.common.FunctionParams;
+import io.github.therealmone.fireres.gui.controller.common.BoundShift;
 import io.github.therealmone.fireres.gui.service.AlertService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Spinner;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import lombok.Getter;
@@ -20,43 +20,40 @@ import lombok.val;
 
 import java.util.UUID;
 
-@SuppressWarnings("unchecked")
-@LoadableComponent("/component/modal/interpolationPointsModalWindow.fxml")
-@ModalWindow(title = "Добавление точек интерполяции")
-public class InterpolationPointsModalWindow extends AbstractReportUpdaterComponent<Pane>
+@SuppressWarnings("rawtypes")
+@LoadableComponent("/component/modal/boundsShiftModalWindow.fxml")
+@ModalWindow(title = "Смещение границы")
+public class BoundShiftModalWindow extends AbstractReportUpdaterComponent<Pane>
         implements ReportContainer {
 
     @FXML
-    @Getter
-    private Spinner<Integer> time;
+    private ContextlessSpinner<Integer> time;
 
     @FXML
-    @Getter
-    private Spinner<Number> value;
-
-    @Inject
-    private AlertService alertService;
+    private ContextlessSpinner<Number> value;
 
     @ModalWindow.Window
     @Getter
     private Stage window;
 
+    @Inject
+    private AlertService alertService;
+
     @FXML
-    public void addInterpolationPoint() {
-        val parent = ((FunctionParams) getParent());
+    public void addShift() {
+        val parent = ((BoundShift) getParent());
 
         updateReport(() -> {
-            val newPoint = parent.getInterpolationPointConstructor()
-                    .apply(time.getValue(), value.getValue());
+            val newPoint = parent.getShiftPointConstructor().apply(time.getValue(), value.getValue());
 
             try {
-                parent.getInterpolationService().addInterpolationPoint(getReport(), newPoint);
+                parent.getShiftAddedConsumer().accept(newPoint);
             } catch (Exception e) {
-                Platform.runLater(() -> alertService.showError("Невозможно сгенерировать график с данной точкой"));
+                Platform.runLater(() -> alertService.showError("Невозможно сгенерировать график с данным смещением"));
                 throw e;
             }
 
-            Platform.runLater(() -> parent.getInterpolationPoints().getItems().add(newPoint));
+            Platform.runLater(() -> parent.getBoundShiftTable().getItems().add(newPoint));
         }, parent.getNodesToBlockOnUpdate());
     }
 
@@ -67,12 +64,12 @@ public class InterpolationPointsModalWindow extends AbstractReportUpdaterCompone
 
     @Override
     public Report getReport() {
-        return ((FunctionParams) getParent()).getReport();
+        return ((ReportContainer) getParent()).getReport();
     }
 
     @Override
     public ChartContainer getChartContainer() {
-        return ((FunctionParams) getParent()).getChartContainer();
+        return ((ReportContainer) getParent()).getChartContainer();
     }
 
     @Override
@@ -82,7 +79,6 @@ public class InterpolationPointsModalWindow extends AbstractReportUpdaterCompone
 
     @Override
     public Sample getSample() {
-        return ((FunctionParams) getParent()).getSample();
+        return ((ReportContainer) getParent()).getSample();
     }
-
 }

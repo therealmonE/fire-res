@@ -9,25 +9,43 @@ import io.github.therealmone.fireres.gui.controller.AbstractReportUpdaterCompone
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
 import io.github.therealmone.fireres.gui.controller.ReportContainer;
 import io.github.therealmone.fireres.gui.controller.SampleContainer;
-import io.github.therealmone.fireres.gui.controller.modal.BoundsShiftModalWindow;
+import io.github.therealmone.fireres.gui.controller.modal.BoundShiftModalWindow;
 import io.github.therealmone.fireres.gui.service.FxmlLoadService;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TitledPane;
+import javafx.scene.control.cell.PropertyValueFactory;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.val;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
 
 @SuppressWarnings({"rawtypes"})
 @LoadableComponent("/component/common/boundShift.fxml")
 public class BoundShift extends AbstractReportUpdaterComponent<TitledPane>
         implements SampleContainer, ReportContainer {
+
+    @FXML
+    private TableColumn<Point<?>, Integer> timeColumn;
+
+    @FXML
+    private TableColumn<Point<?>, Integer> valueColumn;
+
+    @FXML
+    private Label label;
 
     @Inject
     private FxmlLoadService fxmlLoadService;
@@ -36,28 +54,26 @@ public class BoundShift extends AbstractReportUpdaterComponent<TitledPane>
     @Getter
     private TableView<Point<?>> boundShiftTable;
 
-    @Override
-    public Report getReport() {
-        return ((ReportContainer) getParent()).getReport();
-    }
+    @Setter
+    @Getter
+    private Consumer<Point<?>> shiftAddedConsumer;
 
-    @Override
-    public ChartContainer getChartContainer() {
-        return ((ReportContainer) getParent()).getChartContainer();
-    }
+    @Setter
+    private Consumer<Point<?>> shiftRemovedConsumer;
 
-    @Override
-    protected UUID getReportId() {
-        return getReport().getId();
-    }
+    @Getter
+    @Setter
+    private BiFunction<Integer, Number, Point<?>> shiftPointConstructor;
 
-    @Override
-    public Sample getSample() {
-        return ((ReportContainer) getParent()).getSample();
-    }
+    @Setter
+    @Getter
+    private List<Node> nodesToBlockOnUpdate;
 
     @Override
     public void postConstruct() {
+        timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
+        valueColumn.setCellValueFactory(new PropertyValueFactory<>("value"));
+
         initializeTableContextMenu();
         initializeRowContextMenu();
     }
@@ -99,13 +115,46 @@ public class BoundShift extends AbstractReportUpdaterComponent<TitledPane>
         val removePointMenuItem = new MenuItem("Удалить");
 
         addPointMenuItem.setOnAction(this::handleRowAddedEvent);
+        removePointMenuItem.setOnAction(event -> handleRowDeletedEvent(row));
         rowMenu.getItems().addAll(addPointMenuItem, removePointMenuItem);
 
         return rowMenu;
     }
 
-
     private void handleRowAddedEvent(Event event) {
-        fxmlLoadService.loadComponent(BoundsShiftModalWindow.class, this).getWindow().show();
+        fxmlLoadService.loadComponent(BoundShiftModalWindow.class, this).getWindow().show();
+    }
+
+    private void handleRowDeletedEvent(TableRow<Point<?>> row) {
+        Runnable action = () -> {
+            shiftRemovedConsumer.accept(row.getItem());
+            Platform.runLater(() -> boundShiftTable.getItems().remove(row.getItem()));
+        };
+
+        updateReport(action, nodesToBlockOnUpdate);
+    }
+
+    public void setLabel(String label) {
+        this.label.setText(label);
+    }
+
+    @Override
+    public Report getReport() {
+        return ((ReportContainer) getParent()).getReport();
+    }
+
+    @Override
+    public ChartContainer getChartContainer() {
+        return ((ReportContainer) getParent()).getChartContainer();
+    }
+
+    @Override
+    protected UUID getReportId() {
+        return getReport().getId();
+    }
+
+    @Override
+    public Sample getSample() {
+        return ((ReportContainer) getParent()).getSample();
     }
 }
