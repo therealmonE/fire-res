@@ -46,7 +46,7 @@ public class SecondThermocoupleGroupChartSynchronizer implements ChartSynchroniz
         val series = new XYChart.Series<Number, Number>();
 
         series.setName(MAX_THERMOCOUPLE_TEMPERATURE_TEXT);
-        addPointsToSeries(series, report.getSecondGroup().getThermocoupleBound());
+        addPointsToSeries(series, report.getSecondGroup().getMaxAllowedThermocoupleTemperature());
         chart.getData().add(series);
         series.getNode().setId(SECOND_THERMOCOUPLE_GROUP_THERMOCOUPLE_MAX_TEMPERATURE_LINE);
     }

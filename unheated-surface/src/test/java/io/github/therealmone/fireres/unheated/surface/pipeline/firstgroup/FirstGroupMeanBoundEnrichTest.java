@@ -11,7 +11,7 @@ import lombok.val;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static io.github.therealmone.fireres.unheated.surface.pipeline.UnheatedSurfaceReportEnrichType.FIRST_GROUP_MEAN_BOUND;
+import static io.github.therealmone.fireres.unheated.surface.pipeline.UnheatedSurfaceReportEnrichType.FIRST_GROUP_MAX_ALLOWED_MEAN_TEMPERATURE;
 import static org.junit.Assert.assertNotEquals;
 
 @RunWith(UnheatedSurfaceGuiceRunner.class)
@@ -31,14 +31,14 @@ public class FirstGroupMeanBoundEnrichTest {
         val sample = new Sample(generationProperties.getSamples().get(0));
         val report = unheatedSurfaceService.createReport(sample);
 
-        val oldFirstGroupMeanBound = report.getFirstGroup().getMeanBound();
+        val oldFirstGroupMeanBound = report.getFirstGroup().getMaxAllowedMeanTemperature();
         val oldFirstGroupMeanTemperature = report.getFirstGroup().getMeanTemperature();
         val oldFirstGroupThermocoupleTemperatures = report.getFirstGroup().getThermocoupleTemperatures();
 
         generationProperties.getGeneral().setEnvironmentTemperature(24);
-        reportEnrichPipeline.accept(report, FIRST_GROUP_MEAN_BOUND);
+        reportEnrichPipeline.accept(report, FIRST_GROUP_MAX_ALLOWED_MEAN_TEMPERATURE);
 
-        val newFirstGroupMeanBound = report.getFirstGroup().getMeanBound();
+        val newFirstGroupMeanBound = report.getFirstGroup().getMaxAllowedMeanTemperature();
         val newFirstGroupMeanTemperature = report.getFirstGroup().getMeanTemperature();
         val newFirstGroupThermocoupleTemperatures = report.getFirstGroup().getThermocoupleTemperatures();
 

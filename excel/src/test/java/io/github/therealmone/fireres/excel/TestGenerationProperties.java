@@ -10,9 +10,9 @@ import io.github.therealmone.fireres.core.model.Point;
 import io.github.therealmone.fireres.excess.pressure.config.ExcessPressureProperties;
 import io.github.therealmone.fireres.firemode.config.FireModeProperties;
 import io.github.therealmone.fireres.heatflow.config.HeatFlowProperties;
-import io.github.therealmone.fireres.unheated.surface.config.UnheatedSurfaceGroupProperties;
+import io.github.therealmone.fireres.unheated.surface.config.PrimaryGroupProperties;
 import io.github.therealmone.fireres.unheated.surface.config.UnheatedSurfaceProperties;
-import io.github.therealmone.fireres.unheated.surface.config.UnheatedSurfaceSecondaryGroupProperties;
+import io.github.therealmone.fireres.unheated.surface.config.SecondaryGroupProperties;
 import lombok.val;
 
 import java.util.List;
@@ -57,21 +57,21 @@ public class TestGenerationProperties extends GenerationProperties {
                 .build());
 
         props.putReportProperties(UnheatedSurfaceProperties.builder()
-                .firstGroup(UnheatedSurfaceGroupProperties.builder()
+                .firstGroup(PrimaryGroupProperties.builder()
                         .functionForm(FunctionForm.<Integer>builder()
                                 .interpolationPoints(UNHEATED_SURFACE_INTERPOLATION_POINTS)
                                 .linearityCoefficient(1d)
                                 .build())
                         .thermocoupleCount(5)
                         .build())
-                .secondGroup(UnheatedSurfaceSecondaryGroupProperties.builder()
+                .secondGroup(SecondaryGroupProperties.builder()
                         .functionForm(FunctionForm.<Integer>builder()
                                 .linearityCoefficient(1d)
                                 .build())
                         .thermocoupleCount(6)
                         .bound(300)
                         .build())
-                .thirdGroup(UnheatedSurfaceSecondaryGroupProperties.builder()
+                .thirdGroup(SecondaryGroupProperties.builder()
                         .functionForm(FunctionForm.<Integer>builder()
                                 .linearityCoefficient(1d)
                                 .build())

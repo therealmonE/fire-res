@@ -5,8 +5,8 @@ import io.github.therealmone.fireres.core.model.IntegerPointSequence;
 
 import java.util.List;
 
-public class UnheatedSurfaceMeanBound extends IntegerPointSequence {
-    public UnheatedSurfaceMeanBound(List<IntegerPoint> value) {
+public class ThermocoupleTemperature extends IntegerPointSequence {
+    public ThermocoupleTemperature(List<IntegerPoint> value) {
         super(value);
     }
 }

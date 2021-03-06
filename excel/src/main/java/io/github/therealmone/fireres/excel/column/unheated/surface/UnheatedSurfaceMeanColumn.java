@@ -3,7 +3,7 @@ package io.github.therealmone.fireres.excel.column.unheated.surface;
 import io.github.therealmone.fireres.excel.chart.ChartColumn;
 import io.github.therealmone.fireres.excel.column.PointSequenceColumn;
 import io.github.therealmone.fireres.excel.style.chart.DefaultDataLineProperties;
-import io.github.therealmone.fireres.unheated.surface.model.UnheatedSurfaceMeanTemperature;
+import io.github.therealmone.fireres.unheated.surface.model.MeanTemperature;
 import org.apache.poi.xddf.usermodel.XDDFLineProperties;
 
 public class UnheatedSurfaceMeanColumn extends PointSequenceColumn implements ChartColumn {
@@ -11,7 +11,7 @@ public class UnheatedSurfaceMeanColumn extends PointSequenceColumn implements Ch
     private static final String HEADER = "Ср. ар.";
     private static final String CHART_TITLE = "Среднее значение температуры";
 
-    public UnheatedSurfaceMeanColumn(UnheatedSurfaceMeanTemperature meanTemperature) {
+    public UnheatedSurfaceMeanColumn(MeanTemperature meanTemperature) {
         super(HEADER, false, meanTemperature);
     }
 

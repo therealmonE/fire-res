@@ -46,7 +46,7 @@ public class ThirdThermocoupleGroupChartSynchronizer implements ChartSynchronize
         val series = new XYChart.Series<Number, Number>();
 
         series.setName(MAX_THERMOCOUPLE_TEMPERATURE_TEXT);
-        addPointsToSeries(series, report.getThirdGroup().getThermocoupleBound());
+        addPointsToSeries(series, report.getThirdGroup().getMaxAllowedThermocoupleTemperature());
         chart.getData().add(series);
         series.getNode().setId(THIRD_THERMOCOUPLE_GROUP_THERMOCOUPLE_MAX_TEMPERATURE_LINE);
     }

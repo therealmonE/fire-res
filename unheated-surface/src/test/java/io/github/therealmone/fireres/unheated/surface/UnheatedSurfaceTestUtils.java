@@ -1,8 +1,11 @@
 package io.github.therealmone.fireres.unheated.surface;
 
-import io.github.therealmone.fireres.unheated.surface.model.UnheatedSurfaceGroup;
+import io.github.therealmone.fireres.core.model.IntegerPoint;
+import io.github.therealmone.fireres.unheated.surface.model.Group;
 import io.github.therealmone.fireres.unheated.surface.report.UnheatedSurfaceReport;
 import lombok.val;
+
+import java.util.List;
 
 import static io.github.therealmone.fireres.core.test.TestUtils.assertChildTemperaturesEqualsMean;
 import static io.github.therealmone.fireres.core.test.TestUtils.assertFunctionConstantlyGrowing;
@@ -15,23 +18,41 @@ import static org.junit.Assert.assertEquals;
 public class UnheatedSurfaceTestUtils {
 
     public static void assertUnheatedSurfaceReportIsValid(UnheatedSurfaceReport report) {
-        assertUnheatedSurfaceGroup(report.getFirstGroup());
-        assertUnheatedSurfaceGroup(report.getSecondGroup());
-        assertUnheatedSurfaceGroup(report.getThirdGroup());
+        assertUnheatedSurfaceGroup(
+                report.getFirstGroup(),
+                report.getFirstGroup().getMaxAllowedMeanTemperature()
+                        .getShiftedValue(report.getProperties().getFirstGroup().getBoundsShift().getMaxAllowedMeanTemperatureShift()),
+                report.getFirstGroup().getMaxAllowedThermocoupleTemperature()
+                        .getShiftedValue(report.getProperties().getFirstGroup().getBoundsShift().getMaxAllowedThermocoupleTemperatureShift()));
+
+        assertUnheatedSurfaceGroup(
+                report.getSecondGroup(),
+                report.getSecondGroup().getMaxAllowedMeanTemperature()
+                        .getShiftedValue(report.getProperties().getSecondGroup().getBoundsShift().getMaxAllowedTemperatureShift()),
+                report.getSecondGroup().getMaxAllowedThermocoupleTemperature()
+                        .getShiftedValue(report.getProperties().getSecondGroup().getBoundsShift().getMaxAllowedTemperatureShift()));
+
+        assertUnheatedSurfaceGroup(
+                report.getThirdGroup(),
+                report.getThirdGroup().getMaxAllowedMeanTemperature()
+                        .getShiftedValue(report.getProperties().getThirdGroup().getBoundsShift().getMaxAllowedTemperatureShift()),
+                report.getThirdGroup().getMaxAllowedThermocoupleTemperature()
+                        .getShiftedValue(report.getProperties().getThirdGroup().getBoundsShift().getMaxAllowedTemperatureShift()));
     }
 
-    private static void assertUnheatedSurfaceGroup(UnheatedSurfaceGroup group) {
-        val meanBound = group.getMeanBound();
-        val thermocoupleBound = group.getThermocoupleBound();
+    private static void assertUnheatedSurfaceGroup(Group group,
+                                                   List<IntegerPoint> meanBound,
+                                                   List<IntegerPoint> thermocoupleBound) {
+
         val meanTemp = group.getMeanTemperature();
 
         assertFunctionConstantlyGrowing(meanTemp.getValue());
         assertFunctionNotLower(meanTemp.getValue(), constantFunction(0, TIME).getValue());
 
         if (meanBound != null) {
-            assertFunctionNotHigher(meanTemp.getValue(), meanBound.getValue());
+            assertFunctionNotHigher(meanTemp.getValue(), meanBound);
         } else {
-            assertFunctionNotHigher(meanTemp.getValue(), thermocoupleBound.getValue());
+            assertFunctionNotHigher(meanTemp.getValue(), thermocoupleBound);
         }
 
         val thermocouplesTemps = group.getThermocoupleTemperatures();
@@ -44,7 +65,7 @@ public class UnheatedSurfaceTestUtils {
 
             assertFunctionConstantlyGrowing(thermocouplesTemp.getValue());
             assertFunctionNotLower(thermocouplesTemp.getValue(), constantFunction(0, TIME).getValue());
-            assertFunctionNotHigher(thermocouplesTemp.getValue(), thermocoupleBound.getValue());
+            assertFunctionNotHigher(thermocouplesTemp.getValue(), thermocoupleBound);
         });
     }
 }

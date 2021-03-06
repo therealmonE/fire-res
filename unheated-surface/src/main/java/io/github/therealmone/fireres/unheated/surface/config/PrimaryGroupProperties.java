@@ -1,5 +1,6 @@
 package io.github.therealmone.fireres.unheated.surface.config;
 
+import io.github.therealmone.fireres.core.config.BoundsShiftModifier;
 import io.github.therealmone.fireres.core.config.FunctionForm;
 import io.github.therealmone.fireres.core.config.FunctionFormModifier;
 import lombok.AllArgsConstructor;
@@ -12,11 +13,16 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public class UnheatedSurfaceGroupProperties implements FunctionFormModifier<Integer> {
+public class PrimaryGroupProperties implements
+        FunctionFormModifier<Integer>,
+        BoundsShiftModifier<PrimaryGroupBoundsShift> {
 
     private Integer thermocoupleCount;
 
     @Builder.Default
     private FunctionForm<Integer> functionForm = new FunctionForm<>();
+
+    @Builder.Default
+    private PrimaryGroupBoundsShift boundsShift = new PrimaryGroupBoundsShift();
 
 }

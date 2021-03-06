@@ -11,7 +11,7 @@ import io.github.therealmone.fireres.excel.column.unheated.surface.UnheatedSurfa
 import io.github.therealmone.fireres.excel.column.unheated.surface.UnheatedSurfaceMeanColumn;
 import io.github.therealmone.fireres.excel.column.unheated.surface.UnheatedSurfaceThermocoupleBoundColumn;
 import io.github.therealmone.fireres.excel.column.unheated.surface.UnheatedSurfaceThermocoupleColumn;
-import io.github.therealmone.fireres.unheated.surface.model.UnheatedSurfaceGroup;
+import io.github.therealmone.fireres.unheated.surface.model.Group;
 import io.github.therealmone.fireres.unheated.surface.report.UnheatedSurfaceReport;
 import lombok.val;
 
@@ -45,7 +45,7 @@ public class UnheatedSurfaceExcelReportsBuilder implements ExcelReportsBuilder {
                 .collect(Collectors.toList());
     }
 
-    private ExcelReport createReportForGroup(Integer groupIndex, UnheatedSurfaceGroup group,
+    private ExcelReport createReportForGroup(Integer groupIndex, Group group,
                                              Integer thermocoupleIndexShift) {
         val time = generationProperties.getGeneral().getTime();
         val columns = new ArrayList<Column>();
@@ -59,11 +59,11 @@ public class UnheatedSurfaceExcelReportsBuilder implements ExcelReportsBuilder {
 
         columns.add(new UnheatedSurfaceMeanColumn(group.getMeanTemperature()));
 
-        if (group.getMeanBound() != null) {
-            columns.add(new UnheatedSurfaceMeanBoundColumn(group.getMeanBound()));
+        if (group.getMaxAllowedMeanTemperature() != null) {
+            columns.add(new UnheatedSurfaceMeanBoundColumn(group.getMaxAllowedMeanTemperature()));
         }
 
-        columns.add(new UnheatedSurfaceThermocoupleBoundColumn(group.getThermocoupleBound()));
+        columns.add(new UnheatedSurfaceThermocoupleBoundColumn(group.getMaxAllowedThermocoupleTemperature()));
 
         return ExcelReport.builder()
                 .data(columns)

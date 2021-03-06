@@ -19,7 +19,6 @@ import static io.github.therealmone.fireres.unheated.surface.TestGenerationPrope
 import static io.github.therealmone.fireres.unheated.surface.TestGenerationProperties.SECOND_GROUP_BOUND;
 import static io.github.therealmone.fireres.unheated.surface.TestGenerationProperties.THIRD_GROUP_BOUND;
 import static io.github.therealmone.fireres.unheated.surface.TestGenerationProperties.TIME;
-import static org.junit.Assert.assertNull;
 
 @RunWith(UnheatedSurfaceGuiceRunner.class)
 public class UnheatedSurfaceReportTest {
@@ -37,7 +36,7 @@ public class UnheatedSurfaceReportTest {
 
         //first group
         {
-            val meanBound = report.getFirstGroup().getMeanBound();
+            val meanBound = report.getFirstGroup().getMaxAllowedMeanTemperature();
 
             assertFunctionIsConstant(
                     140 + ENVIRONMENT_TEMPERATURE,
@@ -46,14 +45,14 @@ public class UnheatedSurfaceReportTest {
 
         //second group
         {
-            val meanBound = report.getSecondGroup().getMeanBound();
-            assertNull(meanBound);
+            val meanBound = report.getSecondGroup().getMaxAllowedMeanTemperature();
+            assertFunctionIsConstant(SECOND_GROUP_BOUND, meanBound.getValue());
         }
 
         //third group
         {
-            val meanBound = report.getThirdGroup().getMeanBound();
-            assertNull(meanBound);
+            val meanBound = report.getThirdGroup().getMaxAllowedMeanTemperature();
+            assertFunctionIsConstant(THIRD_GROUP_BOUND, meanBound.getValue());
         }
     }
 
@@ -64,7 +63,7 @@ public class UnheatedSurfaceReportTest {
 
         //first group
         {
-            val thermocoupleBound = report.getFirstGroup().getThermocoupleBound();
+            val thermocoupleBound = report.getFirstGroup().getMaxAllowedThermocoupleTemperature();
 
             assertFunctionIsConstant(
                     180 + ENVIRONMENT_TEMPERATURE,
@@ -73,7 +72,7 @@ public class UnheatedSurfaceReportTest {
 
         //second group
         {
-            val thermocoupleBound = report.getSecondGroup().getThermocoupleBound();
+            val thermocoupleBound = report.getSecondGroup().getMaxAllowedThermocoupleTemperature();
 
             assertFunctionIsConstant(
                     SECOND_GROUP_BOUND,
@@ -82,7 +81,7 @@ public class UnheatedSurfaceReportTest {
 
         //third group
         {
-            val thermocoupleBound = report.getThirdGroup().getThermocoupleBound();
+            val thermocoupleBound = report.getThirdGroup().getMaxAllowedThermocoupleTemperature();
 
             assertFunctionIsConstant(
                     THIRD_GROUP_BOUND,
@@ -98,8 +97,8 @@ public class UnheatedSurfaceReportTest {
 
         val firstGroup = report.getFirstGroup();
 
-        val thermocoupleBound = firstGroup.getThermocoupleBound();
-        val meanBound = firstGroup.getMeanBound();
+        val thermocoupleBound = firstGroup.getMaxAllowedThermocoupleTemperature();
+        val meanBound = firstGroup.getMaxAllowedMeanTemperature();
 
         val meanTemperature = firstGroup.getMeanTemperature();
 
@@ -130,7 +129,7 @@ public class UnheatedSurfaceReportTest {
         val secondGroup = report.getSecondGroup();
 
         val meanTemperature = secondGroup.getMeanTemperature();
-        val thermocoupleBound = secondGroup.getThermocoupleBound();
+        val thermocoupleBound = secondGroup.getMaxAllowedThermocoupleTemperature();
 
         assertFunctionIsConstant(
                 SECOND_GROUP_BOUND,
@@ -163,7 +162,7 @@ public class UnheatedSurfaceReportTest {
         val thirdGroup = report.getThirdGroup();
 
         val meanTemperature = thirdGroup.getMeanTemperature();
-        val thermocoupleBound = thirdGroup.getThermocoupleBound();
+        val thermocoupleBound = thirdGroup.getMaxAllowedThermocoupleTemperature();
 
         assertFunctionIsConstant(
                 THIRD_GROUP_BOUND,

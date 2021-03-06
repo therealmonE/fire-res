@@ -50,7 +50,7 @@ public class FirstThermocoupleGroupChartSynchronizer implements ChartSynchronize
         val series = new XYChart.Series<Number, Number>();
 
         series.setName(MAX_THERMOCOUPLE_TEMPERATURE_TEXT);
-        addPointsToSeries(series, report.getFirstGroup().getThermocoupleBound());
+        addPointsToSeries(series, report.getFirstGroup().getMaxAllowedThermocoupleTemperature());
         chart.getData().add(series);
         series.getNode().setId(FIRST_THERMOCOUPLE_GROUP_THERMOCOUPLE_MAX_TEMPERATURE_LINE);
     }
@@ -59,7 +59,7 @@ public class FirstThermocoupleGroupChartSynchronizer implements ChartSynchronize
         val series = new XYChart.Series<Number, Number>();
 
         series.setName(MAX_MEAN_TEMPERATURE_TEXT);
-        addPointsToSeries(series, report.getFirstGroup().getMeanBound());
+        addPointsToSeries(series, report.getFirstGroup().getMaxAllowedMeanTemperature());
         chart.getData().add(series);
         series.getNode().setId(FIRST_THERMOCOUPLE_GROUP_MEAN_BOUND_TEMPERATURE_LINE);
     }

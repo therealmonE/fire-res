@@ -5,13 +5,13 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import io.github.therealmone.fireres.core.pipeline.DefaultReportEnrichPipeline;
 import io.github.therealmone.fireres.core.pipeline.ReportEnrichPipeline;
-import io.github.therealmone.fireres.unheated.surface.pipeline.firstgroup.FirstGroupMeanBoundEnricher;
+import io.github.therealmone.fireres.unheated.surface.pipeline.firstgroup.FirstGroupMaxAllowedMeanTemperatureEnricher;
 import io.github.therealmone.fireres.unheated.surface.pipeline.firstgroup.FirstGroupMeanWithThermocoupleTemperaturesEnricher;
-import io.github.therealmone.fireres.unheated.surface.pipeline.firstgroup.FirstGroupThermocoupleBoundEnricher;
+import io.github.therealmone.fireres.unheated.surface.pipeline.firstgroup.FirstGroupMaxAllowedThermocoupleTemperatureEnricher;
 import io.github.therealmone.fireres.unheated.surface.pipeline.secondgroup.SecondGroupMeanWithThermocoupleTemperaturesEnricher;
-import io.github.therealmone.fireres.unheated.surface.pipeline.secondgroup.SecondGroupThermocoupleBoundEnricher;
+import io.github.therealmone.fireres.unheated.surface.pipeline.secondgroup.SecondGroupMaxAllowedTemperatureEnricher;
 import io.github.therealmone.fireres.unheated.surface.pipeline.thirdgroup.ThirdGroupMeanWithThermocoupleTemperaturesEnricher;
-import io.github.therealmone.fireres.unheated.surface.pipeline.thirdgroup.ThirdGroupThermocoupleBoundEnricher;
+import io.github.therealmone.fireres.unheated.surface.pipeline.thirdgroup.ThirdGroupMaxAllowedTemperatureEnricher;
 import io.github.therealmone.fireres.unheated.surface.report.UnheatedSurfaceReport;
 import io.github.therealmone.fireres.unheated.surface.service.UnheatedSurfaceFirstGroupService;
 import io.github.therealmone.fireres.unheated.surface.service.UnheatedSurfaceSecondGroupService;
@@ -28,12 +28,12 @@ public class UnheatedSurfaceModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(FirstGroupMeanBoundEnricher.class).in(Singleton.class);
-        bind(FirstGroupThermocoupleBoundEnricher.class).in(Singleton.class);
+        bind(FirstGroupMaxAllowedMeanTemperatureEnricher.class).in(Singleton.class);
+        bind(FirstGroupMaxAllowedThermocoupleTemperatureEnricher.class).in(Singleton.class);
         bind(FirstGroupMeanWithThermocoupleTemperaturesEnricher.class).in(Singleton.class);
-        bind(SecondGroupThermocoupleBoundEnricher.class).in(Singleton.class);
+        bind(SecondGroupMaxAllowedTemperatureEnricher.class).in(Singleton.class);
         bind(SecondGroupMeanWithThermocoupleTemperaturesEnricher.class).in(Singleton.class);
-        bind(ThirdGroupThermocoupleBoundEnricher.class).in(Singleton.class);
+        bind(ThirdGroupMaxAllowedTemperatureEnricher.class).in(Singleton.class);
         bind(ThirdGroupMeanWithThermocoupleTemperaturesEnricher.class).in(Singleton.class);
 
         bind(UnheatedSurfaceService.class).to(UnheatedSurfaceServiceImpl.class).in(Singleton.class);
@@ -45,23 +45,23 @@ public class UnheatedSurfaceModule extends AbstractModule {
     @Provides
     @Singleton
     public ReportEnrichPipeline<UnheatedSurfaceReport> enrichPipeline(
-            FirstGroupMeanBoundEnricher firstGroupMeanBoundEnricher,
-            FirstGroupThermocoupleBoundEnricher firstGroupThermocoupleBoundEnricher,
+            FirstGroupMaxAllowedMeanTemperatureEnricher firstGroupMaxAllowedMeanTemperatureEnricher,
+            FirstGroupMaxAllowedThermocoupleTemperatureEnricher firstGroupMaxAllowedThermocoupleTemperatureEnricher,
             FirstGroupMeanWithThermocoupleTemperaturesEnricher firstGroupMeanWithThermocoupleTemperaturesEnricher,
 
-            SecondGroupThermocoupleBoundEnricher secondGroupThermocoupleBoundEnricher,
+            SecondGroupMaxAllowedTemperatureEnricher secondGroupMaxAllowedTemperatureEnricher,
             SecondGroupMeanWithThermocoupleTemperaturesEnricher secondGroupMeanWithThermocoupleTemperaturesEnricher,
 
-            ThirdGroupThermocoupleBoundEnricher thirdGroupThermocoupleBoundEnricher,
+            ThirdGroupMaxAllowedTemperatureEnricher thirdGroupMaxAllowedTemperatureEnricher,
             ThirdGroupMeanWithThermocoupleTemperaturesEnricher thirdGroupMeanWithThermocoupleTemperaturesEnricher
     ) {
         return new DefaultReportEnrichPipeline<>(List.of(
-                firstGroupMeanBoundEnricher,
-                firstGroupThermocoupleBoundEnricher,
+                firstGroupMaxAllowedMeanTemperatureEnricher,
+                firstGroupMaxAllowedThermocoupleTemperatureEnricher,
                 firstGroupMeanWithThermocoupleTemperaturesEnricher,
-                secondGroupThermocoupleBoundEnricher,
+                secondGroupMaxAllowedTemperatureEnricher,
                 secondGroupMeanWithThermocoupleTemperaturesEnricher,
-                thirdGroupThermocoupleBoundEnricher,
+                thirdGroupMaxAllowedTemperatureEnricher,
                 thirdGroupMeanWithThermocoupleTemperaturesEnricher
         ));
     }

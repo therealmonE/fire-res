@@ -3,7 +3,7 @@ package io.github.therealmone.fireres.excel.column.unheated.surface;
 import io.github.therealmone.fireres.excel.chart.ChartColumn;
 import io.github.therealmone.fireres.excel.column.PointSequenceColumn;
 import io.github.therealmone.fireres.excel.style.chart.DefaultDataLineProperties;
-import io.github.therealmone.fireres.unheated.surface.model.UnheatedSurfaceThermocoupleTemperature;
+import io.github.therealmone.fireres.unheated.surface.model.ThermocoupleTemperature;
 import org.apache.poi.xddf.usermodel.XDDFLineProperties;
 
 public class UnheatedSurfaceThermocoupleColumn extends PointSequenceColumn implements ChartColumn {
@@ -13,7 +13,7 @@ public class UnheatedSurfaceThermocoupleColumn extends PointSequenceColumn imple
 
     private final Integer index;
 
-    public UnheatedSurfaceThermocoupleColumn(Integer index, UnheatedSurfaceThermocoupleTemperature thermocouple) {
+    public UnheatedSurfaceThermocoupleColumn(Integer index, ThermocoupleTemperature thermocouple) {
         super(HEADER + (index + 1), false, thermocouple);
         this.index = index;
     }
