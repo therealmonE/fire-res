@@ -8,6 +8,7 @@ import lombok.val;
 
 import static io.github.therealmone.fireres.gui.model.ElementIds.DEFAULT_MEAN_LINE;
 import static io.github.therealmone.fireres.gui.model.ElementIds.DEFAULT_MEAN_LINE_LEGEND_SYMBOL;
+import static io.github.therealmone.fireres.gui.model.ElementIds.SHIFTED_BOUND;
 import static io.github.therealmone.fireres.gui.model.ElementIds.THIRD_THERMOCOUPLE_GROUP_THERMOCOUPLE_MAX_TEMPERATURE_LINE;
 import static io.github.therealmone.fireres.gui.model.ElementIds.THIRD_THERMOCOUPLE_GROUP_THERMOCOUPLE_TEMPERATURE_LINE;
 import static io.github.therealmone.fireres.gui.util.ChartUtils.addLegendSymbolId;
@@ -17,6 +18,7 @@ public class ThirdThermocoupleGroupChartSynchronizer implements ChartSynchronize
 
     public static final String THERMOCOUPLE_TEXT = "Термопара - ";
     public static final String MAX_THERMOCOUPLE_TEMPERATURE_TEXT = "Предельное значение температуры термопар";
+    public static final String SHIFTED_MAX_THERMOCOUPLE_TEMPERATURE_TEXT = "Предельное значение температуры термопар (со смещением)";
     public static final String MEAN_TEMPERATURE_TEXT = "Среднее значение температуры";
 
     public void synchronize(LineChart<Number, Number> chart, UnheatedSurfaceReport report) {
@@ -25,6 +27,7 @@ public class ThirdThermocoupleGroupChartSynchronizer implements ChartSynchronize
         addThermocoupleTemperatureLines(chart, report);
         addMeanTemperatureLine(chart, report);
         addThermocoupleBoundLine(chart, report);
+        addShiftedThermocoupleBoundLine(chart, report);
 
         addLegendSymbolId(chart, MEAN_TEMPERATURE_TEXT, DEFAULT_MEAN_LINE_LEGEND_SYMBOL);
     }
@@ -49,6 +52,16 @@ public class ThirdThermocoupleGroupChartSynchronizer implements ChartSynchronize
         addPointsToSeries(series, report.getThirdGroup().getMaxAllowedThermocoupleTemperature());
         chart.getData().add(series);
         series.getNode().setId(THIRD_THERMOCOUPLE_GROUP_THERMOCOUPLE_MAX_TEMPERATURE_LINE);
+    }
+
+    private void addShiftedThermocoupleBoundLine(LineChart<Number, Number> chart, UnheatedSurfaceReport report) {
+        val series = new XYChart.Series<Number, Number>();
+
+        series.setName(SHIFTED_MAX_THERMOCOUPLE_TEMPERATURE_TEXT);
+        addPointsToSeries(series, report.getThirdGroup().getMaxAllowedThermocoupleTemperature()
+                .getShiftedValue(report.getProperties().getThirdGroup().getBoundsShift().getMaxAllowedTemperatureShift()));
+        chart.getData().add(series);
+        series.getNode().setId(SHIFTED_BOUND);
     }
 
     private void addMeanTemperatureLine(LineChart<Number, Number> chart, UnheatedSurfaceReport report) {
