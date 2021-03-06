@@ -45,7 +45,7 @@ public class GeneralParams extends AbstractComponent<TitledPane> {
 
     private void handleTimeSpinnerLostFocus(Boolean focusValue) {
         handleSpinnerLostFocus(focusValue, time, () -> {
-            generationProperties.getGeneral().setTime(time.getValue());
+            generationProperties.getGeneral().setTime(time.getValue() + 1);
 
             findComponents(SampleTab.class).forEach(SampleTab::generateReports);
         });

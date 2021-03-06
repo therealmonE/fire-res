@@ -35,7 +35,7 @@ public class GeneralParametersConfigurer implements Configurer<GeneralParams> {
     }
 
     private void resetTime(Spinner<Integer> time) {
-        generationProperties.getGeneral().setTime(DEFAULT_TIME);
+        generationProperties.getGeneral().setTime(DEFAULT_TIME + 1);
 
         time.setValueFactory(new IntegerSpinnerValueFactory(
                 DEFAULT_TIME_MIN,
