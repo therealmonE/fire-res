@@ -46,7 +46,7 @@ public class MeanFunctionFactory {
         val environmentTemperature = generationProperties.getGeneral().getEnvironmentTemperature();
         val lowerBound = meanWithChildFunctionsParameters.getMeanLowerBound();
         val upperBound = meanWithChildFunctionsParameters.getMeanUpperBound();
-        val interpolation = meanWithChildFunctionsParameters.getMeanFunctionInterpolation();
+        val interpolation = meanWithChildFunctionsParameters.getMeanFunctionForm();
 
         return new MeanFunctionGenerator(
                 environmentTemperature,
@@ -76,7 +76,7 @@ public class MeanFunctionFactory {
                         lowerBound,
                         upperBound,
                         meanWithChildFunctionsParameters.getStrategy(),
-                        meanWithChildFunctionsParameters.getMeanFunctionInterpolation().getNonLinearityCoefficient()
+                        meanWithChildFunctionsParameters.getMeanFunctionForm().getNonLinearityCoefficient()
                 ).generate();
             } catch (MeanChildFunctionGenerationException e) {
                 log.error("Failed to generate mean child functions");

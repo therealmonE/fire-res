@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import io.github.therealmone.fireres.gui.component.ScrollPaneWithoutFocus?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -7,12 +8,17 @@
       xmlns:fx="http://javafx.com/fxml/1"
       fx:id="component"
       fx:controller="io.github.therealmone.fireres.gui.controller.excess.pressure.ExcessPressure">
-
-    <VBox fx:id="paramsVbox" focusTraversable="true">
-        <fx:include fx:id="excessPressureParams" source="excessPressureParams.fxml"/>
+    <ScrollPaneWithoutFocus fitToHeight="true" minWidth="-Infinity" prefWidth="360.0">
+        <VBox fx:id="paramsVbox" focusTraversable="true">
+            <fx:include fx:id="excessPressureParams" source="excessPressureParams.fxml"/>
+            <fx:include fx:id="boundsShiftParams" source="../common/boundsShiftParams.fxml"/>
+            <padding>
+                <Insets left="15.0"/>
+            </padding>
+        </VBox>
         <HBox.margin>
-            <Insets left="15.0"/>
+            <Insets bottom="15.0" left="15.0" top="15.0"/>
         </HBox.margin>
-    </VBox>
+    </ScrollPaneWithoutFocus>
     <fx:include fx:id="excessPressureChart" source="excessPressureChart.fxml"/>
 </HBox>

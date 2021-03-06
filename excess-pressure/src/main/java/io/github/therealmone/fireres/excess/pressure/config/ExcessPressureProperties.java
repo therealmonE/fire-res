@@ -1,6 +1,7 @@
 package io.github.therealmone.fireres.excess.pressure.config;
 
 import com.typesafe.config.Optional;
+import io.github.therealmone.fireres.core.config.BoundsShiftModifier;
 import io.github.therealmone.fireres.core.config.ReportProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ExcessPressureProperties implements ReportProperties {
+public class ExcessPressureProperties implements ReportProperties, BoundsShiftModifier<ExcessPressureBoundsShift> {
 
     private Double delta;
     private Double basePressure;
@@ -19,5 +20,8 @@ public class ExcessPressureProperties implements ReportProperties {
     @Optional
     @Builder.Default
     private Double dispersionCoefficient = 0.9999;
+
+    @Builder.Default
+    private ExcessPressureBoundsShift boundsShift = new ExcessPressureBoundsShift();
 
 }

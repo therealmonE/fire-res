@@ -14,8 +14,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static io.github.therealmone.fireres.core.utils.InterpolationUtils.smoothMaxFunction;
-
 @RequiredArgsConstructor
 @Slf4j
 public class MaxAllowedTempGenerator implements PointSequenceGenerator<MaxAllowedTemperature> {
@@ -36,10 +34,7 @@ public class MaxAllowedTempGenerator implements PointSequenceGenerator<MaxAllowe
                         (int) Math.round(standardTemp.getPoint(t).getValue() * COEFFICIENTS.getCoefficient(t))))
                 .collect(Collectors.toList());
 
-        return MaxAllowedTemperature.builder()
-                .value(maxAllowedTemp)
-                .smoothedValue(smoothMaxFunction(maxAllowedTemp))
-                .build();
+        return new MaxAllowedTemperature(maxAllowedTemp);
     }
 
 }

@@ -16,8 +16,8 @@ public class PrimaryStageConfigurer implements Configurer<Stage> {
     @Override
     public void config(Stage stage) {
         stage.setTitle(TITLE);
-        stage.setMinWidth(510);
-        stage.setMinHeight(815);
+        stage.setMinWidth(600);
+        stage.setMinHeight(510);
         stage.setResizable(true);
         stage.setMaximized(true);
         stage.requestFocus();

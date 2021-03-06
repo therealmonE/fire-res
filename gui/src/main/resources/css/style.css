@@ -47,7 +47,6 @@
     -fx-block-increment: 50;
 }
 
-
 .label {
     -fx-smooth: true;
 }
@@ -84,12 +83,6 @@
 .alert {
     -fx-font-size: 14px;
 }
-
-.scroll-pane:focused {
-    -fx-background-color: #C1C1C1;
-    -fx-background-insets: 0;
-}
-
 /* ====== LINE CHART =========================================================== */
 .chart {
     -fx-create-symbols: false;
@@ -114,6 +107,11 @@
     -fx-stroke-width: 1px;
     -fx-stroke-dash-array: 2 12 12 2;
     -fx-background-color: gray;
+}
+
+#shiftedBound {
+    -fx-stroke-width: 1px;
+    -fx-stroke-dash-array: 2 12 12 2;
 }
 
 #fireModeStandardTemperatureLegendSymbol {

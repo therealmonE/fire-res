@@ -4,7 +4,7 @@ import io.github.therealmone.fireres.core.pipeline.ReportEnrichType;
 
 public enum HeatFlowReportEnrichType implements ReportEnrichType {
 
-    BOUND,
+    MAX_ALLOWED_FLOW,
     MEAN_WITH_SENSORS_TEMPERATURES
 
 }

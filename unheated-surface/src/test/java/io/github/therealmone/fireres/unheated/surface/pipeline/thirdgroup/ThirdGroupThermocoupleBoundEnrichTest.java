@@ -11,7 +11,7 @@ import lombok.val;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static io.github.therealmone.fireres.unheated.surface.pipeline.UnheatedSurfaceReportEnrichType.THIRD_GROUP_THERMOCOUPLE_BOUND;
+import static io.github.therealmone.fireres.unheated.surface.pipeline.UnheatedSurfaceReportEnrichType.THIRD_GROUP_MAX_ALLOWED_TEMPERATURE;
 import static org.junit.Assert.assertNotEquals;
 
 @RunWith(UnheatedSurfaceGuiceRunner.class)
@@ -31,14 +31,14 @@ public class ThirdGroupThermocoupleBoundEnrichTest {
         val sample = new Sample(generationProperties.getSamples().get(0));
         val report = unheatedSurfaceService.createReport(sample);
 
-        val oldThirdGroupThermocoupleBound = report.getThirdGroup().getThermocoupleBound();
+        val oldThirdGroupThermocoupleBound = report.getThirdGroup().getMaxAllowedThermocoupleTemperature();
         val oldThirdGroupMeanTemperature = report.getThirdGroup().getMeanTemperature();
         val oldThirdGroupThermocoupleTemperatures = report.getThirdGroup().getThermocoupleTemperatures();
 
         report.getProperties().getThirdGroup().setBound(400);
-        reportEnrichPipeline.accept(report, THIRD_GROUP_THERMOCOUPLE_BOUND);
+        reportEnrichPipeline.accept(report, THIRD_GROUP_MAX_ALLOWED_TEMPERATURE);
 
-        val newThirdGroupThermocoupleBound = report.getThirdGroup().getThermocoupleBound();
+        val newThirdGroupThermocoupleBound = report.getThirdGroup().getMaxAllowedThermocoupleTemperature();
         val newThirdGroupMeanTemperature = report.getThirdGroup().getMeanTemperature();
         val newThirdGroupThermocoupleTemperatures = report.getThirdGroup().getThermocoupleTemperatures();
 

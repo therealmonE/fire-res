@@ -37,27 +37,22 @@ public class FireModeReportRepeatingTest {
             val furnaceTemp = report.getFurnaceTemperature().getValue();
             val minAllowedTemp = report.getMinAllowedTemperature().getValue();
             val maxAllowedTemp = report.getMaxAllowedTemperature().getValue();
-            val maxAllowedSmoothedTemp = report.getMaxAllowedTemperature().getSmoothedValue();
             val standardTemp = report.getStandardTemperature().getValue();
 
             //noinspection unchecked
-            assertSizesEquals(TIME, furnaceTemp, minAllowedTemp, maxAllowedTemp, maxAllowedSmoothedTemp, standardTemp);
+            assertSizesEquals(TIME, furnaceTemp, minAllowedTemp, maxAllowedTemp, standardTemp);
 
             assertFunctionConstantlyGrowing(minAllowedTemp);
-            assertFunctionConstantlyGrowing(maxAllowedSmoothedTemp);
             assertFunctionNotHigher(minAllowedTemp, maxAllowedTemp);
-            assertFunctionNotHigher(minAllowedTemp, maxAllowedSmoothedTemp);
 
             assertFunctionNotLower(standardTemp, minAllowedTemp);
             assertFunctionNotHigher(standardTemp, maxAllowedTemp);
-            assertFunctionNotHigher(standardTemp, maxAllowedSmoothedTemp);
 
             val meanTemp = report.getThermocoupleMeanTemperature();
 
             assertFunctionConstantlyGrowing(meanTemp.getValue());
             assertFunctionNotLower(meanTemp.getValue(), minAllowedTemp);
             assertFunctionNotHigher(meanTemp.getValue(), maxAllowedTemp);
-            assertFunctionNotHigher(meanTemp.getValue(), maxAllowedSmoothedTemp);
 
             val thermocouplesTemps = report.getThermocoupleTemperatures();
 
@@ -71,8 +66,6 @@ public class FireModeReportRepeatingTest {
                 assertFunctionConstantlyGrowing(thermocouplesTemp.getValue());
                 assertFunctionNotLower(thermocouplesTemp.getValue(), minAllowedTemp);
                 assertFunctionNotHigher(thermocouplesTemp.getValue(), maxAllowedTemp);
-                assertFunctionNotHigher(thermocouplesTemp.getValue(), maxAllowedSmoothedTemp);
-
             });
         }
     }

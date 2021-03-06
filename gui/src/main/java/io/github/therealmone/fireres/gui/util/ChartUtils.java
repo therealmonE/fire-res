@@ -9,6 +9,7 @@ import javafx.scene.chart.XYChart;
 import lombok.experimental.UtilityClass;
 import lombok.val;
 
+import java.util.List;
 import java.util.Optional;
 
 @UtilityClass
@@ -16,6 +17,10 @@ public class ChartUtils {
 
     public static void addPointsToSeries(XYChart.Series<Number, Number> series, PointSequence<? extends Point<? extends Number>> points) {
         points.getValue().forEach(point -> series.getData().add(new XYChart.Data<>(point.getTime(), point.getValue())));
+    }
+
+    public static void addPointsToSeries(XYChart.Series<Number, Number> series, List<? extends Point<? extends Number>> points) {
+        points.forEach(point -> series.getData().add(new XYChart.Data<>(point.getTime(), point.getValue())));
     }
 
     public static void addLegendSymbolId(Chart chart, String expectedText, String symbolId) {

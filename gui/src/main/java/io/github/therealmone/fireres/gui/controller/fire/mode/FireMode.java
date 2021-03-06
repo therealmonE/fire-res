@@ -11,6 +11,7 @@ import io.github.therealmone.fireres.gui.annotation.LoadableComponent;
 import io.github.therealmone.fireres.gui.controller.AbstractComponent;
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
 import io.github.therealmone.fireres.gui.controller.ReportInclusionChanger;
+import io.github.therealmone.fireres.gui.controller.common.BoundsShiftParams;
 import io.github.therealmone.fireres.gui.controller.common.FunctionParams;
 import io.github.therealmone.fireres.gui.controller.common.SampleTab;
 import io.github.therealmone.fireres.gui.model.ReportTask;
@@ -24,6 +25,8 @@ import lombok.val;
 import java.util.UUID;
 
 import static io.github.therealmone.fireres.core.config.ReportType.FIRE_MODE;
+import static io.github.therealmone.fireres.gui.synchronizer.impl.FireModeChartSynchronizer.MAX_ALLOWED_TEMPERATURE_TEXT;
+import static io.github.therealmone.fireres.gui.synchronizer.impl.FireModeChartSynchronizer.MIN_ALLOWED_TEMPERATURE_TEXT;
 import static io.github.therealmone.fireres.gui.util.TabUtils.disableTab;
 import static io.github.therealmone.fireres.gui.util.TabUtils.enableTab;
 import static java.util.Collections.singletonList;
@@ -57,6 +60,9 @@ public class FireMode extends AbstractComponent<HBox>
     @FXML
     private FireModeChart fireModeChartController;
 
+    @FXML
+    private BoundsShiftParams boundsShiftParamsController;
+
     @Override
     public Sample getSample() {
         return ((SampleTab) getParent()).getSample();
@@ -64,14 +70,39 @@ public class FireMode extends AbstractComponent<HBox>
 
     @Override
     protected void initialize() {
+        initializeFunctionParams();
+        initializeBoundsShiftParams();
+    }
+
+    private void initializeFunctionParams() {
         getFunctionParams().setInterpolationService(fireModeService);
 
         getFunctionParams().setPropertiesMapper(props ->
-                props.getReportPropertiesByClass(FireModeProperties.class).orElseThrow());
+                props.getReportPropertiesByClass(FireModeProperties.class)
+                        .orElseThrow()
+                        .getFunctionForm());
 
         getFunctionParams().setNodesToBlockOnUpdate(singletonList(paramsVbox));
 
         getFunctionParams().setInterpolationPointConstructor((time, value) -> new IntegerPoint(time, value.intValue()));
+    }
+
+    private void initializeBoundsShiftParams() {
+        getBoundsShiftParams().addBoundShift(
+                MAX_ALLOWED_TEMPERATURE_TEXT,
+                singletonList(paramsVbox),
+                point -> fireModeService.addMaxAllowedTemperatureShift(report, (IntegerPoint) point),
+                point -> fireModeService.removeMaxAllowedTemperatureShift(report, (IntegerPoint) point),
+                (integer, number) -> new IntegerPoint(integer, number.intValue())
+        );
+
+        getBoundsShiftParams().addBoundShift(
+                MIN_ALLOWED_TEMPERATURE_TEXT,
+                singletonList(paramsVbox),
+                point -> fireModeService.addMinAllowedTemperatureShift(report, (IntegerPoint) point),
+                point -> fireModeService.removeMinAllowedTemperatureShift(report, (IntegerPoint) point),
+                (integer, number) -> new IntegerPoint(integer, number.intValue())
+        );
     }
 
     @Override
@@ -121,6 +152,10 @@ public class FireMode extends AbstractComponent<HBox>
 
     public FunctionParams getFunctionParams() {
         return functionParamsController;
+    }
+
+    public BoundsShiftParams getBoundsShiftParams() {
+        return boundsShiftParamsController;
     }
 
 }

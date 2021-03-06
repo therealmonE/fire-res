@@ -3,9 +3,9 @@ package io.github.therealmone.fireres.unheated.surface;
 import io.github.therealmone.fireres.core.config.GeneralProperties;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.config.SampleProperties;
-import io.github.therealmone.fireres.unheated.surface.config.UnheatedSurfaceGroupProperties;
+import io.github.therealmone.fireres.unheated.surface.config.PrimaryGroupProperties;
 import io.github.therealmone.fireres.unheated.surface.config.UnheatedSurfaceProperties;
-import io.github.therealmone.fireres.unheated.surface.config.UnheatedSurfaceSecondaryGroupProperties;
+import io.github.therealmone.fireres.unheated.surface.config.SecondaryGroupProperties;
 import lombok.val;
 
 import java.util.List;
@@ -32,14 +32,14 @@ public class TestGenerationProperties extends GenerationProperties {
         val props = new SampleProperties();
 
         props.putReportProperties(UnheatedSurfaceProperties.builder()
-                .firstGroup(UnheatedSurfaceGroupProperties.builder()
+                .firstGroup(PrimaryGroupProperties.builder()
                         .thermocoupleCount(FIRST_GROUP_THERMOCOUPLES_COUNT)
                         .build())
-                .secondGroup(UnheatedSurfaceSecondaryGroupProperties.builder()
+                .secondGroup(SecondaryGroupProperties.builder()
                         .thermocoupleCount(SECOND_GROUP_THERMOCOUPLES_COUNT)
                         .bound(SECOND_GROUP_BOUND)
                         .build())
-                .thirdGroup(UnheatedSurfaceSecondaryGroupProperties.builder()
+                .thirdGroup(SecondaryGroupProperties.builder()
                         .thermocoupleCount(THIRD_GROUP_THERMOCOUPLE_COUNT)
                         .bound(THIRD_GROUP_BOUND)
                         .build())

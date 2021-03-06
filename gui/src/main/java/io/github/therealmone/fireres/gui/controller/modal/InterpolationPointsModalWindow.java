@@ -52,7 +52,7 @@ public class InterpolationPointsModalWindow extends AbstractReportUpdaterCompone
             try {
                 parent.getInterpolationService().addInterpolationPoint(getReport(), newPoint);
             } catch (Exception e) {
-                Platform.runLater(() -> alertService.showError("Невозможно добавить данную точку"));
+                Platform.runLater(() -> alertService.showError("Невозможно сгенерировать график с данной точкой"));
                 throw e;
             }
 

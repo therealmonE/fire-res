@@ -13,15 +13,17 @@ import static io.github.therealmone.fireres.gui.model.ElementIds.FIREMODE_MIN_TE
 import static io.github.therealmone.fireres.gui.model.ElementIds.FIREMODE_STANDARD_TEMPERATURE_LEGEND_SYMBOL;
 import static io.github.therealmone.fireres.gui.model.ElementIds.FIREMODE_STANDARD_TEMPERATURE_LINE;
 import static io.github.therealmone.fireres.gui.model.ElementIds.FIREMODE_THERMOCOUPLE_TEMPERATURE_LINE;
+import static io.github.therealmone.fireres.gui.model.ElementIds.SHIFTED_BOUND;
 import static io.github.therealmone.fireres.gui.util.ChartUtils.addLegendSymbolId;
 import static io.github.therealmone.fireres.gui.util.ChartUtils.addPointsToSeries;
-
 
 public class FireModeChartSynchronizer implements ChartSynchronizer<FireModeReport> {
 
     public static final String STANDARD_TEMPERATURE_TEXT = "Стандартный режим пожара";
     public static final String MAX_ALLOWED_TEMPERATURE_TEXT = "Максимальный допуск температуры";
+    public static final String SHIFTED_MAX_ALLOWED_TEMPERATURE_TEXT = "Максимальный допуск температуры (со смещением)";
     public static final String MIN_ALLOWED_TEMPERATURE_TEXT = "Минимальный допуск температуры";
+    public static final String SHIFTED_MIN_ALLOWED_TEMPERATURE_TEXT = "Минимальный допуск температуры (со смещением)";
     public static final String MEAN_TEMPERATURE_TEXT = "Средняя температура";
     public static final String THERMOCOUPLE_TEXT = "Термопара - ";
 
@@ -29,12 +31,13 @@ public class FireModeChartSynchronizer implements ChartSynchronizer<FireModeRepo
     public void synchronize(LineChart<Number, Number> chart, FireModeReport report) {
         chart.getData().clear();
 
-
         addThermocoupleTemperatureLines(chart, report);
         addStandardTemperatureLine(chart, report);
         addThermocoupleMeanTemperatureLine(chart, report);
         addMinAllowedTemperatureLine(chart, report);
+        addShiftedMinAllowedTemperatureLine(chart, report);
         addMaxAllowedTemperatureLine(chart, report);
+        addShiftedMaxAllowedTemperatureLine(chart, report);
 
         addLegendSymbolId(chart, STANDARD_TEMPERATURE_TEXT, FIREMODE_STANDARD_TEMPERATURE_LEGEND_SYMBOL);
         addLegendSymbolId(chart, MEAN_TEMPERATURE_TEXT, DEFAULT_MEAN_LINE_LEGEND_SYMBOL);
@@ -58,6 +61,16 @@ public class FireModeChartSynchronizer implements ChartSynchronizer<FireModeRepo
         series.getNode().setId(FIREMODE_MAX_TEMPERATURE_LINE);
     }
 
+    private void addShiftedMaxAllowedTemperatureLine(LineChart<Number, Number> chart, FireModeReport report) {
+        val series = new XYChart.Series<Number, Number>();
+
+        series.setName(SHIFTED_MAX_ALLOWED_TEMPERATURE_TEXT);
+        addPointsToSeries(series, report.getMaxAllowedTemperature()
+                .getShiftedValue(report.getProperties().getBoundsShift().getMaxAllowedTemperatureShift()));
+        chart.getData().add(series);
+        series.getNode().setId(SHIFTED_BOUND);
+    }
+
     private void addMinAllowedTemperatureLine(LineChart<Number, Number> chart, FireModeReport report) {
         val series = new XYChart.Series<Number, Number>();
 
@@ -65,6 +78,16 @@ public class FireModeChartSynchronizer implements ChartSynchronizer<FireModeRepo
         addPointsToSeries(series, report.getMinAllowedTemperature());
         chart.getData().add(series);
         series.getNode().setId(FIREMODE_MIN_TEMPERATURE_LINE);
+    }
+
+    private void addShiftedMinAllowedTemperatureLine(LineChart<Number, Number> chart, FireModeReport report) {
+        val series = new XYChart.Series<Number, Number>();
+
+        series.setName(SHIFTED_MIN_ALLOWED_TEMPERATURE_TEXT);
+        addPointsToSeries(series, report.getMinAllowedTemperature()
+                .getShiftedValue(report.getProperties().getBoundsShift().getMinAllowedTemperatureShift()));
+        chart.getData().add(series);
+        series.getNode().setId(SHIFTED_BOUND);
     }
 
     private void addThermocoupleMeanTemperatureLine(LineChart<Number, Number> chart, FireModeReport report) {

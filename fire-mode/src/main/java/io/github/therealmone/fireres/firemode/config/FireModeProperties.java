@@ -1,21 +1,29 @@
 package io.github.therealmone.fireres.firemode.config;
 
-import io.github.therealmone.fireres.core.config.Interpolation;
+import io.github.therealmone.fireres.core.config.BoundsShiftModifier;
+import io.github.therealmone.fireres.core.config.FunctionFormModifier;
+import io.github.therealmone.fireres.core.config.FunctionForm;
 import io.github.therealmone.fireres.core.config.ReportProperties;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
-
-@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@SuperBuilder
-public class FireModeProperties extends Interpolation<Integer> implements ReportProperties {
+@Builder
+public class FireModeProperties implements
+        ReportProperties,
+        FunctionFormModifier<Integer>,
+        BoundsShiftModifier<FireModeBoundsShift> {
 
     private Integer thermocoupleCount;
+
+    @Builder.Default
+    private FunctionForm<Integer> functionForm = new FunctionForm<>();
+
+    @Builder.Default
+    private FireModeBoundsShift boundsShift = new FireModeBoundsShift();
 
 }

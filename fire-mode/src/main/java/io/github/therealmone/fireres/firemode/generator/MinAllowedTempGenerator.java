@@ -14,8 +14,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static io.github.therealmone.fireres.core.utils.InterpolationUtils.smoothMinFunction;
-
 @RequiredArgsConstructor
 @Slf4j
 public class MinAllowedTempGenerator implements PointSequenceGenerator<MinAllowedTemperature> {
@@ -36,10 +34,7 @@ public class MinAllowedTempGenerator implements PointSequenceGenerator<MinAllowe
                         (int) Math.round(standardTemp.getPoint(t).getValue() * COEFFICIENTS.getCoefficient(t))))
                 .collect(Collectors.toList());
 
-        return MinAllowedTemperature.builder()
-                .value(minAllowedTemp)
-                .smoothedValue(smoothMinFunction(minAllowedTemp))
-                .build();
+        return new MinAllowedTemperature(minAllowedTemp);
     }
 
 }

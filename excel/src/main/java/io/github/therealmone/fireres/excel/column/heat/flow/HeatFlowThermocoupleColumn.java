@@ -3,7 +3,7 @@ package io.github.therealmone.fireres.excel.column.heat.flow;
 import io.github.therealmone.fireres.excel.chart.ChartColumn;
 import io.github.therealmone.fireres.excel.column.PointSequenceColumn;
 import io.github.therealmone.fireres.excel.style.chart.DefaultDataLineProperties;
-import io.github.therealmone.fireres.heatflow.model.HeatFlowSensorTemperature;
+import io.github.therealmone.fireres.heatflow.model.SensorTemperature;
 import org.apache.poi.xddf.usermodel.XDDFLineProperties;
 
 public class HeatFlowThermocoupleColumn extends PointSequenceColumn implements ChartColumn {
@@ -13,7 +13,7 @@ public class HeatFlowThermocoupleColumn extends PointSequenceColumn implements C
 
     private final Integer index;
 
-    public HeatFlowThermocoupleColumn(Integer index, HeatFlowSensorTemperature sensor) {
+    public HeatFlowThermocoupleColumn(Integer index, SensorTemperature sensor) {
         super(HEADER + (index + 1), false, sensor);
         this.index = index;
     }

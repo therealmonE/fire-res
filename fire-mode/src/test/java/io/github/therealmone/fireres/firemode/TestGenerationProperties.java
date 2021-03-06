@@ -1,5 +1,6 @@
 package io.github.therealmone.fireres.firemode;
 
+import io.github.therealmone.fireres.core.config.FunctionForm;
 import io.github.therealmone.fireres.core.config.GeneralProperties;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.config.SampleProperties;
@@ -37,8 +38,10 @@ public class TestGenerationProperties extends GenerationProperties {
         val props = new SampleProperties();
 
         props.putReportProperties(FireModeProperties.builder()
-                .linearityCoefficient(LINEAR_COEFFICIENT)
-                .interpolationPoints(INTERPOLATION_POINTS)
+                .functionForm(FunctionForm.<Integer>builder()
+                        .linearityCoefficient(LINEAR_COEFFICIENT)
+                        .interpolationPoints(INTERPOLATION_POINTS)
+                        .build())
                 .thermocoupleCount(6)
                 .build());
 

@@ -3,7 +3,9 @@ package io.github.therealmone.fireres.excess.pressure.service;
 import io.github.therealmone.fireres.core.service.ReportCreatorService;
 import io.github.therealmone.fireres.excess.pressure.report.ExcessPressureReport;
 
-public interface ExcessPressureService extends ReportCreatorService<ExcessPressureReport> {
+public interface ExcessPressureService extends
+        ReportCreatorService<ExcessPressureReport>,
+        ExcessPressureBoundsShiftService {
 
     void updateBasePressure(ExcessPressureReport report, Double basePressure);
 

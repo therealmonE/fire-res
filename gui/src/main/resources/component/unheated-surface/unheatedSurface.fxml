@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ScrollPane?>
+<?import io.github.therealmone.fireres.gui.component.ScrollPaneWithoutFocus?>
 <?import javafx.scene.layout.VBox?>
-<ScrollPane fitToWidth="true" fitToHeight="true" hbarPolicy="NEVER" xmlns="http://javafx.com/javafx/10.0.2-internal"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:id="component"
-            fx:controller="io.github.therealmone.fireres.gui.controller.unheated.surface.UnheatedSurface">
+
+<ScrollPaneWithoutFocus fitToWidth="true" fitToHeight="true" hbarPolicy="NEVER"
+                        xmlns="http://javafx.com/javafx/10.0.2-internal"
+                        xmlns:fx="http://javafx.com/fxml/1"
+                        fx:id="component"
+                        fx:controller="io.github.therealmone.fireres.gui.controller.unheated.surface.UnheatedSurface">
 
     <VBox focusTraversable="true">
         <fx:include fx:id="firstGroup"
@@ -17,7 +19,7 @@
         <fx:include fx:id="thirdGroup"
                     source="groups/third/thirdGroup.fxml"/>
     </VBox>
-</ScrollPane>
+</ScrollPaneWithoutFocus>
 
 
 

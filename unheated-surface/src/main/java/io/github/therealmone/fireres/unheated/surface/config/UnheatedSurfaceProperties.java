@@ -13,12 +13,12 @@ import lombok.NoArgsConstructor;
 public class UnheatedSurfaceProperties implements ReportProperties {
 
     @Builder.Default
-    private UnheatedSurfaceGroupProperties firstGroup = new UnheatedSurfaceGroupProperties();
+    private PrimaryGroupProperties firstGroup = new PrimaryGroupProperties();
 
     @Builder.Default
-    private UnheatedSurfaceSecondaryGroupProperties secondGroup = new UnheatedSurfaceSecondaryGroupProperties();
+    private SecondaryGroupProperties secondGroup = new SecondaryGroupProperties();
 
     @Builder.Default
-    private UnheatedSurfaceSecondaryGroupProperties thirdGroup = new UnheatedSurfaceSecondaryGroupProperties();
+    private SecondaryGroupProperties thirdGroup = new SecondaryGroupProperties();
 
 }

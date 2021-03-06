@@ -1,6 +1,6 @@
 package io.github.therealmone.fireres.core.service.impl;
 
-import io.github.therealmone.fireres.core.config.Interpolation;
+import io.github.therealmone.fireres.core.config.FunctionForm;
 import io.github.therealmone.fireres.core.model.Point;
 import io.github.therealmone.fireres.core.model.Report;
 import io.github.therealmone.fireres.core.service.InterpolationService;
@@ -14,7 +14,7 @@ import java.util.function.Function;
 public abstract class AbstractInterpolationService<R extends Report<?>, N extends Number>
         implements InterpolationService<R, N> {
 
-    private final Function<R, Interpolation<N>> propertiesMapper;
+    private final Function<R, FunctionForm<N>> propertiesMapper;
 
     @Override
     public void updateLinearityCoefficient(R report, Double linearityCoefficient) {
@@ -34,14 +34,17 @@ public abstract class AbstractInterpolationService<R extends Report<?>, N extend
     public void addInterpolationPoint(R report, Point<N> pointToAdd) {
         val currentPoints = propertiesMapper.apply(report).getInterpolationPoints();
 
+        if (currentPoints.stream().anyMatch(p -> p.getTime().equals(pointToAdd.getTime()))) {
+            throw new IllegalArgumentException("Interpolation point already specified on time " + pointToAdd.getTime());
+        }
+
         currentPoints.add(pointToAdd);
         currentPoints.sort(Comparator.comparing(Point::getTime));
 
         try {
             postUpdateInterpolationPoints(report);
         } catch (Exception e) {
-            val indexToRemove = currentPoints.indexOf(pointToAdd);
-            currentPoints.remove(indexToRemove);
+            currentPoints.remove(pointToAdd);
             throw e;
         }
     }

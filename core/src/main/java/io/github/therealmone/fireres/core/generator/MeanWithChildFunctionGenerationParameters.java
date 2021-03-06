@@ -1,6 +1,6 @@
 package io.github.therealmone.fireres.core.generator;
 
-import io.github.therealmone.fireres.core.config.Interpolation;
+import io.github.therealmone.fireres.core.config.FunctionForm;
 import io.github.therealmone.fireres.core.generator.strategy.ChildFunctionGeneratorStrategy;
 import io.github.therealmone.fireres.core.model.IntegerPointSequence;
 import lombok.AllArgsConstructor;
@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class MeanWithChildFunctionGenerationParameters {
 
-    private Interpolation meanFunctionInterpolation;
+    private FunctionForm<?> meanFunctionForm;
 
     private Integer childFunctionsCount;
     private ChildFunctionGeneratorStrategy strategy;

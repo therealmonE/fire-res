@@ -2,6 +2,7 @@ package io.github.therealmone.fireres.gui.controller.excess.pressure;
 
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
+import io.github.therealmone.fireres.core.model.DoublePoint;
 import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.excess.pressure.report.ExcessPressureReport;
 import io.github.therealmone.fireres.excess.pressure.service.ExcessPressureService;
@@ -9,6 +10,7 @@ import io.github.therealmone.fireres.gui.annotation.LoadableComponent;
 import io.github.therealmone.fireres.gui.controller.AbstractComponent;
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
 import io.github.therealmone.fireres.gui.controller.ReportInclusionChanger;
+import io.github.therealmone.fireres.gui.controller.common.BoundsShiftParams;
 import io.github.therealmone.fireres.gui.controller.common.SampleTab;
 import io.github.therealmone.fireres.gui.model.ReportTask;
 import io.github.therealmone.fireres.gui.service.ReportExecutorService;
@@ -21,6 +23,8 @@ import lombok.val;
 import java.util.UUID;
 
 import static io.github.therealmone.fireres.core.config.ReportType.EXCESS_PRESSURE;
+import static io.github.therealmone.fireres.gui.synchronizer.impl.ExcessPressureChartSynchronizer.MAX_ALLOWED_PRESSURE_TEXT;
+import static io.github.therealmone.fireres.gui.synchronizer.impl.ExcessPressureChartSynchronizer.MIN_ALLOWED_PRESSURE_TEXT;
 import static io.github.therealmone.fireres.gui.util.TabUtils.disableTab;
 import static io.github.therealmone.fireres.gui.util.TabUtils.enableTab;
 import static java.util.Collections.singletonList;
@@ -45,6 +49,9 @@ public class ExcessPressure extends AbstractComponent<HBox>
     @FXML
     private ExcessPressureChart excessPressureChartController;
 
+    @FXML
+    private BoundsShiftParams boundsShiftParamsController;
+
     @Inject
     private GenerationProperties generationProperties;
 
@@ -54,6 +61,25 @@ public class ExcessPressure extends AbstractComponent<HBox>
     @Override
     public Sample getSample() {
         return ((SampleTab) getParent()).getSample();
+    }
+
+    @Override
+    protected void initialize() {
+        getBoundsShiftParams().addBoundShift(
+                MAX_ALLOWED_PRESSURE_TEXT,
+                singletonList(paramsVbox),
+                point -> excessPressureService.addMaxAllowedPressureShift(report, (DoublePoint) point),
+                point -> excessPressureService.removeMaxAllowedPressureShift(report, (DoublePoint) point),
+                (integer, number) -> new DoublePoint(integer, number.doubleValue())
+        );
+
+        getBoundsShiftParams().addBoundShift(
+                MIN_ALLOWED_PRESSURE_TEXT,
+                singletonList(paramsVbox),
+                point -> excessPressureService.addMinAllowedPressureShift(report, (DoublePoint) point),
+                point -> excessPressureService.removeMinAllowedPressureShift(report, (DoublePoint) point),
+                (integer, number) -> new DoublePoint(integer, number.doubleValue())
+        );
     }
 
     @Override
@@ -95,6 +121,10 @@ public class ExcessPressure extends AbstractComponent<HBox>
         getSample().putReport(report);
         enableTab(parent.getExcessPressureTab(), parent.getReportsTabPane());
         generationProperties.getGeneral().getIncludedReports().add(EXCESS_PRESSURE);
+    }
+
+    public BoundsShiftParams getBoundsShiftParams() {
+        return boundsShiftParamsController;
     }
 
 }

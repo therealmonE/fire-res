@@ -11,7 +11,7 @@ import lombok.val;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static io.github.therealmone.fireres.heatflow.pipeline.HeatFlowReportEnrichType.BOUND;
+import static io.github.therealmone.fireres.heatflow.pipeline.HeatFlowReportEnrichType.MAX_ALLOWED_FLOW;
 import static org.junit.Assert.assertNotEquals;
 
 @RunWith(HeatFlowGuiceRunner.class)
@@ -34,8 +34,8 @@ public class BoundEnrichTest {
         val oldBound = report.getBound();
 
         report.getProperties().setBound(0.5);
-        report.getProperties().getInterpolationPoints().clear();
-        reportEnrichPipeline.accept(report, BOUND);
+        report.getProperties().getFunctionForm().getInterpolationPoints().clear();
+        reportEnrichPipeline.accept(report, MAX_ALLOWED_FLOW);
 
         val newBound = report.getBound();
 

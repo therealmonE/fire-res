@@ -76,12 +76,6 @@ public class FireModeReportTest {
         val maxAllowedTemp = report.getMaxAllowedTemperature();
 
         assertEquals(expectedFunction, maxAllowedTemp.getValue());
-
-        val smoothedFunction = maxAllowedTemp.getSmoothedValue();
-
-        assertFunctionConstantlyGrowing(smoothedFunction);
-        assertEquals(expectedFunction.size(), smoothedFunction.size());
-        assertFunctionNotHigher(smoothedFunction, expectedFunction);
     }
 
     @Test
@@ -110,12 +104,6 @@ public class FireModeReportTest {
         val minAllowedTemp = report.getMinAllowedTemperature();
 
         assertEquals(expectedFunction, minAllowedTemp.getValue());
-
-        val smoothedFunction = minAllowedTemp.getSmoothedValue();
-
-        assertFunctionConstantlyGrowing(smoothedFunction);
-        assertEquals(expectedFunction.size(), smoothedFunction.size());
-        assertFunctionNotLower(smoothedFunction, expectedFunction);
     }
 
     @Test

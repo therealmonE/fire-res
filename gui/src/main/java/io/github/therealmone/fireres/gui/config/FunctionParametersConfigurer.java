@@ -1,6 +1,6 @@
 package io.github.therealmone.fireres.gui.config;
 
-import io.github.therealmone.fireres.core.config.Interpolation;
+import io.github.therealmone.fireres.core.config.FunctionForm;
 import io.github.therealmone.fireres.core.config.SampleProperties;
 import io.github.therealmone.fireres.gui.controller.common.FunctionParams;
 import javafx.scene.control.Spinner;
@@ -31,7 +31,7 @@ public class FunctionParametersConfigurer implements Configurer<FunctionParams> 
     }
 
     private void resetLinearCoefficient(Spinner<Double> LinearCoefficient, SampleProperties sample,
-                                        Function<SampleProperties, Interpolation> sampleMapper) {
+                                        Function<SampleProperties, FunctionForm> sampleMapper) {
 
         sampleMapper.apply(sample).setLinearityCoefficient(DEFAULT_LINEAR_COEFFICIENT);
 
@@ -44,7 +44,7 @@ public class FunctionParametersConfigurer implements Configurer<FunctionParams> 
     }
 
     private void resetDispersionCoefficient(Spinner<Double> DispersionCoefficient, SampleProperties sample,
-                                            Function<SampleProperties, Interpolation> sampleMapper) {
+                                            Function<SampleProperties, FunctionForm> sampleMapper) {
 
         sampleMapper.apply(sample).setDispersionCoefficient(DEFAULT_DISPERSION_COEFFICIENT);
 

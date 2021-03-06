@@ -80,22 +80,6 @@ public class InterpolationUtils {
         return y;
     }
 
-    public static List<IntegerPoint> smoothMinFunction(List<IntegerPoint> function) {
-        val smoothedFunctions = new ArrayList<>(function);
-
-        removePits(smoothedFunctions);
-
-        return interpolate(smoothedFunctions);
-    }
-
-    public static List<IntegerPoint> smoothMaxFunction(List<IntegerPoint> function) {
-        val smoothedFunctions = new ArrayList<>(function);
-
-        removePeaks(smoothedFunctions);
-
-        return interpolate(smoothedFunctions);
-    }
-
     public static List<IntegerPoint> interpolateInterval(Pair<IntegerPoint, IntegerPoint> interval) {
         return interpolate(List.of(interval.getFirst(), interval.getSecond()));
     }
@@ -110,48 +94,4 @@ public class InterpolationUtils {
                 .mapToObj(x -> new IntegerPoint(x, (int) Math.round(interpolation.value(x))))
                 .collect(Collectors.toList());
     }
-
-    private static void removePeaks(List<IntegerPoint> function) {
-        val pointsToRemove = new ArrayList<IntegerPoint>();
-
-        for (int i = 0; i < function.size() - 1; i++) {
-            val point = function.get(i);
-            val nextPoint = function.get(i + 1);
-
-            if (point.getValue() > nextPoint.getValue()) {
-                for (int j = i; j >= 0; j--) {
-                    if (function.get(j).getValue() >= nextPoint.getValue() - (i - j)) {
-                        pointsToRemove.add(function.get(j));
-                    } else {
-                        break;
-                    }
-                }
-            }
-        }
-
-        pointsToRemove.forEach(function::remove);
-    }
-
-    private static void removePits(List<IntegerPoint> function) {
-        val pointsToRemove = new ArrayList<IntegerPoint>();
-
-        for (int i = 0; i < function.size() - 1; i++) {
-            val point = function.get(i);
-
-            var nextPoint = function.get(i + 1);
-
-            while (nextPoint.getValue() < point.getValue()) {
-                pointsToRemove.add(nextPoint);
-
-                if (nextPoint.getTime().equals(function.size() - 1)) {
-                    break;
-                } else {
-                    nextPoint = function.get(nextPoint.getTime() + 1);
-                }
-            }
-        }
-
-        pointsToRemove.forEach(function::remove);
-    }
-
 }

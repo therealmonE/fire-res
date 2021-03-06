@@ -1,22 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import io.github.therealmone.fireres.gui.component.ScrollPaneWithoutFocus?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<TitledPane text="Третья группа термопар" expanded="false" xmlns="http://javafx.com/javafx/10.0.2-internal"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:id="component"
+
+<TitledPane fx:id="component" expanded="false" text="Третья группа термопар"
+            xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="io.github.therealmone.fireres.gui.controller.unheated.surface.groups.third.ThirdGroup">
 
     <HBox focusTraversable="true" prefHeight="5000.0">
-        <VBox fx:id="paramsVbox" focusTraversable="true">
-            <fx:include fx:id="thirdGroupParams" source="thirdGroupParams.fxml"/>
-            <fx:include fx:id="functionParams" source="../../../common/functionParams.fxml"/>
+        <ScrollPaneWithoutFocus fitToHeight="true" minWidth="-Infinity" prefWidth="360.0">
+            <VBox fx:id="paramsVbox" focusTraversable="true">
+                <fx:include fx:id="thirdGroupParams" source="thirdGroupParams.fxml"/>
+                <fx:include fx:id="functionParams" source="../../../common/functionParams.fxml"/>
+                <fx:include fx:id="boundsShiftParams" source="../../../common/boundsShiftParams.fxml"/>
+                <padding>
+                    <Insets left="15.0"/>
+                </padding>
+            </VBox>
             <HBox.margin>
-                <Insets left="15.0"/>
+                <Insets bottom="5.0" left="5.0" top="5.0"/>
             </HBox.margin>
-        </VBox>
+        </ScrollPaneWithoutFocus>
         <fx:include fx:id="thirdGroupChart" source="thirdGroupChart.fxml"/>
     </HBox>
 

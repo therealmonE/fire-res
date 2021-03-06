@@ -4,7 +4,10 @@ import io.github.therealmone.fireres.core.service.InterpolationService;
 import io.github.therealmone.fireres.core.service.ReportCreatorService;
 import io.github.therealmone.fireres.heatflow.report.HeatFlowReport;
 
-public interface HeatFlowService extends ReportCreatorService<HeatFlowReport>, InterpolationService<HeatFlowReport, Double> {
+public interface HeatFlowService extends
+        ReportCreatorService<HeatFlowReport>,
+        InterpolationService<HeatFlowReport, Double>,
+        HeatFlowBoundsShiftService {
 
     void updateSensorsCount(HeatFlowReport report, Integer sensorsCount);
 
