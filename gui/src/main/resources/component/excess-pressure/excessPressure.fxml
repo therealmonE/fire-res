@@ -11,6 +11,7 @@
     <ScrollPaneWithoutFocus fitToHeight="true" minWidth="-Infinity" prefWidth="360.0">
         <VBox fx:id="paramsVbox" focusTraversable="true">
             <fx:include fx:id="excessPressureParams" source="excessPressureParams.fxml"/>
+            <fx:include fx:id="boundsShiftParams" source="../common/boundsShiftParams.fxml"/>
             <padding>
                 <Insets left="15.0"/>
             </padding>
