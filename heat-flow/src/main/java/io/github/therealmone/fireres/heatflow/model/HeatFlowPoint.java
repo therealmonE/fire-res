@@ -1,10 +1,10 @@
 package io.github.therealmone.fireres.heatflow.model;
 
-import io.github.therealmone.fireres.core.model.Point;
+import io.github.therealmone.fireres.core.model.DoublePoint;
 
 import static io.github.therealmone.fireres.heatflow.service.impl.NormalizationServiceImpl.NORMALIZATION_MULTIPLIER;
 
-public class HeatFlowPoint extends Point<Double> {
+public class HeatFlowPoint extends DoublePoint {
 
     public HeatFlowPoint(Integer time, Double value) {
         super(time, value);

@@ -6,6 +6,7 @@ import io.github.therealmone.fireres.heatflow.model.HeatFlowPoint;
 import io.github.therealmone.fireres.heatflow.model.HeatFlowPointSequence;
 import io.github.therealmone.fireres.heatflow.service.NormalizationService;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class NormalizationServiceImpl implements NormalizationService {
@@ -13,8 +14,8 @@ public class NormalizationServiceImpl implements NormalizationService {
     public static final Integer NORMALIZATION_MULTIPLIER = 1000;
 
     @Override
-    public IntegerPointSequence disnormalize(HeatFlowPointSequence doublePointSequence) {
-        return new IntegerPointSequence(doublePointSequence.getValue().stream()
+    public IntegerPointSequence disnormalize(List<HeatFlowPoint> heatFlowPoints) {
+        return new IntegerPointSequence(heatFlowPoints.stream()
                 .map(p -> new IntegerPoint(p.getTime(), p.getIntValue()))
                 .collect(Collectors.toList()));
     }

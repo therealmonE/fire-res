@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -33,34 +34,40 @@ public class FunctionUtils {
                 .collect(Collectors.toList()));
     }
 
-    public static List<IntegerPoint> calculateShiftedIntegerPoints(List<IntegerPoint> original, BoundShift<IntegerPoint> shift) {
-        val shiftedPoints = new ArrayList<IntegerPoint>();
+    public static List<IntegerPoint> calculateShiftedIntegerPoints(List<IntegerPoint> original,
+                                                                   BoundShift<IntegerPoint> shift) {
 
-        for (IntegerPoint originalPoint : original) {
-            val pointShift = lookupShiftForPoint(originalPoint, shift);
-
-            if (pointShift.isPresent()) {
-                val shiftedValue = originalPoint.getValue() + pointShift.get().getValue();
-                shiftedPoints.add(new IntegerPoint(originalPoint.getTime(), shiftedValue));
-            } else {
-                shiftedPoints.add(new IntegerPoint(originalPoint.getTime(), originalPoint.getValue()));
-            }
-        }
-
-        return shiftedPoints;
+        return calculateShiftedPoints(
+                original, shift,
+                (p1, p2) -> p1.getValue() + p2.getValue(),
+                IntegerPoint::new);
     }
 
-    public static List<DoublePoint> calculateShiftedDoublePoints(List<DoublePoint> original, BoundShift<DoublePoint> shift) {
-        val shiftedPoints = new ArrayList<DoublePoint>();
+    public static List<DoublePoint> calculateShiftedDoublePoints(List<DoublePoint> original,
+                                                                 BoundShift<DoublePoint> shift) {
 
-        for (DoublePoint originalPoint : original) {
+        return calculateShiftedPoints(
+                original, shift,
+                (p1, p2) -> p1.getValue() + p2.getValue(),
+                DoublePoint::new);
+    }
+
+    public static <N extends Number, P extends Point<N>>
+    List<P> calculateShiftedPoints(List<P> original,
+                                   BoundShift<P> shift,
+                                   BiFunction<P, P, N> shiftedValueCalculator,
+                                   BiFunction<Integer, N, P> newPointCreator) {
+
+        val shiftedPoints = new ArrayList<P>();
+
+        for (P originalPoint : original) {
             val pointShift = lookupShiftForPoint(originalPoint, shift);
 
             if (pointShift.isPresent()) {
-                val shiftedValue = originalPoint.getValue() + pointShift.get().getValue();
-                shiftedPoints.add(new DoublePoint(originalPoint.getTime(), shiftedValue));
+                val shiftedValue = shiftedValueCalculator.apply(originalPoint, pointShift.get());
+                shiftedPoints.add(newPointCreator.apply(originalPoint.getTime(), shiftedValue));
             } else {
-                shiftedPoints.add(new DoublePoint(originalPoint.getTime(), originalPoint.getValue()));
+                shiftedPoints.add(newPointCreator.apply(originalPoint.getTime(), originalPoint.getValue()));
             }
         }
 

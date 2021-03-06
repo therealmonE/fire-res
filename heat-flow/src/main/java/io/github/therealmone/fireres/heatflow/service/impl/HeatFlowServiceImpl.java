@@ -4,13 +4,14 @@ import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.core.pipeline.ReportEnrichPipeline;
 import io.github.therealmone.fireres.core.service.impl.AbstractInterpolationService;
+import io.github.therealmone.fireres.heatflow.model.HeatFlowPoint;
 import io.github.therealmone.fireres.heatflow.report.HeatFlowReport;
 import io.github.therealmone.fireres.heatflow.service.HeatFlowService;
 import lombok.val;
 
 import java.util.UUID;
 
-import static io.github.therealmone.fireres.heatflow.pipeline.HeatFlowReportEnrichType.BOUND;
+import static io.github.therealmone.fireres.heatflow.pipeline.HeatFlowReportEnrichType.MAX_ALLOWED_FLOW;
 import static io.github.therealmone.fireres.heatflow.pipeline.HeatFlowReportEnrichType.MEAN_WITH_SENSORS_TEMPERATURES;
 
 public class HeatFlowServiceImpl extends AbstractInterpolationService<HeatFlowReport, Double> implements HeatFlowService {
@@ -43,7 +44,7 @@ public class HeatFlowServiceImpl extends AbstractInterpolationService<HeatFlowRe
     public void updateBound(HeatFlowReport report, Double bound) {
         report.getProperties().setBound(bound);
 
-        reportPipeline.accept(report, BOUND);
+        reportPipeline.accept(report, MAX_ALLOWED_FLOW);
     }
 
     @Override
@@ -59,5 +60,28 @@ public class HeatFlowServiceImpl extends AbstractInterpolationService<HeatFlowRe
     @Override
     protected void postUpdateInterpolationPoints(HeatFlowReport report) {
         reportPipeline.accept(report, MEAN_WITH_SENSORS_TEMPERATURES);
+    }
+
+    @Override
+    public void addMaxAllowedFlowShift(HeatFlowReport report, HeatFlowPoint shift) {
+        val currentShift = report.getProperties().getBoundsShift().getMaxAllowedFlowShift();
+
+        currentShift.add(shift);
+
+        try {
+            reportPipeline.accept(report, MEAN_WITH_SENSORS_TEMPERATURES);
+        } catch (Exception e) {
+            currentShift.remove(shift);
+            throw e;
+        }
+    }
+
+    @Override
+    public void removeMaxAllowedFlowShift(HeatFlowReport report, HeatFlowPoint shift) {
+        val currentShift = report.getProperties().getBoundsShift().getMaxAllowedFlowShift();
+
+        if (currentShift.remove(shift)) {
+            reportPipeline.accept(report, MEAN_WITH_SENSORS_TEMPERATURES);
+        }
     }
 }

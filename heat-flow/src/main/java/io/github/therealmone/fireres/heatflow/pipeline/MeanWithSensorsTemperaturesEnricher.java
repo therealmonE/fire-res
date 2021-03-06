@@ -7,8 +7,8 @@ import io.github.therealmone.fireres.core.generator.MeanWithChildFunctionGenerat
 import io.github.therealmone.fireres.core.pipeline.ReportEnrichType;
 import io.github.therealmone.fireres.core.pipeline.ReportEnricher;
 import io.github.therealmone.fireres.heatflow.generator.HeatFlowGeneratorStrategy;
-import io.github.therealmone.fireres.heatflow.model.HeatFlowMeanTemperature;
-import io.github.therealmone.fireres.heatflow.model.HeatFlowSensorTemperature;
+import io.github.therealmone.fireres.heatflow.model.MeanTemperature;
+import io.github.therealmone.fireres.heatflow.model.SensorTemperature;
 import io.github.therealmone.fireres.heatflow.report.HeatFlowReport;
 import io.github.therealmone.fireres.heatflow.service.NormalizationService;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +34,8 @@ public class MeanWithSensorsTemperaturesEnricher implements ReportEnricher<HeatF
     @Override
     public void enrich(HeatFlowReport report) {
         val time = generationProperties.getGeneral().getTime();
-        val bound = normalizationService.disnormalize(report.getBound());
+        val bound = normalizationService.disnormalize(report.getBound()
+                .getShiftedValue(report.getProperties().getBoundsShift().getMaxAllowedFlowShift()));
         val zeroBound = constantFunction(time, 0);
 
         val meanWithChildFunctions = meanFunctionFactory
@@ -48,11 +49,11 @@ public class MeanWithSensorsTemperaturesEnricher implements ReportEnricher<HeatF
                         .strategy(new HeatFlowGeneratorStrategy())
                         .build());
 
-        report.setMeanTemperature(new HeatFlowMeanTemperature(
+        report.setMeanTemperature(new MeanTemperature(
                 normalizationService.normalize(meanWithChildFunctions.getFirst()).getValue()));
 
         report.setSensorTemperatures(meanWithChildFunctions.getSecond().stream()
-                .map(child -> new HeatFlowSensorTemperature(
+                .map(child -> new SensorTemperature(
                         normalizationService.normalize(child).getValue()))
                 .collect(Collectors.toList()));
     }
