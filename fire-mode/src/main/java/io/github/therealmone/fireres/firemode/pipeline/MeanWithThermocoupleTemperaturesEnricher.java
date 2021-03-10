@@ -1,12 +1,13 @@
 package io.github.therealmone.fireres.firemode.pipeline;
 
 import com.google.inject.Inject;
-import io.github.therealmone.fireres.core.factory.MeanFunctionFactory;
-import io.github.therealmone.fireres.core.generator.MeanWithChildFunctionGenerationParameters;
+import io.github.therealmone.fireres.core.model.FunctionsGenerationBounds;
+import io.github.therealmone.fireres.core.model.FunctionsGenerationParams;
 import io.github.therealmone.fireres.core.model.IntegerPointSequence;
 import io.github.therealmone.fireres.core.pipeline.ReportEnrichType;
 import io.github.therealmone.fireres.core.pipeline.ReportEnricher;
-import io.github.therealmone.fireres.firemode.generator.FireModeGeneratorStrategy;
+import io.github.therealmone.fireres.core.service.FunctionsGenerationService;
+import io.github.therealmone.fireres.firemode.generator.FireModeGenerationStrategy;
 import io.github.therealmone.fireres.firemode.model.ThermocoupleMeanTemperature;
 import io.github.therealmone.fireres.firemode.model.ThermocoupleTemperature;
 import io.github.therealmone.fireres.firemode.report.FireModeReport;
@@ -21,7 +22,7 @@ import static io.github.therealmone.fireres.firemode.pipeline.FireModeReportEnri
 public class MeanWithThermocoupleTemperaturesEnricher implements ReportEnricher<FireModeReport> {
 
     @Inject
-    private MeanFunctionFactory meanFunctionFactory;
+    private FunctionsGenerationService functionsGenerationService;
 
     @Override
     public void enrich(FireModeReport report) {
@@ -33,15 +34,13 @@ public class MeanWithThermocoupleTemperaturesEnricher implements ReportEnricher<
                 report.getMaxAllowedTemperature()
                         .getShiftedValue(report.getProperties().getBoundsShift().getMaxAllowedTemperatureShift()));
 
-        val meanWithChildFunctions = meanFunctionFactory
-                .meanWithChildFunctions(MeanWithChildFunctionGenerationParameters.builder()
+        val meanWithChildFunctions = functionsGenerationService
+                .meanWithChildFunctions(FunctionsGenerationParams.builder()
                         .meanFunctionForm(report.getProperties().getFunctionForm())
-                        .meanLowerBound(lowerBound)
-                        .meanUpperBound(upperBound)
-                        .childLowerBound(lowerBound)
-                        .childUpperBound(upperBound)
+                        .meanBounds(new FunctionsGenerationBounds(lowerBound, upperBound))
+                        .childrenBounds(new FunctionsGenerationBounds(lowerBound, upperBound))
                         .childFunctionsCount(report.getProperties().getThermocoupleCount())
-                        .strategy(new FireModeGeneratorStrategy())
+                        .strategy(new FireModeGenerationStrategy())
                         .build());
 
         report.setThermocoupleMeanTemperature(new ThermocoupleMeanTemperature(meanWithChildFunctions.getFirst().getValue()));

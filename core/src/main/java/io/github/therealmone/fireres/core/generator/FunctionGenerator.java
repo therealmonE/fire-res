@@ -1,9 +1,10 @@
 package io.github.therealmone.fireres.core.generator;
 
 import io.github.therealmone.fireres.core.config.FunctionForm;
-import io.github.therealmone.fireres.core.exception.InvalidMeanFunctionException;
+import io.github.therealmone.fireres.core.exception.FunctionGenerationException;
 import io.github.therealmone.fireres.core.model.IntegerPoint;
 import io.github.therealmone.fireres.core.model.IntegerPointSequence;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -26,7 +27,8 @@ import static java.util.Collections.emptyList;
 
 @RequiredArgsConstructor
 @Slf4j
-public class MeanFunctionGenerator implements PointSequenceGenerator<IntegerPointSequence> {
+@Builder
+public class FunctionGenerator implements PointSequenceGenerator<IntegerPointSequence> {
 
     private final Integer t0;
     private final Integer time;
@@ -127,7 +129,7 @@ public class MeanFunctionGenerator implements PointSequenceGenerator<IntegerPoin
             val upperBound = mean + (int) ((max - mean) * dispersion);
 
             if (lowerBound > upperBound) {
-                throw new InvalidMeanFunctionException();
+                throw new FunctionGenerationException();
             }
 
             return new IntegerPoint(middleTime, generateValueInInterval(lowerBound, upperBound));

@@ -2,11 +2,12 @@ package io.github.therealmone.fireres.heatflow.pipeline;
 
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
-import io.github.therealmone.fireres.core.factory.MeanFunctionFactory;
-import io.github.therealmone.fireres.core.generator.MeanWithChildFunctionGenerationParameters;
+import io.github.therealmone.fireres.core.model.FunctionsGenerationBounds;
+import io.github.therealmone.fireres.core.model.FunctionsGenerationParams;
 import io.github.therealmone.fireres.core.pipeline.ReportEnrichType;
 import io.github.therealmone.fireres.core.pipeline.ReportEnricher;
-import io.github.therealmone.fireres.heatflow.generator.HeatFlowGeneratorStrategy;
+import io.github.therealmone.fireres.core.service.FunctionsGenerationService;
+import io.github.therealmone.fireres.heatflow.generator.HeatFlowGenerationStrategy;
 import io.github.therealmone.fireres.heatflow.model.MeanTemperature;
 import io.github.therealmone.fireres.heatflow.model.SensorTemperature;
 import io.github.therealmone.fireres.heatflow.report.HeatFlowReport;
@@ -26,7 +27,7 @@ public class MeanWithSensorsTemperaturesEnricher implements ReportEnricher<HeatF
     private GenerationProperties generationProperties;
 
     @Inject
-    private MeanFunctionFactory meanFunctionFactory;
+    private FunctionsGenerationService functionsGenerationService;
 
     @Inject
     private NormalizationService normalizationService;
@@ -38,15 +39,13 @@ public class MeanWithSensorsTemperaturesEnricher implements ReportEnricher<HeatF
                 .getShiftedValue(report.getProperties().getBoundsShift().getMaxAllowedFlowShift()));
         val zeroBound = constantFunction(time, 0);
 
-        val meanWithChildFunctions = meanFunctionFactory
-                .meanWithChildFunctions(MeanWithChildFunctionGenerationParameters.builder()
+        val meanWithChildFunctions = functionsGenerationService
+                .meanWithChildFunctions(FunctionsGenerationParams.builder()
                         .meanFunctionForm(report.getProperties().getFunctionForm())
-                        .meanLowerBound(zeroBound)
-                        .meanUpperBound(bound)
+                        .meanBounds(new FunctionsGenerationBounds(zeroBound, bound))
+                        .childrenBounds(new FunctionsGenerationBounds(zeroBound, bound))
                         .childFunctionsCount(report.getProperties().getSensorCount())
-                        .childLowerBound(zeroBound)
-                        .childUpperBound(bound)
-                        .strategy(new HeatFlowGeneratorStrategy())
+                        .strategy(new HeatFlowGenerationStrategy())
                         .build());
 
         report.setMeanTemperature(new MeanTemperature(
