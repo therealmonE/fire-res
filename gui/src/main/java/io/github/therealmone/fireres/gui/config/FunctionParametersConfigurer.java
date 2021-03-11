@@ -11,12 +11,12 @@ import java.util.function.Function;
 
 public class FunctionParametersConfigurer implements Configurer<FunctionParams> {
 
-    private static final Double DEFAULT_LINEAR_COEFFICIENT = 0.5d;
+    private static final Double DEFAULT_LINEAR_COEFFICIENT = 1d;
     private static final Double DEFAULT_LINEAR_COEFFICIENT_MIN = 0d;
     private static final Double DEFAULT_LINEAR_COEFFICIENT_MAX = 1d;
     private static final Double DEFAULT_LINEAR_COEFFICIENT_INCREMENT = 0.01;
 
-    private static final Double DEFAULT_DISPERSION_COEFFICIENT = 1d;
+    private static final Double DEFAULT_DISPERSION_COEFFICIENT = 0d;
     private static final Double DEFAULT_DISPERSION_COEFFICIENT_MIN = 0d;
     private static final Double DEFAULT_DISPERSION_COEFFICIENT_MAX = 1d;
     private static final Double DEFAULT_DISPERSION_COEFFICIENT_INCREMENT = 0.01;

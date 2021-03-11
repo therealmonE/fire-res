@@ -23,6 +23,7 @@ import static io.github.therealmone.fireres.core.utils.InterpolationUtils.interp
 import static io.github.therealmone.fireres.core.utils.InterpolationUtils.lookUpClosestNextPoint;
 import static io.github.therealmone.fireres.core.utils.InterpolationUtils.lookUpClosestPreviousPoint;
 import static io.github.therealmone.fireres.core.utils.RandomUtils.generateValueInInterval;
+import static io.github.therealmone.fireres.core.utils.RandomUtils.rollDice;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -45,7 +46,11 @@ public class FunctionGenerator implements PointSequenceGenerator<IntegerPointSeq
 
         generateNecessaryPoints(points);
         adjustInterpolationPoints(points);
-        generateInnerPoints(points);
+
+        if (functionForm.getLinearityCoefficient() != 1) {
+            generateInnerPoints(points);
+            adjustInterpolationPoints(points);
+        }
 
         val thermocoupleMeanTemp = interpolate(points);
 
@@ -208,8 +213,34 @@ public class FunctionGenerator implements PointSequenceGenerator<IntegerPointSeq
     }
 
     private void generateInnerPoints(List<IntegerPoint> points) {
-        //todo
-    }
+        val function = interpolate(points);
 
+        function.stream()
+                .filter(point -> !points.contains(point))
+                .filter(point -> rollDice(functionForm.getNonLinearityCoefficient()))
+                .forEach(point -> {
+                    val previous = lookUpClosestPreviousPoint(points, point.getTime());
+                    val next = lookUpClosestNextPoint(points, point.getTime());
+
+                    val lowerBoundValue = this.lowerBound.getPoint(point.getTime()).getValue();
+                    val upperBoundValue = this.upperBound.getPoint(point.getTime()).getValue();
+
+                    val min = previous.map(p -> Math.max(lowerBoundValue, p)).orElse(lowerBoundValue);
+                    val max = next.map(p -> Math.min(upperBoundValue, p)).orElse(upperBoundValue);
+
+                    val basisValue = point.getValue();
+
+                    val minWithCoefficient = basisValue - (int) ((basisValue - min) * functionForm.getDispersionCoefficient());
+                    val maxWithCoefficient = basisValue + (int) ((max - basisValue) * functionForm.getDispersionCoefficient());
+
+                    if (minWithCoefficient > maxWithCoefficient) {
+                        return;
+                    }
+
+                    points.add(new IntegerPoint(point.getTime(), generateValueInInterval(minWithCoefficient, maxWithCoefficient)));
+                });
+
+        points.sort(Comparator.comparing(Point::getTime));
+    }
 
 }

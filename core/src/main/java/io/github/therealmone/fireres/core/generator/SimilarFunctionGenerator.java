@@ -60,11 +60,16 @@ public class SimilarFunctionGenerator implements PointSequenceGenerator<IntegerP
 
         for (int i = 0; i < basis.getValue().size(); i += INTERPOLATION_POINTS_INTERVAL) {
             if (!containsInterpolationPoint(newFunctionForm, i)) {
+                val time = i;
+
                 val previousPoint = lookUpClosestPreviousPoint(newFunctionForm.getInterpolationPoints(), i);
                 val nextPoint = lookUpClosestNextPoint(newFunctionForm.getInterpolationPoints(), i);
 
                 val delta = functionsGenerationStrategy.resolveDelta(t0, i);
-                val basisValue = basis.getPoint(i).getValue();
+
+                val basisValue = nextPoint
+                        .map(p -> Math.min(basis.getPoint(time).getValue(), p))
+                        .orElse(basis.getPoint(time).getValue());
 
                 val lowerBoundValue = this.lowerBound.getPoint(i).getValue();
                 val upperBoundValue = this.upperBound.getPoint(i).getValue();
