@@ -6,7 +6,6 @@ import io.github.therealmone.fireres.core.model.IntegerPoint;
 import io.github.therealmone.fireres.core.model.IntegerPointSequence;
 import io.github.therealmone.fireres.core.model.Point;
 import lombok.val;
-import org.apache.commons.math3.util.Pair;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -17,16 +16,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class FunctionUtils {
-
-    public static List<Pair<IntegerPoint, IntegerPoint>> asIntervals(List<IntegerPoint> function) {
-        if (function.size() <= 1) {
-            throw new IllegalArgumentException();
-        }
-
-        return IntStream.range(1, function.size())
-                .mapToObj(i -> new Pair<>(function.get(i - 1), function.get(i)))
-                .collect(Collectors.toList());
-    }
 
     public static IntegerPointSequence constantFunction(Integer time, Integer value) {
         return new IntegerPointSequence(IntStream.range(0, time)

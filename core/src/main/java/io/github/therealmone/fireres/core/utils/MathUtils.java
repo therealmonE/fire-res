@@ -7,17 +7,17 @@ import java.util.List;
 
 public class MathUtils {
 
-    public static Double calculatePointsMeanValue(List<? extends Point<?>> function) {
-        val sum = function.stream()
+    public static Integer calculatePointsMeanValue(List<? extends Point<?>> points) {
+        val sum = points.stream()
                 .map(point -> point.getValue().doubleValue())
                 .reduce(0d, Double::sum);
 
-        return sum / (double) function.size();
+        return (int) Math.round(sum / (double) points.size());
     }
 
-    public static Integer calculateIntsMeanValue(List<Integer> function) {
-        val sum = function.stream().reduce(0, Integer::sum);
+    public static Integer calculateIntsMeanValue(List<Integer> ints) {
+        val sum = ints.stream().reduce(0, Integer::sum);
 
-        return (int) Math.round(sum / (double) function.size());
+        return (int) Math.round(sum / (double) ints.size());
     }
 }

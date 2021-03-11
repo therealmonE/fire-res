@@ -23,11 +23,11 @@ public class FunctionForm<N extends Number> {
 
     @Optional
     @Builder.Default
-    private Double linearityCoefficient = 0.5;
+    private Double linearityCoefficient = 1d;
 
     @Optional
     @Builder.Default
-    private Double dispersionCoefficient = 1d;
+    private Double dispersionCoefficient = 0d;
 
     public void setInterpolationPoints(List<Point<N>> interpolationPoints) {
         interpolationPoints.sort(Comparator.comparing(Point::getTime));

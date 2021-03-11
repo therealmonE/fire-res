@@ -3,13 +3,14 @@ package io.github.therealmone.fireres.unheated.surface.pipeline;
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.FunctionForm;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
-import io.github.therealmone.fireres.core.factory.MeanFunctionFactory;
-import io.github.therealmone.fireres.core.generator.MeanWithChildFunctionGenerationParameters;
+import io.github.therealmone.fireres.core.model.FunctionsGenerationBounds;
+import io.github.therealmone.fireres.core.model.FunctionsGenerationParams;
 import io.github.therealmone.fireres.core.model.BoundShift;
 import io.github.therealmone.fireres.core.model.IntegerPoint;
 import io.github.therealmone.fireres.core.model.IntegerPointSequence;
 import io.github.therealmone.fireres.core.pipeline.ReportEnricher;
-import io.github.therealmone.fireres.unheated.surface.generator.UnheatedSurfaceGeneratorStrategy;
+import io.github.therealmone.fireres.core.service.FunctionsGenerationService;
+import io.github.therealmone.fireres.unheated.surface.generator.UnheatedSurfaceGenerationStrategy;
 import io.github.therealmone.fireres.unheated.surface.model.Group;
 import io.github.therealmone.fireres.unheated.surface.model.MeanTemperature;
 import io.github.therealmone.fireres.unheated.surface.model.ThermocoupleTemperature;
@@ -27,7 +28,7 @@ public abstract class MeanWithThermocoupleTemperaturesEnricher
     private GenerationProperties generationProperties;
 
     @Inject
-    private MeanFunctionFactory meanFunctionFactory;
+    private FunctionsGenerationService functionsGenerationService;
 
     @Override
     public void enrich(UnheatedSurfaceReport report) {
@@ -42,15 +43,13 @@ public abstract class MeanWithThermocoupleTemperaturesEnricher
 
         val zeroBound = constantFunction(time, 0);
 
-        val meanWithChildFunctions = meanFunctionFactory
-                .meanWithChildFunctions(MeanWithChildFunctionGenerationParameters.builder()
+        val meanWithChildFunctions = functionsGenerationService
+                .meanWithChildFunctions(FunctionsGenerationParams.builder()
                         .meanFunctionForm(getFunctionForm(report))
-                        .meanLowerBound(zeroBound)
-                        .meanUpperBound(meanBound)
+                        .meanBounds(new FunctionsGenerationBounds(zeroBound, meanBound))
+                        .childrenBounds(new FunctionsGenerationBounds(zeroBound, thermocoupleBound))
                         .childFunctionsCount(getThermocoupleCount(report))
-                        .childLowerBound(zeroBound)
-                        .childUpperBound(thermocoupleBound)
-                        .strategy(new UnheatedSurfaceGeneratorStrategy())
+                        .strategy(new UnheatedSurfaceGenerationStrategy())
                         .build());
 
         group.setMeanTemperature(new MeanTemperature(meanWithChildFunctions.getFirst().getValue()));

@@ -4,12 +4,11 @@ import io.github.therealmone.fireres.core.model.IntegerPoint;
 import io.github.therealmone.fireres.core.model.IntegerPointSequence;
 import io.github.therealmone.fireres.core.model.Point;
 import lombok.val;
-import org.apache.commons.math3.analysis.interpolation.LinearInterpolator;
-import org.apache.commons.math3.util.Pair;
+import org.apache.commons.math3.analysis.interpolation.SplineInterpolator;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -37,27 +36,28 @@ public class InterpolationUtils {
         }
     }
 
-    public static void addLastPointIfNeeded(List<IntegerPoint> points, Integer time,
-                                            IntegerPointSequence lowerBound,
-                                            IntegerPointSequence upperBound) {
+    public static void addPointIfNeeded(List<IntegerPoint> points,
+                                        Integer time,
+                                        IntegerPointSequence lowerBound,
+                                        IntegerPointSequence upperBound) {
 
-        val lastPoint = points.stream()
-                .filter(point -> point.getTime().equals(time - 1))
-                .findFirst();
-
-        if(lastPoint.isEmpty()) {
+        if(!pointExists(points, time)) {
             val closestPoint = points.stream()
                     .filter(p -> p.getTime() < time)
                     .max(Comparator.comparing(Point::getTime))
                     .orElseThrow();
 
-            val min = Math.max(closestPoint.getValue(), lowerBound.getPoint(time - 1).getValue());
-            val max = upperBound.getPoint(time - 1).getValue();
+            val min = Math.max(closestPoint.getValue(), lowerBound.getPoint(time).getValue());
+            val max = upperBound.getPoint(time).getValue();
 
-            val newPoint = new IntegerPoint(time - 1, generateValueInInterval(min, max));
+            val newPoint = new IntegerPoint(time, generateValueInInterval(min, max));
 
             points.add(points.size(), newPoint);
         }
+    }
+
+    private static boolean pointExists(List<IntegerPoint> points, Integer time) {
+        return points.stream().anyMatch(point -> point.getTime().equals(time));
     }
 
     public static double[] getTimeArray(List<IntegerPoint> points) {
@@ -80,12 +80,8 @@ public class InterpolationUtils {
         return y;
     }
 
-    public static List<IntegerPoint> interpolateInterval(Pair<IntegerPoint, IntegerPoint> interval) {
-        return interpolate(List.of(interval.getFirst(), interval.getSecond()));
-    }
-
     public static List<IntegerPoint> interpolate(List<IntegerPoint> function) {
-        val interpolator = new LinearInterpolator();
+        val interpolator = new SplineInterpolator();
         val interpolation = interpolator.interpolate(
                 getTimeArray(function),
                 getValueArray(function));
@@ -93,5 +89,29 @@ public class InterpolationUtils {
         return IntStream.range(function.get(0).getTime(), function.get(function.size() - 1).getTime() + 1)
                 .mapToObj(x -> new IntegerPoint(x, (int) Math.round(interpolation.value(x))))
                 .collect(Collectors.toList());
+    }
+
+    public static Optional<Integer> lookUpClosestPreviousPoint(List<? extends Point<Integer>> interpolationPoints, int time) {
+        return interpolationPoints.stream()
+                .filter(point -> point.getTime() < time)
+                .min((p1, p2) -> {
+                    val p1Delta = time - p1.getTime();
+                    val p2Delta = time - p2.getTime();
+
+                    return p1Delta - p2Delta;
+                })
+                .map(Point::getValue);
+    }
+
+    public static Optional<Integer> lookUpClosestNextPoint(List<? extends Point<Integer>> interpolationPoints, int time) {
+        return interpolationPoints.stream()
+                .filter(point -> point.getTime() > time)
+                .min((p1, p2) -> {
+                    val p1Delta = p1.getTime() - time;
+                    val p2Delta = p2.getTime() - time;
+
+                    return p1Delta - p2Delta;
+                })
+                .map(Point::getValue);
     }
 }
