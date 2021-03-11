@@ -27,7 +27,7 @@ import java.util.stream.IntStream;
 @Slf4j
 public class FunctionsGenerationServiceImpl implements FunctionsGenerationService {
 
-    private static final Integer BASIS_FUNCTION_GENERATION_ATTEMPTS = 10;
+    private static final Integer BASIS_FUNCTION_GENERATION_ATTEMPTS = 100;
     private static final Integer CHILD_FUNCTIONS_GENERATION_ATTEMPTS = 100;
 
     @Inject
@@ -115,8 +115,6 @@ public class FunctionsGenerationServiceImpl implements FunctionsGenerationServic
 
         throw new ImpossibleGenerationException();
     }
-
-
 
     private IntegerPointSequence calculateMeanFunction(List<IntegerPointSequence> childFunctions) {
         if (childFunctions == null || childFunctions.isEmpty()) {

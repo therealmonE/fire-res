@@ -2,7 +2,6 @@ package io.github.therealmone.fireres.core.generator;
 
 import io.github.therealmone.fireres.core.config.FunctionForm;
 import io.github.therealmone.fireres.core.exception.ImpossibleGenerationException;
-import io.github.therealmone.fireres.core.generator.strategy.FunctionsGenerationStrategy;
 import io.github.therealmone.fireres.core.model.IntegerPoint;
 import io.github.therealmone.fireres.core.model.IntegerPointSequence;
 import io.github.therealmone.fireres.core.utils.RandomUtils;
