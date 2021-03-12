@@ -156,7 +156,7 @@ public class FunctionsGenerationServiceImpl implements FunctionsGenerationServic
                     .meanValue(meanPoint.getIntValue())
                     .lowerBound(params.getChildrenBounds().getLowerBound().getPoint(meanPoint.getTime()).getValue())
                     .upperBound(params.getChildrenBounds().getUpperBound().getPoint(meanPoint.getTime()).getValue())
-                    .maxDelta(delta)
+                    .maxDelta(delta / 2)
                     .build()
                     .generate();
 

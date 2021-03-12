@@ -10,12 +10,14 @@ import io.github.therealmone.fireres.gui.controller.AbstractReportUpdaterCompone
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
 import io.github.therealmone.fireres.gui.controller.ReportContainer;
 import io.github.therealmone.fireres.gui.controller.common.BoundShift;
+import io.github.therealmone.fireres.gui.exception.NotNotifiableException;
 import io.github.therealmone.fireres.gui.service.AlertService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 import java.util.UUID;
@@ -23,6 +25,7 @@ import java.util.UUID;
 @SuppressWarnings("rawtypes")
 @LoadableComponent("/component/modal/boundsShiftModalWindow.fxml")
 @ModalWindow(title = "Смещение границы")
+@Slf4j
 public class BoundShiftModalWindow extends AbstractReportUpdaterComponent<Pane>
         implements ReportContainer {
 
@@ -50,7 +53,7 @@ public class BoundShiftModalWindow extends AbstractReportUpdaterComponent<Pane>
                 parent.getShiftAddedConsumer().accept(newPoint);
             } catch (Exception e) {
                 Platform.runLater(() -> alertService.showError("Невозможно сгенерировать график с данным смещением"));
-                throw e;
+                throw new NotNotifiableException(e);
             }
 
             Platform.runLater(() -> parent.getBoundShiftTable().getItems().add(newPoint));
