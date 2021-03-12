@@ -15,12 +15,11 @@ import org.junit.runner.RunWith;
 import static io.github.therealmone.fireres.core.test.TestUtils.assertFunctionNotHigher;
 import static io.github.therealmone.fireres.core.test.TestUtils.assertFunctionNotLower;
 import static io.github.therealmone.fireres.core.test.TestUtils.assertSizesEquals;
+import static io.github.therealmone.fireres.core.test.TestUtils.repeatTest;
 import static io.github.therealmone.fireres.excess.pressure.TestGenerationProperties.TIME;
 
 @RunWith(ExcessPressureGuiceRunner.class)
 public class ExcessPressureReportWithShiftedBoundsRepeatingTest {
-
-    private static final Integer ATTEMPTS = 100;
 
     @Inject
     private GenerationProperties generationProperties;
@@ -46,7 +45,7 @@ public class ExcessPressureReportWithShiftedBoundsRepeatingTest {
 
     @Test
     public void provideReportTest() {
-        for (int i = 0; i < ATTEMPTS; i++) {
+        repeatTest(() -> {
             val sample = new Sample(generationProperties.getSamples().get(0));
             val report = excessPressureService.createReport(sample);
 
@@ -61,7 +60,7 @@ public class ExcessPressureReportWithShiftedBoundsRepeatingTest {
             assertSizesEquals(TIME, min, max);
             assertFunctionNotHigher(pressure.getValue(), max);
             assertFunctionNotLower(pressure.getValue(), min);
-        }
+        });
     }
 
 }

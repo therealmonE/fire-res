@@ -12,8 +12,8 @@ public class GeneralParametersConfigurer implements Configurer<GeneralParams> {
     private GenerationProperties generationProperties;
 
     private static final Integer DEFAULT_ENV_TEMPERATURE = 21;
-    private static final Integer DEFAULT_ENV_TEMPERATURE_MIN = 15;
-    private static final Integer DEFAULT_ENV_TEMPERATURE_MAX = 40;
+    private static final Integer DEFAULT_ENV_TEMPERATURE_MIN = 0;
+    private static final Integer DEFAULT_ENV_TEMPERATURE_MAX = 100;
 
     private static final Integer DEFAULT_TIME = 50;
     private static final Integer DEFAULT_TIME_MIN = 1;

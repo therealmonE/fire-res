@@ -94,27 +94,20 @@ public class ChildrenInterpolationPointsGenerator implements PointSequenceGenera
                                               List<Integer> lowerBounds,
                                               List<Integer> upperBounds) {
 
-        val pointsToAdjust = IntStream.range(0, childrenCount)
-                .filter(i -> {
-                    val functionValue = childrenPoints.get(i);
-
-                    if (difference > 0) {
-                        return !functionValue.equals(upperBounds.get(i));
-                    } else {
-                        return !functionValue.equals(lowerBounds.get(i));
-                    }
-                })
-                .filter(i -> {
-                    val functionValue = childrenPoints.get(i);
-
-                    if (difference < 0) {
-                        return functionValue > meanValue;
-                    } else {
-                        return functionValue < meanValue;
-                    }
-                })
+        val filteredPoints = IntStream.range(0, childrenCount)
+                .filter(i -> canAdjustPoint(
+                        childrenPoints.get(i),
+                        difference,
+                        lowerBounds.get(i),
+                        upperBounds.get(i)))
                 .boxed()
                 .collect(Collectors.toList());
+
+        val sidedPoints = filteredPoints.stream()
+                .filter(i -> chooseSide(childrenPoints.get(i), difference))
+                .collect(Collectors.toList());
+
+        val pointsToAdjust = sidedPoints.isEmpty() ? filteredPoints : sidedPoints;
 
         if (difference > 0) {
             return pointsToAdjust.stream()
@@ -127,11 +120,28 @@ public class ChildrenInterpolationPointsGenerator implements PointSequenceGenera
         }
     }
 
+    private boolean chooseSide(Integer point, Integer difference) {
+        if (difference < 0) {
+            return point >= meanValue;
+        } else {
+            return point <= meanValue;
+        }
+    }
+
+    private boolean canAdjustPoint(Integer point, Integer difference,
+                                   Integer lowerBound, Integer upperBound) {
+        if (difference < 0) {
+            return !point.equals(upperBound);
+        } else {
+            return !point.equals(lowerBound);
+        }
+    }
+
     private int compareChildrenPoints(List<Integer> childrenPoints, Integer i1, Integer i2) {
         val delta1 = Math.abs(childrenPoints.get(i1) - meanValue);
         val delta2 = Math.abs(childrenPoints.get(i2) - meanValue);
 
-        return Integer.compare(delta2, delta1);
+        return Integer.compare(delta1, delta2);
     }
 
     private Integer getDifference(Integer meanTemp, List<Integer> childrenPoints) {

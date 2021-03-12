@@ -14,12 +14,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static io.github.therealmone.fireres.core.test.TestUtils.repeatTest;
 import static io.github.therealmone.fireres.unheated.surface.UnheatedSurfaceTestUtils.assertUnheatedSurfaceReportIsValid;
 
 @RunWith(UnheatedSurfaceGuiceRunner.class)
 public class UnheatedSurfaceReportWithShiftedBoundsRepeatingTest {
-
-    private static final Integer ATTEMPTS = 100;
 
     @Inject
     private UnheatedSurfaceService unheatedSurfaceService;
@@ -58,12 +57,12 @@ public class UnheatedSurfaceReportWithShiftedBoundsRepeatingTest {
 
     @Test
     public void provideReportTest() {
-        for (int i = 0; i < ATTEMPTS; i++) {
+        repeatTest(() -> {
             val sample = new Sample(generationProperties.getSamples().get(0));
             val report = unheatedSurfaceService.createReport(sample);
 
             assertUnheatedSurfaceReportIsValid(report);
-        }
+        });
     }
 
 }
