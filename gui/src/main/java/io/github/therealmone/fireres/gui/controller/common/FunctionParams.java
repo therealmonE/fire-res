@@ -42,6 +42,10 @@ import java.util.function.Function;
 public class FunctionParams extends AbstractReportUpdaterComponent<TitledPane>
         implements SampleContainer, ReportContainer {
 
+    @FXML
+    @Getter
+    private Spinner<Double> childFunctionsDeltaCoefficient;
+
     @Inject
     private ResetSettingsService resetSettingsService;
 
@@ -91,6 +95,9 @@ public class FunctionParams extends AbstractReportUpdaterComponent<TitledPane>
 
         dispersionCoefficient.focusedProperty().addListener((observable, oldValue, newValue) ->
                 handleDispersionCoefficientFocusChanged(newValue));
+
+        childFunctionsDeltaCoefficient.focusedProperty().addListener((observable, oldValue, newValue) ->
+                handleChildFunctionsDeltaCoefficienFocusChanged(newValue));
     }
 
     @Override
@@ -173,6 +180,14 @@ public class FunctionParams extends AbstractReportUpdaterComponent<TitledPane>
                 interpolationService.updateDispersionCoefficient(getReport(), dispersionCoefficient.getValue());
 
         handleSpinnerLostFocus(focusValue, dispersionCoefficient, () ->
+                updateReport(action, nodesToBlockOnUpdate));
+    }
+
+    private void handleChildFunctionsDeltaCoefficienFocusChanged(Boolean focusValue) {
+        Runnable action = () ->
+                interpolationService.updateChildFunctionsDeltaCoefficient(getReport(), childFunctionsDeltaCoefficient.getValue());
+
+        handleSpinnerLostFocus(focusValue, childFunctionsDeltaCoefficient, () ->
                 updateReport(action, nodesToBlockOnUpdate));
     }
 

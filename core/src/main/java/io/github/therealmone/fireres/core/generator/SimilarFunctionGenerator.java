@@ -65,7 +65,7 @@ public class SimilarFunctionGenerator implements PointSequenceGenerator<IntegerP
                 val previousPoint = lookUpClosestPreviousPoint(newFunctionForm.getInterpolationPoints(), i);
                 val nextPoint = lookUpClosestNextPoint(newFunctionForm.getInterpolationPoints(), i);
 
-                val delta = functionsGenerationStrategy.resolveDelta(t0, i);
+                val delta = functionsGenerationStrategy.resolveDelta(t0, i, originalForm.getChildFunctionsDeltaCoefficient());
 
                 val basisValue = nextPoint
                         .map(p -> Math.min(basis.getPoint(time).getValue(), p))

@@ -43,6 +43,11 @@ public class UnheatedSurfaceFirstGroupServiceImpl extends AbstractInterpolationS
     }
 
     @Override
+    protected void postUpdateChildFunctionsDeltaCoefficient(UnheatedSurfaceReport report) {
+        reportPipeline.accept(report, FIRST_GROUP_MEAN_WITH_THERMOCOUPLE_TEMPERATURES);
+    }
+
+    @Override
     public void addMaxAllowedMeanTemperatureShift(UnheatedSurfaceReport report, IntegerPoint shift) {
         val currentShift = report.getProperties().getFirstGroup().getBoundsShift().getMaxAllowedMeanTemperatureShift();
 

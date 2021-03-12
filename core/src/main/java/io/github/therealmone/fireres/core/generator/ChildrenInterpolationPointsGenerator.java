@@ -4,7 +4,6 @@ import io.github.therealmone.fireres.core.config.FunctionForm;
 import io.github.therealmone.fireres.core.exception.ImpossibleGenerationException;
 import io.github.therealmone.fireres.core.model.IntegerPoint;
 import io.github.therealmone.fireres.core.model.IntegerPointSequence;
-import io.github.therealmone.fireres.core.utils.RandomUtils;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
@@ -32,7 +31,7 @@ public class ChildrenInterpolationPointsGenerator implements PointSequenceGenera
     @Override
     public IntegerPointSequence generate() {
         val lowerBounds = getLowerBounds();
-        val upperBounds = getUpperBounds();
+        val upperBounds = getUpperBounds(lowerBounds);
         val childrenPoints = generateRandomPoints(lowerBounds, upperBounds);
 
         while(getDifference(meanValue, childrenPoints) != 0) {
@@ -44,9 +43,9 @@ public class ChildrenInterpolationPointsGenerator implements PointSequenceGenera
                 .collect(Collectors.toList()));
     }
 
-    private List<Integer> getUpperBounds() {
+    private List<Integer> getUpperBounds(List<Integer> lowerBounds) {
         return IntStream.range(0, childrenCount)
-                .mapToObj(i -> upperBound)
+                .mapToObj(i -> Math.min(upperBound, Math.max(meanValue + maxDelta, lowerBounds.get(i))))
                 .collect(Collectors.toList());
     }
 
@@ -56,7 +55,7 @@ public class ChildrenInterpolationPointsGenerator implements PointSequenceGenera
                     val previousPoint = lookUpClosestPreviousPoint(childForms.get(i).getInterpolationPoints(), time);
 
                     return previousPoint
-                            .map(point -> Math.max(lowerBound, point))
+                            .map(point -> Math.max(Math.max(lowerBound, point), meanValue - maxDelta))
                             .orElse(lowerBound);
                 })
                 .collect(Collectors.toList());
@@ -64,7 +63,13 @@ public class ChildrenInterpolationPointsGenerator implements PointSequenceGenera
 
     private List<Integer> generateRandomPoints(List<Integer> lowerBounds, List<Integer> upperBounds) {
         return IntStream.range(0, childrenCount)
-                .mapToObj(i -> RandomUtils.generateValueInInterval(lowerBounds.get(i), upperBounds.get(i)))
+                .mapToObj(i -> {
+                    if (i % 2 != 0) {
+                        return generateValueInInterval(meanValue, upperBounds.get(i));
+                    } else {
+                        return generateValueInInterval(lowerBounds.get(i), meanValue);
+                    }
+                })
                 .collect(Collectors.toList());
     }
 
@@ -79,13 +84,9 @@ public class ChildrenInterpolationPointsGenerator implements PointSequenceGenera
 
         val temperature = childrenPoints.get(valueIndexToAdjust);
 
-        val generatedAdjust = generateAdjust(
-                lowerBounds.get(valueIndexToAdjust),
-                upperBounds.get(valueIndexToAdjust),
-                difference,
-                temperature);
+        val adjust = difference < 0 ? -1 : 1;
 
-        childrenPoints.set(valueIndexToAdjust, temperature + generatedAdjust);
+        childrenPoints.set(valueIndexToAdjust, temperature + adjust);
     }
 
     private Integer resolveValueIndexToAdjust(List<Integer> childrenPoints,
@@ -93,7 +94,7 @@ public class ChildrenInterpolationPointsGenerator implements PointSequenceGenera
                                               List<Integer> lowerBounds,
                                               List<Integer> upperBounds) {
 
-        return IntStream.range(0, childrenCount)
+        val pointsToAdjust = IntStream.range(0, childrenCount)
                 .filter(i -> {
                     val functionValue = childrenPoints.get(i);
 
@@ -103,56 +104,38 @@ public class ChildrenInterpolationPointsGenerator implements PointSequenceGenera
                         return !functionValue.equals(lowerBounds.get(i));
                     }
                 })
-                .boxed()
-                .max((i1, i2) -> {
-                    val delta1 = Math.abs(childrenPoints.get(i1) - meanValue);
-                    val delta2 = Math.abs(childrenPoints.get(i2) - meanValue);
+                .filter(i -> {
+                    val functionValue = childrenPoints.get(i);
 
-                    return Integer.compare(delta2, delta1);
+                    if (difference < 0) {
+                        return functionValue > meanValue;
+                    } else {
+                        return functionValue < meanValue;
+                    }
                 })
-                .orElseThrow(ImpossibleGenerationException::new);
+                .boxed()
+                .collect(Collectors.toList());
+
+        if (difference > 0) {
+            return pointsToAdjust.stream()
+                    .max((i1, i2) -> compareChildrenPoints(childrenPoints, i1, i2))
+                    .orElseThrow(ImpossibleGenerationException::new);
+        } else {
+            return pointsToAdjust.stream()
+                    .min((i1, i2) -> compareChildrenPoints(childrenPoints, i1, i2))
+                    .orElseThrow(ImpossibleGenerationException::new);
+        }
+    }
+
+    private int compareChildrenPoints(List<Integer> childrenPoints, Integer i1, Integer i2) {
+        val delta1 = Math.abs(childrenPoints.get(i1) - meanValue);
+        val delta2 = Math.abs(childrenPoints.get(i2) - meanValue);
+
+        return Integer.compare(delta2, delta1);
     }
 
     private Integer getDifference(Integer meanTemp, List<Integer> childrenPoints) {
         return meanTemp - calculateIntsMeanValue(childrenPoints);
-    }
-
-    private Integer generateAdjust(Integer lowerBound,
-                                   Integer upperBound,
-                                   Integer differenceToAdjust,
-                                   Integer childValue) {
-
-        if (differenceToAdjust < 0) {
-            return generateAdjustToLowerBound(lowerBound, differenceToAdjust, childValue);
-        } else {
-            return generateAdjustToUpperBound(upperBound, differenceToAdjust, childValue);
-        }
-    }
-
-    private Integer generateAdjustToUpperBound(Integer upperBound,
-                                               Integer differenceToAdjust,
-                                               Integer functionValue) {
-
-        if (functionValue.equals(upperBound)) {
-            return 0;
-        }
-
-        val allowedAdjust = Math.min(upperBound - functionValue, differenceToAdjust);
-
-        return generateValueInInterval(1, allowedAdjust);
-    }
-
-    private Integer generateAdjustToLowerBound(Integer lowerBound,
-                                               Integer differenceToAdjust,
-                                               Integer functionValue) {
-
-        if (functionValue.equals(lowerBound)) {
-            return 0;
-        }
-
-        val allowedAdjust = Math.max(lowerBound - functionValue, differenceToAdjust);
-
-        return generateValueInInterval(allowedAdjust, -1);
     }
 
 }

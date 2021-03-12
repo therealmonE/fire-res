@@ -51,6 +51,11 @@ public class UnheatedSurfaceThirdGroupServiceImpl extends AbstractInterpolationS
     }
 
     @Override
+    protected void postUpdateChildFunctionsDeltaCoefficient(UnheatedSurfaceReport report) {
+        reportPipeline.accept(report, THIRD_GROUP_MEAN_WITH_THERMOCOUPLE_TEMPERATURES);
+    }
+
+    @Override
     public void addMaxAllowedTemperatureShift(UnheatedSurfaceReport report, IntegerPoint shift) {
         val currentShift = report.getProperties().getThirdGroup().getBoundsShift().getMaxAllowedTemperatureShift();
 

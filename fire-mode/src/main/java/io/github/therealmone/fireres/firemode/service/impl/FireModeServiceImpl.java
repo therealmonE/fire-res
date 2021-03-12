@@ -55,6 +55,11 @@ public class FireModeServiceImpl extends AbstractInterpolationService<FireModeRe
     }
 
     @Override
+    protected void postUpdateChildFunctionsDeltaCoefficient(FireModeReport report) {
+        reportPipeline.accept(report, MEAN_WITH_THERMOCOUPLE_TEMPERATURES);
+    }
+
+    @Override
     public void addMaxAllowedTemperatureShift(FireModeReport report, IntegerPoint shift) {
         val currentShift = report.getProperties().getBoundsShift().getMaxAllowedTemperatureShift();
 

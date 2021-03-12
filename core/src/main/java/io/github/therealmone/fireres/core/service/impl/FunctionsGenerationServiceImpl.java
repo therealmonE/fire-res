@@ -149,23 +149,17 @@ public class FunctionsGenerationServiceImpl implements FunctionsGenerationServic
         val envTemp = generationProperties.getGeneral().getEnvironmentTemperature();
 
         for (Point<?> meanPoint : params.getMeanFunctionForm().getInterpolationPoints()) {
-            val delta = params.getStrategy().resolveDelta(envTemp, meanPoint.getIntValue());
-
-            val min = Math.max(
-                    params.getChildrenBounds().getLowerBound().getPoint(meanPoint.getTime()).getValue(),
-                    meanPoint.getIntValue() - delta);
-
-            val max = Math.min(
-                    params.getChildrenBounds().getUpperBound().getPoint(meanPoint.getTime()).getValue(),
-                    meanPoint.getIntValue() + delta);
+            val delta = params.getStrategy().resolveDelta(envTemp, meanPoint.getIntValue(),
+                    params.getMeanFunctionForm().getChildFunctionsDeltaCoefficient());
 
             val childrenPoints = ChildrenInterpolationPointsGenerator.builder()
                     .childForms(childForms)
                     .childrenCount(params.getChildFunctionsCount())
                     .time(meanPoint.getTime())
                     .meanValue(meanPoint.getIntValue())
-                    .lowerBound(min)
-                    .upperBound(max)
+                    .lowerBound(params.getChildrenBounds().getLowerBound().getPoint(meanPoint.getTime()).getValue())
+                    .upperBound(params.getChildrenBounds().getUpperBound().getPoint(meanPoint.getTime()).getValue())
+                    .maxDelta(delta)
                     .build()
                     .generate();
 
@@ -183,6 +177,7 @@ public class FunctionsGenerationServiceImpl implements FunctionsGenerationServic
 
                     childForm.setDispersionCoefficient(params.getMeanFunctionForm().getDispersionCoefficient());
                     childForm.setLinearityCoefficient(params.getMeanFunctionForm().getLinearityCoefficient());
+                    childForm.setChildFunctionsDeltaCoefficient(params.getMeanFunctionForm().getChildFunctionsDeltaCoefficient());
 
                     return childForm;
                 })

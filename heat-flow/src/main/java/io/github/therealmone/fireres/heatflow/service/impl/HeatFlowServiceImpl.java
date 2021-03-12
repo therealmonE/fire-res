@@ -63,6 +63,11 @@ public class HeatFlowServiceImpl extends AbstractInterpolationService<HeatFlowRe
     }
 
     @Override
+    protected void postUpdateChildFunctionsDeltaCoefficient(HeatFlowReport report) {
+        reportPipeline.accept(report, MEAN_WITH_SENSORS_TEMPERATURES);
+    }
+
+    @Override
     public void addMaxAllowedFlowShift(HeatFlowReport report, HeatFlowPoint shift) {
         val currentShift = report.getProperties().getBoundsShift().getMaxAllowedFlowShift();
 

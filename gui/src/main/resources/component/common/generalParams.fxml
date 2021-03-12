@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+
 <TitledPane collapsible="false" maxHeight="110.0" maxWidth="5000.0" minHeight="110.0" minWidth="500.0"
             prefWidth="5000.0"
             text="Общие параметры" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
