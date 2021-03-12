@@ -15,6 +15,8 @@ import static org.junit.Assert.assertTrue;
 
 public class TestUtils {
 
+    public static Integer TEST_ATTEMPTS = 1000;
+
     public static void assertFunctionIsConstant(Number expectedValue, List<? extends Point<?>> function) {
         function.forEach(p ->
                 assertEquals(expectedValue.doubleValue(), p.getValue().doubleValue(), 0));
@@ -84,5 +86,11 @@ public class TestUtils {
         return IntStream.range(0, list.size())
                 .mapToObj(i -> new IntegerPoint(i, list.get(i)))
                 .collect(Collectors.toList());
+    }
+
+    public static void repeatTest(Runnable test) {
+        for (int i = 0; i < TEST_ATTEMPTS; i++) {
+            test.run();
+        }
     }
 }

@@ -13,8 +13,11 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
+
+import static io.github.therealmone.fireres.core.test.TestUtils.repeatTest;
 
 @RunWith(GuiceRunner.class)
 public class ExcelReportConstructorTest {
@@ -41,17 +44,26 @@ public class ExcelReportConstructorTest {
     private GenerationProperties generationProperties;
 
     @Test
-    public void construct() throws IOException {
-        val sample = new Sample(generationProperties.getSamples().get(0));
+    public void construct() {
+        repeatTest(() -> {
+            val sample = new Sample(generationProperties.getSamples().get(0));
 
-        fireModeService.createReport(sample);
-        excessPressureService.createReport(sample);
-        unheatedSurfaceService.createReport(sample);
-        heatFlowService.createReport(sample);
+            fireModeService.createReport(sample);
+            excessPressureService.createReport(sample);
+            unheatedSurfaceService.createReport(sample);
+            heatFlowService.createReport(sample);
 
-        val file = temporaryFolder.newFile("test.xls");
+            File file = null;
+            try {
+                file = temporaryFolder.newFile("test.xls");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
 
-        reportConstructor.construct(generationProperties.getGeneral(), Collections.singletonList(sample), file);
+            reportConstructor.construct(generationProperties.getGeneral(), Collections.singletonList(sample), file);
+
+            file.delete();
+        });
     }
 
 }

@@ -169,6 +169,10 @@ public class FunctionGenerator implements PointSequenceGenerator<IntegerPointSeq
             }
         }
 
+        if (tail != null) {
+            intervals.add(Pair.create(head, tail));
+        }
+
         return intervals;
     }
 

@@ -44,16 +44,13 @@ public class FunctionsGenerationServiceImpl implements FunctionsGenerationServic
             throw new ImpossibleGenerationException();
         }
 
-        val childFunctionsForms = mapToChildFunctionsForms(generationParameters);
-
-        return generateMeanWithChildFunctions(generationParameters, childFunctionsForms);
+        return generateMeanWithChildFunctions(generationParameters);
     }
 
-    private Pair<IntegerPointSequence, List<IntegerPointSequence>> generateMeanWithChildFunctions(FunctionsGenerationParams params,
-                                                                                                  List<FunctionForm<Integer>> childFunctionsForms) {
-
+    private Pair<IntegerPointSequence, List<IntegerPointSequence>> generateMeanWithChildFunctions(FunctionsGenerationParams params) {
         for (int basisAttempt = 0; basisAttempt < BASIS_FUNCTION_GENERATION_ATTEMPTS; basisAttempt++) {
             val basis = generateBasis(params);
+            val childFunctionsForms = mapToChildFunctionsForms(params);
             val childFunctions = new ArrayList<IntegerPointSequence>();
 
             try {

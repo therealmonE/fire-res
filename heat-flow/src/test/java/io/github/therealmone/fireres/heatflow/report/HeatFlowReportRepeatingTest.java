@@ -14,14 +14,13 @@ import static io.github.therealmone.fireres.core.test.TestUtils.assertFunctionIs
 import static io.github.therealmone.fireres.core.test.TestUtils.assertFunctionNotHigher;
 import static io.github.therealmone.fireres.core.test.TestUtils.assertFunctionNotLower;
 import static io.github.therealmone.fireres.core.test.TestUtils.assertChildTemperaturesEqualsMean;
+import static io.github.therealmone.fireres.core.test.TestUtils.repeatTest;
 import static io.github.therealmone.fireres.core.utils.FunctionUtils.constantFunction;
 import static io.github.therealmone.fireres.heatflow.TestGenerationProperties.BOUND;
 import static io.github.therealmone.fireres.heatflow.TestGenerationProperties.TIME;
 
 @RunWith(HeatFlowGuiceRunner.class)
 public class HeatFlowReportRepeatingTest {
-
-    private static final Integer CYCLES = 100;
 
     @Inject
     private GenerationProperties generationProperties;
@@ -31,7 +30,7 @@ public class HeatFlowReportRepeatingTest {
 
     @Test
     public void provideReportTest() {
-        for (int i = 0; i < CYCLES; i++) {
+        repeatTest(() -> {
             val sample = new Sample(generationProperties.getSamples().get(0));
             val report = heatFlowService.createReport(sample);
 
@@ -54,7 +53,7 @@ public class HeatFlowReportRepeatingTest {
                 assertFunctionNotHigher(sensor.getValue(), bound.getValue());
                 assertFunctionNotLower(sensor.getValue(), constantFunction(TIME, 0).getValue());
             });
-        }
+        });
     }
 
 }

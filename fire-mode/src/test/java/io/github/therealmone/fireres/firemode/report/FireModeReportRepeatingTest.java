@@ -14,13 +14,12 @@ import static io.github.therealmone.fireres.core.test.TestUtils.assertFunctionNo
 import static io.github.therealmone.fireres.core.test.TestUtils.assertFunctionNotLower;
 import static io.github.therealmone.fireres.core.test.TestUtils.assertSizesEquals;
 import static io.github.therealmone.fireres.core.test.TestUtils.assertChildTemperaturesEqualsMean;
+import static io.github.therealmone.fireres.core.test.TestUtils.repeatTest;
 import static io.github.therealmone.fireres.firemode.TestGenerationProperties.TIME;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(FireModeGuiceRunner.class)
 public class FireModeReportRepeatingTest {
-
-    private static final Integer ATTEMPTS = 100;
 
     @Inject
     private GenerationProperties generationProperties;
@@ -30,7 +29,7 @@ public class FireModeReportRepeatingTest {
 
     @Test
     public void provideReportTest() {
-        for (int i = 0; i < ATTEMPTS; i++) {
+        repeatTest(() -> {
             val sample = new Sample(generationProperties.getSamples().get(0));
             val report = fireModeService.createReport(sample);
 
@@ -67,7 +66,7 @@ public class FireModeReportRepeatingTest {
                 assertFunctionNotLower(thermocouplesTemp.getValue(), minAllowedTemp);
                 assertFunctionNotHigher(thermocouplesTemp.getValue(), maxAllowedTemp);
             });
-        }
+        });
     }
 
 }
