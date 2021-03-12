@@ -56,7 +56,7 @@ public class ChildrenInterpolationPointsGenerator implements PointSequenceGenera
 
                     return previousPoint
                             .map(point -> Math.max(Math.max(lowerBound, point), meanValue - maxDelta))
-                            .orElse(lowerBound);
+                            .orElse(Math.max(lowerBound, meanValue - maxDelta));
                 })
                 .collect(Collectors.toList());
     }
@@ -65,12 +65,28 @@ public class ChildrenInterpolationPointsGenerator implements PointSequenceGenera
         return IntStream.range(0, childrenCount)
                 .mapToObj(i -> {
                     if (i % 2 != 0) {
-                        return generateValueInInterval(meanValue, upperBounds.get(i));
+                        return generateOnUpperSide(upperBounds.get(i));
                     } else {
-                        return generateValueInInterval(lowerBounds.get(i), meanValue);
+                        return generateOnLowerSide(lowerBounds.get(i));
                     }
                 })
                 .collect(Collectors.toList());
+    }
+
+    private Integer generateOnUpperSide(Integer upperBound) {
+        if (meanValue + maxDelta < upperBound) {
+            return generateValueInInterval(meanValue + maxDelta, upperBound);
+        } else {
+            return generateValueInInterval(meanValue, upperBound);
+        }
+    }
+
+    private Integer generateOnLowerSide(Integer lowerBound) {
+        if (meanValue - maxDelta > lowerBound) {
+            return generateValueInInterval(lowerBound, meanValue - maxDelta);
+        } else {
+            return generateValueInInterval(lowerBound, meanValue);
+        }
     }
 
     private void adjustTemperatures(List<Integer> childrenPoints,
@@ -109,15 +125,9 @@ public class ChildrenInterpolationPointsGenerator implements PointSequenceGenera
 
         val pointsToAdjust = sidedPoints.isEmpty() ? filteredPoints : sidedPoints;
 
-        if (difference > 0) {
-            return pointsToAdjust.stream()
-                    .max((i1, i2) -> compareChildrenPoints(childrenPoints, i1, i2))
-                    .orElseThrow(ImpossibleGenerationException::new);
-        } else {
-            return pointsToAdjust.stream()
-                    .min((i1, i2) -> compareChildrenPoints(childrenPoints, i1, i2))
-                    .orElseThrow(ImpossibleGenerationException::new);
-        }
+        return pointsToAdjust.stream()
+                .max((i1, i2) -> compareChildrenPoints(childrenPoints, i1, i2))
+                .orElseThrow(ImpossibleGenerationException::new);
     }
 
     private boolean chooseSide(Integer point, Integer difference) {
@@ -131,9 +141,9 @@ public class ChildrenInterpolationPointsGenerator implements PointSequenceGenera
     private boolean canAdjustPoint(Integer point, Integer difference,
                                    Integer lowerBound, Integer upperBound) {
         if (difference < 0) {
-            return !point.equals(upperBound);
-        } else {
             return !point.equals(lowerBound);
+        } else {
+            return !point.equals(upperBound);
         }
     }
 

@@ -3,11 +3,14 @@ package io.github.therealmone.fireres.gui.service.impl;
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
 import io.github.therealmone.fireres.gui.controller.common.GeneralParams;
+import io.github.therealmone.fireres.gui.exception.NotNotifiableException;
 import io.github.therealmone.fireres.gui.model.ReportTask;
 import io.github.therealmone.fireres.gui.service.ReportExecutorService;
 import javafx.application.Platform;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.effect.GaussianBlur;
+import javafx.scene.text.TextAlignment;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
@@ -36,14 +39,14 @@ public class ReportExecutorServiceImpl implements ReportExecutorService {
     @Override
     public void runTask(ReportTask task) {
         val reportId = task.getReportId();
-        val chartContainers = task.getChartContainers();
         val nodesToLock = task.getNodesToLock();
 
         locks.putIfAbsent(reportId, new ReentrantLock(true));
         tasksRunning.putIfAbsent(reportId, new AtomicInteger(0));
 
         if (tasksRunning.get(reportId).get() == 0) {
-            lockElements(chartContainers, nodesToLock);
+            showProgressIndicator(task.getChartContainers());
+            lockElements(nodesToLock);
             lockGeneralParams();
         }
 
@@ -51,16 +54,21 @@ public class ReportExecutorServiceImpl implements ReportExecutorService {
 
         executorService.submit(() -> {
             val lock = locks.get(reportId);
+            removeErrorNotification(task.getChartContainers());
 
             try {
                 if (lock.tryLock(15, TimeUnit.SECONDS)) {
-                    doTask(task, chartContainers);
+                    doTask(task);
                 }
+            } catch (NotNotifiableException e) {
+                log.error("Error while executing report {} task: ", reportId, e);
             } catch (Exception e) {
                 log.error("Error while executing report {} task: ", reportId, e);
+                showErrorNotification(task.getChartContainers());
             } finally {
                 if (tasksRunning.get(reportId).decrementAndGet() == 0) {
-                    unlockElements(chartContainers, nodesToLock);
+                    unlockElements(nodesToLock);
+                    removeProgressIndicator(task.getChartContainers());
                 }
 
                 if (tasksRunning.values().stream().allMatch(count -> count.get() == 0)) {
@@ -72,20 +80,16 @@ public class ReportExecutorServiceImpl implements ReportExecutorService {
         });
     }
 
-    private void unlockElements(List<ChartContainer> chartContainers, List<javafx.scene.Node> nodesToLock) {
-        Platform.runLater(() -> {
-            removeProgressIndicator(chartContainers);
-            nodesToLock.forEach(node -> node.setDisable(false));
-        });
+    private void unlockElements(List<javafx.scene.Node> nodesToLock) {
+        Platform.runLater(() -> nodesToLock.forEach(node -> node.setDisable(false)));
     }
 
-    private void doTask(ReportTask task, List<ChartContainer> chartContainers) throws InterruptedException {
+    private void doTask(ReportTask task) {
         task.getAction().run();
-        Platform.runLater(() -> chartContainers.forEach(ChartContainer::synchronizeChart));
+        Platform.runLater(() -> task.getChartContainers().forEach(ChartContainer::synchronizeChart));
     }
 
-    private void lockElements(List<ChartContainer> chartContainers, List<javafx.scene.Node> nodesToLock) {
-        showProgressIndicator(chartContainers);
+    private void lockElements(List<javafx.scene.Node> nodesToLock) {
         nodesToLock.forEach(node -> node.setDisable(true));
     }
 
@@ -98,18 +102,46 @@ public class ReportExecutorServiceImpl implements ReportExecutorService {
     }
 
     private void showProgressIndicator(List<ChartContainer> chartContainers) {
-        chartContainers.forEach(chartContainer -> {
+        Platform.runLater(() -> chartContainers.forEach(chartContainer -> {
             chartContainer.getChart().setDisable(true);
             chartContainer.getChart().setEffect(new GaussianBlur());
             chartContainer.getStackPane().getChildren().add(new ProgressIndicator());
-        });
+        }));
     }
 
     private void removeProgressIndicator(List<ChartContainer> chartContainers) {
-        chartContainers.forEach(chartContainer -> {
-            chartContainer.getChart().setDisable(false);
-            chartContainer.getChart().setEffect(null);
+        Platform.runLater(() -> chartContainers.forEach(chartContainer -> {
             chartContainer.getStackPane().getChildren().removeIf(child -> child instanceof ProgressIndicator);
-        });
+
+            if (chartContainer.getStackPane().getChildren().size() == 1) {
+                chartContainer.getChart().setDisable(false);
+                chartContainer.getChart().setEffect(null);
+            }
+        }));
+    }
+
+    private void showErrorNotification(List<ChartContainer> chartContainers) {
+        val error = new Label("Невозможно сгенерировать отчет с данными параметрами.\n"
+                + "Измените параметры или обновите график.");
+
+        error.setStyle("-fx-font-size: 15; -fx-font-weight: bold;");
+        error.setTextAlignment(TextAlignment.CENTER);
+
+        Platform.runLater(() -> chartContainers.forEach(chartContainer -> {
+            chartContainer.getChart().setDisable(true);
+            chartContainer.getChart().setEffect(new GaussianBlur());
+            chartContainer.getStackPane().getChildren().add(error);
+        }));
+    }
+
+    private void removeErrorNotification(List<ChartContainer> chartContainers) {
+        Platform.runLater(() -> chartContainers.forEach(chartContainer -> {
+            chartContainer.getStackPane().getChildren().removeIf(child -> child instanceof Label);
+
+            if (chartContainer.getStackPane().getChildren().size() == 1) {
+                chartContainer.getChart().setDisable(false);
+                chartContainer.getChart().setEffect(null);
+            }
+        }));
     }
 }

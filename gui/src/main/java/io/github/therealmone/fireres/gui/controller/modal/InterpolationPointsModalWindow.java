@@ -9,6 +9,7 @@ import io.github.therealmone.fireres.gui.controller.AbstractReportUpdaterCompone
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
 import io.github.therealmone.fireres.gui.controller.ReportContainer;
 import io.github.therealmone.fireres.gui.controller.common.FunctionParams;
+import io.github.therealmone.fireres.gui.exception.NotNotifiableException;
 import io.github.therealmone.fireres.gui.service.AlertService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -16,6 +17,7 @@ import javafx.scene.control.Spinner;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 import java.util.UUID;
@@ -23,6 +25,7 @@ import java.util.UUID;
 @SuppressWarnings("unchecked")
 @LoadableComponent("/component/modal/interpolationPointsModalWindow.fxml")
 @ModalWindow(title = "Добавление точек интерполяции")
+@Slf4j
 public class InterpolationPointsModalWindow extends AbstractReportUpdaterComponent<Pane>
         implements ReportContainer {
 
@@ -53,7 +56,7 @@ public class InterpolationPointsModalWindow extends AbstractReportUpdaterCompone
                 parent.getInterpolationService().addInterpolationPoint(getReport(), newPoint);
             } catch (Exception e) {
                 Platform.runLater(() -> alertService.showError("Невозможно сгенерировать график с данной точкой"));
-                throw e;
+                throw new NotNotifiableException(e);
             }
 
             Platform.runLater(() -> parent.getInterpolationPoints().getItems().add(newPoint));

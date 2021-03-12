@@ -20,7 +20,7 @@ import static io.github.therealmone.fireres.core.utils.RandomUtils.generateValue
 @Builder
 public class SimilarFunctionGenerator implements PointSequenceGenerator<IntegerPointSequence> {
 
-    private static final int INTERPOLATION_POINTS_INTERVAL = 5;
+    private static final int INTERPOLATION_POINTS_INTERVAL = 10;
 
     private final Integer t0;
     private final Integer time;
