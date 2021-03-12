@@ -9,4 +9,6 @@ public interface UnheatedSurfaceFirstGroupService extends
 
     void updateThermocoupleCount(UnheatedSurfaceReport report, Integer thermocoupleCount);
 
+    void refreshFirstGroup(UnheatedSurfaceReport report);
+
 }

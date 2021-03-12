@@ -1,6 +1,7 @@
 package io.github.therealmone.fireres.gui.controller.common;
 
 import com.google.inject.Inject;
+import io.github.therealmone.fireres.core.config.ReportProperties;
 import io.github.therealmone.fireres.core.model.Point;
 import io.github.therealmone.fireres.core.model.Report;
 import io.github.therealmone.fireres.core.model.Sample;
@@ -8,6 +9,7 @@ import io.github.therealmone.fireres.gui.annotation.LoadableComponent;
 import io.github.therealmone.fireres.gui.controller.AbstractReportUpdaterComponent;
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
 import io.github.therealmone.fireres.gui.controller.ReportContainer;
+import io.github.therealmone.fireres.gui.controller.Resettable;
 import io.github.therealmone.fireres.gui.controller.SampleContainer;
 import io.github.therealmone.fireres.gui.controller.modal.BoundShiftModalWindow;
 import io.github.therealmone.fireres.gui.service.FxmlLoadService;
@@ -32,11 +34,12 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 @SuppressWarnings({"rawtypes"})
 @LoadableComponent("/component/common/boundShift.fxml")
 public class BoundShift extends AbstractReportUpdaterComponent<TitledPane>
-        implements SampleContainer, ReportContainer {
+        implements SampleContainer, ReportContainer, Resettable {
 
     @FXML
     private TableColumn<Point<?>, Integer> timeColumn;
@@ -69,6 +72,9 @@ public class BoundShift extends AbstractReportUpdaterComponent<TitledPane>
     @Getter
     private List<Node> nodesToBlockOnUpdate;
 
+    @Setter
+    private Function<ReportProperties, io.github.therealmone.fireres.core.model.BoundShift<?>> propertyMapper;
+
     @Override
     public void postConstruct() {
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
@@ -76,6 +82,12 @@ public class BoundShift extends AbstractReportUpdaterComponent<TitledPane>
 
         initializeTableContextMenu();
         initializeRowContextMenu();
+    }
+
+    @Override
+    public void reset() {
+        boundShiftTable.getItems().clear();
+        propertyMapper.apply(getReport().getProperties()).clear();
     }
 
     private void initializeTableContextMenu() {
@@ -157,4 +169,5 @@ public class BoundShift extends AbstractReportUpdaterComponent<TitledPane>
     public Sample getSample() {
         return ((ReportContainer) getParent()).getSample();
     }
+
 }

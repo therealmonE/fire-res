@@ -4,10 +4,12 @@ import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.model.IntegerPoint;
 import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.gui.annotation.LoadableComponent;
-import io.github.therealmone.fireres.gui.controller.AbstractComponent;
+import io.github.therealmone.fireres.gui.controller.AbstractReportUpdaterComponent;
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
+import io.github.therealmone.fireres.gui.controller.Resettable;
 import io.github.therealmone.fireres.gui.controller.common.BoundsShiftParams;
 import io.github.therealmone.fireres.gui.controller.common.FunctionParams;
+import io.github.therealmone.fireres.gui.controller.common.ReportToolBar;
 import io.github.therealmone.fireres.gui.controller.unheated.surface.UnheatedSurface;
 import io.github.therealmone.fireres.gui.controller.unheated.surface.UnheatedSurfaceReportContainer;
 import io.github.therealmone.fireres.unheated.surface.config.UnheatedSurfaceProperties;
@@ -18,11 +20,14 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
 
+import java.util.UUID;
+
 import static io.github.therealmone.fireres.gui.synchronizer.impl.SecondThermocoupleGroupChartSynchronizer.MAX_THERMOCOUPLE_TEMPERATURE_TEXT;
 import static java.util.Collections.singletonList;
 
 @LoadableComponent("/component/unheated-surface/groups/second/secondGroup.fxml")
-public class SecondGroup extends AbstractComponent<TitledPane> implements UnheatedSurfaceReportContainer {
+public class SecondGroup extends AbstractReportUpdaterComponent<TitledPane>
+        implements UnheatedSurfaceReportContainer, Resettable {
 
     @FXML
     @Getter
@@ -42,6 +47,9 @@ public class SecondGroup extends AbstractComponent<TitledPane> implements Unheat
 
     @FXML
     private BoundsShiftParams boundsShiftParamsController;
+
+    @FXML
+    private ReportToolBar toolBarController;
 
     @Override
     protected void initialize() {
@@ -67,10 +75,26 @@ public class SecondGroup extends AbstractComponent<TitledPane> implements Unheat
         getBoundsShiftParams().addBoundShift(
                 MAX_THERMOCOUPLE_TEMPERATURE_TEXT,
                 singletonList(paramsVbox),
+                properties -> ((UnheatedSurfaceProperties) properties).getSecondGroup().getBoundsShift().getMaxAllowedTemperatureShift(),
                 point -> unheatedSurfaceSecondGroupService.addMaxAllowedTemperatureShift(getReport(), (IntegerPoint) point),
                 point -> unheatedSurfaceSecondGroupService.removeMaxAllowedTemperatureShift(getReport(), (IntegerPoint) point),
                 (integer, number) -> new IntegerPoint(integer, number.intValue())
         );
+    }
+
+    @Override
+    public void refresh() {
+        updateReport(() -> unheatedSurfaceSecondGroupService.refreshSecondGroup(getReport()));
+    }
+
+    @Override
+    public void reset() {
+        updateReport(() -> {
+            getSecondGroupParams().reset();
+            getFunctionParams().reset();
+            getBoundsShiftParams().reset();
+            unheatedSurfaceSecondGroupService.refreshSecondGroup(getReport());
+        }, getParamsVbox());
     }
 
     @Override
@@ -88,6 +112,11 @@ public class SecondGroup extends AbstractComponent<TitledPane> implements Unheat
         return secondGroupChartController;
     }
 
+    @Override
+    protected UUID getReportId() {
+        return getReport().getId();
+    }
+
     public SecondGroupParams getSecondGroupParams() {
         return secondGroupParamsController;
     }
@@ -98,5 +127,9 @@ public class SecondGroup extends AbstractComponent<TitledPane> implements Unheat
 
     public BoundsShiftParams getBoundsShiftParams() {
         return boundsShiftParamsController;
+    }
+
+    public ReportToolBar getToolBar() {
+        return toolBarController;
     }
 }

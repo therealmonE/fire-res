@@ -8,6 +8,8 @@ import io.github.therealmone.fireres.unheated.surface.report.UnheatedSurfaceRepo
 import io.github.therealmone.fireres.unheated.surface.service.UnheatedSurfaceFirstGroupService;
 import lombok.val;
 
+import static io.github.therealmone.fireres.unheated.surface.pipeline.UnheatedSurfaceReportEnrichType.FIRST_GROUP_MAX_ALLOWED_MEAN_TEMPERATURE;
+import static io.github.therealmone.fireres.unheated.surface.pipeline.UnheatedSurfaceReportEnrichType.FIRST_GROUP_MAX_ALLOWED_THERMOCOUPLE_TEMPERATURE;
 import static io.github.therealmone.fireres.unheated.surface.pipeline.UnheatedSurfaceReportEnrichType.FIRST_GROUP_MEAN_WITH_THERMOCOUPLE_TEMPERATURES;
 
 public class UnheatedSurfaceFirstGroupServiceImpl extends AbstractInterpolationService<UnheatedSurfaceReport, Integer>
@@ -24,6 +26,13 @@ public class UnheatedSurfaceFirstGroupServiceImpl extends AbstractInterpolationS
     public void updateThermocoupleCount(UnheatedSurfaceReport report, Integer thermocoupleCount) {
         report.getProperties().getFirstGroup().setThermocoupleCount(thermocoupleCount);
 
+        reportPipeline.accept(report, FIRST_GROUP_MEAN_WITH_THERMOCOUPLE_TEMPERATURES);
+    }
+
+    @Override
+    public void refreshFirstGroup(UnheatedSurfaceReport report) {
+        reportPipeline.accept(report, FIRST_GROUP_MAX_ALLOWED_MEAN_TEMPERATURE);
+        reportPipeline.accept(report, FIRST_GROUP_MAX_ALLOWED_THERMOCOUPLE_TEMPERATURE);
         reportPipeline.accept(report, FIRST_GROUP_MEAN_WITH_THERMOCOUPLE_TEMPERATURES);
     }
 

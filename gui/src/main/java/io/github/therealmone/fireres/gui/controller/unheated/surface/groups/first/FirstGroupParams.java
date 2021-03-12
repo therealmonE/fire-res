@@ -5,6 +5,7 @@ import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.gui.annotation.LoadableComponent;
 import io.github.therealmone.fireres.gui.controller.AbstractReportUpdaterComponent;
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
+import io.github.therealmone.fireres.gui.controller.Resettable;
 import io.github.therealmone.fireres.gui.controller.unheated.surface.UnheatedSurfaceReportContainer;
 import io.github.therealmone.fireres.gui.service.ResetSettingsService;
 import io.github.therealmone.fireres.unheated.surface.report.UnheatedSurfaceReport;
@@ -18,7 +19,8 @@ import lombok.SneakyThrows;
 import java.util.UUID;
 
 @LoadableComponent("/component/unheated-surface/groups/first/firstGroupParams.fxml")
-public class FirstGroupParams extends AbstractReportUpdaterComponent<TitledPane> implements UnheatedSurfaceReportContainer {
+public class FirstGroupParams extends AbstractReportUpdaterComponent<TitledPane>
+        implements UnheatedSurfaceReportContainer, Resettable {
 
     @FXML
     @Getter
@@ -49,6 +51,11 @@ public class FirstGroupParams extends AbstractReportUpdaterComponent<TitledPane>
 
     @Override
     public void postConstruct() {
+        reset();
+    }
+
+    @Override
+    public void reset() {
         resetSettingsService.resetFirstThermocoupleGroupParameters(this);
     }
 

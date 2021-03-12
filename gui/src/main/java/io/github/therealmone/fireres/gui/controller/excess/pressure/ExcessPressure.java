@@ -4,18 +4,21 @@ import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.model.DoublePoint;
 import io.github.therealmone.fireres.core.model.Sample;
+import io.github.therealmone.fireres.excess.pressure.config.ExcessPressureProperties;
 import io.github.therealmone.fireres.excess.pressure.report.ExcessPressureReport;
 import io.github.therealmone.fireres.excess.pressure.service.ExcessPressureService;
 import io.github.therealmone.fireres.gui.annotation.LoadableComponent;
-import io.github.therealmone.fireres.gui.controller.AbstractComponent;
+import io.github.therealmone.fireres.gui.controller.AbstractReportUpdaterComponent;
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
+import io.github.therealmone.fireres.gui.controller.ReportCreator;
 import io.github.therealmone.fireres.gui.controller.ReportInclusionChanger;
+import io.github.therealmone.fireres.gui.controller.Resettable;
 import io.github.therealmone.fireres.gui.controller.common.BoundsShiftParams;
+import io.github.therealmone.fireres.gui.controller.common.ReportToolBar;
 import io.github.therealmone.fireres.gui.controller.common.SampleTab;
 import io.github.therealmone.fireres.gui.model.ReportTask;
 import io.github.therealmone.fireres.gui.service.ReportExecutorService;
 import javafx.fxml.FXML;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
 import lombok.val;
@@ -30,8 +33,8 @@ import static io.github.therealmone.fireres.gui.util.TabUtils.enableTab;
 import static java.util.Collections.singletonList;
 
 @LoadableComponent("/component/excess-pressure/excessPressure.fxml")
-public class ExcessPressure extends AbstractComponent<HBox>
-        implements ExcessPressureReportContainer, ReportInclusionChanger {
+public class ExcessPressure extends AbstractReportUpdaterComponent<VBox>
+        implements ExcessPressureReportContainer, ReportInclusionChanger, ReportCreator, Resettable {
 
     @FXML
     @Getter
@@ -52,6 +55,9 @@ public class ExcessPressure extends AbstractComponent<HBox>
     @FXML
     private BoundsShiftParams boundsShiftParamsController;
 
+    @FXML
+    private ReportToolBar toolBarController;
+
     @Inject
     private GenerationProperties generationProperties;
 
@@ -68,6 +74,7 @@ public class ExcessPressure extends AbstractComponent<HBox>
         getBoundsShiftParams().addBoundShift(
                 MAX_ALLOWED_PRESSURE_TEXT,
                 singletonList(paramsVbox),
+                properties -> ((ExcessPressureProperties) properties).getBoundsShift().getMaxAllowedPressureShift(),
                 point -> excessPressureService.addMaxAllowedPressureShift(report, (DoublePoint) point),
                 point -> excessPressureService.removeMaxAllowedPressureShift(report, (DoublePoint) point),
                 (integer, number) -> new DoublePoint(integer, number.doubleValue())
@@ -76,15 +83,11 @@ public class ExcessPressure extends AbstractComponent<HBox>
         getBoundsShiftParams().addBoundShift(
                 MIN_ALLOWED_PRESSURE_TEXT,
                 singletonList(paramsVbox),
+                properties -> ((ExcessPressureProperties) properties).getBoundsShift().getMinAllowedPressureShift(),
                 point -> excessPressureService.addMinAllowedPressureShift(report, (DoublePoint) point),
                 point -> excessPressureService.removeMinAllowedPressureShift(report, (DoublePoint) point),
                 (integer, number) -> new DoublePoint(integer, number.doubleValue())
         );
-    }
-
-    @Override
-    public ChartContainer getChartContainer() {
-        return excessPressureChartController;
     }
 
     @Override
@@ -108,6 +111,20 @@ public class ExcessPressure extends AbstractComponent<HBox>
     }
 
     @Override
+    public void refresh() {
+        createReport();
+    }
+
+    @Override
+    public void reset() {
+        updateReport(() -> {
+            getExcessPressureParams().reset();
+            getBoundsShiftParams().reset();
+            refresh();
+        }, getParamsVbox());
+    }
+
+    @Override
     public void excludeReport() {
         getSample().removeReport(report);
         disableTab(((SampleTab) getParent()).getExcessPressureTab());
@@ -125,6 +142,24 @@ public class ExcessPressure extends AbstractComponent<HBox>
 
     public BoundsShiftParams getBoundsShiftParams() {
         return boundsShiftParamsController;
+    }
+
+    public ReportToolBar getToolBar() {
+        return toolBarController;
+    }
+
+    public ExcessPressureParams getExcessPressureParams() {
+        return excessPressureParamsController;
+    }
+
+    @Override
+    public ChartContainer getChartContainer() {
+        return excessPressureChartController;
+    }
+
+    @Override
+    protected UUID getReportId() {
+        return getReport().getId();
     }
 
 }

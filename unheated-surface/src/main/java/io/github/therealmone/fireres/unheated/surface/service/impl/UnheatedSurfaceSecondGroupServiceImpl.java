@@ -36,6 +36,12 @@ public class UnheatedSurfaceSecondGroupServiceImpl extends AbstractInterpolation
     }
 
     @Override
+    public void refreshSecondGroup(UnheatedSurfaceReport report) {
+        reportPipeline.accept(report, SECOND_GROUP_MAX_ALLOWED_TEMPERATURE);
+        reportPipeline.accept(report, SECOND_GROUP_MEAN_WITH_THERMOCOUPLE_TEMPERATURES);
+    }
+
+    @Override
     protected void postUpdateLinearityCoefficient(UnheatedSurfaceReport report) {
         reportPipeline.accept(report, SECOND_GROUP_MEAN_WITH_THERMOCOUPLE_TEMPERATURES);
     }

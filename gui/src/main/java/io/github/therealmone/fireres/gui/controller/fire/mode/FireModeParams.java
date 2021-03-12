@@ -7,6 +7,7 @@ import io.github.therealmone.fireres.firemode.service.FireModeService;
 import io.github.therealmone.fireres.gui.annotation.LoadableComponent;
 import io.github.therealmone.fireres.gui.controller.AbstractReportUpdaterComponent;
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
+import io.github.therealmone.fireres.gui.controller.Resettable;
 import io.github.therealmone.fireres.gui.service.ResetSettingsService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Spinner;
@@ -18,7 +19,7 @@ import java.util.UUID;
 
 @LoadableComponent("/component/fire-mode/fireModeParams.fxml")
 public class FireModeParams extends AbstractReportUpdaterComponent<TitledPane>
-        implements FireModeReportContainer {
+        implements FireModeReportContainer, Resettable {
 
     @FXML
     @Getter
@@ -52,6 +53,11 @@ public class FireModeParams extends AbstractReportUpdaterComponent<TitledPane>
 
     @Override
     public void postConstruct() {
+        reset();
+    }
+
+    @Override
+    public void reset() {
         resetSettingsService.resetFireModeParameters(this);
     }
 

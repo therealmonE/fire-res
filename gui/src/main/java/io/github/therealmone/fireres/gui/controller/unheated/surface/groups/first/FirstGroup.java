@@ -3,11 +3,14 @@ package io.github.therealmone.fireres.gui.controller.unheated.surface.groups.fir
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.model.IntegerPoint;
 import io.github.therealmone.fireres.core.model.Sample;
+import io.github.therealmone.fireres.excess.pressure.config.ExcessPressureProperties;
 import io.github.therealmone.fireres.gui.annotation.LoadableComponent;
-import io.github.therealmone.fireres.gui.controller.AbstractComponent;
+import io.github.therealmone.fireres.gui.controller.AbstractReportUpdaterComponent;
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
+import io.github.therealmone.fireres.gui.controller.Resettable;
 import io.github.therealmone.fireres.gui.controller.common.BoundsShiftParams;
 import io.github.therealmone.fireres.gui.controller.common.FunctionParams;
+import io.github.therealmone.fireres.gui.controller.common.ReportToolBar;
 import io.github.therealmone.fireres.gui.controller.unheated.surface.UnheatedSurface;
 import io.github.therealmone.fireres.gui.controller.unheated.surface.UnheatedSurfaceReportContainer;
 import io.github.therealmone.fireres.unheated.surface.config.UnheatedSurfaceProperties;
@@ -18,12 +21,15 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
 
+import java.util.UUID;
+
 import static io.github.therealmone.fireres.gui.synchronizer.impl.FirstThermocoupleGroupChartSynchronizer.MAX_MEAN_TEMPERATURE_TEXT;
 import static io.github.therealmone.fireres.gui.synchronizer.impl.FirstThermocoupleGroupChartSynchronizer.MAX_THERMOCOUPLE_TEMPERATURE_TEXT;
 import static java.util.Collections.singletonList;
 
 @LoadableComponent("/component/unheated-surface/groups/first/firstGroup.fxml")
-public class FirstGroup extends AbstractComponent<TitledPane> implements UnheatedSurfaceReportContainer {
+public class FirstGroup extends AbstractReportUpdaterComponent<TitledPane>
+        implements UnheatedSurfaceReportContainer, Resettable {
 
     @FXML
     @Getter
@@ -40,6 +46,9 @@ public class FirstGroup extends AbstractComponent<TitledPane> implements Unheate
 
     @FXML
     private BoundsShiftParams boundsShiftParamsController;
+
+    @FXML
+    private ReportToolBar toolBarController;
 
     @Inject
     private UnheatedSurfaceFirstGroupService unheatedSurfaceFirstGroupService;
@@ -68,6 +77,7 @@ public class FirstGroup extends AbstractComponent<TitledPane> implements Unheate
         getBoundsShiftParams().addBoundShift(
                 MAX_MEAN_TEMPERATURE_TEXT,
                 singletonList(paramsVbox),
+                properties -> ((UnheatedSurfaceProperties) properties).getFirstGroup().getBoundsShift().getMaxAllowedMeanTemperatureShift(),
                 point -> unheatedSurfaceFirstGroupService.addMaxAllowedMeanTemperatureShift(getReport(), (IntegerPoint) point),
                 point -> unheatedSurfaceFirstGroupService.removeMaxAllowedMeanTemperatureShift(getReport(), (IntegerPoint) point),
                 (integer, number) -> new IntegerPoint(integer, number.intValue())
@@ -76,10 +86,26 @@ public class FirstGroup extends AbstractComponent<TitledPane> implements Unheate
         getBoundsShiftParams().addBoundShift(
                 MAX_THERMOCOUPLE_TEMPERATURE_TEXT,
                 singletonList(paramsVbox),
+                properties -> ((UnheatedSurfaceProperties) properties).getFirstGroup().getBoundsShift().getMaxAllowedThermocoupleTemperatureShift(),
                 point -> unheatedSurfaceFirstGroupService.addMaxAllowedThermocoupleTemperatureShift(getReport(), (IntegerPoint) point),
                 point -> unheatedSurfaceFirstGroupService.removeMaxAllowedThermocoupleTemperatureShift(getReport(), (IntegerPoint) point),
                 (integer, number) -> new IntegerPoint(integer, number.intValue())
         );
+    }
+
+    @Override
+    public void refresh() {
+        updateReport(() -> unheatedSurfaceFirstGroupService.refreshFirstGroup(getReport()));
+    }
+
+    @Override
+    public void reset() {
+        updateReport(() -> {
+            getFirstGroupParams().reset();
+            getFunctionParams().reset();
+            getBoundsShiftParams().reset();
+            unheatedSurfaceFirstGroupService.refreshFirstGroup(getReport());
+        }, getParamsVbox());
     }
 
     @Override
@@ -97,6 +123,11 @@ public class FirstGroup extends AbstractComponent<TitledPane> implements Unheate
         return firstGroupChartController;
     }
 
+    @Override
+    protected UUID getReportId() {
+        return getReport().getId();
+    }
+
     public FirstGroupParams getFirstGroupParams() {
         return firstGroupParamsController;
     }
@@ -108,4 +139,9 @@ public class FirstGroup extends AbstractComponent<TitledPane> implements Unheate
     public BoundsShiftParams getBoundsShiftParams() {
         return boundsShiftParamsController;
     }
+
+    public ReportToolBar getToolBar() {
+        return toolBarController;
+    }
+
 }

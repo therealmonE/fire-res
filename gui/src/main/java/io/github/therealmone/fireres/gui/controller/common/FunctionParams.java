@@ -11,6 +11,7 @@ import io.github.therealmone.fireres.gui.annotation.LoadableComponent;
 import io.github.therealmone.fireres.gui.controller.AbstractReportUpdaterComponent;
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
 import io.github.therealmone.fireres.gui.controller.ReportContainer;
+import io.github.therealmone.fireres.gui.controller.Resettable;
 import io.github.therealmone.fireres.gui.controller.SampleContainer;
 import io.github.therealmone.fireres.gui.controller.modal.InterpolationPointsModalWindow;
 import io.github.therealmone.fireres.gui.service.FxmlLoadService;
@@ -40,7 +41,7 @@ import java.util.function.Function;
 @SuppressWarnings({"unchecked", "rawtypes"})
 @LoadableComponent("/component/common/functionParams.fxml")
 public class FunctionParams extends AbstractReportUpdaterComponent<TitledPane>
-        implements SampleContainer, ReportContainer {
+        implements SampleContainer, ReportContainer, Resettable {
 
     @FXML
     @Getter
@@ -107,7 +108,11 @@ public class FunctionParams extends AbstractReportUpdaterComponent<TitledPane>
 
         initializeTableContextMenu();
         initializeRowContextMenu();
+        reset();
+    }
 
+    @Override
+    public void reset() {
         resetSettingsService.resetFunctionParameters(this);
     }
 

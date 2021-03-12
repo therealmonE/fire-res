@@ -80,7 +80,27 @@
     -fx-border-color: #C1C1C1;
 }
 
+.unheatedSurfaceGroupTitledPane > .content > * {
+    -fx-padding: 0px;
+}
+
+.reportToolBarButton {
+    -fx-background-color: transparent;
+}
+
+.reportToolBarButton:hover {
+    -fx-background-color: #C8C8C8;
+}
+
+.reportToolBarButton:pressed {
+    -fx-background-color: #DDDDDD;
+}
+
 .alert {
+    -fx-font-size: 14px;
+}
+
+.confirmation {
     -fx-font-size: 14px;
 }
 /* ====== LINE CHART =========================================================== */
@@ -137,4 +157,3 @@
 #thirdThermocoupleGroupThermocoupleTemperatureLine {
     -fx-stroke-width: 1px;
 }
-
