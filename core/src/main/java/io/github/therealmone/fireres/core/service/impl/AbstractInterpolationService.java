@@ -31,6 +31,13 @@ public abstract class AbstractInterpolationService<R extends Report<?>, N extend
     }
 
     @Override
+    public void updateChildFunctionsDeltaCoefficient(R report, Double childFunctionsDeltaCoefficient) {
+        propertiesMapper.apply(report).setChildFunctionsDeltaCoefficient(childFunctionsDeltaCoefficient);
+
+        postUpdateChildFunctionsDeltaCoefficient(report);
+    }
+
+    @Override
     public void addInterpolationPoint(R report, Point<N> pointToAdd) {
         val currentPoints = propertiesMapper.apply(report).getInterpolationPoints();
 
@@ -63,5 +70,7 @@ public abstract class AbstractInterpolationService<R extends Report<?>, N extend
     protected abstract void postUpdateDispersionCoefficient(R report);
 
     protected abstract void postUpdateInterpolationPoints(R report);
+
+    protected abstract void postUpdateChildFunctionsDeltaCoefficient(R report);
 
 }

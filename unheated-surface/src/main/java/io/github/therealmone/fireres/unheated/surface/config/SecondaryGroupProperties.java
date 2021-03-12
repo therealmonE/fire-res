@@ -1,6 +1,5 @@
 package io.github.therealmone.fireres.unheated.surface.config;
 
-import com.typesafe.config.Optional;
 import io.github.therealmone.fireres.core.config.BoundsShiftModifier;
 import io.github.therealmone.fireres.core.config.FunctionForm;
 import io.github.therealmone.fireres.core.config.FunctionFormModifier;
@@ -18,7 +17,6 @@ public class SecondaryGroupProperties implements
         FunctionFormModifier<Integer>,
         BoundsShiftModifier<SecondaryGroupBoundsShift> {
 
-    @Optional
     @Builder.Default
     private Integer bound = 300;
 

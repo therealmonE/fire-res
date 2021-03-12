@@ -1,6 +1,5 @@
 package io.github.therealmone.fireres.core.config;
 
-import com.typesafe.config.Optional;
 import io.github.therealmone.fireres.core.model.Point;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,17 +16,17 @@ import java.util.List;
 @Builder
 public class FunctionForm<N extends Number> {
 
-    @Optional
     @Builder.Default
     private List<Point<N>> interpolationPoints = new ArrayList<>();
 
-    @Optional
     @Builder.Default
     private Double linearityCoefficient = 1d;
 
-    @Optional
     @Builder.Default
     private Double dispersionCoefficient = 0d;
+
+    @Builder.Default
+    private Double childFunctionsDeltaCoefficient = 0.25;
 
     public void setInterpolationPoints(List<Point<N>> interpolationPoints) {
         interpolationPoints.sort(Comparator.comparing(Point::getTime));

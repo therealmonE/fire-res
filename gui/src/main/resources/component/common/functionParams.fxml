@@ -13,7 +13,6 @@
 <?import javafx.scene.layout.VBox?>
 
 <TitledPane contentDisplay="RIGHT" prefWidth="305.0" text="Параметры функции"
-            expanded="false"
             fx:id="component"
             xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="io.github.therealmone.fireres.gui.controller.common.FunctionParams">
@@ -36,30 +35,43 @@
                     <RowConstraints/>
                 </rowConstraints>
 
-                <Label prefHeight="16.0" prefWidth="165.0" text="Коэффициент линейности:"/>
+                <Label prefHeight="16.0" prefWidth="220" text="Коэффициент линейности:"/>
 
-                <ContextlessSpinner fx:id="linearityCoefficient" editable="true" prefHeight="26.0"
-                                    prefWidth="80.0" GridPane.columnIndex="1"/>
+                <ContextlessSpinner fx:id="linearityCoefficient" editable="true" prefHeight="26.0" prefWidth="80.0"
+                                    GridPane.columnIndex="1"/>
 
-                <Label prefHeight="16.0" prefWidth="165.0" text="Коэффициент дисперсии:" GridPane.rowIndex="1">
+                <Label prefHeight="16.0" prefWidth="220" text="Коэффициент дисперсии:" GridPane.rowIndex="1">
                     <GridPane.margin>
                         <Insets top="15.0"/>
                     </GridPane.margin>
                 </Label>
 
-                <ContextlessSpinner fx:id="dispersionCoefficient" editable="true" prefHeight="26.0"
-                                    prefWidth="80.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <ContextlessSpinner fx:id="dispersionCoefficient" editable="true" prefHeight="26.0" prefWidth="80.0"
+                                    GridPane.columnIndex="1" GridPane.rowIndex="1">
+                    <GridPane.margin>
+                        <Insets top="15.0"/>
+                    </GridPane.margin>
+                </ContextlessSpinner>
+
+                <Label prefHeight="16.0" prefWidth="220" text="Коэффициент разброса функций:" GridPane.rowIndex="2">
+                    <GridPane.margin>
+                        <Insets top="15.0"/>
+                    </GridPane.margin>
+                </Label>
+
+                <ContextlessSpinner fx:id="childFunctionsDeltaCoefficient" editable="true" prefHeight="26.0"
+                                    prefWidth="80.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                     <GridPane.margin>
                         <Insets top="15.0"/>
                     </GridPane.margin>
                 </ContextlessSpinner>
 
                 <VBox.margin>
-                    <Insets right="15.0"/>
+                    <Insets/>
                 </VBox.margin>
 
                 <padding>
-                    <Insets bottom="15.0" right="15.0"/>
+                    <Insets bottom="15.0"/>
                 </padding>
 
             </GridPane>

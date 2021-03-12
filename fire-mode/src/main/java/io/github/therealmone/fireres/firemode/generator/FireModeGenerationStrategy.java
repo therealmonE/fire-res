@@ -4,11 +4,9 @@ import io.github.therealmone.fireres.core.generator.strategy.FunctionsGeneration
 
 public class FireModeGenerationStrategy implements FunctionsGenerationStrategy {
 
-    private static final Double DELTA_COEFFICIENT = 0.7;
-
     @Override
-    public Integer resolveDelta(Integer t0, Integer time) {
-        return t0 + (int) Math.round(Math.log(time) / Math.log(DELTA_COEFFICIENT));
+    public Integer resolveDelta(Integer t0, Integer time, Double coefficient) {
+        return (int) ((Math.log(time + 1) / Math.log(1.05)) * coefficient);
     }
 
 }
