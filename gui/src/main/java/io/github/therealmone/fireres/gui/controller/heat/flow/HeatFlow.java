@@ -3,11 +3,13 @@ package io.github.therealmone.fireres.gui.controller.heat.flow;
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.model.Sample;
+import io.github.therealmone.fireres.excel.report.HeatFlowExcelReportsBuilder;
 import io.github.therealmone.fireres.gui.annotation.LoadableComponent;
-import io.github.therealmone.fireres.gui.controller.AbstractComponent;
+import io.github.therealmone.fireres.gui.component.DataViewer;
 import io.github.therealmone.fireres.gui.controller.AbstractReportUpdaterComponent;
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
 import io.github.therealmone.fireres.gui.controller.ReportCreator;
+import io.github.therealmone.fireres.gui.controller.ReportDataCollector;
 import io.github.therealmone.fireres.gui.controller.ReportInclusionChanger;
 import io.github.therealmone.fireres.gui.controller.Resettable;
 import io.github.therealmone.fireres.gui.controller.common.BoundsShiftParams;
@@ -35,7 +37,8 @@ import static java.util.Collections.singletonList;
 
 @LoadableComponent("/component/heat-flow/heatFlow.fxml")
 public class HeatFlow extends AbstractReportUpdaterComponent<VBox>
-        implements HeatFlowReportContainer, ReportInclusionChanger, ReportCreator, Resettable {
+        implements HeatFlowReportContainer, ReportInclusionChanger,
+        ReportCreator, Resettable, ReportDataCollector {
 
     @FXML
     @Getter
@@ -67,6 +70,9 @@ public class HeatFlow extends AbstractReportUpdaterComponent<VBox>
 
     @FXML
     private ReportToolBar toolBarController;
+
+    @Inject
+    private HeatFlowExcelReportsBuilder excelReportsBuilder;
 
     @Override
     public Sample getSample() {
@@ -152,6 +158,18 @@ public class HeatFlow extends AbstractReportUpdaterComponent<VBox>
         getSample().putReport(report);
         enableTab(parent.getHeatFlowTab(), parent.getReportsTabPane());
         generationProperties.getGeneral().getIncludedReports().add(HEAT_FLOW);
+    }
+
+    @Override
+    public DataViewer getReportData() {
+        val excelReports = excelReportsBuilder.build(
+                generationProperties.getGeneral(), singletonList(report));
+
+        if (excelReports.size() != 1) {
+            throw new IllegalStateException();
+        }
+
+        return new DataViewer(excelReports.get(0));
     }
 
     public HeatFlowParams getHeatFlowParams() {

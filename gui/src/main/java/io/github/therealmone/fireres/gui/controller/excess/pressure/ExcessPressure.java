@@ -4,13 +4,16 @@ import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.model.DoublePoint;
 import io.github.therealmone.fireres.core.model.Sample;
+import io.github.therealmone.fireres.excel.report.ExcessPressureExcelReportsBuilder;
 import io.github.therealmone.fireres.excess.pressure.config.ExcessPressureProperties;
 import io.github.therealmone.fireres.excess.pressure.report.ExcessPressureReport;
 import io.github.therealmone.fireres.excess.pressure.service.ExcessPressureService;
 import io.github.therealmone.fireres.gui.annotation.LoadableComponent;
+import io.github.therealmone.fireres.gui.component.DataViewer;
 import io.github.therealmone.fireres.gui.controller.AbstractReportUpdaterComponent;
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
 import io.github.therealmone.fireres.gui.controller.ReportCreator;
+import io.github.therealmone.fireres.gui.controller.ReportDataCollector;
 import io.github.therealmone.fireres.gui.controller.ReportInclusionChanger;
 import io.github.therealmone.fireres.gui.controller.Resettable;
 import io.github.therealmone.fireres.gui.controller.common.BoundsShiftParams;
@@ -34,7 +37,8 @@ import static java.util.Collections.singletonList;
 
 @LoadableComponent("/component/excess-pressure/excessPressure.fxml")
 public class ExcessPressure extends AbstractReportUpdaterComponent<VBox>
-        implements ExcessPressureReportContainer, ReportInclusionChanger, ReportCreator, Resettable {
+        implements ExcessPressureReportContainer, ReportInclusionChanger,
+        ReportCreator, Resettable, ReportDataCollector {
 
     @FXML
     @Getter
@@ -63,6 +67,9 @@ public class ExcessPressure extends AbstractReportUpdaterComponent<VBox>
 
     @Inject
     private ReportExecutorService reportExecutorService;
+
+    @Inject
+    private ExcessPressureExcelReportsBuilder excelReportsBuilder;
 
     @Override
     public Sample getSample() {
@@ -138,6 +145,18 @@ public class ExcessPressure extends AbstractReportUpdaterComponent<VBox>
         getSample().putReport(report);
         enableTab(parent.getExcessPressureTab(), parent.getReportsTabPane());
         generationProperties.getGeneral().getIncludedReports().add(EXCESS_PRESSURE);
+    }
+
+    @Override
+    public DataViewer getReportData() {
+        val excelReports = excelReportsBuilder.build(
+                generationProperties.getGeneral(), singletonList(report));
+
+        if (excelReports.size() != 1) {
+            throw new IllegalStateException();
+        }
+
+        return new DataViewer(excelReports.get(0));
     }
 
     public BoundsShiftParams getBoundsShiftParams() {

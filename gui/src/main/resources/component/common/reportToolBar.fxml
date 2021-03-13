@@ -30,13 +30,13 @@
         <ToggleButton fx:id="legendVisibilityButton" onAction="#changeLegendVisibility"
                       minWidth="30" prefHeight="30" styleClass="reportToolBarButton">
             <tooltip>
-                <Tooltip text="Скрыть легенду"/>
+                <Tooltip text="Показать легенду"/>
             </tooltip>
             <graphic>
                 <FontIcon iconLiteral="eli-list" iconSize="15"/>
             </graphic>
         </ToggleButton>
-        <Button minWidth="30" prefHeight="30" styleClass="reportToolBarButton">
+        <Button onAction="#showReportData" minWidth="30" prefHeight="30" styleClass="reportToolBarButton">
             <tooltip>
                 <Tooltip text="Просмотреть данные"/>
             </tooltip>

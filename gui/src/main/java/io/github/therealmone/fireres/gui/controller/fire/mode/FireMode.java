@@ -4,13 +4,16 @@ import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.model.IntegerPoint;
 import io.github.therealmone.fireres.core.model.Sample;
+import io.github.therealmone.fireres.excel.report.FireModeExcelReportsBuilder;
 import io.github.therealmone.fireres.firemode.config.FireModeProperties;
 import io.github.therealmone.fireres.firemode.report.FireModeReport;
 import io.github.therealmone.fireres.firemode.service.FireModeService;
 import io.github.therealmone.fireres.gui.annotation.LoadableComponent;
+import io.github.therealmone.fireres.gui.component.DataViewer;
 import io.github.therealmone.fireres.gui.controller.AbstractReportUpdaterComponent;
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
 import io.github.therealmone.fireres.gui.controller.ReportCreator;
+import io.github.therealmone.fireres.gui.controller.ReportDataCollector;
 import io.github.therealmone.fireres.gui.controller.ReportInclusionChanger;
 import io.github.therealmone.fireres.gui.controller.Resettable;
 import io.github.therealmone.fireres.gui.controller.common.BoundsShiftParams;
@@ -35,7 +38,8 @@ import static java.util.Collections.singletonList;
 
 @LoadableComponent("/component/fire-mode/fireMode.fxml")
 public class FireMode extends AbstractReportUpdaterComponent<VBox>
-        implements FireModeReportContainer, ReportInclusionChanger, ReportCreator, Resettable {
+        implements FireModeReportContainer, ReportInclusionChanger,
+        ReportCreator, Resettable, ReportDataCollector {
 
     @FXML
     @Getter
@@ -67,6 +71,9 @@ public class FireMode extends AbstractReportUpdaterComponent<VBox>
 
     @FXML
     private ReportToolBar toolBarController;
+
+    @Inject
+    private FireModeExcelReportsBuilder excelReportsBuilder;
 
     @Override
     public Sample getSample() {
@@ -161,6 +168,18 @@ public class FireMode extends AbstractReportUpdaterComponent<VBox>
         getSample().putReport(report);
         enableTab(parent.getFireModeTab(), parent.getReportsTabPane());
         generationProperties.getGeneral().getIncludedReports().add(FIRE_MODE);
+    }
+
+    @Override
+    public DataViewer getReportData() {
+        val excelReports = excelReportsBuilder.build(
+                generationProperties.getGeneral(), singletonList(report));
+
+        if (excelReports.size() != 1) {
+            throw new IllegalStateException();
+        }
+
+        return new DataViewer(excelReports.get(0));
     }
 
     public FireModeParams getFireModeParams() {

@@ -1,11 +1,15 @@
 package io.github.therealmone.fireres.gui.controller.unheated.surface.groups.second;
 
 import com.google.inject.Inject;
+import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.model.IntegerPoint;
 import io.github.therealmone.fireres.core.model.Sample;
+import io.github.therealmone.fireres.excel.report.UnheatedSurfaceExcelReportsBuilder;
 import io.github.therealmone.fireres.gui.annotation.LoadableComponent;
+import io.github.therealmone.fireres.gui.component.DataViewer;
 import io.github.therealmone.fireres.gui.controller.AbstractReportUpdaterComponent;
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
+import io.github.therealmone.fireres.gui.controller.ReportDataCollector;
 import io.github.therealmone.fireres.gui.controller.Resettable;
 import io.github.therealmone.fireres.gui.controller.common.BoundsShiftParams;
 import io.github.therealmone.fireres.gui.controller.common.FunctionParams;
@@ -19,6 +23,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
+import lombok.val;
 
 import java.util.UUID;
 
@@ -27,7 +32,7 @@ import static java.util.Collections.singletonList;
 
 @LoadableComponent("/component/unheated-surface/groups/second/secondGroup.fxml")
 public class SecondGroup extends AbstractReportUpdaterComponent<TitledPane>
-        implements UnheatedSurfaceReportContainer, Resettable {
+        implements UnheatedSurfaceReportContainer, Resettable, ReportDataCollector {
 
     @FXML
     @Getter
@@ -50,6 +55,12 @@ public class SecondGroup extends AbstractReportUpdaterComponent<TitledPane>
 
     @FXML
     private ReportToolBar toolBarController;
+
+    @Inject
+    private UnheatedSurfaceExcelReportsBuilder excelReportsBuilder;
+
+    @Inject
+    private GenerationProperties generationProperties;
 
     @Override
     protected void initialize() {
@@ -95,6 +106,18 @@ public class SecondGroup extends AbstractReportUpdaterComponent<TitledPane>
             getBoundsShiftParams().reset();
             unheatedSurfaceSecondGroupService.refreshSecondGroup(getReport());
         }, getParamsVbox());
+    }
+
+    @Override
+    public DataViewer getReportData() {
+        val excelReports = excelReportsBuilder.build(
+                generationProperties.getGeneral(), singletonList(getReport()));
+
+        if (excelReports.size() != 3) {
+            throw new IllegalStateException();
+        }
+
+        return new DataViewer(excelReports.get(1));
     }
 
     @Override
