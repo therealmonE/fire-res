@@ -4,18 +4,25 @@ import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.model.Report;
 import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.gui.controller.AbstractComponent;
+import io.github.therealmone.fireres.gui.controller.AbstractReportUpdaterComponent;
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
 import io.github.therealmone.fireres.gui.controller.ReportContainer;
 import io.github.therealmone.fireres.gui.controller.ReportDataCollector;
+import io.github.therealmone.fireres.gui.controller.ReportUpdater;
 import io.github.therealmone.fireres.gui.controller.Resettable;
 import io.github.therealmone.fireres.gui.controller.SampleContainer;
 import io.github.therealmone.fireres.gui.controller.modal.DataViewerModalWindow;
 import io.github.therealmone.fireres.gui.service.AlertService;
 import io.github.therealmone.fireres.gui.service.FxmlLoadService;
+import io.github.therealmone.fireres.gui.service.ReportExecutorService;
+import io.github.therealmone.fireres.gui.service.ReportUpdateListener;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToolBar;
 import lombok.val;
+
+import java.util.UUID;
 
 @SuppressWarnings("rawtypes")
 public class ReportToolBar extends AbstractComponent<ToolBar>
@@ -29,6 +36,9 @@ public class ReportToolBar extends AbstractComponent<ToolBar>
 
     @Inject
     private FxmlLoadService fxmlLoadService;
+
+    @Inject
+    private ReportExecutorService reportExecutorService;
 
     @FXML
     public void refreshReport() {
@@ -55,12 +65,28 @@ public class ReportToolBar extends AbstractComponent<ToolBar>
 
     @FXML
     public void showReportData() {
+        val modalWindow = fxmlLoadService.loadComponent(DataViewerModalWindow.class, this);
+
+        updateDataViewer(modalWindow);
+        modalWindow.getWindow().show();
+
+        val listener = new ReportUpdateListener() {
+            @Override
+            public void postUpdate(UUID elementId) {
+                if (elementId.equals(((ReportUpdater) getParent()).getUpdatingElementId())) {
+                    Platform.runLater(() -> updateDataViewer(modalWindow));
+                }
+            }
+        };
+
+        reportExecutorService.addListener(listener);
+        modalWindow.getWindow().setOnCloseRequest(event -> reportExecutorService.removeListener(listener));
+    }
+
+    private void updateDataViewer(DataViewerModalWindow modalWindow) {
         val dataViewer = ((ReportDataCollector) getParent()).getReportData();
 
-        fxmlLoadService.loadComponent(DataViewerModalWindow.class, this,
-                dataViewerModalWindow -> dataViewerModalWindow.setDataViewer(dataViewer))
-                .getWindow()
-                .show();
+        modalWindow.setDataViewer(dataViewer);
     }
 
     @Override

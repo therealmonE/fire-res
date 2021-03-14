@@ -5,6 +5,7 @@ import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.gui.annotation.LoadableComponent;
 import io.github.therealmone.fireres.gui.controller.AbstractReportUpdaterComponent;
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
+import io.github.therealmone.fireres.gui.controller.ReportUpdater;
 import io.github.therealmone.fireres.gui.controller.Resettable;
 import io.github.therealmone.fireres.gui.controller.unheated.surface.UnheatedSurfaceReportContainer;
 import io.github.therealmone.fireres.gui.service.ResetSettingsService;
@@ -90,8 +91,8 @@ public class ThirdGroupParams extends AbstractReportUpdaterComponent<TitledPane>
     }
 
     @Override
-    protected UUID getReportId() {
-        return getReport().getThirdGroup().getId();
+    public UUID getUpdatingElementId() {
+        return ((ReportUpdater) getParent()).getUpdatingElementId();
     }
 
 }

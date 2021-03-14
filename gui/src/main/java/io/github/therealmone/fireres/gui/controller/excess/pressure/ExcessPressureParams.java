@@ -7,6 +7,7 @@ import io.github.therealmone.fireres.excess.pressure.service.ExcessPressureServi
 import io.github.therealmone.fireres.gui.annotation.LoadableComponent;
 import io.github.therealmone.fireres.gui.controller.AbstractReportUpdaterComponent;
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
+import io.github.therealmone.fireres.gui.controller.ReportUpdater;
 import io.github.therealmone.fireres.gui.controller.Resettable;
 import io.github.therealmone.fireres.gui.service.ResetSettingsService;
 import javafx.fxml.FXML;
@@ -100,7 +101,7 @@ public class ExcessPressureParams extends AbstractReportUpdaterComponent<TitledP
     }
 
     @Override
-    protected UUID getReportId() {
-        return getReport().getId();
+    public UUID getUpdatingElementId() {
+        return ((ReportUpdater) getParent()).getUpdatingElementId();
     }
 }

@@ -146,8 +146,8 @@ public class FirstGroup extends AbstractReportUpdaterComponent<TitledPane>
     }
 
     @Override
-    protected UUID getReportId() {
-        return getReport().getId();
+    public UUID getUpdatingElementId() {
+        return getReport().getFirstGroup().getId();
     }
 
     public FirstGroupParams getFirstGroupParams() {

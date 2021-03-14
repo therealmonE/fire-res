@@ -136,8 +136,8 @@ public class SecondGroup extends AbstractReportUpdaterComponent<TitledPane>
     }
 
     @Override
-    protected UUID getReportId() {
-        return getReport().getId();
+    public UUID getUpdatingElementId() {
+        return getReport().getSecondGroup().getId();
     }
 
     public SecondGroupParams getSecondGroupParams() {

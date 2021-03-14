@@ -114,7 +114,7 @@ public class HeatFlow extends AbstractReportUpdaterComponent<VBox>
         val reportId = UUID.randomUUID();
 
         val task = ReportTask.builder()
-                .reportId(reportId)
+                .updatingElementId(reportId)
                 .chartContainers(singletonList(getChartContainer()))
                 .nodesToLock(singletonList(paramsVbox))
                 .action(() -> {
@@ -194,7 +194,7 @@ public class HeatFlow extends AbstractReportUpdaterComponent<VBox>
     }
 
     @Override
-    protected UUID getReportId() {
+    public UUID getUpdatingElementId() {
         return getReport().getId();
     }
 

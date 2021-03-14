@@ -21,14 +21,13 @@ public class DataViewerModalWindow extends AbstractComponent<AnchorPane> {
     private Stage window;
 
     public void setDataViewer(DataViewer dataViewer) {
+        this.getComponent().getChildren().removeIf(node -> node instanceof DataViewer);
         this.getComponent().getChildren().add(dataViewer);
 
         AnchorPane.setBottomAnchor(dataViewer, 0d);
         AnchorPane.setTopAnchor(dataViewer, 0d);
         AnchorPane.setLeftAnchor(dataViewer, 0d);
         AnchorPane.setRightAnchor(dataViewer, 0d);
-
-        this.getComponent().autosize();
     }
 
 }

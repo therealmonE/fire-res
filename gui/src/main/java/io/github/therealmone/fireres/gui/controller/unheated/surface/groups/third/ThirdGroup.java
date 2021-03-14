@@ -136,8 +136,8 @@ public class ThirdGroup extends AbstractReportUpdaterComponent<TitledPane>
     }
 
     @Override
-    protected UUID getReportId() {
-        return getReport().getId();
+    public UUID getUpdatingElementId() {
+        return getReport().getThirdGroup().getId();
     }
 
     public ThirdGroupParams getThirdGroupParams() {

@@ -1,6 +1,7 @@
 package io.github.therealmone.fireres.core.generator;
 
 import io.github.therealmone.fireres.core.config.FunctionForm;
+import io.github.therealmone.fireres.core.exception.ImpossibleGenerationException;
 import io.github.therealmone.fireres.core.generator.strategy.FunctionsGenerationStrategy;
 import io.github.therealmone.fireres.core.model.IntegerPoint;
 import io.github.therealmone.fireres.core.model.IntegerPointSequence;
@@ -82,6 +83,10 @@ public class SimilarFunctionGenerator implements PointSequenceGenerator<IntegerP
                 } else {
                     val min = Math.max(basisValue - delta, localLowerBound);
                     val max = Math.min(basisValue + delta, localUpperBound);
+
+                    if (min > max) {
+                        throw new ImpossibleGenerationException();
+                    }
 
                     newFunctionForm.getInterpolationPoints().add(new IntegerPoint(i, generateValueInInterval(min, max)));
                 }

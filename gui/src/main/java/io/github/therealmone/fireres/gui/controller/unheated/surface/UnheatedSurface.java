@@ -66,7 +66,7 @@ public class UnheatedSurface extends AbstractComponent<ScrollPane>
         val reportId = UUID.randomUUID();
 
         val task = ReportTask.builder()
-                .reportId(reportId)
+                .updatingElementId(reportId)
                 .chartContainers(List.of(
                         getFirstGroup().getChartContainer(),
                         getSecondGroup().getChartContainer(),
