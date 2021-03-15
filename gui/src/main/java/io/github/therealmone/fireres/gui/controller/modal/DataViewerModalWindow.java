@@ -13,6 +13,7 @@ import lombok.Getter;
 @ModalWindow(
         title = "Данные отчета",
         resizable = true,
+        isAlwaysOnTop = true,
         modality = Modality.NONE)
 public class DataViewerModalWindow extends AbstractComponent<AnchorPane> {
 

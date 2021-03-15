@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import io.github.therealmone.fireres.gui.annotation.ModalWindow;
 import io.github.therealmone.fireres.gui.controller.ExtendedComponent;
 import io.github.therealmone.fireres.gui.model.Logos;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -30,6 +29,7 @@ public class ModalWindowAnnotationProcessor implements AnnotationProcessor {
             window.setResizable(modalWindowAnnotation.resizable());
             window.initModality(modalWindowAnnotation.modality());
             window.getIcons().add(logos.getLogo512());
+            window.setAlwaysOnTop(modalWindowAnnotation.isAlwaysOnTop());
 
             setWindowField(component, window);
         }

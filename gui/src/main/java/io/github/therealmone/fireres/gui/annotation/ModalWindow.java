@@ -15,6 +15,8 @@ public @interface ModalWindow {
 
     boolean resizable() default false;
 
+    boolean isAlwaysOnTop() default false;
+
     Modality modality() default Modality.APPLICATION_MODAL;
 
     @Target(ElementType.FIELD)
