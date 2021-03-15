@@ -36,6 +36,12 @@ public class UnheatedSurfaceThirdGroupServiceImpl extends AbstractInterpolationS
     }
 
     @Override
+    public void refreshThirdGroup(UnheatedSurfaceReport report) {
+        reportPipeline.accept(report, THIRD_GROUP_MAX_ALLOWED_TEMPERATURE);
+        reportPipeline.accept(report, THIRD_GROUP_MEAN_WITH_THERMOCOUPLE_TEMPERATURES);
+    }
+
+    @Override
     protected void postUpdateLinearityCoefficient(UnheatedSurfaceReport report) {
         reportPipeline.accept(report, THIRD_GROUP_MEAN_WITH_THERMOCOUPLE_TEMPERATURES);
     }

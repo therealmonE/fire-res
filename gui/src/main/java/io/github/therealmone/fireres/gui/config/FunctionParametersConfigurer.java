@@ -2,9 +2,11 @@ package io.github.therealmone.fireres.gui.config;
 
 import io.github.therealmone.fireres.core.config.FunctionForm;
 import io.github.therealmone.fireres.core.config.SampleProperties;
+import io.github.therealmone.fireres.core.model.Point;
 import io.github.therealmone.fireres.gui.controller.common.FunctionParams;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.TableView;
 import lombok.val;
 
 import java.util.function.Function;
@@ -27,6 +29,7 @@ public class FunctionParametersConfigurer implements Configurer<FunctionParams> 
         resetLinearCoefficient(functionParams.getLinearityCoefficient(), sampleProperties, mapper);
         resetDispersionCoefficient(functionParams.getDispersionCoefficient(), sampleProperties, mapper);
         resetChildFunctionsDeltaCoefficient(functionParams.getChildFunctionsDeltaCoefficient(), sampleProperties, mapper);
+        resetInterpolationPoints(functionParams.getInterpolationPoints(), sampleProperties, mapper);
     }
 
     private void resetLinearCoefficient(Spinner<Double> linearCoefficient, SampleProperties sample,
@@ -67,5 +70,12 @@ public class FunctionParametersConfigurer implements Configurer<FunctionParams> 
                 DEFAULT_CHILD_FUNCTIONS_DELTA_COEFFICIENT,
                 DEFAULT_COEFFICIENT_INCREMENT
         ));
+    }
+
+    private void resetInterpolationPoints(TableView<Point<?>> interpolationPoints, SampleProperties sample,
+                                          Function<SampleProperties, FunctionForm> sampleMapper) {
+
+        interpolationPoints.getItems().clear();
+        sampleMapper.apply(sample).getInterpolationPoints().clear();
     }
 }

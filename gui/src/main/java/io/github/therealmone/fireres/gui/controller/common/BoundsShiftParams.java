@@ -1,6 +1,7 @@
 package io.github.therealmone.fireres.gui.controller.common;
 
 import com.google.inject.Inject;
+import io.github.therealmone.fireres.core.config.ReportProperties;
 import io.github.therealmone.fireres.core.model.Point;
 import io.github.therealmone.fireres.core.model.Report;
 import io.github.therealmone.fireres.core.model.Sample;
@@ -8,6 +9,8 @@ import io.github.therealmone.fireres.gui.annotation.LoadableComponent;
 import io.github.therealmone.fireres.gui.controller.AbstractReportUpdaterComponent;
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
 import io.github.therealmone.fireres.gui.controller.ReportContainer;
+import io.github.therealmone.fireres.gui.controller.ReportUpdater;
+import io.github.therealmone.fireres.gui.controller.Resettable;
 import io.github.therealmone.fireres.gui.controller.SampleContainer;
 import io.github.therealmone.fireres.gui.service.FxmlLoadService;
 import javafx.fxml.FXML;
@@ -20,11 +23,12 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 @SuppressWarnings("rawtypes")
 @LoadableComponent("/component/common/boundsShiftParams.fxml")
 public class BoundsShiftParams extends AbstractReportUpdaterComponent<TitledPane>
-        implements SampleContainer, ReportContainer {
+        implements SampleContainer, ReportContainer, Resettable {
 
     @FXML
     private VBox boundsShiftVbox;
@@ -35,6 +39,7 @@ public class BoundsShiftParams extends AbstractReportUpdaterComponent<TitledPane
     public void addBoundShift(
             String label,
             List<Node> nodesToBlockOnUpdate,
+            Function<ReportProperties, io.github.therealmone.fireres.core.model.BoundShift<?>> propertyMapper,
             Consumer<Point<?>> shiftAddedConsumer,
             Consumer<Point<?>> shiftRemovedConsumer,
             BiFunction<Integer, Number, Point<?>> shiftPointConstructor
@@ -46,8 +51,14 @@ public class BoundsShiftParams extends AbstractReportUpdaterComponent<TitledPane
         boundShift.setShiftAddedConsumer(shiftAddedConsumer);
         boundShift.setShiftRemovedConsumer(shiftRemovedConsumer);
         boundShift.setShiftPointConstructor(shiftPointConstructor);
+        boundShift.setPropertyMapper(propertyMapper);
 
         boundsShiftVbox.getChildren().add(boundShift.getComponent());
+    }
+
+    @Override
+    public void reset() {
+        getChildren(BoundShift.class).forEach(BoundShift::reset);
     }
 
     @Override
@@ -61,12 +72,13 @@ public class BoundsShiftParams extends AbstractReportUpdaterComponent<TitledPane
     }
 
     @Override
-    protected UUID getReportId() {
-        return getReport().getId();
+    public UUID getUpdatingElementId() {
+        return ((ReportUpdater) getParent()).getUpdatingElementId();
     }
 
     @Override
     public Sample getSample() {
         return ((ReportContainer) getParent()).getSample();
     }
+
 }

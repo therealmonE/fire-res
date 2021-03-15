@@ -24,4 +24,8 @@ public class BoundShift<P extends Point<?>> {
         return points.remove(point);
     }
 
+    public void clear() {
+        points.clear();
+    }
+
 }

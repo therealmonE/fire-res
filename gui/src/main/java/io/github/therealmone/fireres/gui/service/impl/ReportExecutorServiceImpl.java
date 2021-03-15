@@ -6,6 +6,7 @@ import io.github.therealmone.fireres.gui.controller.common.GeneralParams;
 import io.github.therealmone.fireres.gui.exception.NotNotifiableException;
 import io.github.therealmone.fireres.gui.model.ReportTask;
 import io.github.therealmone.fireres.gui.service.ReportExecutorService;
+import io.github.therealmone.fireres.gui.service.ReportUpdateListener;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
@@ -14,6 +15,7 @@ import javafx.scene.text.TextAlignment;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -32,28 +34,29 @@ public class ReportExecutorServiceImpl implements ReportExecutorService {
 
     private final Map<UUID, Lock> locks = new ConcurrentHashMap<>();
     private final Map<UUID, AtomicInteger> tasksRunning = new ConcurrentHashMap<>();
+    private final List<ReportUpdateListener> reportUpdateListeners = new ArrayList<>();
 
     @Inject
     private GeneralParams generalParams;
 
     @Override
     public void runTask(ReportTask task) {
-        val reportId = task.getReportId();
+        val taskUpdatingElementId = task.getUpdatingElementId();
         val nodesToLock = task.getNodesToLock();
 
-        locks.putIfAbsent(reportId, new ReentrantLock(true));
-        tasksRunning.putIfAbsent(reportId, new AtomicInteger(0));
+        locks.putIfAbsent(taskUpdatingElementId, new ReentrantLock(true));
+        tasksRunning.putIfAbsent(taskUpdatingElementId, new AtomicInteger(0));
 
-        if (tasksRunning.get(reportId).get() == 0) {
+        if (tasksRunning.get(taskUpdatingElementId).get() == 0) {
             showProgressIndicator(task.getChartContainers());
             lockElements(nodesToLock);
             lockGeneralParams();
         }
 
-        tasksRunning.get(reportId).incrementAndGet();
+        tasksRunning.get(taskUpdatingElementId).incrementAndGet();
 
         executorService.submit(() -> {
-            val lock = locks.get(reportId);
+            val lock = locks.get(taskUpdatingElementId);
             removeErrorNotification(task.getChartContainers());
 
             try {
@@ -61,12 +64,12 @@ public class ReportExecutorServiceImpl implements ReportExecutorService {
                     doTask(task);
                 }
             } catch (NotNotifiableException e) {
-                log.error("Error while executing report {} task: ", reportId, e);
+                log.error("Error while executing task with id: {}", taskUpdatingElementId, e);
             } catch (Exception e) {
-                log.error("Error while executing report {} task: ", reportId, e);
+                log.error("Error while executing task with id: {}", taskUpdatingElementId, e);
                 showErrorNotification(task.getChartContainers());
             } finally {
-                if (tasksRunning.get(reportId).decrementAndGet() == 0) {
+                if (tasksRunning.get(taskUpdatingElementId).decrementAndGet() == 0) {
                     unlockElements(nodesToLock);
                     removeProgressIndicator(task.getChartContainers());
                 }
@@ -80,13 +83,27 @@ public class ReportExecutorServiceImpl implements ReportExecutorService {
         });
     }
 
+    @Override
+    public void addListener(ReportUpdateListener listener) {
+        reportUpdateListeners.add(listener);
+    }
+
+    @Override
+    public void removeListener(ReportUpdateListener listener) {
+        reportUpdateListeners.remove(listener);
+    }
+
     private void unlockElements(List<javafx.scene.Node> nodesToLock) {
         Platform.runLater(() -> nodesToLock.forEach(node -> node.setDisable(false)));
     }
 
     private void doTask(ReportTask task) {
+        reportUpdateListeners.forEach(listener -> listener.preUpdate(task.getUpdatingElementId()));
+
         task.getAction().run();
         Platform.runLater(() -> task.getChartContainers().forEach(ChartContainer::synchronizeChart));
+
+        reportUpdateListeners.forEach(listener -> listener.postUpdate(task.getUpdatingElementId()));
     }
 
     private void lockElements(List<javafx.scene.Node> nodesToLock) {

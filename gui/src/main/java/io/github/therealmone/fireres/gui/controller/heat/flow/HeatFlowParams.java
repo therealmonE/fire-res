@@ -5,6 +5,8 @@ import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.gui.annotation.LoadableComponent;
 import io.github.therealmone.fireres.gui.controller.AbstractReportUpdaterComponent;
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
+import io.github.therealmone.fireres.gui.controller.ReportUpdater;
+import io.github.therealmone.fireres.gui.controller.Resettable;
 import io.github.therealmone.fireres.gui.service.ResetSettingsService;
 import io.github.therealmone.fireres.heatflow.report.HeatFlowReport;
 import io.github.therealmone.fireres.heatflow.service.HeatFlowService;
@@ -17,7 +19,7 @@ import java.util.UUID;
 
 @LoadableComponent("/component/heat-flow/heatFlowParams.fxml")
 public class HeatFlowParams extends AbstractReportUpdaterComponent<TitledPane>
-        implements HeatFlowReportContainer {
+        implements HeatFlowReportContainer, Resettable {
 
     @FXML
     @Getter
@@ -44,6 +46,11 @@ public class HeatFlowParams extends AbstractReportUpdaterComponent<TitledPane>
 
     @Override
     public void postConstruct() {
+        reset();
+    }
+
+    @Override
+    public void reset() {
         resetSettingsService.resetHeatFlowParameters(this);
     }
 
@@ -79,7 +86,7 @@ public class HeatFlowParams extends AbstractReportUpdaterComponent<TitledPane>
     }
 
     @Override
-    protected UUID getReportId() {
-        return getReport().getId();
+    public UUID getUpdatingElementId() {
+        return ((ReportUpdater) getParent()).getUpdatingElementId();
     }
 }

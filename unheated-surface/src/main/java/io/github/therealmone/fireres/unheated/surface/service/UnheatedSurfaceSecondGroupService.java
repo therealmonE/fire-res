@@ -11,4 +11,6 @@ public interface UnheatedSurfaceSecondGroupService extends
 
     void updateBound(UnheatedSurfaceReport report, Integer bound);
 
+    void refreshSecondGroup(UnheatedSurfaceReport report);
+
 }

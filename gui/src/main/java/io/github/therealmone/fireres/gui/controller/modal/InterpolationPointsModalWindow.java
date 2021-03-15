@@ -8,6 +8,7 @@ import io.github.therealmone.fireres.gui.annotation.ModalWindow;
 import io.github.therealmone.fireres.gui.controller.AbstractReportUpdaterComponent;
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
 import io.github.therealmone.fireres.gui.controller.ReportContainer;
+import io.github.therealmone.fireres.gui.controller.ReportUpdater;
 import io.github.therealmone.fireres.gui.controller.common.FunctionParams;
 import io.github.therealmone.fireres.gui.exception.NotNotifiableException;
 import io.github.therealmone.fireres.gui.service.AlertService;
@@ -79,8 +80,8 @@ public class InterpolationPointsModalWindow extends AbstractReportUpdaterCompone
     }
 
     @Override
-    protected UUID getReportId() {
-        return getReport().getId();
+    public UUID getUpdatingElementId() {
+        return ((ReportUpdater) getParent()).getUpdatingElementId();
     }
 
     @Override

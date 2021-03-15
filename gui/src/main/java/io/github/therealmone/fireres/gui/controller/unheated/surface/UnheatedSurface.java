@@ -5,6 +5,7 @@ import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.gui.controller.AbstractComponent;
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
+import io.github.therealmone.fireres.gui.controller.ReportCreator;
 import io.github.therealmone.fireres.gui.controller.ReportInclusionChanger;
 import io.github.therealmone.fireres.gui.controller.common.SampleTab;
 import io.github.therealmone.fireres.gui.controller.unheated.surface.groups.first.FirstGroup;
@@ -26,7 +27,8 @@ import static io.github.therealmone.fireres.core.config.ReportType.UNHEATED_SURF
 import static io.github.therealmone.fireres.gui.util.TabUtils.disableTab;
 import static io.github.therealmone.fireres.gui.util.TabUtils.enableTab;
 
-public class UnheatedSurface extends AbstractComponent<ScrollPane> implements UnheatedSurfaceReportContainer, ReportInclusionChanger {
+public class UnheatedSurface extends AbstractComponent<ScrollPane>
+        implements UnheatedSurfaceReportContainer, ReportInclusionChanger, ReportCreator {
 
     @Getter
     private UnheatedSurfaceReport report;
@@ -64,7 +66,7 @@ public class UnheatedSurface extends AbstractComponent<ScrollPane> implements Un
         val reportId = UUID.randomUUID();
 
         val task = ReportTask.builder()
-                .reportId(reportId)
+                .updatingElementId(reportId)
                 .chartContainers(List.of(
                         getFirstGroup().getChartContainer(),
                         getSecondGroup().getChartContainer(),
