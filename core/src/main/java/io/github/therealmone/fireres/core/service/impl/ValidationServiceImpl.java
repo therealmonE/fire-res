@@ -11,14 +11,15 @@ public class ValidationServiceImpl implements ValidationService {
 
     @Override
     public boolean isFunctionGenerationParamsValid(FunctionsGenerationParams params) {
-        return isMeanFormInBounds(params)
+        return isUpperBoundGreaterThanLower(params)
+                && isMeanFormInBounds(params)
                 && isFormsConstantlyGrowing(params);
     }
 
-    private boolean isMeanFormInBounds(FunctionsGenerationParams generationParameters) {
-        val lowerBound = generationParameters.getMeanBounds().getLowerBound();
-        val upperBound = generationParameters.getMeanBounds().getUpperBound();
-        val meanForm = generationParameters.getMeanFunctionForm();
+    private boolean isMeanFormInBounds(FunctionsGenerationParams params) {
+        val lowerBound = params.getMeanBounds().getLowerBound();
+        val upperBound = params.getMeanBounds().getUpperBound();
+        val meanForm = params.getMeanFunctionForm();
 
         for (Point<?> interpolationPoint : meanForm.getInterpolationPoints()) {
             val min = lowerBound.getPoint(interpolationPoint.getTime()).getValue();
@@ -43,6 +44,22 @@ public class ValidationServiceImpl implements ValidationService {
             val nextPoint = points.get(i + 1);
 
             if (point.getValue().doubleValue() > nextPoint.getValue().doubleValue()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private boolean isUpperBoundGreaterThanLower(FunctionsGenerationParams params) {
+        val upperBound = params.getMeanBounds().getUpperBound();
+        val lowerBound = params.getMeanBounds().getLowerBound();
+
+        for (int i = 0; i < lowerBound.getValue().size(); i++) {
+            val upperPoint = upperBound.getPoint(i);
+            val lowerPoint = lowerBound.getPoint(i);
+
+            if (upperPoint.getValue() < lowerPoint.getValue()) {
                 return false;
             }
         }
