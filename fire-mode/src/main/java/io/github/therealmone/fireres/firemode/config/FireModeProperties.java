@@ -4,6 +4,7 @@ import io.github.therealmone.fireres.core.config.BoundsShiftModifier;
 import io.github.therealmone.fireres.core.config.FunctionFormModifier;
 import io.github.therealmone.fireres.core.config.FunctionForm;
 import io.github.therealmone.fireres.core.config.ReportProperties;
+import io.github.therealmone.fireres.firemode.model.FireModeType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,5 +26,8 @@ public class FireModeProperties implements
 
     @Builder.Default
     private FireModeBoundsShift boundsShift = new FireModeBoundsShift();
+
+    @Builder.Default
+    private FireModeType fireModeType = FireModeType.LOG;
 
 }

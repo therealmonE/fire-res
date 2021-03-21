@@ -5,6 +5,7 @@ import io.github.therealmone.fireres.core.model.IntegerPoint;
 import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.core.pipeline.ReportEnrichPipeline;
 import io.github.therealmone.fireres.core.service.impl.AbstractInterpolationService;
+import io.github.therealmone.fireres.firemode.model.FireModeType;
 import io.github.therealmone.fireres.firemode.report.FireModeReport;
 import io.github.therealmone.fireres.firemode.service.FireModeService;
 import lombok.val;
@@ -12,6 +13,7 @@ import lombok.val;
 import java.util.UUID;
 
 import static io.github.therealmone.fireres.firemode.pipeline.FireModeReportEnrichType.MEAN_WITH_THERMOCOUPLE_TEMPERATURES;
+import static io.github.therealmone.fireres.firemode.pipeline.FireModeReportEnrichType.STANDARD_TEMPERATURE;
 
 public class FireModeServiceImpl extends AbstractInterpolationService<FireModeReport, Integer> implements FireModeService {
 
@@ -37,6 +39,13 @@ public class FireModeServiceImpl extends AbstractInterpolationService<FireModeRe
         report.getProperties().setThermocoupleCount(thermocoupleCount);
 
         reportPipeline.accept(report, MEAN_WITH_THERMOCOUPLE_TEMPERATURES);
+    }
+
+    @Override
+    public void updateFireModeType(FireModeReport report, FireModeType fireModeType) {
+        report.getProperties().setFireModeType(fireModeType);
+
+        reportPipeline.accept(report, STANDARD_TEMPERATURE);
     }
 
     @Override
