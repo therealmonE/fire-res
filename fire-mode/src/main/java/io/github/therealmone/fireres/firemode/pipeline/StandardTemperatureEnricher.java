@@ -25,11 +25,14 @@ public class StandardTemperatureEnricher implements ReportEnricher<FireModeRepor
 
     @Override
     public void enrich(FireModeReport report) {
-        val time = generationProperties.getGeneral().getTime();
-        val t0 = generationProperties.getGeneral().getEnvironmentTemperature();
         val properties = report.getProperties();
 
-        val standardTemperature = new StandardTempGenerator(t0, time, properties.getFireModeType())
+        val standardTemperature = StandardTempGenerator.builder()
+                .t0(generationProperties.getGeneral().getEnvironmentTemperature())
+                .time(generationProperties.getGeneral().getTime())
+                .fireModeType(properties.getFireModeType())
+                .standardTemperatureMaintaining(properties.getStandardTemperatureMaintaining())
+                .build()
                 .generate();
 
         report.setStandardTemperature(standardTemperature);
