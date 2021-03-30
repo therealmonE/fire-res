@@ -5,6 +5,7 @@ import io.github.therealmone.fireres.core.model.IntegerPoint;
 import io.github.therealmone.fireres.core.utils.InterpolationUtils;
 import lombok.experimental.UtilityClass;
 import lombok.val;
+import org.apache.commons.math3.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,15 +27,23 @@ public class TemperatureMaintainingUtils {
     public static List<IntegerPoint> generateMaintainedTemperature(Integer temperatureMaintaining,
                                                                    Integer tStart, Integer tEnd) {
 
-        val min = temperatureMaintaining * (1 - TEMPERATURE_MAINTAINING_COEFFICIENT);
-        val max = temperatureMaintaining * (1 + TEMPERATURE_MAINTAINING_COEFFICIENT);
+        val bounds = resolveMaintainingBounds(temperatureMaintaining);
+
+        val min = bounds.getFirst();
+        val max = bounds.getSecond();
 
         val noise = generateNoise(tStart, tEnd, min, max);
 
         return generateMaintainedTemperatureByNoise(noise);
     }
 
-    private static ArrayList<IntegerPoint> generateNoise(Integer tStart, Integer tEnd, double min, double max) {
+    public static Pair<Double, Double> resolveMaintainingBounds(Integer temperatureMaintaining) {
+        return Pair.create(
+                temperatureMaintaining * (1 - TEMPERATURE_MAINTAINING_COEFFICIENT),
+                temperatureMaintaining * (1 + TEMPERATURE_MAINTAINING_COEFFICIENT));
+    }
+
+    public static ArrayList<IntegerPoint> generateNoise(Integer tStart, Integer tEnd, double min, double max) {
         val seed = generateValueInInterval(0, Integer.MAX_VALUE - 1);
 
         val noise = new ArrayList<IntegerPoint>();
@@ -48,7 +57,13 @@ public class TemperatureMaintainingUtils {
         return noise;
     }
 
-    private static List<IntegerPoint> generateMaintainedTemperatureByNoise(List<IntegerPoint> noise) {
+    public static List<IntegerPoint> generateMaintainedTemperatureByNoise(List<IntegerPoint> noise) {
+        val interpolationPoints = selectNoisePoints(noise);
+
+        return InterpolationUtils.interpolate(interpolationPoints);
+    }
+
+    public static List<IntegerPoint> selectNoisePoints(List<IntegerPoint> noise) {
         val interpolationPoints = new ArrayList<IntegerPoint>();
 
         interpolationPoints.add(noise.get(0));
@@ -58,8 +73,7 @@ public class TemperatureMaintainingUtils {
         }
 
         interpolationPoints.add(noise.get(noise.size() - 1));
-
-        return InterpolationUtils.interpolate(interpolationPoints);
+        return interpolationPoints;
     }
 
 }
