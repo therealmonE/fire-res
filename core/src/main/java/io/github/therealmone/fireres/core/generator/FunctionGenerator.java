@@ -14,9 +14,9 @@ import org.apache.commons.math3.util.Pair;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static io.github.therealmone.fireres.core.utils.FunctionUtils.addPointOrAdjustExisting;
 import static io.github.therealmone.fireres.core.utils.InterpolationUtils.addFirstPointIfNeeded;
 import static io.github.therealmone.fireres.core.utils.InterpolationUtils.addPointIfNeeded;
 import static io.github.therealmone.fireres.core.utils.InterpolationUtils.interpolate;
@@ -129,22 +129,7 @@ public class FunctionGenerator implements PointSequenceGenerator<IntegerPointSeq
             throw new FunctionGenerationException();
         }
 
-        val newValue = generateValueInInterval(min, max);
-
-        val existingPoint = lookupPoint(points, time);
-
-        if (existingPoint.isPresent()) {
-            existingPoint.get().setValue(newValue);
-        } else {
-            points.add(new IntegerPoint(time, newValue));
-            points.sort(Comparator.comparing(Point::getTime));
-        }
-    }
-
-    private Optional<IntegerPoint> lookupPoint(List<IntegerPoint> points, Integer middlePointTime) {
-        return points.stream()
-                .filter(point -> point.getTime().equals(middlePointTime))
-                .findFirst();
+        addPointOrAdjustExisting(points, min, max, time);
     }
 
     private List<Pair<IntegerPoint, IntegerPoint>> lookupIntervalsOutOfBounds(List<IntegerPoint> function) {

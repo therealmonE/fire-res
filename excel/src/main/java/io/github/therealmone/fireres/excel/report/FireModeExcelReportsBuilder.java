@@ -19,6 +19,13 @@ import lombok.val;
 import java.util.ArrayList;
 import java.util.List;
 
+import static io.github.therealmone.fireres.firemode.utils.FireModeUtils.getMaintainedFurnaceTemperature;
+import static io.github.therealmone.fireres.firemode.utils.FireModeUtils.getMaintainedMaxAllowedTemperature;
+import static io.github.therealmone.fireres.firemode.utils.FireModeUtils.getMaintainedMinAllowedTemperature;
+import static io.github.therealmone.fireres.firemode.utils.FireModeUtils.getMaintainedStandardTemperature;
+import static io.github.therealmone.fireres.firemode.utils.FireModeUtils.getMaintainedThermocoupleMeanTemperature;
+import static io.github.therealmone.fireres.firemode.utils.FireModeUtils.getMaintainedThermocoupleTemperatures;
+
 public class FireModeExcelReportsBuilder implements ExcelReportsBuilder {
 
     @Override
@@ -46,19 +53,24 @@ public class FireModeExcelReportsBuilder implements ExcelReportsBuilder {
             val fireModeReport = (FireModeReport) report;
             val sampleName = report.getSample().getSampleProperties().getName();
 
-            columns.add(new FurnaceTemperatureColumn(sampleName, fireModeReport.getFurnaceTemperature()));
-            columns.add(new MinAllowedTemperatureColumn(sampleName, fireModeReport.getMinAllowedTemperature()));
-            columns.add(new MaxAllowedTemperatureColumn(sampleName, fireModeReport.getMaxAllowedTemperature()));
-            columns.add(new StandardTemperatureColumn(sampleName, fireModeReport.getStandardTemperature()));
+            columns.add(new FurnaceTemperatureColumn(sampleName, getMaintainedFurnaceTemperature(fireModeReport)));
 
-            val thermocoupleTemperatures = fireModeReport.getThermocoupleTemperatures();
+            if (fireModeReport.getProperties().getShowBounds()) {
+                columns.add(new MinAllowedTemperatureColumn(sampleName, getMaintainedMinAllowedTemperature(fireModeReport)));
+                columns.add(new MaxAllowedTemperatureColumn(sampleName, getMaintainedMaxAllowedTemperature(fireModeReport)));
+                columns.add(new StandardTemperatureColumn(sampleName, getMaintainedStandardTemperature(fireModeReport)));
+            }
+
+            val thermocoupleTemperatures = getMaintainedThermocoupleTemperatures(fireModeReport);
 
             for (int t = 0; t < thermocoupleTemperatures.size(); t++) {
                 val thermocoupleTemperature = thermocoupleTemperatures.get(t);
                 columns.add(new ThermocoupleTemperatureColumn(sampleName, t + 1, thermocoupleTemperature));
             }
 
-            columns.add(new ThermocouplesMeanTemperatureColumn(sampleName, fireModeReport.getThermocoupleMeanTemperature()));
+            if (fireModeReport.getProperties().getShowMeanTemperature()) {
+                columns.add(new ThermocouplesMeanTemperatureColumn(sampleName, getMaintainedThermocoupleMeanTemperature(fireModeReport)));
+            }
         }
 
         return columns;

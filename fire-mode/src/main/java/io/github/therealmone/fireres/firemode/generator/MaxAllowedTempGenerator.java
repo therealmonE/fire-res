@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static java.util.Collections.emptyList;
+
 @RequiredArgsConstructor
 @Slf4j
 public class MaxAllowedTempGenerator implements PointSequenceGenerator<MaxAllowedTemperature> {
@@ -24,12 +26,18 @@ public class MaxAllowedTempGenerator implements PointSequenceGenerator<MaxAllowe
             new Coefficient(31, Integer.MAX_VALUE, 1.05)
     ));
 
-    private final Integer time;
     private final StandardTemperature standardTemp;
 
     @Override
     public MaxAllowedTemperature generate() {
-        val maxAllowedTemp = IntStream.range(0, time)
+        if (standardTemp.getValue().isEmpty()) {
+            return new MaxAllowedTemperature(emptyList());
+        }
+
+        val start = standardTemp.getValue().get(0).getTime();
+        val end = standardTemp.getValue().get(standardTemp.getValue().size() - 1).getTime();
+
+        val maxAllowedTemp = IntStream.range(start, end + 1)
                 .mapToObj(t -> new IntegerPoint(t,
                         (int) Math.round(standardTemp.getPoint(t).getValue() * COEFFICIENTS.getCoefficient(t))))
                 .collect(Collectors.toList());

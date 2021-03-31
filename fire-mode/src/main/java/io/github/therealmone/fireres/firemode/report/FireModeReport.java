@@ -4,6 +4,7 @@ import io.github.therealmone.fireres.core.model.Report;
 import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.firemode.config.FireModeProperties;
 import io.github.therealmone.fireres.firemode.model.FurnaceTemperature;
+import io.github.therealmone.fireres.firemode.model.MaintainedTemperatures;
 import io.github.therealmone.fireres.firemode.model.MaxAllowedTemperature;
 import io.github.therealmone.fireres.firemode.model.MinAllowedTemperature;
 import io.github.therealmone.fireres.firemode.model.StandardTemperature;
@@ -28,6 +29,8 @@ public class FireModeReport implements Report<FireModeProperties> {
     private FurnaceTemperature furnaceTemperature;
     private List<ThermocoupleTemperature> thermocoupleTemperatures;
     private ThermocoupleMeanTemperature thermocoupleMeanTemperature;
+
+    private MaintainedTemperatures maintainedTemperatures;
 
     @Override
     public FireModeProperties getProperties() {

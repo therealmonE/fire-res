@@ -5,6 +5,7 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import io.github.therealmone.fireres.core.pipeline.DefaultReportEnrichPipeline;
 import io.github.therealmone.fireres.core.pipeline.ReportEnrichPipeline;
+import io.github.therealmone.fireres.firemode.pipeline.MaintainedTemperaturesEnricher;
 import io.github.therealmone.fireres.firemode.pipeline.MeanWithThermocoupleTemperaturesEnricher;
 import io.github.therealmone.fireres.firemode.pipeline.FurnaceTemperatureEnricher;
 import io.github.therealmone.fireres.firemode.pipeline.MaxAllowedTemperatureEnricher;
@@ -36,14 +37,16 @@ public class FireModeModule extends AbstractModule {
             MinAllowedTemperatureEnricher minAllowedTemperatureEnricher,
             MaxAllowedTemperatureEnricher maxAllowedTemperatureEnricher,
             FurnaceTemperatureEnricher furnaceTemperatureEnricher,
-            MeanWithThermocoupleTemperaturesEnricher meanWithThermocoupleTemperaturesEnricher
+            MeanWithThermocoupleTemperaturesEnricher meanWithThermocoupleTemperaturesEnricher,
+            MaintainedTemperaturesEnricher maintainedTemperaturesEnricher
     ) {
         return new DefaultReportEnrichPipeline<>(List.of(
                 standardTemperatureEnricher,
                 minAllowedTemperatureEnricher,
                 maxAllowedTemperatureEnricher,
                 furnaceTemperatureEnricher,
-                meanWithThermocoupleTemperaturesEnricher
+                meanWithThermocoupleTemperaturesEnricher,
+                maintainedTemperaturesEnricher
         ));
     }
 

@@ -12,6 +12,7 @@ import lombok.val;
 import java.util.List;
 
 import static io.github.therealmone.fireres.firemode.pipeline.FireModeReportEnrichType.FURNACE_TEMPERATURE;
+import static io.github.therealmone.fireres.firemode.pipeline.FireModeReportEnrichType.MAINTAINED_TEMPERATURES;
 import static io.github.therealmone.fireres.firemode.pipeline.FireModeReportEnrichType.MAX_ALLOWED_TEMPERATURE;
 import static io.github.therealmone.fireres.firemode.pipeline.FireModeReportEnrichType.MEAN_WITH_THERMOCOUPLE_TEMPERATURES;
 import static io.github.therealmone.fireres.firemode.pipeline.FireModeReportEnrichType.MIN_ALLOWED_TEMPERATURE;
@@ -25,10 +26,13 @@ public class StandardTemperatureEnricher implements ReportEnricher<FireModeRepor
 
     @Override
     public void enrich(FireModeReport report) {
-        val time = generationProperties.getGeneral().getTime();
-        val t0 = generationProperties.getGeneral().getEnvironmentTemperature();
+        val properties = report.getProperties();
 
-        val standardTemperature = new StandardTempGenerator(t0, time)
+        val standardTemperature = StandardTempGenerator.builder()
+                .t0(generationProperties.getGeneral().getEnvironmentTemperature())
+                .time(generationProperties.getGeneral().getTime())
+                .fireModeType(properties.getFireModeType())
+                .build()
                 .generate();
 
         report.setStandardTemperature(standardTemperature);
@@ -45,6 +49,7 @@ public class StandardTemperatureEnricher implements ReportEnricher<FireModeRepor
                 MIN_ALLOWED_TEMPERATURE,
                 MAX_ALLOWED_TEMPERATURE,
                 FURNACE_TEMPERATURE,
-                MEAN_WITH_THERMOCOUPLE_TEMPERATURES);
+                MEAN_WITH_THERMOCOUPLE_TEMPERATURES,
+                MAINTAINED_TEMPERATURES);
     }
 }
