@@ -1,7 +1,5 @@
 package io.github.therealmone.fireres.firemode.pipeline;
 
-import com.google.inject.Inject;
-import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.pipeline.ReportEnrichType;
 import io.github.therealmone.fireres.core.pipeline.ReportEnricher;
 import io.github.therealmone.fireres.firemode.generator.MinAllowedTempGenerator;
@@ -11,21 +9,18 @@ import lombok.val;
 
 import java.util.List;
 
+import static io.github.therealmone.fireres.firemode.pipeline.FireModeReportEnrichType.MAINTAINED_TEMPERATURES;
 import static io.github.therealmone.fireres.firemode.pipeline.FireModeReportEnrichType.MEAN_WITH_THERMOCOUPLE_TEMPERATURES;
 import static io.github.therealmone.fireres.firemode.pipeline.FireModeReportEnrichType.MIN_ALLOWED_TEMPERATURE;
 
 @Slf4j
 public class MinAllowedTemperatureEnricher implements ReportEnricher<FireModeReport> {
 
-    @Inject
-    private GenerationProperties generationProperties;
-
     @Override
     public void enrich(FireModeReport report) {
-        val time = generationProperties.getGeneral().getTime();
         val standardTemperature = report.getStandardTemperature();
 
-        val minAllowedTemperature = new MinAllowedTempGenerator(time, standardTemperature)
+        val minAllowedTemperature = new MinAllowedTempGenerator(standardTemperature)
                 .generate();
 
         report.setMinAllowedTemperature(minAllowedTemperature);
@@ -38,6 +33,6 @@ public class MinAllowedTemperatureEnricher implements ReportEnricher<FireModeRep
 
     @Override
     public List<ReportEnrichType> getAffectedTypes() {
-        return List.of(MEAN_WITH_THERMOCOUPLE_TEMPERATURES);
+        return List.of(MEAN_WITH_THERMOCOUPLE_TEMPERATURES, MAINTAINED_TEMPERATURES);
     }
 }

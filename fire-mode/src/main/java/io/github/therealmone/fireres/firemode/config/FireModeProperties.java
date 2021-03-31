@@ -30,6 +30,12 @@ public class FireModeProperties implements
     @Builder.Default
     private FireModeType fireModeType = FireModeType.LOG;
 
-    private Integer standardTemperatureMaintaining;
+    private Integer temperaturesMaintaining;
+
+    @Builder.Default
+    private Boolean showBounds = true;
+
+    @Builder.Default
+    private Boolean showMeanTemperature = true;
 
 }

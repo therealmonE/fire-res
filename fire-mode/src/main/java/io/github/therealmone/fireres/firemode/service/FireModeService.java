@@ -14,4 +14,10 @@ public interface FireModeService extends
 
     void updateFireModeType(FireModeReport report, FireModeType fireModeType);
 
+    void updateTemperatureMaintaining(FireModeReport report, Integer temperatureMaintaining);
+
+    void updateShowBounds(FireModeReport report, Boolean showBounds);
+
+    void updateShowMeanTemperature(FireModeReport report, Boolean showMeanTemperature);
+
 }

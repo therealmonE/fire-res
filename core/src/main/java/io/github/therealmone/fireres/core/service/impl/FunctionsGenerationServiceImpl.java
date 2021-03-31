@@ -7,14 +7,14 @@ import io.github.therealmone.fireres.core.exception.ImpossibleGenerationExceptio
 import io.github.therealmone.fireres.core.exception.FunctionGenerationException;
 import io.github.therealmone.fireres.core.generator.ChildrenInterpolationPointsGenerator;
 import io.github.therealmone.fireres.core.generator.FunctionGenerator;
+import io.github.therealmone.fireres.core.generator.MaintainedFunctionGenerator;
 import io.github.therealmone.fireres.core.generator.SimilarFunctionGenerator;
 import io.github.therealmone.fireres.core.model.FunctionsGenerationParams;
-import io.github.therealmone.fireres.core.model.IntegerPoint;
 import io.github.therealmone.fireres.core.model.IntegerPointSequence;
+import io.github.therealmone.fireres.core.model.MaintainedFunctionsGenerationParams;
 import io.github.therealmone.fireres.core.model.Point;
 import io.github.therealmone.fireres.core.service.FunctionsGenerationService;
 import io.github.therealmone.fireres.core.service.ValidationService;
-import io.github.therealmone.fireres.core.utils.MathUtils;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.apache.commons.math3.util.Pair;
@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import static io.github.therealmone.fireres.core.utils.FunctionUtils.calculateMeanFunction;
 
 @Slf4j
 public class FunctionsGenerationServiceImpl implements FunctionsGenerationService {
@@ -45,6 +47,19 @@ public class FunctionsGenerationServiceImpl implements FunctionsGenerationServic
         }
 
         return generateMeanWithChildFunctions(generationParameters);
+    }
+
+    @Override
+    public List<IntegerPointSequence> maintainedFunctions(MaintainedFunctionsGenerationParams generationParameters) {
+        return MaintainedFunctionGenerator.builder()
+                .temperature(generationParameters.getTemperature())
+                .tStart(generationParameters.getTStart())
+                .tEnd(generationParameters.getTEnd())
+                .lowerBound(generationParameters.getBounds().getLowerBound())
+                .upperBound(generationParameters.getBounds().getUpperBound())
+                .functionsCount(generationParameters.getFunctionsCount())
+                .build()
+                .generate();
     }
 
     private Pair<IntegerPointSequence, List<IntegerPointSequence>> generateMeanWithChildFunctions(FunctionsGenerationParams params) {
@@ -111,25 +126,6 @@ public class FunctionsGenerationServiceImpl implements FunctionsGenerationServic
         }
 
         throw new ImpossibleGenerationException();
-    }
-
-    private IntegerPointSequence calculateMeanFunction(List<IntegerPointSequence> childFunctions) {
-        if (childFunctions == null || childFunctions.isEmpty()) {
-            throw new IllegalArgumentException();
-        }
-
-        val meanFunction = new ArrayList<IntegerPoint>();
-
-        for (int i = 0; i < childFunctions.get(0).getValue().size(); i++) {
-            val pointIndex = i;
-            val points = childFunctions.stream()
-                    .map(childFunction -> childFunction.getPoint(pointIndex))
-                    .collect(Collectors.toList());
-
-            meanFunction.add(new IntegerPoint(i, MathUtils.calculatePointsMeanValue(points)));
-        }
-
-        return new IntegerPointSequence(meanFunction);
     }
 
     private List<FunctionForm<Integer>> mapToChildFunctionsForms(FunctionsGenerationParams params) {

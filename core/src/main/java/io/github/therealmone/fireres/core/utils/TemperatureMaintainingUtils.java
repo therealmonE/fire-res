@@ -1,8 +1,7 @@
-package io.github.therealmone.fireres.firemode.utils;
+package io.github.therealmone.fireres.core.utils;
 
 import io.github.therealmone.fireres.core.generator.Noise;
 import io.github.therealmone.fireres.core.model.IntegerPoint;
-import io.github.therealmone.fireres.core.utils.InterpolationUtils;
 import lombok.experimental.UtilityClass;
 import lombok.val;
 import org.apache.commons.math3.util.Pair;
@@ -24,19 +23,6 @@ public class TemperatureMaintainingUtils {
         return temperature >= min;
     }
 
-    public static List<IntegerPoint> generateMaintainedTemperature(Integer temperatureMaintaining,
-                                                                   Integer tStart, Integer tEnd) {
-
-        val bounds = resolveMaintainingBounds(temperatureMaintaining);
-
-        val min = bounds.getFirst();
-        val max = bounds.getSecond();
-
-        val noise = generateNoise(tStart, tEnd, min, max);
-
-        return generateMaintainedTemperatureByNoise(noise);
-    }
-
     public static Pair<Double, Double> resolveMaintainingBounds(Integer temperatureMaintaining) {
         return Pair.create(
                 temperatureMaintaining * (1 - TEMPERATURE_MAINTAINING_COEFFICIENT),
@@ -55,12 +41,6 @@ public class TemperatureMaintainingUtils {
         }
 
         return noise;
-    }
-
-    public static List<IntegerPoint> generateMaintainedTemperatureByNoise(List<IntegerPoint> noise) {
-        val interpolationPoints = selectNoisePoints(noise);
-
-        return InterpolationUtils.interpolate(interpolationPoints);
     }
 
     public static List<IntegerPoint> selectNoisePoints(List<IntegerPoint> noise) {

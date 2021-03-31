@@ -9,10 +9,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
-import java.util.ArrayList;
-
-import static io.github.therealmone.fireres.firemode.utils.TemperatureMaintainingUtils.generateMaintainedTemperature;
-import static io.github.therealmone.fireres.firemode.utils.TemperatureMaintainingUtils.shouldMaintainTemperature;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -22,29 +20,16 @@ public class StandardTempGenerator implements PointSequenceGenerator<StandardTem
     private final Integer t0;
     private final Integer time;
     private final FireModeType fireModeType;
-    private final Integer standardTemperatureMaintaining;
 
     @Override
     public StandardTemperature generate() {
-        val standardTemp = new ArrayList<IntegerPoint>();
-
-        Integer temperatureMaintainingTime = null;
-        for (int t = 1; t < time; t++) {
-            val functionValue = fireModeType.getFunction().apply(t);
-
-            if (standardTemperatureMaintaining != null && shouldMaintainTemperature(functionValue, standardTemperatureMaintaining)) {
-                standardTemp.addAll(generateMaintainedTemperature(standardTemperatureMaintaining, t, time));
-                temperatureMaintainingTime = t;
-
-                break;
-            } else {
-                standardTemp.add(new IntegerPoint(t, functionValue));
-            }
-        }
+        val standardTemp = IntStream.range(1, time)
+                .mapToObj(t -> new IntegerPoint(t, fireModeType.getFunction().apply(t)))
+                .collect(Collectors.toList());
 
         standardTemp.add(0, new IntegerPoint(0, t0));
 
-        return new StandardTemperature(standardTemp, temperatureMaintainingTime);
+        return new StandardTemperature(standardTemp);
     }
 
 }

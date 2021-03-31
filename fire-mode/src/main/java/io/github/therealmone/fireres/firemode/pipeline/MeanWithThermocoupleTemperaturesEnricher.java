@@ -14,8 +14,10 @@ import io.github.therealmone.fireres.firemode.report.FireModeReport;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
+import static io.github.therealmone.fireres.firemode.pipeline.FireModeReportEnrichType.MAINTAINED_TEMPERATURES;
 import static io.github.therealmone.fireres.firemode.pipeline.FireModeReportEnrichType.MEAN_WITH_THERMOCOUPLE_TEMPERATURES;
 
 @Slf4j
@@ -53,5 +55,10 @@ public class MeanWithThermocoupleTemperaturesEnricher implements ReportEnricher<
     @Override
     public boolean supports(ReportEnrichType enrichType) {
         return MEAN_WITH_THERMOCOUPLE_TEMPERATURES.equals(enrichType);
+    }
+
+    @Override
+    public List<ReportEnrichType> getAffectedTypes() {
+        return List.of(MAINTAINED_TEMPERATURES);
     }
 }
