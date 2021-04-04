@@ -6,4 +6,8 @@ public class FireDoor extends AbstractPreset {
         //register some props
     }
 
+    @Override
+    public String getDescription() {
+        return "Противопожарные двери и ворота";
+    }
 }

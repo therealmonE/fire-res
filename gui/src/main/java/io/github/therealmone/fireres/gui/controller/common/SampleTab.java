@@ -10,6 +10,7 @@ import io.github.therealmone.fireres.gui.controller.SampleContainer;
 import io.github.therealmone.fireres.gui.controller.excess.pressure.ExcessPressure;
 import io.github.therealmone.fireres.gui.controller.fire.mode.FireMode;
 import io.github.therealmone.fireres.gui.controller.heat.flow.HeatFlow;
+import io.github.therealmone.fireres.gui.controller.modal.SamplePresetChangeModalWindow;
 import io.github.therealmone.fireres.gui.controller.modal.SampleRenameModalWindow;
 import io.github.therealmone.fireres.gui.controller.unheated.surface.UnheatedSurface;
 import io.github.therealmone.fireres.gui.preset.FireDoor;
@@ -77,9 +78,13 @@ public class SampleTab extends AbstractComponent<Tab>
     private Preset preset;
 
     @Override
+    protected void initialize() {
+        this.preset = new FireDoor();
+    }
+
+    @Override
     public void postConstruct() {
         initializeSampleTabContextMenu();
-        changePreset(new FireDoor());
         generateReports();
     }
 
@@ -124,11 +129,19 @@ public class SampleTab extends AbstractComponent<Tab>
     private ContextMenu createSampleTabContextMenu() {
         val contextMenu = new ContextMenu();
         val addPointMenuItem = new MenuItem("Переименовать");
+        val changePresetMenuItem = new MenuItem("Изменить пресет");
 
         addPointMenuItem.setOnAction(this::handleRenameEvent);
+        changePresetMenuItem.setOnAction(this::handleChangePresetEvent);
+
         contextMenu.getItems().add(addPointMenuItem);
+        contextMenu.getItems().add(changePresetMenuItem);
 
         return contextMenu;
+    }
+
+    private void handleChangePresetEvent(Event event) {
+        fxmlLoadService.loadComponent(SamplePresetChangeModalWindow.class, this).getWindow().show();
     }
 
     private void handleRenameEvent(Event event) {

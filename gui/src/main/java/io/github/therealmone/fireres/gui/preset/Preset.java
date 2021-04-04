@@ -6,4 +6,6 @@ public interface Preset {
 
     <T extends ReportProperties> T getProperties(Class<T> propertiesClass);
 
+    String getDescription();
+
 }

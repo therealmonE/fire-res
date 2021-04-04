@@ -126,6 +126,12 @@ public class ExcessPressure extends AbstractReportUpdaterComponent<VBox>
     }
 
     @Override
+    public void postConstruct() {
+        excessPressureParametersConfigurer.config(this,
+                ((PresetContainer) getParent()).getPreset());
+    }
+
+    @Override
     public void refresh() {
         createReport();
     }
@@ -141,6 +147,8 @@ public class ExcessPressure extends AbstractReportUpdaterComponent<VBox>
     @Override
     public void changePreset(Preset preset) {
         excessPressureParametersConfigurer.config(this, preset);
+
+        refresh();
     }
 
     @Override

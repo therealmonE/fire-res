@@ -1,5 +1,7 @@
 package io.github.therealmone.fireres.gui.configurer.report;
 
+import com.google.inject.Inject;
+import com.rits.cloning.Cloner;
 import io.github.therealmone.fireres.firemode.config.FireModeProperties;
 import io.github.therealmone.fireres.firemode.model.FireModeType;
 import io.github.therealmone.fireres.gui.controller.fire.mode.FireMode;
@@ -18,10 +20,13 @@ public class FireModeParametersConfigurer extends AbstractReportParametersConfig
     private static final Integer TEMPERATURE_MAINTAINING_MIN = 0;
     private static final Integer TEMPERATURE_MAINTAINING_MAX = Integer.MAX_VALUE;
 
+    @Inject
+    private Cloner cloner;
+
     @Override
     public void config(FireMode fireMode, Preset preset) {
         val sampleProperties = fireMode.getSample().getSampleProperties();
-        val presetProperties = preset.getProperties(FireModeProperties.class);
+        val presetProperties = cloner.deepClone(preset.getProperties(FireModeProperties.class));
 
         sampleProperties.putReportProperties(presetProperties);
 

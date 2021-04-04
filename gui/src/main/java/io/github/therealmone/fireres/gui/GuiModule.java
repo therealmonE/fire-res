@@ -26,12 +26,14 @@ import io.github.therealmone.fireres.gui.service.AlertService;
 import io.github.therealmone.fireres.gui.service.ChartsSynchronizationService;
 import io.github.therealmone.fireres.gui.service.ExportService;
 import io.github.therealmone.fireres.gui.service.FxmlLoadService;
+import io.github.therealmone.fireres.gui.service.PresetService;
 import io.github.therealmone.fireres.gui.service.ReportExecutorService;
 import io.github.therealmone.fireres.gui.service.SampleService;
 import io.github.therealmone.fireres.gui.service.impl.AlertServiceImpl;
 import io.github.therealmone.fireres.gui.service.impl.ChartsSynchronizationServiceImpl;
 import io.github.therealmone.fireres.gui.service.impl.ExportServiceImpl;
 import io.github.therealmone.fireres.gui.service.impl.FxmlLoadServiceImpl;
+import io.github.therealmone.fireres.gui.service.impl.PresetServiceImpl;
 import io.github.therealmone.fireres.gui.service.impl.ReportExecutorServiceImpl;
 import io.github.therealmone.fireres.gui.service.impl.SampleServiceImpl;
 import io.github.therealmone.fireres.heatflow.HeatFlowModule;
@@ -73,6 +75,7 @@ public class GuiModule extends AbstractModule {
         bind(Logos.class).toInstance(loadLogos());
         bind(ExecutorService.class).toInstance(configureExecutorService());
         bind(ReportExecutorService.class).to(ReportExecutorServiceImpl.class).in(Singleton.class);
+        bind(PresetService.class).to(PresetServiceImpl.class).in(Singleton.class);
 
         bind(GeneralParametersConfigurer.class).in(Singleton.class);
         bind(PrimaryStageConfigurer.class).in(Singleton.class);

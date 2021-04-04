@@ -1,5 +1,7 @@
 package io.github.therealmone.fireres.gui.configurer.report;
 
+import com.google.inject.Inject;
+import com.rits.cloning.Cloner;
 import io.github.therealmone.fireres.gui.controller.unheated.surface.groups.second.SecondGroup;
 import io.github.therealmone.fireres.gui.preset.Preset;
 import io.github.therealmone.fireres.unheated.surface.config.UnheatedSurfaceProperties;
@@ -16,10 +18,13 @@ public class UnheatedSurfaceSecondGroupConfigurer extends AbstractReportParamete
     private static final Integer BOUND_MAX = 10000;
     private static final Integer BOUND_INCREMENT = 100;
 
+    @Inject
+    private Cloner cloner;
+
     @Override
     public void config(SecondGroup secondGroup, Preset preset) {
         val sampleProperties = secondGroup.getSample().getSampleProperties();
-        val presetProperties = preset.getProperties(UnheatedSurfaceProperties.class).getSecondGroup();
+        val presetProperties = cloner.deepClone(preset.getProperties(UnheatedSurfaceProperties.class).getSecondGroup());
 
         sampleProperties.getReportPropertiesByClass(UnheatedSurfaceProperties.class)
                 .orElseThrow()

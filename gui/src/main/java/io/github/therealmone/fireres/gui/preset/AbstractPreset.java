@@ -31,4 +31,9 @@ public abstract class AbstractPreset implements Preset {
 
         propertiesMap.put(properties.getClass(), properties);
     }
+
+    @Override
+    public String toString() {
+        return getDescription();
+    }
 }

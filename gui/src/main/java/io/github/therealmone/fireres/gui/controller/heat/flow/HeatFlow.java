@@ -138,6 +138,12 @@ public class HeatFlow extends AbstractReportUpdaterComponent<VBox>
     }
 
     @Override
+    public void postConstruct() {
+        heatFlowParametersConfigurer.config(this,
+                ((PresetContainer) getParent()).getPreset());
+    }
+
+    @Override
     public void refresh() {
         createReport();
     }
@@ -153,6 +159,8 @@ public class HeatFlow extends AbstractReportUpdaterComponent<VBox>
     @Override
     public void changePreset(Preset preset) {
         heatFlowParametersConfigurer.config(this, preset);
+
+        refresh();
     }
 
     @Override

@@ -1,5 +1,7 @@
 package io.github.therealmone.fireres.gui.configurer.report;
 
+import com.google.inject.Inject;
+import com.rits.cloning.Cloner;
 import io.github.therealmone.fireres.gui.controller.heat.flow.HeatFlow;
 import io.github.therealmone.fireres.gui.preset.Preset;
 import io.github.therealmone.fireres.heatflow.config.HeatFlowProperties;
@@ -16,10 +18,13 @@ public class HeatFlowParametersConfigurer extends AbstractReportParametersConfig
     private static final Double HEAT_FLOW_MAX_BOUND = 100d;
     private static final Double HEAT_FLOW_BOUND_INCREMENT = 0.1;
 
+    @Inject
+    private Cloner cloner;
+
     @Override
     public void config(HeatFlow heatFlow, Preset preset) {
         val sampleProperties = heatFlow.getSample().getSampleProperties();
-        val presetProperties = preset.getProperties(HeatFlowProperties.class);
+        val presetProperties = cloner.deepClone(preset.getProperties(HeatFlowProperties.class));
 
         sampleProperties.putReportProperties(presetProperties);
 
@@ -35,8 +40,7 @@ public class HeatFlowParametersConfigurer extends AbstractReportParametersConfig
         sensorsCount.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(
                 SENSORS_COUNT_MIN,
                 SENSORS_COUNT_MAX,
-                properties.getSensorCount()
-        ));
+                properties.getSensorCount()));
     }
 
     private void resetHeatFlowBound(Spinner<Double> heatFlow, HeatFlowProperties properties) {
@@ -44,7 +48,6 @@ public class HeatFlowParametersConfigurer extends AbstractReportParametersConfig
                 HEAT_FLOW_MIN_BOUND,
                 HEAT_FLOW_MAX_BOUND,
                 properties.getBound(),
-                HEAT_FLOW_BOUND_INCREMENT
-        ));
+                HEAT_FLOW_BOUND_INCREMENT));
     }
 }

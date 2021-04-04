@@ -1,5 +1,7 @@
 package io.github.therealmone.fireres.gui.configurer.report;
 
+import com.google.inject.Inject;
+import com.rits.cloning.Cloner;
 import io.github.therealmone.fireres.excess.pressure.config.ExcessPressureProperties;
 import io.github.therealmone.fireres.gui.controller.excess.pressure.ExcessPressure;
 import io.github.therealmone.fireres.gui.preset.Preset;
@@ -19,10 +21,13 @@ public class ExcessPressureParametersConfigurer extends AbstractReportParameters
     private static final Double DELTA_MIN = 0d;
     private static final Double DELTA_MAX = 1000d;
 
+    @Inject
+    private Cloner cloner;
+
     @Override
     public void config(ExcessPressure excessPressure, Preset preset) {
         val sampleProperties = excessPressure.getSample().getSampleProperties();
-        val presetProperties = preset.getProperties(ExcessPressureProperties.class);
+        val presetProperties = cloner.deepClone(preset.getProperties(ExcessPressureProperties.class));
 
         sampleProperties.putReportProperties(presetProperties);
 

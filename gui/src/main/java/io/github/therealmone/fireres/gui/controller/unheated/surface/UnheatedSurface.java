@@ -7,6 +7,7 @@ import io.github.therealmone.fireres.gui.configurer.report.UnheatedSurfaceParame
 import io.github.therealmone.fireres.gui.controller.AbstractComponent;
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
 import io.github.therealmone.fireres.gui.controller.PresetChanger;
+import io.github.therealmone.fireres.gui.controller.PresetContainer;
 import io.github.therealmone.fireres.gui.controller.ReportCreator;
 import io.github.therealmone.fireres.gui.controller.ReportInclusionChanger;
 import io.github.therealmone.fireres.gui.controller.common.SampleTab;
@@ -94,6 +95,12 @@ public class UnheatedSurface extends AbstractComponent<ScrollPane>
     }
 
     @Override
+    public void postConstruct() {
+        unheatedSurfaceParametersConfigurer.config(this,
+                ((PresetContainer) getParent()).getPreset());
+    }
+
+    @Override
     public void excludeReport() {
         getSample().removeReport(report);
         disableTab(((SampleTab) getParent()).getUnheatedSurfaceTab());
@@ -112,6 +119,10 @@ public class UnheatedSurface extends AbstractComponent<ScrollPane>
     @Override
     public void changePreset(Preset preset) {
         unheatedSurfaceParametersConfigurer.config(this, preset);
+
+        getFirstGroup().refresh();
+        getSecondGroup().refresh();
+        getThirdGroup().refresh();
     }
 
     public FirstGroup getFirstGroup() {
