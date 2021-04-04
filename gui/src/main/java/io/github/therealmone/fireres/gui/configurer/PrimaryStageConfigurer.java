@@ -1,4 +1,4 @@
-package io.github.therealmone.fireres.gui.config;
+package io.github.therealmone.fireres.gui.configurer;
 
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.gui.model.Logos;

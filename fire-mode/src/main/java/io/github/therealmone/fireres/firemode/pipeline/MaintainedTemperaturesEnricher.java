@@ -45,7 +45,7 @@ public class MaintainedTemperaturesEnricher implements ReportEnricher<FireModeRe
 
         val temperatureMaintaining = report.getProperties().getTemperaturesMaintaining();
 
-        if (temperatureMaintaining != null) {
+        if (temperatureMaintaining != null && temperatureMaintaining != 0) {
             resolveTemperatureMaintainingTime(report).ifPresent(integer ->
                     report.setMaintainedTemperatures(generateMaintainedTemperatures(report, integer)));
         }

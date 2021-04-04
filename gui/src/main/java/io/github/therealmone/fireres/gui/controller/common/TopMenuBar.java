@@ -1,4 +1,4 @@
-package io.github.therealmone.fireres.gui.controller.top.menu;
+package io.github.therealmone.fireres.gui.controller.common;
 
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.gui.annotation.LoadableComponent;

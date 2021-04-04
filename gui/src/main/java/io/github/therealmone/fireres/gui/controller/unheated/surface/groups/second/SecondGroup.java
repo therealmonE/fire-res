@@ -7,8 +7,11 @@ import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.excel.report.UnheatedSurfaceExcelReportsBuilder;
 import io.github.therealmone.fireres.gui.annotation.LoadableComponent;
 import io.github.therealmone.fireres.gui.component.DataViewer;
+import io.github.therealmone.fireres.gui.configurer.report.UnheatedSurfaceSecondGroupConfigurer;
 import io.github.therealmone.fireres.gui.controller.AbstractReportUpdaterComponent;
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
+import io.github.therealmone.fireres.gui.controller.PresetContainer;
+import io.github.therealmone.fireres.gui.controller.Refreshable;
 import io.github.therealmone.fireres.gui.controller.ReportDataCollector;
 import io.github.therealmone.fireres.gui.controller.Resettable;
 import io.github.therealmone.fireres.gui.controller.common.BoundsShiftParams;
@@ -32,7 +35,7 @@ import static java.util.Collections.singletonList;
 
 @LoadableComponent("/component/unheated-surface/groups/second/secondGroup.fxml")
 public class SecondGroup extends AbstractReportUpdaterComponent<TitledPane>
-        implements UnheatedSurfaceReportContainer, Resettable, ReportDataCollector {
+        implements UnheatedSurfaceReportContainer, Resettable, ReportDataCollector, Refreshable {
 
     @FXML
     @Getter
@@ -61,6 +64,9 @@ public class SecondGroup extends AbstractReportUpdaterComponent<TitledPane>
 
     @Inject
     private GenerationProperties generationProperties;
+
+    @Inject
+    private UnheatedSurfaceSecondGroupConfigurer secondGroupConfigurer;
 
     @Override
     protected void initialize() {
@@ -101,9 +107,9 @@ public class SecondGroup extends AbstractReportUpdaterComponent<TitledPane>
     @Override
     public void reset() {
         updateReport(() -> {
-            getSecondGroupParams().reset();
-            getFunctionParams().reset();
-            getBoundsShiftParams().reset();
+            secondGroupConfigurer.config(this,
+                    ((PresetContainer) getParent().getParent()).getPreset());
+
             unheatedSurfaceSecondGroupService.refreshSecondGroup(getReport());
         }, getParamsVbox());
     }

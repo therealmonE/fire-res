@@ -7,8 +7,11 @@ import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.excel.report.UnheatedSurfaceExcelReportsBuilder;
 import io.github.therealmone.fireres.gui.annotation.LoadableComponent;
 import io.github.therealmone.fireres.gui.component.DataViewer;
+import io.github.therealmone.fireres.gui.configurer.report.UnheatedSurfaceThirdGroupConfigurer;
 import io.github.therealmone.fireres.gui.controller.AbstractReportUpdaterComponent;
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
+import io.github.therealmone.fireres.gui.controller.PresetContainer;
+import io.github.therealmone.fireres.gui.controller.Refreshable;
 import io.github.therealmone.fireres.gui.controller.ReportDataCollector;
 import io.github.therealmone.fireres.gui.controller.Resettable;
 import io.github.therealmone.fireres.gui.controller.common.BoundsShiftParams;
@@ -32,7 +35,7 @@ import static java.util.Collections.singletonList;
 
 @LoadableComponent("/component/unheated-surface/groups/third/thirdGroup.fxml")
 public class ThirdGroup extends AbstractReportUpdaterComponent<TitledPane>
-        implements UnheatedSurfaceReportContainer, Resettable, ReportDataCollector {
+        implements UnheatedSurfaceReportContainer, Resettable, ReportDataCollector, Refreshable {
 
     @FXML
     @Getter
@@ -61,6 +64,9 @@ public class ThirdGroup extends AbstractReportUpdaterComponent<TitledPane>
 
     @Inject
     private GenerationProperties generationProperties;
+
+    @Inject
+    private UnheatedSurfaceThirdGroupConfigurer thirdGroupConfigurer;
 
     @Override
     public Sample getSample() {
@@ -106,9 +112,9 @@ public class ThirdGroup extends AbstractReportUpdaterComponent<TitledPane>
     @Override
     public void reset() {
         updateReport(() -> {
-            getThirdGroupParams().reset();
-            getFunctionParams().reset();
-            getBoundsShiftParams().reset();
+            thirdGroupConfigurer.config(this,
+                    ((PresetContainer) getParent().getParent()).getPreset());
+
             unheatedSurfaceThirdGroupService.refreshThirdGroup(getReport());
         }, getParamsVbox());
     }

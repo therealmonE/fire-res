@@ -13,8 +13,11 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ExcessPressureProperties implements ReportProperties, BoundsShiftModifier<ExcessPressureBoundsShift> {
 
-    private Double delta;
-    private Double basePressure;
+    @Builder.Default
+    private Double delta = 2d;
+
+    @Builder.Default
+    private Double basePressure = 10d;
 
     @Builder.Default
     private Double dispersionCoefficient = 0.9999;

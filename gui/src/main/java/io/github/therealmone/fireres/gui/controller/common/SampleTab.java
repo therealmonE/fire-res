@@ -4,12 +4,16 @@ import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.gui.annotation.LoadableComponent;
 import io.github.therealmone.fireres.gui.controller.AbstractComponent;
+import io.github.therealmone.fireres.gui.controller.PresetChanger;
+import io.github.therealmone.fireres.gui.controller.PresetContainer;
 import io.github.therealmone.fireres.gui.controller.SampleContainer;
 import io.github.therealmone.fireres.gui.controller.excess.pressure.ExcessPressure;
 import io.github.therealmone.fireres.gui.controller.fire.mode.FireMode;
 import io.github.therealmone.fireres.gui.controller.heat.flow.HeatFlow;
 import io.github.therealmone.fireres.gui.controller.modal.SampleRenameModalWindow;
 import io.github.therealmone.fireres.gui.controller.unheated.surface.UnheatedSurface;
+import io.github.therealmone.fireres.gui.preset.FireDoor;
+import io.github.therealmone.fireres.gui.preset.Preset;
 import io.github.therealmone.fireres.gui.service.FxmlLoadService;
 import io.github.therealmone.fireres.gui.service.SampleService;
 import javafx.event.Event;
@@ -25,7 +29,8 @@ import lombok.val;
 
 @Slf4j
 @LoadableComponent("/component/common/sample.fxml")
-public class SampleTab extends AbstractComponent<Tab> implements SampleContainer {
+public class SampleTab extends AbstractComponent<Tab>
+        implements SampleContainer, PresetContainer, PresetChanger {
 
     @FXML
     @Getter
@@ -68,11 +73,24 @@ public class SampleTab extends AbstractComponent<Tab> implements SampleContainer
     @FXML
     private HeatFlow heatFlowController;
 
+    @Getter
+    private Preset preset;
+
     @Override
     public void postConstruct() {
         initializeSampleTabContextMenu();
-
+        changePreset(new FireDoor());
         generateReports();
+    }
+
+    @Override
+    public void changePreset(Preset preset) {
+        this.preset = preset;
+
+        getExcessPressure().changePreset(preset);
+        getFireMode().changePreset(preset);
+        getHeatFlow().changePreset(preset);
+        getUnheatedSurface().changePreset(preset);
     }
 
     @FXML

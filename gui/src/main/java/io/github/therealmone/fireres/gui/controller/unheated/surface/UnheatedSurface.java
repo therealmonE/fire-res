@@ -3,8 +3,10 @@ package io.github.therealmone.fireres.gui.controller.unheated.surface;
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.model.Sample;
+import io.github.therealmone.fireres.gui.configurer.report.UnheatedSurfaceParametersConfigurer;
 import io.github.therealmone.fireres.gui.controller.AbstractComponent;
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
+import io.github.therealmone.fireres.gui.controller.PresetChanger;
 import io.github.therealmone.fireres.gui.controller.ReportCreator;
 import io.github.therealmone.fireres.gui.controller.ReportInclusionChanger;
 import io.github.therealmone.fireres.gui.controller.common.SampleTab;
@@ -12,6 +14,7 @@ import io.github.therealmone.fireres.gui.controller.unheated.surface.groups.firs
 import io.github.therealmone.fireres.gui.controller.unheated.surface.groups.second.SecondGroup;
 import io.github.therealmone.fireres.gui.controller.unheated.surface.groups.third.ThirdGroup;
 import io.github.therealmone.fireres.gui.model.ReportTask;
+import io.github.therealmone.fireres.gui.preset.Preset;
 import io.github.therealmone.fireres.gui.service.ReportExecutorService;
 import io.github.therealmone.fireres.unheated.surface.report.UnheatedSurfaceReport;
 import io.github.therealmone.fireres.unheated.surface.service.UnheatedSurfaceService;
@@ -28,7 +31,7 @@ import static io.github.therealmone.fireres.gui.util.TabUtils.disableTab;
 import static io.github.therealmone.fireres.gui.util.TabUtils.enableTab;
 
 public class UnheatedSurface extends AbstractComponent<ScrollPane>
-        implements UnheatedSurfaceReportContainer, ReportInclusionChanger, ReportCreator {
+        implements UnheatedSurfaceReportContainer, ReportInclusionChanger, ReportCreator, PresetChanger {
 
     @Getter
     private UnheatedSurfaceReport report;
@@ -50,6 +53,9 @@ public class UnheatedSurface extends AbstractComponent<ScrollPane>
 
     @FXML
     private ThirdGroup thirdGroupController;
+
+    @Inject
+    private UnheatedSurfaceParametersConfigurer unheatedSurfaceParametersConfigurer;
 
     @Override
     public Sample getSample() {
@@ -103,6 +109,11 @@ public class UnheatedSurface extends AbstractComponent<ScrollPane>
         generationProperties.getGeneral().getIncludedReports().add(UNHEATED_SURFACE);
     }
 
+    @Override
+    public void changePreset(Preset preset) {
+        unheatedSurfaceParametersConfigurer.config(this, preset);
+    }
+
     public FirstGroup getFirstGroup() {
         return firstGroupController;
     }
@@ -114,5 +125,4 @@ public class UnheatedSurface extends AbstractComponent<ScrollPane>
     public ThirdGroup getThirdGroup() {
         return thirdGroupController;
     }
-
 }

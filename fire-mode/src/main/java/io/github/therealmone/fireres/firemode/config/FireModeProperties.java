@@ -19,7 +19,8 @@ public class FireModeProperties implements
         FunctionFormModifier<Integer>,
         BoundsShiftModifier<FireModeBoundsShift> {
 
-    private Integer thermocoupleCount;
+    @Builder.Default
+    private Integer thermocoupleCount = 3;
 
     @Builder.Default
     private FunctionForm<Integer> functionForm = new FunctionForm<>();
@@ -30,7 +31,8 @@ public class FireModeProperties implements
     @Builder.Default
     private FireModeType fireModeType = FireModeType.LOG;
 
-    private Integer temperaturesMaintaining;
+    @Builder.Default
+    private Integer temperaturesMaintaining = 0;
 
     @Builder.Default
     private Boolean showBounds = true;

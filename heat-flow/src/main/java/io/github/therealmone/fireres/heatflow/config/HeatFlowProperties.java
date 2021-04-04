@@ -18,8 +18,11 @@ public class HeatFlowProperties implements
         BoundsShiftModifier<HeatFlowBoundsShift>,
         ReportProperties {
 
-    private Integer sensorCount;
-    private Double bound;
+    @Builder.Default
+    private Integer sensorCount = 3;
+
+    @Builder.Default
+    private Double bound = 3.5;
 
     @Builder.Default
     private FunctionForm<Double> functionForm = new FunctionForm<>();

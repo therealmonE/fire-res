@@ -10,6 +10,16 @@ import io.github.therealmone.fireres.excess.pressure.ExcessPressureModule;
 import io.github.therealmone.fireres.firemode.FireModeModule;
 import io.github.therealmone.fireres.gui.annotation.processor.AnnotationProcessor;
 import io.github.therealmone.fireres.gui.annotation.processor.ModalWindowAnnotationProcessor;
+import io.github.therealmone.fireres.gui.configurer.GeneralParametersConfigurer;
+import io.github.therealmone.fireres.gui.configurer.PrimaryStageConfigurer;
+import io.github.therealmone.fireres.gui.configurer.SamplesConfigurer;
+import io.github.therealmone.fireres.gui.configurer.report.ExcessPressureParametersConfigurer;
+import io.github.therealmone.fireres.gui.configurer.report.FireModeParametersConfigurer;
+import io.github.therealmone.fireres.gui.configurer.report.HeatFlowParametersConfigurer;
+import io.github.therealmone.fireres.gui.configurer.report.UnheatedSurfaceFirstGroupConfigurer;
+import io.github.therealmone.fireres.gui.configurer.report.UnheatedSurfaceParametersConfigurer;
+import io.github.therealmone.fireres.gui.configurer.report.UnheatedSurfaceSecondGroupConfigurer;
+import io.github.therealmone.fireres.gui.configurer.report.UnheatedSurfaceThirdGroupConfigurer;
 import io.github.therealmone.fireres.gui.controller.common.GeneralParams;
 import io.github.therealmone.fireres.gui.model.Logos;
 import io.github.therealmone.fireres.gui.service.AlertService;
@@ -17,14 +27,12 @@ import io.github.therealmone.fireres.gui.service.ChartsSynchronizationService;
 import io.github.therealmone.fireres.gui.service.ExportService;
 import io.github.therealmone.fireres.gui.service.FxmlLoadService;
 import io.github.therealmone.fireres.gui.service.ReportExecutorService;
-import io.github.therealmone.fireres.gui.service.ResetSettingsService;
 import io.github.therealmone.fireres.gui.service.SampleService;
 import io.github.therealmone.fireres.gui.service.impl.AlertServiceImpl;
 import io.github.therealmone.fireres.gui.service.impl.ChartsSynchronizationServiceImpl;
 import io.github.therealmone.fireres.gui.service.impl.ExportServiceImpl;
 import io.github.therealmone.fireres.gui.service.impl.FxmlLoadServiceImpl;
 import io.github.therealmone.fireres.gui.service.impl.ReportExecutorServiceImpl;
-import io.github.therealmone.fireres.gui.service.impl.ResetSettingsServiceImpl;
 import io.github.therealmone.fireres.gui.service.impl.SampleServiceImpl;
 import io.github.therealmone.fireres.heatflow.HeatFlowModule;
 import io.github.therealmone.fireres.unheated.surface.UnheatedSurfaceModule;
@@ -57,7 +65,6 @@ public class GuiModule extends AbstractModule {
 
         bind(GraphicalInterface.class).in(Singleton.class);
         bind(SampleService.class).to(SampleServiceImpl.class).in(Singleton.class);
-        bind(ResetSettingsService.class).to(ResetSettingsServiceImpl.class).in(Singleton.class);
         bind(FxmlLoadService.class).to(FxmlLoadServiceImpl.class).in(Singleton.class);
         bind(ChartsSynchronizationService.class).to(ChartsSynchronizationServiceImpl.class).in(Singleton.class);
         bind(ExportService.class).to(ExportServiceImpl.class).in(Singleton.class);
@@ -66,6 +73,17 @@ public class GuiModule extends AbstractModule {
         bind(Logos.class).toInstance(loadLogos());
         bind(ExecutorService.class).toInstance(configureExecutorService());
         bind(ReportExecutorService.class).to(ReportExecutorServiceImpl.class).in(Singleton.class);
+
+        bind(GeneralParametersConfigurer.class).in(Singleton.class);
+        bind(PrimaryStageConfigurer.class).in(Singleton.class);
+        bind(SamplesConfigurer.class).in(Singleton.class);
+        bind(ExcessPressureParametersConfigurer.class).in(Singleton.class);
+        bind(FireModeParametersConfigurer.class).in(Singleton.class);
+        bind(HeatFlowParametersConfigurer.class).in(Singleton.class);
+        bind(UnheatedSurfaceParametersConfigurer.class).in(Singleton.class);
+        bind(UnheatedSurfaceFirstGroupConfigurer.class).in(Singleton.class);
+        bind(UnheatedSurfaceSecondGroupConfigurer.class).in(Singleton.class);
+        bind(UnheatedSurfaceThirdGroupConfigurer.class).in(Singleton.class);
     }
 
     private ExecutorService configureExecutorService() {

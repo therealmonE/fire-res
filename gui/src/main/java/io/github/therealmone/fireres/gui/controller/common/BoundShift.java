@@ -10,7 +10,6 @@ import io.github.therealmone.fireres.gui.controller.AbstractReportUpdaterCompone
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
 import io.github.therealmone.fireres.gui.controller.ReportContainer;
 import io.github.therealmone.fireres.gui.controller.ReportUpdater;
-import io.github.therealmone.fireres.gui.controller.Resettable;
 import io.github.therealmone.fireres.gui.controller.SampleContainer;
 import io.github.therealmone.fireres.gui.controller.modal.BoundShiftModalWindow;
 import io.github.therealmone.fireres.gui.service.FxmlLoadService;
@@ -40,7 +39,7 @@ import java.util.function.Function;
 @SuppressWarnings({"rawtypes"})
 @LoadableComponent("/component/common/boundShift.fxml")
 public class BoundShift extends AbstractReportUpdaterComponent<TitledPane>
-        implements SampleContainer, ReportContainer, Resettable {
+        implements SampleContainer, ReportContainer {
 
     @FXML
     private TableColumn<Point<?>, Integer> timeColumn;
@@ -83,12 +82,6 @@ public class BoundShift extends AbstractReportUpdaterComponent<TitledPane>
 
         initializeTableContextMenu();
         initializeRowContextMenu();
-    }
-
-    @Override
-    public void reset() {
-        boundShiftTable.getItems().clear();
-        propertyMapper.apply(getReport().getProperties()).clear();
     }
 
     private void initializeTableContextMenu() {

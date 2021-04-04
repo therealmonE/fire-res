@@ -8,8 +8,6 @@ import io.github.therealmone.fireres.gui.annotation.LoadableComponent;
 import io.github.therealmone.fireres.gui.controller.AbstractReportUpdaterComponent;
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
 import io.github.therealmone.fireres.gui.controller.ReportUpdater;
-import io.github.therealmone.fireres.gui.controller.Resettable;
-import io.github.therealmone.fireres.gui.service.ResetSettingsService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TitledPane;
@@ -19,7 +17,7 @@ import java.util.UUID;
 
 @LoadableComponent("/component/excess-pressure/excessPressureParams.fxml")
 public class ExcessPressureParams extends AbstractReportUpdaterComponent<TitledPane>
-        implements ExcessPressureReportContainer, Resettable {
+        implements ExcessPressureReportContainer {
 
     @FXML
     @Getter
@@ -34,9 +32,6 @@ public class ExcessPressureParams extends AbstractReportUpdaterComponent<TitledP
     private Spinner<Double> delta;
 
     @Inject
-    private ResetSettingsService resetSettingsService;
-
-    @Inject
     private ExcessPressureService excessPressureService;
 
     @Override
@@ -49,16 +44,6 @@ public class ExcessPressureParams extends AbstractReportUpdaterComponent<TitledP
 
         delta.focusedProperty().addListener((observable, oldValue, newValue) ->
                 handleDeltaSpinnerLostFocus(newValue));
-    }
-
-    @Override
-    public void postConstruct() {
-        reset();
-    }
-
-    @Override
-    public void reset() {
-        resetSettingsService.resetExcessPressureParameters(this);
     }
 
     private void handleBasePressureSpinnerLostFocus(Boolean focusValue) {

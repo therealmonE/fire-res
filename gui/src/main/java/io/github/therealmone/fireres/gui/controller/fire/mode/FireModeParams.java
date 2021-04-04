@@ -9,8 +9,6 @@ import io.github.therealmone.fireres.gui.annotation.LoadableComponent;
 import io.github.therealmone.fireres.gui.controller.AbstractReportUpdaterComponent;
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
 import io.github.therealmone.fireres.gui.controller.ReportUpdater;
-import io.github.therealmone.fireres.gui.controller.Resettable;
-import io.github.therealmone.fireres.gui.service.ResetSettingsService;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
@@ -24,7 +22,7 @@ import java.util.UUID;
 
 @LoadableComponent("/component/fire-mode/fireModeParams.fxml")
 public class FireModeParams extends AbstractReportUpdaterComponent<TitledPane>
-        implements FireModeReportContainer, Resettable {
+        implements FireModeReportContainer {
 
     @FXML
     @Getter
@@ -47,9 +45,6 @@ public class FireModeParams extends AbstractReportUpdaterComponent<TitledPane>
     private Spinner<Integer> thermocouples;
 
     @Inject
-    private ResetSettingsService resetSettingsService;
-
-    @Inject
     private FireModeService fireModeService;
 
     @Override
@@ -67,17 +62,10 @@ public class FireModeParams extends AbstractReportUpdaterComponent<TitledPane>
 
     @Override
     public void postConstruct() {
-        reset();
-
         fireModeType.getItems().addAll(FireModeType.values());
 
         fireModeType.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) ->
                 handleFireModeTypeChanged());
-    }
-
-    @Override
-    public void reset() {
-        resetSettingsService.resetFireModeParameters(this);
     }
 
     @SneakyThrows
@@ -102,8 +90,10 @@ public class FireModeParams extends AbstractReportUpdaterComponent<TitledPane>
     }
 
     private void handleFireModeTypeChanged() {
-        updateReport(() -> fireModeService.updateFireModeType(
-                getReport(), fireModeType.getValue()), ((FireMode) getParent()).getParamsVbox());
+        if (getReport() != null) {
+            updateReport(() -> fireModeService.updateFireModeType(
+                    getReport(), fireModeType.getValue()), ((FireMode) getParent()).getParamsVbox());
+        }
     }
 
     private void handleShowBoundsChanged() {

@@ -3,9 +3,9 @@ package io.github.therealmone.fireres.gui.controller.common;
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.gui.annotation.LoadableComponent;
+import io.github.therealmone.fireres.gui.configurer.GeneralParametersConfigurer;
 import io.github.therealmone.fireres.gui.controller.AbstractComponent;
 import io.github.therealmone.fireres.gui.controller.ReportInclusionChanger;
-import io.github.therealmone.fireres.gui.service.ResetSettingsService;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckMenuItem;
@@ -27,14 +27,14 @@ public class GeneralParams extends AbstractComponent<TitledPane> {
     private Spinner<Integer> environmentTemperature;
 
     @Inject
-    private ResetSettingsService resetSettingsService;
+    private GeneralParametersConfigurer generalParametersConfigurer;
 
     @Inject
     private GenerationProperties generationProperties;
 
     @Override
     public void postConstruct() {
-        resetSettingsService.resetGeneralParameters(this);
+        generalParametersConfigurer.config(this);
 
         time.focusedProperty().addListener((observable, oldValue, newValue) ->
                 handleTimeSpinnerLostFocus(newValue));

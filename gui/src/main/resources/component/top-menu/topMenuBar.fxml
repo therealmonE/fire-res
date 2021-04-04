@@ -6,7 +6,7 @@
 
 <MenuBar xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1"
          fx:id="component"
-         fx:controller="io.github.therealmone.fireres.gui.controller.top.menu.TopMenuBar">
+         fx:controller="io.github.therealmone.fireres.gui.controller.common.TopMenuBar">
     <menus>
         <Menu mnemonicParsing="false" text="Файл">
             <items>

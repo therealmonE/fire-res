@@ -9,7 +9,4 @@ public interface ReportContainer<P extends ReportProperties, R extends Report<P>
 
     ChartContainer getChartContainer();
 
-    default void refresh() {
-    }
-
 }

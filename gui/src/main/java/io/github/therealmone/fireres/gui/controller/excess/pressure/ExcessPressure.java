@@ -10,8 +10,12 @@ import io.github.therealmone.fireres.excess.pressure.report.ExcessPressureReport
 import io.github.therealmone.fireres.excess.pressure.service.ExcessPressureService;
 import io.github.therealmone.fireres.gui.annotation.LoadableComponent;
 import io.github.therealmone.fireres.gui.component.DataViewer;
+import io.github.therealmone.fireres.gui.configurer.report.ExcessPressureParametersConfigurer;
 import io.github.therealmone.fireres.gui.controller.AbstractReportUpdaterComponent;
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
+import io.github.therealmone.fireres.gui.controller.PresetChanger;
+import io.github.therealmone.fireres.gui.controller.PresetContainer;
+import io.github.therealmone.fireres.gui.controller.Refreshable;
 import io.github.therealmone.fireres.gui.controller.ReportCreator;
 import io.github.therealmone.fireres.gui.controller.ReportDataCollector;
 import io.github.therealmone.fireres.gui.controller.ReportInclusionChanger;
@@ -20,6 +24,7 @@ import io.github.therealmone.fireres.gui.controller.common.BoundsShiftParams;
 import io.github.therealmone.fireres.gui.controller.common.ReportToolBar;
 import io.github.therealmone.fireres.gui.controller.common.SampleTab;
 import io.github.therealmone.fireres.gui.model.ReportTask;
+import io.github.therealmone.fireres.gui.preset.Preset;
 import io.github.therealmone.fireres.gui.service.ReportExecutorService;
 import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
@@ -38,7 +43,7 @@ import static java.util.Collections.singletonList;
 @LoadableComponent("/component/excess-pressure/excessPressure.fxml")
 public class ExcessPressure extends AbstractReportUpdaterComponent<VBox>
         implements ExcessPressureReportContainer, ReportInclusionChanger,
-        ReportCreator, Resettable, ReportDataCollector {
+        ReportCreator, Resettable, ReportDataCollector, Refreshable, PresetChanger {
 
     @FXML
     @Getter
@@ -70,6 +75,9 @@ public class ExcessPressure extends AbstractReportUpdaterComponent<VBox>
 
     @Inject
     private ExcessPressureExcelReportsBuilder excelReportsBuilder;
+
+    @Inject
+    private ExcessPressureParametersConfigurer excessPressureParametersConfigurer;
 
     @Override
     public Sample getSample() {
@@ -125,10 +133,14 @@ public class ExcessPressure extends AbstractReportUpdaterComponent<VBox>
     @Override
     public void reset() {
         updateReport(() -> {
-            getExcessPressureParams().reset();
-            getBoundsShiftParams().reset();
+            changePreset(((PresetContainer) getParent()).getPreset());
             refresh();
         }, getParamsVbox());
+    }
+
+    @Override
+    public void changePreset(Preset preset) {
+        excessPressureParametersConfigurer.config(this, preset);
     }
 
     @Override
