@@ -6,8 +6,6 @@ import io.github.therealmone.fireres.gui.annotation.LoadableComponent;
 import io.github.therealmone.fireres.gui.controller.AbstractReportUpdaterComponent;
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
 import io.github.therealmone.fireres.gui.controller.ReportUpdater;
-import io.github.therealmone.fireres.gui.controller.Resettable;
-import io.github.therealmone.fireres.gui.service.ResetSettingsService;
 import io.github.therealmone.fireres.heatflow.report.HeatFlowReport;
 import io.github.therealmone.fireres.heatflow.service.HeatFlowService;
 import javafx.fxml.FXML;
@@ -19,7 +17,7 @@ import java.util.UUID;
 
 @LoadableComponent("/component/heat-flow/heatFlowParams.fxml")
 public class HeatFlowParams extends AbstractReportUpdaterComponent<TitledPane>
-        implements HeatFlowReportContainer, Resettable {
+        implements HeatFlowReportContainer {
 
     @FXML
     @Getter
@@ -28,9 +26,6 @@ public class HeatFlowParams extends AbstractReportUpdaterComponent<TitledPane>
     @FXML
     @Getter
     private Spinner<Double> bound;
-
-    @Inject
-    private ResetSettingsService resetSettingsService;
 
     @Inject
     private HeatFlowService heatFlowService;
@@ -42,16 +37,6 @@ public class HeatFlowParams extends AbstractReportUpdaterComponent<TitledPane>
 
         bound.focusedProperty().addListener((observable, oldValue, newValue) ->
                 handleHeatFlowBoundSpinnerLostFocus(newValue));
-    }
-
-    @Override
-    public void postConstruct() {
-        reset();
-    }
-
-    @Override
-    public void reset() {
-        resetSettingsService.resetHeatFlowParameters(this);
     }
 
     private void handleSensorSpinnerLostFocus(Boolean focusValue) {

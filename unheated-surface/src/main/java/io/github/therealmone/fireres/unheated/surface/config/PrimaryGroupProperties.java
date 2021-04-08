@@ -17,7 +17,8 @@ public class PrimaryGroupProperties implements
         FunctionFormModifier<Integer>,
         BoundsShiftModifier<PrimaryGroupBoundsShift> {
 
-    private Integer thermocoupleCount;
+    @Builder.Default
+    private Integer thermocoupleCount = 3;
 
     @Builder.Default
     private FunctionForm<Integer> functionForm = new FunctionForm<>();

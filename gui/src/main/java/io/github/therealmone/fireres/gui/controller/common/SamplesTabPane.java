@@ -2,8 +2,8 @@ package io.github.therealmone.fireres.gui.controller.common;
 
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.gui.annotation.LoadableComponent;
+import io.github.therealmone.fireres.gui.configurer.SamplesConfigurer;
 import io.github.therealmone.fireres.gui.controller.AbstractComponent;
-import io.github.therealmone.fireres.gui.service.ResetSettingsService;
 import io.github.therealmone.fireres.gui.service.SampleService;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -19,14 +19,14 @@ import java.util.List;
 public class SamplesTabPane extends AbstractComponent<TabPane> {
 
     @Inject
-    private ResetSettingsService resetSettingsService;
+    private SamplesConfigurer samplesConfigurer;
 
     @Inject
     private SampleService sampleService;
 
     @Override
     public void postConstruct() {
-        resetSettingsService.resetSamples(this);
+        samplesConfigurer.config(this);
     }
 
     @FXML

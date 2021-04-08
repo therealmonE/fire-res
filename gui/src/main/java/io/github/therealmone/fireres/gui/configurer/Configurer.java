@@ -1,4 +1,4 @@
-package io.github.therealmone.fireres.gui.config;
+package io.github.therealmone.fireres.gui.configurer;
 
 public interface Configurer<T> {
 

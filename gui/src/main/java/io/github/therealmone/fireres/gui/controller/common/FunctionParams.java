@@ -12,11 +12,9 @@ import io.github.therealmone.fireres.gui.controller.AbstractReportUpdaterCompone
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
 import io.github.therealmone.fireres.gui.controller.ReportContainer;
 import io.github.therealmone.fireres.gui.controller.ReportUpdater;
-import io.github.therealmone.fireres.gui.controller.Resettable;
 import io.github.therealmone.fireres.gui.controller.SampleContainer;
 import io.github.therealmone.fireres.gui.controller.modal.InterpolationPointsModalWindow;
 import io.github.therealmone.fireres.gui.service.FxmlLoadService;
-import io.github.therealmone.fireres.gui.service.ResetSettingsService;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.event.Event;
@@ -42,14 +40,11 @@ import java.util.function.Function;
 @SuppressWarnings({"unchecked", "rawtypes"})
 @LoadableComponent("/component/common/functionParams.fxml")
 public class FunctionParams extends AbstractReportUpdaterComponent<TitledPane>
-        implements SampleContainer, ReportContainer, Resettable {
+        implements SampleContainer, ReportContainer {
 
     @FXML
     @Getter
     private Spinner<Double> childFunctionsDeltaCoefficient;
-
-    @Inject
-    private ResetSettingsService resetSettingsService;
 
     @Inject
     private FxmlLoadService fxmlLoadService;
@@ -109,12 +104,6 @@ public class FunctionParams extends AbstractReportUpdaterComponent<TitledPane>
 
         initializeTableContextMenu();
         initializeRowContextMenu();
-        reset();
-    }
-
-    @Override
-    public void reset() {
-        resetSettingsService.resetFunctionParameters(this);
     }
 
     private void initializeTableContextMenu() {

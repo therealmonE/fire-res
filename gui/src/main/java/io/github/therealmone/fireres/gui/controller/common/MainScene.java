@@ -5,7 +5,6 @@ import io.github.therealmone.fireres.core.config.GenerationProperties;
 import io.github.therealmone.fireres.core.config.ReportType;
 import io.github.therealmone.fireres.gui.annotation.LoadableComponent;
 import io.github.therealmone.fireres.gui.controller.AbstractComponent;
-import io.github.therealmone.fireres.gui.controller.top.menu.TopMenuBar;
 import javafx.fxml.FXML;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;

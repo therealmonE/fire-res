@@ -20,7 +20,8 @@ public class SecondaryGroupProperties implements
     @Builder.Default
     private Integer bound = 300;
 
-    private Integer thermocoupleCount;
+    @Builder.Default
+    private Integer thermocoupleCount = 3;
 
     @Builder.Default
     private FunctionForm<Integer> functionForm = new FunctionForm<>();

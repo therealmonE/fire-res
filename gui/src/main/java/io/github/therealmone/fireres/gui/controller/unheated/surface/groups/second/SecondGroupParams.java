@@ -6,9 +6,7 @@ import io.github.therealmone.fireres.gui.annotation.LoadableComponent;
 import io.github.therealmone.fireres.gui.controller.AbstractReportUpdaterComponent;
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
 import io.github.therealmone.fireres.gui.controller.ReportUpdater;
-import io.github.therealmone.fireres.gui.controller.Resettable;
 import io.github.therealmone.fireres.gui.controller.unheated.surface.UnheatedSurfaceReportContainer;
-import io.github.therealmone.fireres.gui.service.ResetSettingsService;
 import io.github.therealmone.fireres.unheated.surface.report.UnheatedSurfaceReport;
 import io.github.therealmone.fireres.unheated.surface.service.UnheatedSurfaceSecondGroupService;
 import javafx.fxml.FXML;
@@ -20,7 +18,7 @@ import java.util.UUID;
 
 @LoadableComponent("/component/unheated-surface/groups/second/secondGroupParams.fxml")
 public class SecondGroupParams extends AbstractReportUpdaterComponent<TitledPane>
-        implements UnheatedSurfaceReportContainer, Resettable {
+        implements UnheatedSurfaceReportContainer {
 
     @FXML
     @Getter
@@ -29,9 +27,6 @@ public class SecondGroupParams extends AbstractReportUpdaterComponent<TitledPane
     @FXML
     @Getter
     private Spinner<Integer> bound;
-
-    @Inject
-    private ResetSettingsService resetSettingsService;
 
     @Inject
     private UnheatedSurfaceSecondGroupService unheatedSurfaceSecondGroupService;
@@ -43,16 +38,6 @@ public class SecondGroupParams extends AbstractReportUpdaterComponent<TitledPane
 
         bound.focusedProperty().addListener((observable, oldValue, newValue) ->
                 handleThermocouplesBoundSpinnerFocusChanged(newValue));
-    }
-
-    @Override
-    public void postConstruct() {
-        reset();
-    }
-
-    @Override
-    public void reset() {
-        resetSettingsService.resetSecondThermocoupleGroupParameters(this);
     }
 
     private void handleThermocouplesCountSpinnerFocusChanged(Boolean focusValue) {

@@ -4,13 +4,18 @@ import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.gui.annotation.LoadableComponent;
 import io.github.therealmone.fireres.gui.controller.AbstractComponent;
+import io.github.therealmone.fireres.gui.controller.PresetChanger;
+import io.github.therealmone.fireres.gui.controller.PresetContainer;
 import io.github.therealmone.fireres.gui.controller.SampleContainer;
 import io.github.therealmone.fireres.gui.controller.excess.pressure.ExcessPressure;
 import io.github.therealmone.fireres.gui.controller.fire.mode.FireMode;
 import io.github.therealmone.fireres.gui.controller.heat.flow.HeatFlow;
+import io.github.therealmone.fireres.gui.controller.modal.SamplePresetChangeModalWindow;
 import io.github.therealmone.fireres.gui.controller.modal.SampleRenameModalWindow;
 import io.github.therealmone.fireres.gui.controller.unheated.surface.UnheatedSurface;
+import io.github.therealmone.fireres.gui.preset.Preset;
 import io.github.therealmone.fireres.gui.service.FxmlLoadService;
+import io.github.therealmone.fireres.gui.service.PresetService;
 import io.github.therealmone.fireres.gui.service.SampleService;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -25,7 +30,8 @@ import lombok.val;
 
 @Slf4j
 @LoadableComponent("/component/common/sample.fxml")
-public class SampleTab extends AbstractComponent<Tab> implements SampleContainer {
+public class SampleTab extends AbstractComponent<Tab>
+        implements SampleContainer, PresetContainer, PresetChanger {
 
     @FXML
     @Getter
@@ -68,11 +74,25 @@ public class SampleTab extends AbstractComponent<Tab> implements SampleContainer
     @FXML
     private HeatFlow heatFlowController;
 
+    private Preset preset;
+
+    @Inject
+    private PresetService presetService;
+
     @Override
     public void postConstruct() {
         initializeSampleTabContextMenu();
-
         generateReports();
+    }
+
+    @Override
+    public void changePreset(Preset preset) {
+        this.preset = preset;
+
+        getExcessPressure().changePreset(preset);
+        getFireMode().changePreset(preset);
+        getHeatFlow().changePreset(preset);
+        getUnheatedSurface().changePreset(preset);
     }
 
     @FXML
@@ -106,11 +126,19 @@ public class SampleTab extends AbstractComponent<Tab> implements SampleContainer
     private ContextMenu createSampleTabContextMenu() {
         val contextMenu = new ContextMenu();
         val addPointMenuItem = new MenuItem("Переименовать");
+        val changePresetMenuItem = new MenuItem("Изменить пресет");
 
         addPointMenuItem.setOnAction(this::handleRenameEvent);
+        changePresetMenuItem.setOnAction(this::handleChangePresetEvent);
+
         contextMenu.getItems().add(addPointMenuItem);
+        contextMenu.getItems().add(changePresetMenuItem);
 
         return contextMenu;
+    }
+
+    private void handleChangePresetEvent(Event event) {
+        fxmlLoadService.loadComponent(SamplePresetChangeModalWindow.class, this).getWindow().show();
     }
 
     private void handleRenameEvent(Event event) {
@@ -131,6 +159,15 @@ public class SampleTab extends AbstractComponent<Tab> implements SampleContainer
 
     public UnheatedSurface getUnheatedSurface() {
         return unheatedSurfaceController;
+    }
+
+    @Override
+    public Preset getPreset() {
+        if (this.preset == null) {
+            this.preset = presetService.getDefaultPreset();
+        }
+
+        return preset;
     }
 }
 

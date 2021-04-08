@@ -10,8 +10,12 @@ import io.github.therealmone.fireres.firemode.report.FireModeReport;
 import io.github.therealmone.fireres.firemode.service.FireModeService;
 import io.github.therealmone.fireres.gui.annotation.LoadableComponent;
 import io.github.therealmone.fireres.gui.component.DataViewer;
+import io.github.therealmone.fireres.gui.configurer.report.FireModeParametersConfigurer;
 import io.github.therealmone.fireres.gui.controller.AbstractReportUpdaterComponent;
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
+import io.github.therealmone.fireres.gui.controller.PresetChanger;
+import io.github.therealmone.fireres.gui.controller.PresetContainer;
+import io.github.therealmone.fireres.gui.controller.Refreshable;
 import io.github.therealmone.fireres.gui.controller.ReportCreator;
 import io.github.therealmone.fireres.gui.controller.ReportDataCollector;
 import io.github.therealmone.fireres.gui.controller.ReportInclusionChanger;
@@ -21,6 +25,7 @@ import io.github.therealmone.fireres.gui.controller.common.FunctionParams;
 import io.github.therealmone.fireres.gui.controller.common.ReportToolBar;
 import io.github.therealmone.fireres.gui.controller.common.SampleTab;
 import io.github.therealmone.fireres.gui.model.ReportTask;
+import io.github.therealmone.fireres.gui.preset.Preset;
 import io.github.therealmone.fireres.gui.service.ReportExecutorService;
 import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
@@ -39,7 +44,7 @@ import static java.util.Collections.singletonList;
 @LoadableComponent("/component/fire-mode/fireMode.fxml")
 public class FireMode extends AbstractReportUpdaterComponent<VBox>
         implements FireModeReportContainer, ReportInclusionChanger,
-        ReportCreator, Resettable, ReportDataCollector {
+        ReportCreator, Resettable, ReportDataCollector, Refreshable, PresetChanger {
 
     @FXML
     @Getter
@@ -74,6 +79,9 @@ public class FireMode extends AbstractReportUpdaterComponent<VBox>
 
     @Inject
     private FireModeExcelReportsBuilder excelReportsBuilder;
+
+    @Inject
+    private FireModeParametersConfigurer fireModeParametersConfigurer;
 
     @Override
     public Sample getSample() {
@@ -140,6 +148,12 @@ public class FireMode extends AbstractReportUpdaterComponent<VBox>
     }
 
     @Override
+    public void postConstruct() {
+        fireModeParametersConfigurer.config(this,
+                ((PresetContainer) getParent()).getPreset());
+    }
+
+    @Override
     public void refresh() {
         createReport();
     }
@@ -147,11 +161,16 @@ public class FireMode extends AbstractReportUpdaterComponent<VBox>
     @Override
     public void reset() {
         updateReport(() -> {
-            getFireModeParams().reset();
-            getFunctionParams().reset();
-            getBoundsShiftParams().reset();
+            changePreset(((PresetContainer) getParent()).getPreset());
             refresh();
         }, getParamsVbox());
+    }
+
+    @Override
+    public void changePreset(Preset preset) {
+        fireModeParametersConfigurer.config(this, preset);
+
+        refresh();
     }
 
     @Override
@@ -207,5 +226,4 @@ public class FireMode extends AbstractReportUpdaterComponent<VBox>
     public UUID getUpdatingElementId() {
         return getReport().getId();
     }
-
 }

@@ -10,7 +10,6 @@ import io.github.therealmone.fireres.gui.controller.AbstractReportUpdaterCompone
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
 import io.github.therealmone.fireres.gui.controller.ReportContainer;
 import io.github.therealmone.fireres.gui.controller.ReportUpdater;
-import io.github.therealmone.fireres.gui.controller.Resettable;
 import io.github.therealmone.fireres.gui.controller.SampleContainer;
 import io.github.therealmone.fireres.gui.service.FxmlLoadService;
 import javafx.fxml.FXML;
@@ -28,7 +27,7 @@ import java.util.function.Function;
 @SuppressWarnings("rawtypes")
 @LoadableComponent("/component/common/boundsShiftParams.fxml")
 public class BoundsShiftParams extends AbstractReportUpdaterComponent<TitledPane>
-        implements SampleContainer, ReportContainer, Resettable {
+        implements SampleContainer, ReportContainer {
 
     @FXML
     private VBox boundsShiftVbox;
@@ -54,11 +53,6 @@ public class BoundsShiftParams extends AbstractReportUpdaterComponent<TitledPane
         boundShift.setPropertyMapper(propertyMapper);
 
         boundsShiftVbox.getChildren().add(boundShift.getComponent());
-    }
-
-    @Override
-    public void reset() {
-        getChildren(BoundShift.class).forEach(BoundShift::reset);
     }
 
     @Override

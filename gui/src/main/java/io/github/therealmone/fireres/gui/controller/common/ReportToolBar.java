@@ -4,8 +4,8 @@ import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.model.Report;
 import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.gui.controller.AbstractComponent;
-import io.github.therealmone.fireres.gui.controller.AbstractReportUpdaterComponent;
 import io.github.therealmone.fireres.gui.controller.ChartContainer;
+import io.github.therealmone.fireres.gui.controller.Refreshable;
 import io.github.therealmone.fireres.gui.controller.ReportContainer;
 import io.github.therealmone.fireres.gui.controller.ReportDataCollector;
 import io.github.therealmone.fireres.gui.controller.ReportUpdater;
@@ -42,7 +42,7 @@ public class ReportToolBar extends AbstractComponent<ToolBar>
 
     @FXML
     public void refreshReport() {
-        ((ReportContainer) getParent()).refresh();
+        ((Refreshable) getParent()).refresh();
     }
 
     @FXML
