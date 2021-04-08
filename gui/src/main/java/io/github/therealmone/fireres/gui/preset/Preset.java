@@ -1,11 +1,46 @@
 package io.github.therealmone.fireres.gui.preset;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.github.therealmone.fireres.core.config.ReportProperties;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.SneakyThrows;
 
-public interface Preset {
+import java.util.HashMap;
+import java.util.Map;
 
-    <T extends ReportProperties> T getProperties(Class<T> propertiesClass);
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class Preset {
 
-    String getDescription();
+    @Builder.Default
+    private Boolean applyingByDefault = false;
 
+    private String description;
+
+    @JsonDeserialize(keyUsing = PresetPropertiesKeyDeserializer.class)
+    @Builder.Default
+    private Map<Class<? extends ReportProperties>, ReportProperties> properties = new HashMap<>();
+
+    public <T extends ReportProperties> T getProperties(Class<T> propertiesClass) {
+        if (properties.containsKey(propertiesClass)) {
+            return (T) properties.get(propertiesClass);
+        } else {
+            return getDefaultProperties(propertiesClass);
+        }
+    }
+
+    @SneakyThrows
+    private <T extends ReportProperties> T getDefaultProperties(Class<T> propertiesClass) {
+        return propertiesClass.getDeclaredConstructor(new Class[]{}).newInstance();
+    }
+
+    @Override
+    public String toString() {
+        return getDescription();
+    }
 }

@@ -8,4 +8,6 @@ public interface PresetService {
 
     List<Preset> getAvailablePresets();
 
+    Preset getDefaultPreset();
+
 }

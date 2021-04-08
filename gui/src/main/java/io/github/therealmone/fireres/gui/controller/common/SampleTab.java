@@ -13,9 +13,9 @@ import io.github.therealmone.fireres.gui.controller.heat.flow.HeatFlow;
 import io.github.therealmone.fireres.gui.controller.modal.SamplePresetChangeModalWindow;
 import io.github.therealmone.fireres.gui.controller.modal.SampleRenameModalWindow;
 import io.github.therealmone.fireres.gui.controller.unheated.surface.UnheatedSurface;
-import io.github.therealmone.fireres.gui.preset.FireDoor;
 import io.github.therealmone.fireres.gui.preset.Preset;
 import io.github.therealmone.fireres.gui.service.FxmlLoadService;
+import io.github.therealmone.fireres.gui.service.PresetService;
 import io.github.therealmone.fireres.gui.service.SampleService;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -74,13 +74,10 @@ public class SampleTab extends AbstractComponent<Tab>
     @FXML
     private HeatFlow heatFlowController;
 
-    @Getter
     private Preset preset;
 
-    @Override
-    protected void initialize() {
-        this.preset = new FireDoor();
-    }
+    @Inject
+    private PresetService presetService;
 
     @Override
     public void postConstruct() {
@@ -162,6 +159,15 @@ public class SampleTab extends AbstractComponent<Tab>
 
     public UnheatedSurface getUnheatedSurface() {
         return unheatedSurfaceController;
+    }
+
+    @Override
+    public Preset getPreset() {
+        if (this.preset == null) {
+            this.preset = presetService.getDefaultPreset();
+        }
+
+        return preset;
     }
 }
 

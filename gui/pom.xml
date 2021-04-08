@@ -87,6 +87,16 @@
             <artifactId>ikonli-elusive-pack</artifactId>
             <version>12.2.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.beust</groupId>
+            <artifactId>jcommander</artifactId>
+            <version>1.78</version>
+        </dependency>
+        <dependency>
+            <groupId>com.typesafe</groupId>
+            <artifactId>config</artifactId>
+            <version>1.4.0</version>
+        </dependency>
     </dependencies>
 
     <build>
