@@ -13,5 +13,6 @@ public class ApplicationConfig {
 
     private String defaultPresetsPath;
     private String customPresetsPath;
+    private Integer threadsCount;
 
 }

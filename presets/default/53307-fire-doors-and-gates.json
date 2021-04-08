@@ -1,5 +1,5 @@
 {
-  "description": "Противопожарные двери и ворота",
+  "description": "Противопожарные двери и ворота (метод испытания на огнестойкость)",
   "applyingByDefault": true,
   "properties": {
     "io.github.therealmone.fireres.firemode.config.FireModeProperties" : {
