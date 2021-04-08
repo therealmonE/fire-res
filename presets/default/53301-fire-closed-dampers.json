@@ -3,7 +3,7 @@
   "properties": {
     "io.github.therealmone.fireres.firemode.config.FireModeProperties" : {
       "thermocoupleCount": 3,
-      "fireModeType": "TANH",
+      "fireModeType": "LOG",
       "_class": "io.github.therealmone.fireres.firemode.config.FireModeProperties"
     },
     "io.github.therealmone.fireres.excess.pressure.config.ExcessPressureProperties" : {
