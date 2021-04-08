@@ -111,7 +111,7 @@ public class GuiModule extends AbstractModule {
     }
 
     private ExecutorService configureExecutorService() {
-        return Executors.newFixedThreadPool(4);
+        return Executors.newFixedThreadPool(applicationConfig.getThreadsCount());
     }
 
     @SneakyThrows
