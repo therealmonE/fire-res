@@ -1,10 +1,8 @@
 package io.github.therealmone.fireres.core.config;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.therealmone.fireres.core.model.Point;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -33,6 +31,7 @@ public class FunctionForm<N extends Number> {
         this.interpolationPoints = interpolationPoints;
     }
 
+    @JsonIgnore
     public Double getNonLinearityCoefficient() {
         return 1 - linearityCoefficient;
     }

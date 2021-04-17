@@ -17,30 +17,12 @@ import io.github.therealmone.fireres.gui.annotation.processor.ModalWindowAnnotat
 import io.github.therealmone.fireres.gui.configurer.GeneralParametersConfigurer;
 import io.github.therealmone.fireres.gui.configurer.PrimaryStageConfigurer;
 import io.github.therealmone.fireres.gui.configurer.SamplesConfigurer;
-import io.github.therealmone.fireres.gui.configurer.report.ExcessPressureParametersConfigurer;
-import io.github.therealmone.fireres.gui.configurer.report.FireModeParametersConfigurer;
-import io.github.therealmone.fireres.gui.configurer.report.HeatFlowParametersConfigurer;
-import io.github.therealmone.fireres.gui.configurer.report.UnheatedSurfaceFirstGroupConfigurer;
-import io.github.therealmone.fireres.gui.configurer.report.UnheatedSurfaceParametersConfigurer;
-import io.github.therealmone.fireres.gui.configurer.report.UnheatedSurfaceSecondGroupConfigurer;
-import io.github.therealmone.fireres.gui.configurer.report.UnheatedSurfaceThirdGroupConfigurer;
+import io.github.therealmone.fireres.gui.configurer.report.*;
 import io.github.therealmone.fireres.gui.controller.common.GeneralParams;
 import io.github.therealmone.fireres.gui.model.Logos;
 import io.github.therealmone.fireres.gui.preset.Preset;
-import io.github.therealmone.fireres.gui.service.AlertService;
-import io.github.therealmone.fireres.gui.service.ChartsSynchronizationService;
-import io.github.therealmone.fireres.gui.service.ExportService;
-import io.github.therealmone.fireres.gui.service.FxmlLoadService;
-import io.github.therealmone.fireres.gui.service.PresetService;
-import io.github.therealmone.fireres.gui.service.ReportExecutorService;
-import io.github.therealmone.fireres.gui.service.SampleService;
-import io.github.therealmone.fireres.gui.service.impl.AlertServiceImpl;
-import io.github.therealmone.fireres.gui.service.impl.ChartsSynchronizationServiceImpl;
-import io.github.therealmone.fireres.gui.service.impl.ExportServiceImpl;
-import io.github.therealmone.fireres.gui.service.impl.FxmlLoadServiceImpl;
-import io.github.therealmone.fireres.gui.service.impl.PresetServiceImpl;
-import io.github.therealmone.fireres.gui.service.impl.ReportExecutorServiceImpl;
-import io.github.therealmone.fireres.gui.service.impl.SampleServiceImpl;
+import io.github.therealmone.fireres.gui.service.*;
+import io.github.therealmone.fireres.gui.service.impl.*;
 import io.github.therealmone.fireres.heatflow.HeatFlowModule;
 import io.github.therealmone.fireres.heatflow.config.HeatFlowProperties;
 import io.github.therealmone.fireres.unheated.surface.UnheatedSurfaceModule;
@@ -63,7 +45,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class GuiModule extends AbstractModule {
 
-    public static final Class[] REPORT_PROPERTIES_CLASSES = new Class[] {
+    public static final Class[] REPORT_PROPERTIES_CLASSES = new Class[]{
             FireModeProperties.class,
             ExcessPressureProperties.class,
             HeatFlowProperties.class,
@@ -85,6 +67,7 @@ public class GuiModule extends AbstractModule {
         install(new ExcelModule());
 
         bind(GeneralParams.class).toInstance(new GeneralParams());
+        bind(ApplicationConfig.class).toInstance(applicationConfig);
 
         bind(GraphicalInterface.class).in(Singleton.class);
         bind(SampleService.class).to(SampleServiceImpl.class).in(Singleton.class);
