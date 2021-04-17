@@ -2,7 +2,6 @@ package io.github.therealmone.fireres.gui.controller.modal;
 
 import com.google.inject.Inject;
 import io.github.therealmone.fireres.core.model.Sample;
-import io.github.therealmone.fireres.gui.ApplicationConfig;
 import io.github.therealmone.fireres.gui.annotation.LoadableComponent;
 import io.github.therealmone.fireres.gui.annotation.ModalWindow;
 import io.github.therealmone.fireres.gui.controller.AbstractComponent;
@@ -21,22 +20,21 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
-import java.util.UUID;
-
 @Slf4j
 @LoadableComponent("/component/modal/sampleSavePresetModalWindow.fxml")
-@ModalWindow(title = "Сохранить как пресет")
+@ModalWindow(title = "Сохранение пресета")
 public class SampleSavePresetModalWindow extends AbstractComponent<Pane> implements SampleContainer {
 
-    @Inject
-    ApplicationConfig applicationConfig;
     @FXML
     private TextField descriptionTextField;
+
     @ModalWindow.Window
     @Getter
     private Stage window;
+
     @Inject
     private AlertService alertService;
+
     @Inject
     private PresetService presetService;
 
@@ -65,12 +63,7 @@ public class SampleSavePresetModalWindow extends AbstractComponent<Pane> impleme
         log.info("Save sample button pressed");
 
         if (validateSampleNamePreset()) {
-            Preset newPreset = new Preset();
-            newPreset.setProperties(getSample().getSampleProperties().getPropertiesMap());
-            newPreset.setDescription(descriptionTextField.getText());
-            newPreset.setApplyingByDefault(false);
-            presetService.savePreset(newPreset, applicationConfig.getCustomPresetsPath() + "/custom_preset_" + UUID.randomUUID() + ".json");
-            presetService.getAvailablePresets().add(newPreset);
+            presetService.savePreset(false, descriptionTextField.getText(),getSample().getSampleProperties().getPropertiesMap());
             closeWindow();
         }
     }
