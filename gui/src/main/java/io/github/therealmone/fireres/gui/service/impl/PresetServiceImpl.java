@@ -7,6 +7,7 @@ import io.github.therealmone.fireres.core.config.ReportProperties;
 import io.github.therealmone.fireres.gui.ApplicationConfig;
 import io.github.therealmone.fireres.gui.preset.Preset;
 import io.github.therealmone.fireres.gui.service.PresetService;
+import lombok.val;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -39,14 +40,14 @@ public class PresetServiceImpl implements PresetService {
 
     @Override
     public void savePreset(Boolean applyingByDefault, String description, Map<Class<? extends ReportProperties>, ReportProperties> properties) throws IOException {
-        Preset preset = Preset.builder()
+        val preset = Preset.builder()
                 .applyingByDefault(applyingByDefault)
                 .description(description)
                 .properties(properties).build();
-        String path = applicationConfig.getCustomPresetsPath() + "/custom_preset_" + UUID.randomUUID() + ".json";
+        val path = applicationConfig.getCustomPresetsPath() + "/custom_preset_" + UUID.randomUUID() + ".json";
 
-        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(new File(path)))) {
-            ObjectMapper objectMapper = new ObjectMapper();
+        try (val bufferedWriter = new BufferedWriter(new FileWriter(new File(path)))) {
+            val objectMapper = new ObjectMapper();
             objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
             bufferedWriter.write(objectMapper.writeValueAsString(preset));
             getAvailablePresets().add(preset);
