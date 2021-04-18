@@ -1,6 +1,7 @@
 package io.github.therealmone.fireres.core;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import com.rits.cloning.Cloner;
@@ -22,7 +23,12 @@ public class CoreModule extends AbstractModule {
         bind(FunctionsGenerationService.class).to(FunctionsGenerationServiceImpl.class).in(Singleton.class);
         bind(ValidationService.class).to(ValidationServiceImpl.class).in(Singleton.class);
         bind(Cloner.class).in(Singleton.class);
-        bind(ObjectMapper.class).toInstance(new ObjectMapper());
+        bind(ObjectMapper.class).toInstance(configureObjectMapper());
+    }
+
+    @Singleton
+    private ObjectMapper configureObjectMapper() {
+        return new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
     }
 
 }

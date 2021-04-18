@@ -58,7 +58,9 @@ public class FireModeParametersConfigurer extends AbstractReportParametersConfig
         standardTemperatureMaintaining.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(
                 TEMPERATURE_MAINTAINING_MIN,
                 TEMPERATURE_MAINTAINING_MAX,
-                properties.getTemperaturesMaintaining()));
+                properties.getTemperaturesMaintaining() != null
+                        ? properties.getTemperaturesMaintaining()
+                        : 0));
     }
 
     private void resetShowBounds(CheckBox showBounds, FireModeProperties properties) {

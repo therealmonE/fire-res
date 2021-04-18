@@ -12,6 +12,7 @@ import io.github.therealmone.fireres.gui.controller.fire.mode.FireMode;
 import io.github.therealmone.fireres.gui.controller.heat.flow.HeatFlow;
 import io.github.therealmone.fireres.gui.controller.modal.SamplePresetChangeModalWindow;
 import io.github.therealmone.fireres.gui.controller.modal.SampleRenameModalWindow;
+import io.github.therealmone.fireres.gui.controller.modal.SampleSavePresetModalWindow;
 import io.github.therealmone.fireres.gui.controller.unheated.surface.UnheatedSurface;
 import io.github.therealmone.fireres.gui.preset.Preset;
 import io.github.therealmone.fireres.gui.service.FxmlLoadService;
@@ -127,12 +128,15 @@ public class SampleTab extends AbstractComponent<Tab>
         val contextMenu = new ContextMenu();
         val addPointMenuItem = new MenuItem("Переименовать");
         val changePresetMenuItem = new MenuItem("Изменить пресет");
+        val savePresetMenuItem = new MenuItem("Сохранить как пресет");
 
         addPointMenuItem.setOnAction(this::handleRenameEvent);
         changePresetMenuItem.setOnAction(this::handleChangePresetEvent);
+        savePresetMenuItem.setOnAction(this::handleSaveEvent);
 
         contextMenu.getItems().add(addPointMenuItem);
         contextMenu.getItems().add(changePresetMenuItem);
+        contextMenu.getItems().add(savePresetMenuItem);
 
         return contextMenu;
     }
@@ -143,6 +147,10 @@ public class SampleTab extends AbstractComponent<Tab>
 
     private void handleRenameEvent(Event event) {
         fxmlLoadService.loadComponent(SampleRenameModalWindow.class, this).getWindow().show();
+    }
+
+    private void handleSaveEvent(Event event) {
+        fxmlLoadService.loadComponent(SampleSavePresetModalWindow.class, this).getWindow().show();
     }
 
     public FireMode getFireMode() {

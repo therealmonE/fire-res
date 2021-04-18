@@ -63,7 +63,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class GuiModule extends AbstractModule {
 
-    public static final Class[] REPORT_PROPERTIES_CLASSES = new Class[] {
+    public static final Class[] REPORT_PROPERTIES_CLASSES = new Class[]{
             FireModeProperties.class,
             ExcessPressureProperties.class,
             HeatFlowProperties.class,
@@ -85,6 +85,7 @@ public class GuiModule extends AbstractModule {
         install(new ExcelModule());
 
         bind(GeneralParams.class).toInstance(new GeneralParams());
+        bind(ApplicationConfig.class).toInstance(applicationConfig);
 
         bind(GraphicalInterface.class).in(Singleton.class);
         bind(SampleService.class).to(SampleServiceImpl.class).in(Singleton.class);
