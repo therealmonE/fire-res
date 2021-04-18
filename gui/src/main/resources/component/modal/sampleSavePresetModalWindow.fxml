@@ -28,7 +28,7 @@
                 <RowConstraints/>
             </rowConstraints>
 
-            <Label prefHeight="16.0" prefWidth="150.0" text="Название образца:"/>
+            <Label prefHeight="16.0" prefWidth="150.0" text="Описание пресета:"/>
 
             <TextField fx:id="descriptionTextField" prefHeight="26.0" prefWidth="100.0" GridPane.columnIndex="1"/>
 

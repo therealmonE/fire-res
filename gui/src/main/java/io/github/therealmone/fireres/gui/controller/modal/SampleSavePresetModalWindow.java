@@ -63,7 +63,11 @@ public class SampleSavePresetModalWindow extends AbstractComponent<Pane> impleme
         log.info("Save sample button pressed");
 
         if (validateSampleNamePreset()) {
-            presetService.savePreset(false, descriptionTextField.getText(),getSample().getSampleProperties().getPropertiesMap());
+            presetService.savePreset(Preset.builder()
+                    .applyingByDefault(false)
+                    .description(descriptionTextField.getText())
+                    .properties(getSample().getSampleProperties().getPropertiesMap())
+                    .build());
             closeWindow();
         }
     }
