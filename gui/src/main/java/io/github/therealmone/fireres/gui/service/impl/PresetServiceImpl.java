@@ -8,7 +8,6 @@ import io.github.therealmone.fireres.gui.service.PresetService;
 import lombok.val;
 
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
@@ -42,7 +41,7 @@ public class PresetServiceImpl implements PresetService {
     public void savePreset(Preset preset) throws IOException {
         val path = applicationConfig.getCustomPresetsPath() + "/custom_preset_" + UUID.randomUUID() + ".json";
 
-        try (val bufferedWriter = new BufferedWriter(new FileWriter(new File(path)))) {
+        try (val bufferedWriter = new BufferedWriter(new FileWriter(path))) {
             bufferedWriter.write(objectMapper.writeValueAsString(preset));
             getAvailablePresets().add(preset);
         }

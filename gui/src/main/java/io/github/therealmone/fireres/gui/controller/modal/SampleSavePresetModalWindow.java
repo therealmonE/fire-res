@@ -1,6 +1,7 @@
 package io.github.therealmone.fireres.gui.controller.modal;
 
 import com.google.inject.Inject;
+import com.rits.cloning.Cloner;
 import io.github.therealmone.fireres.core.model.Sample;
 import io.github.therealmone.fireres.gui.annotation.LoadableComponent;
 import io.github.therealmone.fireres.gui.annotation.ModalWindow;
@@ -38,6 +39,9 @@ public class SampleSavePresetModalWindow extends AbstractComponent<Pane> impleme
     @Inject
     private PresetService presetService;
 
+    @Inject
+    private Cloner cloner;
+
     @Override
     protected void initialize() {
         descriptionTextField.setOnKeyPressed(event -> {
@@ -66,7 +70,7 @@ public class SampleSavePresetModalWindow extends AbstractComponent<Pane> impleme
             presetService.savePreset(Preset.builder()
                     .applyingByDefault(false)
                     .description(descriptionTextField.getText())
-                    .properties(getSample().getSampleProperties().getPropertiesMap())
+                    .properties(cloner.deepClone(getSample().getSampleProperties().getPropertiesMap()))
                     .build());
             closeWindow();
         }
